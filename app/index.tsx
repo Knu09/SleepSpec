@@ -77,7 +77,7 @@ export default function Index() {
                         </Pressable>
                     </View>
                 </View>
-                <View className="flex items-center t-10 ">
+                <View className="flex items-center mt-10 ">
                     <Link href={"/"}>
                         <Icon
                             className="me-2"
