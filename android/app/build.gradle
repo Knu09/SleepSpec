@@ -86,7 +86,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.sleepspec"
+    namespace 'com.sleepspec.myapp'
     defaultConfig {
         applicationId 'com.sleepspec.myapp'
         minSdkVersion rootProject.ext.minSdkVersion
