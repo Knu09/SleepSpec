@@ -1,22 +1,21 @@
-<<<<<<< HEAD
-import { Text, View } from "react-native";
-import "../global.css"
-=======
 import { Route } from "expo-router/build/Route";
+import "../global.css";
 import {
     StyleSheet,
+    StatusBar,
+    Pressable,
     View,
     ScrollView,
     Button,
-    SafeAreaView,
+    Image,
     Text,
 } from "react-native";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
-import MaskedView from "@react-native-masked-view/masked-view";
-import { LinearGradient } from "expo-linear-gradient";
+// import MaskedView from "@react-native-masked-view/masked-view";
+// import { LinearGradient } from "expo-linear-gradient";
 
 // import { COLORS, icons, images, SIZES } from '../contants';
->>>>>>> 25db753 (update home page and reinstall android)
 
 export default function Index() {
     return (
@@ -34,20 +33,27 @@ export default function Index() {
                 {/*         style={styles.gradient} */}
                 {/*     /> */}
                 {/* </MaskedView> */}
-                <Text style={styles.title}>SleepSpec.</Text>
-                <Text style={styles.subtitle}>
-                    Sleep Deprivation Detection using SVM
-                </Text>
-            </View>
-            <View>
-                <Text>Start </Text>
-                {/* <Button> */}
-                {/*     <View> */}
-                {/*         <Text>Select language</Text> */}
-                {/*         <Text> */}
-                {/*         </Text> */}
-                {/*     </View> */}
-                {/* </Button> */}
+                <View>
+                    <Text style={[styles.title, styles.textalignCenter]}>
+                        SleepSpec.
+                    </Text>
+                    <Text style={styles.subtitle}>
+                        Sleep Deprivation Detection using SVM
+                    </Text>
+                </View>
+                <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                    <Pressable onPress={() => console.log("Pressed")}>
+                        <Text style={styles.text}>Select language</Text>
+                        <View style={styles.row}>
+                            <Image
+                                source={require("../assets/images/philippines 1.png")}
+                            />
+                            <Text style={styles.text}>Filipino</Text>
+                        </View>
+                    </Pressable>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -58,13 +64,21 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#01000F",
         alignItems: "center",
+        color: "white",
+        textAlign: "center",
     },
 
+    textalignCenter: {
+        textAlign: "center",
+    },
+
+    text: {
+        color: "white",
+    },
     title: {
         fontSize: 48,
         fontWeight: "bold",
         color: "white",
-        textAlign: "center",
     },
 
     subtitle: {
@@ -75,4 +89,10 @@ const styles = StyleSheet.create({
     },
 
     gradient: { flex: 1 },
+
+    row: {
+        flexDirection: "row",
+        marginTop: 5,
+        alignItems: "center",
+    },
 });
