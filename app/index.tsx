@@ -1,5 +1,6 @@
 import { Route } from "expo-router/build/Route";
 import "../global.css";
+import { useEffect, useCallback } from "react";
 import {
     StyleSheet,
     StatusBar,
@@ -10,6 +11,8 @@ import {
     Image,
     Text,
 } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
 import { Stack, useRouter, Link } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +20,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index() {
+    const [fontsLoaded] = useFonts({
+        Poppins: require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        PoppinsBold: require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
+    });
+
     return (
         <SafeAreaView style={styles.container}>
             <View
@@ -34,7 +42,7 @@ export default function Index() {
                 {/*     /> */}
                 {/* </MaskedView> */}
                 <View>
-                    <Text className="text-center text-5xl text-white font-bold">
+                    <Text className="font-poppins text-center text-5xl text-white font-extrabold">
                         SleepSpec.
                     </Text>
                     <Text className="text-center mt-2 text-xl text-white font-bold">
