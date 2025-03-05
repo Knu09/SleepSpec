@@ -12,12 +12,7 @@ import {
 } from "react-native";
 import { Stack, useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
-<<<<<<< HEAD
 import { SafeAreaView } from "react-native-safe-area-context";
-=======
-// import Icon from "react-native-vector-icons/FontAwesome";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
->>>>>>> b09fb60 (use @ for paths)
 // import MaskedView from "@react-native-masked-view/masked-view";
 // import { LinearGradient } from "expo-linear-gradient";
 
