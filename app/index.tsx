@@ -65,9 +65,13 @@ export default function Index() {
                             style={styles.button}
                             onPress={() => console.log("Pressed")}
                         >
-                            <Text className="font-bold text-white mb-2">Select language</Text>
+                            <Text className="font-bold text-white mb-2">
+                                Select language
+                            </Text>
                             <View className="flex flex-row text gap-2">
-                                <Image source={require("../assets/images/philippines 1.png")} />
+                                <Image
+                                    source={require("../assets/images/philippines 1.png")}
+                                />
                                 <Text className="text-white">Filipino</Text>
                             </View>
                         </Pressable>
