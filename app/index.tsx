@@ -1,5 +1,5 @@
 import { Route } from "expo-router/build/Route";
-import "../global.css";
+import "@/global.css";
 import {
     StyleSheet,
     StatusBar,
@@ -10,6 +10,7 @@ import {
     Image,
     Text,
 } from "react-native";
+import { Link } from "expo-router"
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 // import MaskedView from "@react-native-masked-view/masked-view";
@@ -53,6 +54,7 @@ export default function Index() {
                             <Text style={styles.text}>Filipino</Text>
                         </View>
                     </Pressable>
+                    <Link className="text-white pt-64" href={"/recording"}>Go to Recording</Link>
                 </View>
             </View>
         </SafeAreaView>
