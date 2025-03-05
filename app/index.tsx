@@ -14,7 +14,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { Stack, useRouter, Link } from "expo-router";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import MaskedView from "@react-native-masked-view/masked-view";
 // import { LinearGradient } from "expo-linear-gradient";
@@ -85,8 +85,8 @@ export default function Index() {
                         </Pressable>
                     </View>
                 </View>
-                <View className="flex items-center mt-10 ">
-                    <Link href={"/"}>
+                <View className="flex items-center t-10 ">
+                    <Link href={"/recording"}>
                         <Icon
                             className="me-2"
                             name="microphone"
