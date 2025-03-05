@@ -12,7 +12,12 @@ import {
 } from "react-native";
 import { Stack, useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
+<<<<<<< HEAD
 import { SafeAreaView } from "react-native-safe-area-context";
+=======
+// import Icon from "react-native-vector-icons/FontAwesome";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+>>>>>>> b09fb60 (use @ for paths)
 // import MaskedView from "@react-native-masked-view/masked-view";
 // import { LinearGradient } from "expo-linear-gradient";
 
@@ -65,13 +70,9 @@ export default function Index() {
                             style={styles.button}
                             onPress={() => console.log("Pressed")}
                         >
-                            <Text className="font-bold text-white mb-2">
-                                Select language
-                            </Text>
+                            <Text className="font-bold text-white mb-2">Select language</Text>
                             <View className="flex flex-row text gap-2">
-                                <Image
-                                    source={require("../assets/images/philippines 1.png")}
-                                />
+                                <Image source={require("../assets/images/philippines 1.png")} />
                                 <Text className="text-white">Filipino</Text>
                             </View>
                         </Pressable>
