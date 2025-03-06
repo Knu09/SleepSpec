@@ -1,22 +1,67 @@
-import { Link, EffectCallback } from "expo-router";
-import { useEffect, useState } from "react";
+import { Link } from "expo-router";
+import { useEffect, useReducer, useRef } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
 
+interface RecordingState {
+    timer: number;
+    isRecording: boolean;
+}
+
+enum RecordAction {
+    START,
+    STOP,
+    INCREMENT_TIMER,
+    RESET,
+}
+
+const recordReducer = (
+    state: RecordingState,
+    action: RecordAction,
+): RecordingState => {
+    switch (action) {
+        case RecordAction.START:
+            return { ...state, isRecording: true };
+
+        case RecordAction.STOP:
+            return { ...state, isRecording: false };
+
+        case RecordAction.INCREMENT_TIMER:
+            return { ...state, timer: state.timer + 1 };
+
+        case RecordAction.RESET:
+            return { ...state, timer: 0 };
+    }
+};
+
+const initialRecordState: RecordingState = {
+    timer: 0,
+    isRecording: false,
+};
+
 export default function Recording() {
-    const [time, setTime] = useState(0);
-    const [info, setInfo] = useState("Press to Record");
-    const startTimer: EffectCallback = () => {
-        const interval = setInterval(() => setTime((prev) => prev + 1), 1);
-        console.log('effect ran.')
+    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    useEffect(() => {
+        // remove interval when component unmounts
+        if (intervalRef.current != null) {
+            return clearInterval(intervalRef.current);
+        }
+    }, []);
 
-        return () => clearInterval(interval);
-    };
+    function handleRecordStart() {
+        if (!recordState.isRecording) {
+            dispatch(RecordAction.START);
+            const interval = setInterval(() => {
+                dispatch(RecordAction.INCREMENT_TIMER);
+            });
 
-    useEffect(startTimer, []);
+            intervalRef.current = interval;
+        }
+    }
 
     const text =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex sem, cursus vel nisi at, laoreet eleifend urna. Suspendisse aliquam vehicula magna non ullamcorper. Fusce ut tincidunt nunc, sed egestas nisi. Donec placerat est a neque porttitor consequat. Suspendisse lacus mi, condimentum eu sollicitudin at, rutrum quis nisl. \n\nIn consectetur eu magna vel placerat. Proin tempor augue turpis, congue eleifend metus porttitor sed. Etiam varius ex ac orci fringilla rutrum. Etiam vel dui quis ante accumsan consequat at vitae metus. Donec vitae orci pretium, pellentesque velit ut, placerat ipsum. Nullam sagittis ligula sem, sit amet lobortis nibh aliquam ut. Cras sed risus rhoncus, pretium nisi ut, eleifend mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eu nibh at metus viverra dapibus. Mauris bibendum rhoncus elit id sodales. Suspendisse nec odio elementum, cursus ligula vitae, hendrerit nisl. Suspendisse in urna pulvinar, interdum orci vitae, hendrerit nunc. Etiam eu est malesuada, sodales risus sit amet, ullamcorper nulla. ";
@@ -39,9 +84,9 @@ export default function Recording() {
             </Text>
 
             <Text className="text-white mx-auto mt-10 text-3xl">
-                {formatTime(time)}
+                {formatTime(recordState.timer)}
             </Text>
-            <Pressable onPress={() => setInfo("Speak Now")}>
+            <Pressable onPress={handleRecordStart}>
                 <Image
                     source={RecorderImage}
                     style={{
@@ -53,7 +98,7 @@ export default function Recording() {
                 />
             </Pressable>
             <Text className="text-[#006fff] text-[24px] text-3xl font-medium mx-auto">
-                {info}
+                {recordState.isRecording ? "Speak Now" : "Press to Record"}
             </Text>
         </View>
     );
