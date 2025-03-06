@@ -18,6 +18,25 @@ enum RecordAction {
     RESET,
 }
 
+const recordReducer = (
+    state: RecordingState,
+    action: RecordAction,
+): RecordingState => {
+    switch (action) {
+        case RecordAction.START:
+            return { ...state, isRecording: true };
+
+        case RecordAction.STOP:
+            return { ...state, isRecording: false };
+
+        case RecordAction.INCREMENT_TIMER:
+            return { ...state, timer: state.timer + 1 };
+
+        case RecordAction.RESET:
+            return { ...state, timer: 0 };
+    }
+};
+
 const initialRecordState: RecordingState = {
     timer: 0,
     isRecording: false,
@@ -84,25 +103,6 @@ export default function Recording() {
         </View>
     );
 }
-
-const recordReducer = (
-    state: RecordingState,
-    action: RecordAction,
-): RecordingState => {
-    switch (action) {
-        case RecordAction.START:
-            return { ...state, isRecording: true };
-
-        case RecordAction.STOP:
-            return { ...state, isRecording: false };
-
-        case RecordAction.INCREMENT_TIMER:
-            return { ...state, timer: state.timer + 1 };
-
-        case RecordAction.RESET:
-            return { ...state, timer: 0 };
-    }
-};
 
 function formatTime(millis: number): string {
     const m = millis / 100;
