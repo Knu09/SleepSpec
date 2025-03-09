@@ -3,7 +3,6 @@ import { useState, useEffect, useReducer, useRef } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
-import { File, Paths, Directory } from "expo-file-system/next";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
