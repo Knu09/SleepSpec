@@ -3,6 +3,8 @@ import { useEffect, useReducer, useRef } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 
+import Header from "@/components/Header";
+
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
 
@@ -43,7 +45,10 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
+    const [recordState, dispatch] = useReducer(
+        recordReducer,
+        initialRecordState,
+    );
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     useEffect(() => {
         // remove interval when component unmounts
@@ -67,12 +72,18 @@ export default function Recording() {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex sem, cursus vel nisi at, laoreet eleifend urna. Suspendisse aliquam vehicula magna non ullamcorper. Fusce ut tincidunt nunc, sed egestas nisi. Donec placerat est a neque porttitor consequat. Suspendisse lacus mi, condimentum eu sollicitudin at, rutrum quis nisl. \n\nIn consectetur eu magna vel placerat. Proin tempor augue turpis, congue eleifend metus porttitor sed. Etiam varius ex ac orci fringilla rutrum. Etiam vel dui quis ante accumsan consequat at vitae metus. Donec vitae orci pretium, pellentesque velit ut, placerat ipsum. Nullam sagittis ligula sem, sit amet lobortis nibh aliquam ut. Cras sed risus rhoncus, pretium nisi ut, eleifend mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eu nibh at metus viverra dapibus. Mauris bibendum rhoncus elit id sodales. Suspendisse nec odio elementum, cursus ligula vitae, hendrerit nisl. Suspendisse in urna pulvinar, interdum orci vitae, hendrerit nunc. Etiam eu est malesuada, sodales risus sit amet, ullamcorper nulla. ";
     return (
         <View className="bg-[#01000f]" style={{ flex: 1 }}>
+            <Header title={"Recording"} back={true} menu={true} />
             <View className="px-[26px] py-8 gap-2">
                 <Text className="text-lg text-white font-medium">Language</Text>
                 <Link href="/recording">
                     <View className="flex flex-row text gap-[9px] pl-[2px]">
-                        <Image source={FlagPH} style={{ width: 25, aspectRatio: 1 }} />
-                        <Text className="text-lg text-white font-normal">Filipino</Text>
+                        <Image
+                            source={FlagPH}
+                            style={{ width: 25, aspectRatio: 1 }}
+                        />
+                        <Text className="text-lg text-white font-normal">
+                            Filipino
+                        </Text>
                     </View>
                 </Link>
             </View>
