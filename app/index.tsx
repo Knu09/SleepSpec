@@ -16,9 +16,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 
+import Header from "@/components/Header";
+
+const FlagPH = require("@/assets/images/flag-ph.svg");
+
 export default function Index() {
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView className="bg-[#01000F]" style={styles.container}>
+            <Header title={"Home"} userMan={true} menu={true} />
             <View
                 className="mt-10 px-6 flex flex-col justify-center"
                 style={{
@@ -68,9 +73,10 @@ export default function Index() {
                             <Text className="font-bold text-white mb-2">
                                 Select language
                             </Text>
-                            <View className="flex flex-row text gap-2">
+                            <View className="flex flex-row items-center text gap-2">
                                 <Image
-                                    source={require("../assets/images/philippines 1.png")}
+                                    source={FlagPH}
+                                    style={{ width: 20, height: 20 }}
                                 />
                                 <Text className="text-white">Filipino</Text>
                             </View>
@@ -91,7 +97,7 @@ export default function Index() {
                                 />
                             </View>
                         </Link>
-                    </LinearGradient>{" "}
+                    </LinearGradient>
                 </View>
             </View>
         </SafeAreaView>
@@ -103,7 +109,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "#01000F",
         alignItems: "center",
         color: "white",
         textAlign: "center",
