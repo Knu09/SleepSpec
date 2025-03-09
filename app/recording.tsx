@@ -1,7 +1,9 @@
 import { Link } from "expo-router";
-import { useEffect, useReducer, useRef } from "react";
+import { useState, useEffect, useReducer, useRef } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
+import { Audio } from "expo-av";
+import { File, Paths, Directory } from "expo-file-system/next";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
@@ -27,7 +29,7 @@ const recordReducer = (
             return { ...state, isRecording: true };
 
         case RecordAction.STOP:
-            return { ...state, isRecording: false };
+            return { timer: 0, isRecording: false };
 
         case RecordAction.INCREMENT_TIMER:
             return { ...state, timer: state.timer + 1 };
@@ -44,7 +46,9 @@ const initialRecordState: RecordingState = {
 
 export default function Recording() {
     const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const intervalRef = useRef<NodeJS.Timeout>();
+    const [recording, setRecording] = useState<Audio.Recording>();
+    const [permissionResponse, requestPermission] = Audio.usePermissions();
     useEffect(() => {
         // remove interval when component unmounts
         if (intervalRef.current != null) {
@@ -52,15 +56,56 @@ export default function Recording() {
         }
     }, []);
 
-    function handleRecordStart() {
-        if (!recordState.isRecording) {
-            dispatch(RecordAction.START);
-            const interval = setInterval(() => {
-                dispatch(RecordAction.INCREMENT_TIMER);
+    async function recordStart() {
+        if (recordState.isRecording) {
+            return;
+        }
+
+        dispatch(RecordAction.START);
+        const interval = setInterval(() => {
+            dispatch(RecordAction.INCREMENT_TIMER);
+        });
+
+        intervalRef.current = interval;
+
+        try {
+            if (permissionResponse!.status !== "granted") {
+                console.log("Requesting permission..");
+                await requestPermission();
+            }
+
+            await Audio.setAudioModeAsync({
+                allowsRecordingIOS: true,
+                playsInSilentModeIOS: true,
             });
 
-            intervalRef.current = interval;
+            console.log("Starting recording..");
+            const { recording } = await Audio.Recording.createAsync(
+                Audio.RecordingOptionsPresets.HIGH_QUALITY,
+            );
+            setRecording(recording);
+            console.log("Recording started");
+        } catch (err) {
+            console.error("Failed to start recording", err);
         }
+    }
+
+    async function recordStop() {
+        if (!recordState.isRecording || !recording) {
+            return;
+        }
+
+        dispatch(RecordAction.STOP);
+        clearInterval(intervalRef.current);
+
+        console.log("Stopping recording..");
+        setRecording(undefined);
+        await recording.stopAndUnloadAsync();
+        await Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+        });
+        const uri = recording.getURI();
+        console.log("Recording stopped and stored at", uri);
     }
 
     const text =
@@ -86,7 +131,7 @@ export default function Recording() {
             <Text className="text-white mx-auto mt-10 text-3xl">
                 {formatTime(recordState.timer)}
             </Text>
-            <Pressable onPress={handleRecordStart}>
+            <Pressable onPress={recordState.isRecording ? recordStop : recordStart}>
                 <Image
                     source={RecorderImage}
                     style={{
