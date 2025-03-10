@@ -14,7 +14,7 @@ import { Stack, useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import MaskedView from "@react-native-masked-view/masked-view";
-import { LinearGradient } from "expo-linear-gradient";
+// import { LinearGradient } from "expo-linear-gradient";
 
 import Header from "@/components/Header";
 
@@ -70,34 +70,20 @@ export default function Index() {
                             style={styles.button}
                             onPress={() => console.log("Pressed")}
                         >
-                            <Text className="font-bold text-white mb-2">
-                                Select language
-                            </Text>
+                            <Text className="font-bold text-white mb-2">Select language</Text>
                             <View className="flex flex-row items-center text gap-2">
-                                <Image
-                                    source={FlagPH}
-                                    style={{ width: 20, height: 20 }}
-                                />
+                                <Image source={FlagPH} style={{ width: 20, height: 20 }} />
                                 <Text className="text-white">Filipino</Text>
                             </View>
                         </Pressable>
                     </View>
                 </View>
                 <View className="flex items-center t-10">
-                    <LinearGradient
-                        colors={["#006EFF", "#7800D3"]}
-                        className="rounded-full p-[2px]"
-                    >
-                        <Link href="/recording" asChild>
-                            <View className="w-28 h-28 flex justify-center items-center bg-[#01000F] rounded-full p-4">
-                                <Icon
-                                    name="microphone"
-                                    size={50}
-                                    color={"#FFF"}
-                                />
-                            </View>
-                        </Link>
-                    </LinearGradient>
+                    <Link href="/recording">
+                        <View className="w-28 h-28 flex justify-center items-center bg-[#01000F] rounded-full p-4">
+                            <Icon name="microphone" size={50} color={"#FFF"} />
+                        </View>
+                    </Link>
                 </View>
             </View>
         </SafeAreaView>
