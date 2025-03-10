@@ -1,11 +1,13 @@
 import { Link } from "expo-router";
 import { useState, useEffect, useReducer, useRef } from "react";
-import { View, Text, Pressable, Alert } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useLangStore } from "@/store/store";
-import { CustomRCPreset } from "@/constants/rc_option";
+import CustomRCPreset from "@/constants/rc_option";
 import axios from "axios";
+
+import Header from "@/components/Header";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
@@ -141,12 +143,18 @@ export default function Recording() {
 
     return (
         <View className="bg-[#01000f]" style={{ flex: 1 }}>
+            <Header title={"Recording"} back={true} menu={true} />
             <View className="px-[26px] py-8 gap-2">
                 <Text className="text-lg text-white font-medium">Language</Text>
                 <Link href="/recording">
                     <View className="flex flex-row text gap-[9px] pl-[2px]">
-                        <Image source={FlagPH} style={{ width: 25, aspectRatio: 1 }} />
-                        <Text className="text-lg text-white font-normal">Filipino</Text>
+                        <Image
+                            source={FlagPH}
+                            style={{ width: 25, aspectRatio: 1 }}
+                        />
+                        <Text className="text-lg text-white font-normal">
+                            Filipino
+                        </Text>
                     </View>
                 </Link>
             </View>
