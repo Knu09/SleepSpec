@@ -102,7 +102,6 @@ export default function Recording() {
 
         try {
             if (permissionResponse!.status !== "granted") {
-                console.log("Requesting permission..");
                 await requestPermission();
             }
 
@@ -111,12 +110,10 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            console.log("Starting recording..");
             const { recording } = await Audio.Recording.createAsync(
                 Audio.RecordingOptionsPresets.HIGH_QUALITY,
             );
             setRecording(recording);
-            console.log("Recording started");
         } catch (err) {
             console.error("Failed to start recording", err);
         }
@@ -132,15 +129,13 @@ export default function Recording() {
         clearInterval(timerRef.current);
         clearInterval(indexRef.current);
 
-        console.log("Stopping recording..");
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
         });
-        const uri = recording.getURI();
-        console.log("Recording stopped and stored at", uri);
 
+        const uri = recording.getURI();
         uploadAudio(uri!);
     }
 
@@ -200,7 +195,6 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
 
     const env = process.env.EXPO_PUBLIC_ENV
     let api = (env == 'PROD') ? "http://10.0.2.2:5000" : process.env.EXPO_PUBLIC_API_URL;
-    console.log(env)
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {
