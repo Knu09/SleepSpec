@@ -4,7 +4,8 @@ import { View, Text, Pressable, Alert } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useLangStore } from "@/store/store";
-import axios from 'axios'
+import { CustomRCPreset } from "@/constants/rc_option";
+import axios from "axios";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
@@ -110,9 +111,7 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } = await Audio.Recording.createAsync(
-                Audio.RecordingOptionsPresets.HIGH_QUALITY,
-            );
+            const { recording } = await Audio.Recording.createAsync(CustomRCPreset);
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -136,7 +135,8 @@ export default function Recording() {
         });
 
         const uri = recording.getURI();
-        uploadAudio(uri!);
+        const result = await uploadAudio(uri!);
+        console.log(result);
     }
 
     return (
@@ -193,8 +193,9 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
         type: "audio/m4a", // or audio/m4a
     } as any);
 
-    const env = process.env.EXPO_PUBLIC_ENV
-    let api = (env == 'PROD') ? "http://10.0.2.2:5000" : process.env.EXPO_PUBLIC_API_URL;
+    const env = process.env.EXPO_PUBLIC_ENV;
+    let api =
+        env == "PROD" ? process.env.EXPO_PUBLIC_API_URL : "http://10.0.2.2:5000";
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {
@@ -211,7 +212,6 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
 function formatTime({ secs, mins }: Timer): string {
     const formattedMinutes = String(mins).padStart(2, "0");
     const formattedSeconds = String(secs).padStart(2, "0");
-    // const formattedMilliseconds = String(millis).slice(0, 1);
 
     return `${formattedMinutes}:${formattedSeconds}`;
 }
