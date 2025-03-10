@@ -1,14 +1,21 @@
 import { Link } from "expo-router";
 import { useState, useEffect, useReducer, useRef } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Alert } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
+import { useLangStore } from "@/store/store";
+import axios from 'axios'
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 const FlagPH = require("@/assets/images/flag-ph.svg");
 
+type Timer = {
+    secs: number;
+    mins: number;
+};
+
 interface RecordingState {
-    timer: number;
+    timer: Timer;
     isRecording: boolean;
 }
 
@@ -16,7 +23,6 @@ enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
-    RESET,
 }
 
 const recordReducer = (
@@ -28,31 +34,53 @@ const recordReducer = (
             return { ...state, isRecording: true };
 
         case RecordAction.STOP:
-            return { timer: 0, isRecording: false };
+            return {
+                ...state,
+                timer: { secs: 0, mins: 0 },
+                isRecording: false,
+            };
 
         case RecordAction.INCREMENT_TIMER:
-            return { ...state, timer: state.timer + 1 };
+            const {
+                timer: { secs, mins },
+            } = state;
+            const newSecs = secs + 1;
+            const newMins = mins + Math.floor(newSecs / 60);
 
-        case RecordAction.RESET:
-            return { ...state, timer: 0 };
+            return {
+                ...state,
+                timer: {
+                    secs: newSecs % 60,
+                    mins: newMins,
+                },
+            };
     }
 };
 
 const initialRecordState: RecordingState = {
-    timer: 0,
+    timer: {
+        secs: 0,
+        mins: 0,
+    },
     isRecording: false,
 };
 
 export default function Recording() {
     const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
-    const intervalRef = useRef<NodeJS.Timeout>();
+    const [index, setIndex] = useState(-1);
+    const indexRef = useRef<NodeJS.Timeout>();
+    const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
+    const language = useLangStore((state) => state.currentLang);
+    const script = language.split(" ");
+
     useEffect(() => {
-        // remove interval when component unmounts
-        if (intervalRef.current != null) {
-            return clearInterval(intervalRef.current);
-        }
+        // remove intervals when component unmounts
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+            if (indexRef.current) clearInterval(indexRef.current);
+        };
     }, []);
 
     async function recordStart() {
@@ -61,11 +89,16 @@ export default function Recording() {
         }
 
         dispatch(RecordAction.START);
-        const interval = setInterval(() => {
+        const timerInterval = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
-        });
+        }, 1000);
 
-        intervalRef.current = interval;
+        const indexInterval = setInterval(() => {
+            setIndex((prev) => prev + 1);
+        }, 650);
+
+        timerRef.current = timerInterval;
+        indexRef.current = indexInterval;
 
         try {
             if (permissionResponse!.status !== "granted") {
@@ -95,7 +128,9 @@ export default function Recording() {
         }
 
         dispatch(RecordAction.STOP);
-        clearInterval(intervalRef.current);
+        setIndex(-1);
+        clearInterval(timerRef.current);
+        clearInterval(indexRef.current);
 
         console.log("Stopping recording..");
         setRecording(undefined);
@@ -105,10 +140,10 @@ export default function Recording() {
         });
         const uri = recording.getURI();
         console.log("Recording stopped and stored at", uri);
+
+        uploadAudio(uri!);
     }
 
-    const text =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex sem, cursus vel nisi at, laoreet eleifend urna. Suspendisse aliquam vehicula magna non ullamcorper. Fusce ut tincidunt nunc, sed egestas nisi. Donec placerat est a neque porttitor consequat. Suspendisse lacus mi, condimentum eu sollicitudin at, rutrum quis nisl. \n\nIn consectetur eu magna vel placerat. Proin tempor augue turpis, congue eleifend metus porttitor sed. Etiam varius ex ac orci fringilla rutrum. Etiam vel dui quis ante accumsan consequat at vitae metus. Donec vitae orci pretium, pellentesque velit ut, placerat ipsum. Nullam sagittis ligula sem, sit amet lobortis nibh aliquam ut. Cras sed risus rhoncus, pretium nisi ut, eleifend mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eu nibh at metus viverra dapibus. Mauris bibendum rhoncus elit id sodales. Suspendisse nec odio elementum, cursus ligula vitae, hendrerit nisl. Suspendisse in urna pulvinar, interdum orci vitae, hendrerit nunc. Etiam eu est malesuada, sodales risus sit amet, ullamcorper nulla. ";
     return (
         <View className="bg-[#01000f]" style={{ flex: 1 }}>
             <View className="px-[26px] py-8 gap-2">
@@ -124,7 +159,14 @@ export default function Recording() {
                 className="mx-8 h-[350px] text-lg leading-6 overflow-y-hidden
                 text-[#ddd] font-light border-2 rounded-lg border-blue-800 p-2"
             >
-                {text}
+                {script.map((text, i) => {
+                    const highlight = "font-medium text-[#006fff]";
+                    return (
+                        <Text key={text + i} className={i <= index ? highlight : ""}>
+                            {text}{" "}
+                        </Text>
+                    );
+                })}
             </Text>
 
             <Text className="text-white mx-auto mt-10 text-3xl">
@@ -148,17 +190,34 @@ export default function Recording() {
     );
 }
 
-function formatTime(millis: number): string {
-    const m = millis / 100;
-    const seconds = Math.floor(m % 60);
-    const minutes = Math.floor(m / 60);
+async function uploadAudio(audioUri: string): Promise<string | void> {
+    const formData = new FormData();
+    formData.append("audio", {
+        uri: audioUri,
+        name: "recording.m4a", // or .m4a depending on your settings
+        type: "audio/m4a", // or audio/m4a
+    } as any);
 
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    const formattedSeconds = String(seconds).padStart(2, "0");
-    const formattedMilliseconds = String(Math.floor(millis % 100)).padStart(
-        2,
-        "0",
-    );
+    const env = process.env.EXPO_PUBLIC_ENV
+    let api = (env == 'PROD') ? "http://10.0.2.2:5000" : process.env.EXPO_PUBLIC_API_URL;
+    console.log(env)
+    try {
+        const response = await axios.post(`${api}/upload`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
 
-    return `${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
+        return response.data;
+    } catch (error) {
+        console.error("Upload failed", error);
+    }
+}
+
+function formatTime({ secs, mins }: Timer): string {
+    const formattedMinutes = String(mins).padStart(2, "0");
+    const formattedSeconds = String(secs).padStart(2, "0");
+    // const formattedMilliseconds = String(millis).slice(0, 1);
+
+    return `${formattedMinutes}:${formattedSeconds}`;
 }
