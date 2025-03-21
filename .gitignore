@@ -2,6 +2,8 @@
 
 .android/
 
+local.properties
+
 # dependencies
 node_modules/
 
