@@ -1,5 +1,7 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
+.android/
+
 # dependencies
 node_modules/
 
@@ -78,3 +80,12 @@ yarn-error.*
 *.tsbuildinfo
 
 # @end expo-cli
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
