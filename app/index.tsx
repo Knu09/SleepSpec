@@ -2,7 +2,6 @@ import { Route } from "expo-router/build/Route";
 import "@/global.css";
 import {
     StyleSheet,
-    StatusBar,
     Pressable,
     View,
     ScrollView,
@@ -13,21 +12,45 @@ import {
 import { Stack, useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 // import MaskedView from "@react-native-masked-view/masked-view";
-// import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
+
+SplashScreen.preventAutoHideAsync();
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
 
 import Header from "@/components/Header";
 
-const FlagPH = require("@/assets/images/flag-ph.svg");
+const FlagPH = require("@/assets/images/philippines 1.svg");
 
 export default function Index() {
+    const [fontsLoaded] = useFonts({
+        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
+        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+    });
+
+    useEffect(() => {
+        if (fontsLoaded) SplashScreen.hideAsync();
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) return null;
+
     return (
-        <SafeAreaView className="bg-[#01000F]" style={styles.container}>
+        <SafeAreaView className="px-6 bg-[#01000F]" style={styles.container}>
+            <StatusBar />
             <Header title={"Home"} userMan={true} menu={true} />
-            <View
-                className="mt-10 px-6 flex flex-col justify-center"
+            <ScrollView
+                className="mt-10 px-6"
                 style={{
                     flex: 1,
+                }}
+                contentContainerStyle={{
+                    flexGrow: 1,
+                    justifyContent: "center",
                 }}
             >
                 {/* <MaskedView */}
@@ -39,16 +62,16 @@ export default function Index() {
                 {/*     /> */}
                 {/* </MaskedView> */}
                 <View>
-                    <Text className="text-center text-5xl text-white font-bold">
-                        SleepSpec.
+                    <Text className="text-center font-poppins text-5xl text-white font-bold">
+                        SleepSpec
                     </Text>
-                    <Text className="text-center mt-2 text-2xl text-white font-bold">
+                    <Text className="text-center mt-2 text-2xl font-poppins text-white font-bold">
                         Sleep Deprition Detection using SVM
                     </Text>
                 </View>
                 <View className="my-12 items-center gap-6">
                     <View>
-                        <Text className="text-white text-center">
+                        <Text className="text-white font-publicsans text-center">
                             Start
                             <View className="inline-flex flex-row items-center mx-2 py-2 px-2 bg-[#35007680] rounded-full">
                                 <Icon
@@ -65,27 +88,52 @@ export default function Index() {
                         </Text>
                     </View>
                     <View>
-                        <Pressable
-                            className="rounded-3xl items-center py-3 px-10 border border-slate-50"
-                            style={styles.button}
-                            onPress={() => console.log("Pressed")}
+                        <LinearGradient
+                            colors={["#006EFF", "#7800D3"]}
+                            start={{ x: 0.5, y: 0 }}
+                            end={{ x: 0.5, y: 1 }}
+                            className="flex justify-center items-center p-[1.5px]"
+                            style={styles.linearGradientLanguage}
                         >
-                            <Text className="font-bold text-white mb-2">Select language</Text>
-                            <View className="flex flex-row items-center text gap-2">
-                                <Image source={FlagPH} style={{ width: 20, height: 20 }} />
-                                <Text className="text-white">Filipino</Text>
-                            </View>
-                        </Pressable>
+                            <Pressable
+                                className="rounded-[22px] items-center gap-4 py-4  px-10 bg-[#01000F]"
+                                style={styles.button}
+                                onPress={() => console.log("Pressed")}
+                            >
+                                <Text className="font-bold text-white mb-2">
+                                    Select language
+                                </Text>
+                                <View className="flex flex-row items-center text gap-2">
+                                    <Image
+                                        source={FlagPH}
+                                        style={{ width: 20, height: 20 }}
+                                    />
+                                    <Text className="text-white">Filipino</Text>
+                                </View>
+                            </Pressable>
+                        </LinearGradient>
                     </View>
                 </View>
                 <View className="flex items-center t-10">
                     <Link href="/recording">
-                        <View className="w-28 h-28 flex justify-center items-center bg-[#01000F] rounded-full p-4">
-                            <Icon name="microphone" size={50} color={"#FFF"} />
-                        </View>
+                        <LinearGradient
+                            colors={["#006EFF", "#7800D3"]}
+                            start={{ x: 0.5, y: 0 }}
+                            end={{ x: 0.5, y: 1 }}
+                            className="justify-center items-center p-[2px]"
+                            style={styles.linearGradientMicrophone}
+                        >
+                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
+                                <Icon
+                                    name="microphone"
+                                    size={50}
+                                    color={"#FFF"}
+                                />
+                            </View>
+                        </LinearGradient>
                     </Link>
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -98,6 +146,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         color: "white",
         textAlign: "center",
+    },
+
+    linearGradientMicrophone: {
+        borderRadius: 100,
+    },
+
+    linearGradientLanguage: {
+        borderRadius: 22,
     },
 
     gradient: { flex: 1 },
