@@ -1,11 +1,10 @@
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-
-const menuBar = require("@/assets/images/menu-bar.svg");
-const userManIcon = require("@/assets/images/user-manual-icon.svg");
-const backIcon = require("@/assets/images/back.svg");
+import * as Font from "expo-font";
+import { FontAwesome, FontAwesome6, Feather } from "@expo/vector-icons";
 
 const Header = ({
     menu = false,
@@ -14,26 +13,47 @@ const Header = ({
     userMan = false,
 }) => {
     const navigation = useNavigation();
+    const [fontsLoaded, setFontsLoaded] = useState(false);
+
+    useEffect(() => {
+        async function loadFonts() {
+            await Font.loadAsync({
+                FontAwesome: FontAwesome.font,
+            });
+            setFontsLoaded(true);
+        }
+        loadFonts();
+    }, []);
+
+    if (!fontsLoaded) return null;
 
     return (
         <View
             style={styles.header}
-            className="flex flex-row w-full px-6 h-14 justify-between items-center bg-transparent"
+            className="flex flex-row w-full h-14 justify-between items-center bg-transparent"
         >
-            <View style={styles.view} className="w-10">
+            <View className="">
                 {back && (
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Image source={backIcon}></Image>
+                        <FontAwesome
+                            size={28}
+                            name={"angle-left"}
+                            color="#006FFF"
+                        />
                     </TouchableOpacity>
                 )}
                 {userMan && (
                     <View>
-                        <Image source={userManIcon}></Image>
+                        <FontAwesome6
+                            name="circle-question"
+                            size={22}
+                            color="#006FFF"
+                        />
                     </View>
                 )}
             </View>
 
-            <View style={styles.view} className="flex-1 items-center">
+            <View className="flex-1 items-center">
                 <Text
                     style={{ color: "#DDDDDD" }}
                     className="font-bold text-lg text-center"
@@ -42,10 +62,10 @@ const Header = ({
                 </Text>
             </View>
 
-            <View style={styles.view} className="w-10 items-end">
+            <View className="w-10 items-end">
                 {menu && (
                     <TouchableOpacity>
-                        <Image source={menuBar}></Image>
+                        <Feather size={20} name={"menu"} color="#006FFF" />
                     </TouchableOpacity>
                 )}
             </View>
@@ -64,8 +84,5 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "transparent",
-    },
-    view: {
-        margin: 10,
     },
 });
