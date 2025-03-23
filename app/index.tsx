@@ -9,7 +9,7 @@ import {
     Text,
 } from "react-native";
 import { Image } from "expo-image";
-import { useRouter, Link } from "expo-router";
+import { Stack, useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
