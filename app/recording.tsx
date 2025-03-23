@@ -1,10 +1,11 @@
 import { Link } from "expo-router";
 import { useState, useEffect, useReducer, useRef } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
+import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 import Header from "@/components/Header";
@@ -69,7 +70,10 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
+    const [recordState, dispatch] = useReducer(
+        recordReducer,
+        initialRecordState,
+    );
     const [index, setIndex] = useState(-1);
     const indexRef = useRef<NodeJS.Timeout>();
     const timerRef = useRef<NodeJS.Timeout>();
@@ -113,7 +117,8 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } = await Audio.Recording.createAsync(CustomRCPreset);
+            const { recording } =
+                await Audio.Recording.createAsync(CustomRCPreset);
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -142,54 +147,74 @@ export default function Recording() {
     }
 
     return (
-        <View className="bg-[#01000f]" style={{ flex: 1 }}>
+        <SafeAreaView className="bg-[#01000f] px-6" style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
-            <View className="px-[26px] py-8 gap-2">
-                <Text className="text-lg text-white font-medium">Language</Text>
-                <Link href="/recording">
-                    <View className="flex flex-row text gap-[9px] pl-[2px]">
-                        <Image
-                            source={FlagPH}
-                            style={{ width: 25, aspectRatio: 1 }}
-                        />
-                        <Text className="text-lg text-white font-normal">
-                            Filipino
+            <ScrollView className="flex gap-4 mt-10">
+                <View className="gap-2">
+                    <Text className="text-lg text-white font-medium">
+                        Language
+                    </Text>
+                    <Link href="/recording">
+                        <View className="flex flex-row text gap-[9px] pl-[2px]">
+                            <Image
+                                source={FlagPH}
+                                style={{ width: 25, aspectRatio: 1 }}
+                            />
+                            <Text className="text-lg text-white font-normal">
+                                Filipino
+                            </Text>
+                        </View>
+                    </Link>
+                </View>
+                <View className="py-6">
+                    <ScrollView
+                        className="max-h-[350px] border-2 rounded-lg border-blue-800 p-4"
+                        nestedScrollEnabled={true}
+                    >
+                        <Text
+                            className=" text-lg leading-6
+                text-[#ddd] font-light text-ellipsis"
+                        >
+                            {script.map((text, i) => {
+                                const highlight = "font-medium text-[#006fff]";
+                                return (
+                                    <Text
+                                        key={text + i}
+                                        className={i <= index ? highlight : ""}
+                                    >
+                                        {text}{" "}
+                                    </Text>
+                                );
+                            })}
                         </Text>
-                    </View>
-                </Link>
-            </View>
-            <Text
-                className="mx-8 h-[350px] text-lg leading-6 overflow-y-hidden
-                text-[#ddd] font-light border-2 rounded-lg border-blue-800 p-2"
-            >
-                {script.map((text, i) => {
-                    const highlight = "font-medium text-[#006fff]";
-                    return (
-                        <Text key={text + i} className={i <= index ? highlight : ""}>
-                            {text}{" "}
-                        </Text>
-                    );
-                })}
-            </Text>
+                    </ScrollView>
+                </View>
 
-            <Text className="text-white mx-auto mt-10 text-3xl">
-                {formatTime(recordState.timer)}
-            </Text>
-            <Pressable onPress={recordState.isRecording ? recordStop : recordStart}>
-                <Image
-                    source={RecorderImage}
-                    style={{
-                        width: 200,
-                        aspectRatio: 1,
-                        marginInline: "auto",
-                        marginBlock: 18,
-                    }}
-                />
-            </Pressable>
-            <Text className="text-[#006fff] text-[24px] text-3xl font-medium mx-auto">
-                {recordState.isRecording ? "Speak Now" : "Press to Record"}
-            </Text>
-        </View>
+                <Text className="text-white mx-auto text-3xl">
+                    {formatTime(recordState.timer)}
+                </Text>
+                <View className="flex justify-center items-center">
+                    <Pressable
+                        onPress={
+                            recordState.isRecording ? recordStop : recordStart
+                        }
+                    >
+                        <Image
+                            source={RecorderImage}
+                            style={{
+                                width: 150,
+                                aspectRatio: 1,
+                                marginInline: "auto",
+                            }}
+                        />
+                    </Pressable>
+                </View>
+
+                <Text className="text-[#006fff] text-2xl font-medium mx-auto">
+                    {recordState.isRecording ? "Speak Now" : "Press to Record"}
+                </Text>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
@@ -203,7 +228,9 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
 
     const env = process.env.EXPO_PUBLIC_ENV;
     let api =
-        env == "PROD" ? process.env.EXPO_PUBLIC_API_URL : "http://10.0.2.2:5000";
+        env == "PROD"
+            ? process.env.EXPO_PUBLIC_API_URL
+            : "http://10.0.2.2:5000";
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {
