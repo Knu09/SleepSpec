@@ -119,23 +119,21 @@ export default function Index() {
                 </View>
                 <View className="flex items-center t-10">
                     <Link href="/recording">
-                        <Pressable onPress={() => router.push("/recording")}>
-                            <LinearGradient
-                                colors={["#006EFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                className="justify-center items-center p-[2px]"
-                                style={styles.linearGradientMicrophone}
-                            >
-                                <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                    <Icon
-                                        name="microphone"
-                                        size={50}
-                                        color={"#FFF"}
-                                    />
-                                </View>
-                            </LinearGradient>
-                        </Pressable>
+                        <LinearGradient
+                            colors={["#006EFF", "#7800D3"]}
+                            start={{ x: 0.5, y: 0 }}
+                            end={{ x: 0.5, y: 1 }}
+                            className="justify-center items-center p-[2px]"
+                            style={styles.linearGradientMicrophone}
+                        >
+                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
+                                <Icon
+                                    name="microphone"
+                                    size={50}
+                                    color={"#FFF"}
+                                />
+                            </View>
+                        </LinearGradient>
                     </Link>
                 </View>
             </ScrollView>
