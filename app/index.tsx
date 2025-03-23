@@ -6,10 +6,10 @@ import {
     View,
     ScrollView,
     Button,
-    Image,
     Text,
 } from "react-native";
-import { Stack, useRouter, Link } from "expo-router";
+import { Image } from "expo-image";
+import { useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -23,9 +23,10 @@ import { useEffect } from "react";
 
 import Header from "@/components/Header";
 
-const FlagPH = require("@/assets/images/philippines 1.svg");
+const FlagPH = require("@/assets/images/flag-ph.svg");
 
 export default function Index() {
+    const router = useRouter();
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -66,7 +67,7 @@ export default function Index() {
                         SleepSpec
                     </Text>
                     <Text className="text-center mt-2 text-2xl font-poppins text-white font-bold">
-                        Sleep Deprition Detection using SVM
+                        Sleep Deprivation Detection using SVM
                     </Text>
                 </View>
                 <View className="my-12 items-center gap-6">
@@ -80,7 +81,7 @@ export default function Index() {
                                     size={20}
                                     color={"#006FFF"}
                                 />
-                                <Text className="text-primary font-semibold text-[#006FFF]">
+                                <Text className="font-semibold text-primaryBlue">
                                     detecting
                                 </Text>
                             </View>
@@ -96,19 +97,21 @@ export default function Index() {
                             style={styles.linearGradientLanguage}
                         >
                             <Pressable
-                                className="rounded-[22px] items-center gap-4 py-4  px-10 bg-[#01000F]"
+                                className="rounded-[22px] items-center py-4  px-10 bg-[#01000F]"
                                 style={styles.button}
                                 onPress={() => console.log("Pressed")}
                             >
-                                <Text className="font-bold text-white mb-2">
+                                <Text className="font-bold font-publicsans text-secondary mb-2">
                                     Select language
                                 </Text>
                                 <View className="flex flex-row items-center text gap-2">
                                     <Image
                                         source={FlagPH}
-                                        style={{ width: 20, height: 20 }}
+                                        style={{ width: 30, height: 30 }}
                                     />
-                                    <Text className="text-white">Filipino</Text>
+                                    <Text className="text-secondary">
+                                        Filipino
+                                    </Text>
                                 </View>
                             </Pressable>
                         </LinearGradient>
@@ -116,21 +119,23 @@ export default function Index() {
                 </View>
                 <View className="flex items-center t-10">
                     <Link href="/recording">
-                        <LinearGradient
-                            colors={["#006EFF", "#7800D3"]}
-                            start={{ x: 0.5, y: 0 }}
-                            end={{ x: 0.5, y: 1 }}
-                            className="justify-center items-center p-[2px]"
-                            style={styles.linearGradientMicrophone}
-                        >
-                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                <Icon
-                                    name="microphone"
-                                    size={50}
-                                    color={"#FFF"}
-                                />
-                            </View>
-                        </LinearGradient>
+                        <Pressable onPress={() => router.push("/recording")}>
+                            <LinearGradient
+                                colors={["#006EFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                className="justify-center items-center p-[2px]"
+                                style={styles.linearGradientMicrophone}
+                            >
+                                <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
+                                    <Icon
+                                        name="microphone"
+                                        size={50}
+                                        color={"#FFF"}
+                                    />
+                                </View>
+                            </LinearGradient>
+                        </Pressable>
                     </Link>
                 </View>
             </ScrollView>

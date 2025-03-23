@@ -166,6 +166,7 @@ export default function Recording() {
                         </View>
                     </Link>
                 </View>
+                <Text>Helo</Text>
                 <View className="py-6">
                     <ScrollView
                         className="max-h-[350px] border-2 rounded-lg border-blue-800 p-4"
@@ -173,7 +174,7 @@ export default function Recording() {
                     >
                         <Text
                             className=" text-lg leading-6
-                text-[#ddd] font-light text-ellipsis"
+                text-secondary font-light text-ellipsis"
                         >
                             {script.map((text, i) => {
                                 const highlight = "font-medium text-[#006fff]";
