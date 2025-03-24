@@ -14,7 +14,7 @@ type AdviceStore = {
 };
 
 export const useLangStore = create<LangStore>((set) => ({
-    currentLang: Lang.FILIPINO,
+    currentLang: Lang.ENGLISH,
     setCurrentLang: (language: Lang) => set({ currentLang: language }),
 }));
 
