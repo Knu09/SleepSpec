@@ -4,6 +4,9 @@
 
 local.properties
 
+# Environment Variable
+.env
+
 # dependencies
 node_modules/
 

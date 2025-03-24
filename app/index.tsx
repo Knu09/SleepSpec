@@ -89,34 +89,34 @@ export default function Index() {
                         </Text>
                     </View>
                     <View>
-                        <Link href='/select_language'>
-                        <LinearGradient
-                            colors={["#006EFF", "#7800D3"]}
-                            start={{ x: 0.5, y: 0 }}
-                            end={{ x: 0.5, y: 1 }}
-                            className="flex justify-center items-center"
-                            style={{
-                                borderRadius: 15,
-                            }}
-                        >
-                            <View
-                                className="rounded-[22px] items-center gap-4 py-4  px-10 bg-[#01000F]"
-                                style={styles.button}
+                        <Link href="/select_language">
+                            <LinearGradient
+                                colors={["#006EFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                className="flex justify-center items-center"
+                                style={{
+                                    borderRadius: 15,
+                                }}
                             >
-                                <Text className="font-bold font-publicsans text-secondary mb-2">
-                                    Select language
-                                </Text>
-                                <View className="flex flex-row items-center text gap-2">
-                                    <Image
-                                        source={FlagPH}
-                                        style={{ width: 30, height: 30 }}
-                                    />
-                                    <Text className="text-secondary">
-                                        Filipino
+                                <View
+                                    className="rounded-[15px] items-center py-2 m-[1px] px-8 bg-[#01000F]"
+                                    style={styles.button}
+                                >
+                                    <Text className="font-bold font-publicsans text-secondary mb-2">
+                                        Select language
                                     </Text>
+                                    <View className="flex flex-row items-center text gap-2">
+                                        <Image
+                                            source={FlagPH}
+                                            style={{ width: 25, height: 25 }}
+                                        />
+                                        <Text className="text-secondary">
+                                            Filipino
+                                        </Text>
+                                    </View>
                                 </View>
-                            </View>
-                        </LinearGradient>
+                            </LinearGradient>
                         </Link>
                     </View>
                 </View>
