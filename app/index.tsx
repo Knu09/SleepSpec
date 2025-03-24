@@ -88,6 +88,7 @@ export default function Index() {
                         </Text>
                     </View>
                     <View>
+                        <Link href='/select_language'>
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
@@ -95,10 +96,9 @@ export default function Index() {
                             className="flex justify-center items-center p-[1.5px]"
                             style={styles.linearGradientLanguage}
                         >
-                            <Pressable
+                            <View
                                 className="rounded-[22px] items-center gap-4 py-4  px-10 bg-[#01000F]"
                                 style={styles.button}
-                                onPress={() => console.log("Pressed")}
                             >
                                 <Text className="font-bold text-white mb-2">
                                     Select language
@@ -110,8 +110,9 @@ export default function Index() {
                                     />
                                     <Text className="text-white">Filipino</Text>
                                 </View>
-                            </Pressable>
+                            </View>
                         </LinearGradient>
+                        </Link>
                     </View>
                 </View>
                 <View className="flex items-center t-10">
