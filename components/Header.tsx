@@ -8,14 +8,14 @@ import { FontAwesome, FontAwesome6, Feather } from "@expo/vector-icons";
 interface HeaderProps {
     menu?: boolean;
     back?: boolean;
-    title: string;
+    title?: string;
     userMan?: boolean;
 }
 
 const Header = ({
     menu = false,
     back = false,
-    title,
+    title = "",
     userMan = false,
 }: HeaderProps) => {
     const navigation = useNavigation();
