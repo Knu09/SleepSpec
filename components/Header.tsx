@@ -16,7 +16,7 @@ interface HeaderProps {
 const Header = ({
     menu = false,
     back = false,
-    title = "",
+    title,
     userMan = false,
 }: HeaderProps) => {
     const navigation = useNavigation();
