@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Image } from "expo-image";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { FontAwesome, FontAwesome6, Feather } from "@expo/vector-icons";
+
+interface HeaderProps {
+    menu?: boolean;
+    back?: boolean;
+    title?: string;
+    userMan?: boolean;
+}
 
 const Header = ({
     menu = false,
     back = false,
     title = "",
     userMan = false,
-}) => {
+}: HeaderProps) => {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -35,20 +41,12 @@ const Header = ({
             <View className="">
                 {back && (
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <FontAwesome
-                            size={28}
-                            name={"angle-left"}
-                            color="#006FFF"
-                        />
+                        <FontAwesome size={28} name={"angle-left"} color="#006FFF" />
                     </TouchableOpacity>
                 )}
                 {userMan && (
                     <View>
-                        <FontAwesome6
-                            name="circle-question"
-                            size={22}
-                            color="#006FFF"
-                        />
+                        <FontAwesome6 name="circle-question" size={22} color="#006FFF" />
                     </View>
                 )}
             </View>
