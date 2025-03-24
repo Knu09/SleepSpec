@@ -173,7 +173,7 @@ export default function Recording() {
                     >
                         <Text
                             className=" text-lg leading-6
-                text-[#ddd] font-light text-ellipsis"
+                text-secondary font-light text-ellipsis"
                         >
                             {script.map((text, i) => {
                                 const highlight = "font-medium text-[#006fff]";
@@ -213,6 +213,9 @@ export default function Recording() {
                 <Text className="text-[#006fff] text-2xl font-medium mx-auto">
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
+                <Link href="/analysis" className="text-secondary mt-6">
+                    Go to Results
+                </Link>
             </ScrollView>
         </SafeAreaView>
     );

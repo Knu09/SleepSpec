@@ -6,26 +6,27 @@ import {
     View,
     ScrollView,
     Button,
-    Image,
     Text,
 } from "react-native";
+import { Image } from "expo-image";
 import { Stack, useRouter, Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 // import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-
-SplashScreen.preventAutoHideAsync();
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 
 const FlagPH = require("@/assets/images/flag-ph.svg");
 
 export default function Index() {
+    const router = useRouter();
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -40,7 +41,7 @@ export default function Index() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="px-6 bg-[#01000F]" style={styles.container}>
+        <SafeAreaView className="px-6 bg-black" style={styles.container}>
             <StatusBar />
             <Header title={"Home"} userMan={true} menu={true} />
             <ScrollView
@@ -66,7 +67,7 @@ export default function Index() {
                         SleepSpec
                     </Text>
                     <Text className="text-center mt-2 text-2xl font-poppins text-white font-bold">
-                        Sleep Deprition Detection using SVM
+                        Sleep Deprivation Detection using SVM
                     </Text>
                 </View>
                 <View className="my-12 items-center gap-6">
@@ -80,7 +81,7 @@ export default function Index() {
                                     size={20}
                                     color={"#006FFF"}
                                 />
-                                <Text className="text-primary font-semibold text-[#006FFF]">
+                                <Text className="font-semibold text-primaryBlue">
                                     detecting
                                 </Text>
                             </View>
@@ -93,22 +94,26 @@ export default function Index() {
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
                             end={{ x: 0.5, y: 1 }}
-                            className="flex justify-center items-center p-[1.5px]"
-                            style={styles.linearGradientLanguage}
+                            className="flex justify-center items-center"
+                            style={{
+                                borderRadius: 15,
+                            }}
                         >
                             <View
                                 className="rounded-[22px] items-center gap-4 py-4  px-10 bg-[#01000F]"
                                 style={styles.button}
                             >
-                                <Text className="font-bold text-white mb-2">
+                                <Text className="font-bold font-publicsans text-secondary mb-2">
                                     Select language
                                 </Text>
                                 <View className="flex flex-row items-center text gap-2">
                                     <Image
                                         source={FlagPH}
-                                        style={{ width: 20, height: 20 }}
+                                        style={{ width: 30, height: 30 }}
                                     />
-                                    <Text className="text-white">Filipino</Text>
+                                    <Text className="text-secondary">
+                                        Filipino
+                                    </Text>
                                 </View>
                             </View>
                         </LinearGradient>
@@ -116,7 +121,10 @@ export default function Index() {
                     </View>
                 </View>
                 <View className="flex items-center t-10">
-                    <Link href="/recording">
+                    <Link
+                        href="/recording"
+                        onPress={() => console.log("Link pressed")}
+                    >
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
@@ -151,10 +159,6 @@ const styles = StyleSheet.create({
 
     linearGradientMicrophone: {
         borderRadius: 100,
-    },
-
-    linearGradientLanguage: {
-        borderRadius: 22,
     },
 
     gradient: { flex: 1 },
