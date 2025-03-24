@@ -23,7 +23,7 @@ import { useEffect } from "react";
 
 import Header from "@/components/Header";
 
-const FlagPH = require("@/assets/images/philippines 1.svg");
+const FlagPH = require("@/assets/images/flag-ph.svg");
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
