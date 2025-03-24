@@ -147,9 +147,9 @@ export default function Recording() {
     }
 
     return (
-        <SafeAreaView className="bg-[#01000f] px-6" style={{ flex: 1 }}>
+        <SafeAreaView className="bg-[#01000f]" style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
-            <ScrollView className="flex gap-4 mt-10">
+            <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
                     <Text className="text-lg text-white font-medium">
                         Language
