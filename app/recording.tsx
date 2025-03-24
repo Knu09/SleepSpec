@@ -154,7 +154,7 @@ export default function Recording() {
                     <Text className="text-lg text-white font-medium">
                         Language
                     </Text>
-                    <Link href="/recording">
+                    <Link href="/select_language">
                         <View className="flex flex-row text gap-[9px] pl-[2px]">
                             <Image
                                 source={FlagPH}
