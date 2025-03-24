@@ -27,10 +27,10 @@ export default function Results() {
 
     if (!fontsLoaded) return null;
     return (
-        <SafeAreaView className="bg-[#01000f] px-6 flex-1">
+        <SafeAreaView className="bg-[#01000f] flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
             <ScrollView
-                className="mt-10"
+                className="mt-10 px-6"
                 style={{
                     flex: 1,
                 }}
