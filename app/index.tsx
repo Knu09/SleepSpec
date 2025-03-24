@@ -97,7 +97,7 @@ export default function Index() {
                             style={styles.linearGradientLanguage}
                         >
                             <Pressable
-                                className="rounded-[22px] items-center py-4  px-10 bg-[#01000F]"
+                                className="rounded-[15px] items-center py-2  px-10 bg-[#01000F]"
                                 style={styles.button}
                                 onPress={() => console.log("Pressed")}
                             >
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     },
 
     linearGradientLanguage: {
-        borderRadius: 22,
+        borderRadius: 15,
     },
 
     gradient: { flex: 1 },

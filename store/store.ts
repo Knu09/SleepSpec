@@ -7,6 +7,6 @@ type LangStore = {
 };
 
 export const useLangStore = create<LangStore>((set) => ({
-    currentLang: Lang.ENGLISH,
+    currentLang: Lang.FILIPINO,
     setCurrentLang: (language: Lang) => set({ currentLang: language }),
 }));
