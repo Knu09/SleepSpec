@@ -213,6 +213,9 @@ export default function Recording() {
                 <Text className="text-[#006fff] text-2xl font-medium mx-auto">
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
+                <Link href="/analysis" className="text-secondary mt-6">
+                    Go to Results
+                </Link>
             </ScrollView>
         </SafeAreaView>
     );
