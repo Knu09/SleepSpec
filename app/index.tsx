@@ -41,7 +41,7 @@ export default function Index() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="px-6 bg-black" style={styles.container}>
+        <SafeAreaView className="bg-black" style={styles.container}>
             <StatusBar />
             <Header title={"Home"} userMan={true} menu={true} />
             <ScrollView
