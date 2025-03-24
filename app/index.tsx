@@ -15,11 +15,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 // import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-
-SplashScreen.preventAutoHideAsync();
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 
@@ -41,7 +41,7 @@ export default function Index() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="px-6 bg-[#01000F]" style={styles.container}>
+        <SafeAreaView className="px-6 bg-black" style={styles.container}>
             <StatusBar />
             <Header title={"Home"} userMan={true} menu={true} />
             <ScrollView
@@ -93,11 +93,13 @@ export default function Index() {
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
                             end={{ x: 0.5, y: 1 }}
-                            className="flex justify-center items-center p-[1.5px]"
-                            style={styles.linearGradientLanguage}
+                            className="flex justify-center items-center"
+                            style={{
+                                borderRadius: 15,
+                            }}
                         >
                             <Pressable
-                                className="rounded-[15px] items-center py-2  px-10 bg-[#01000F]"
+                                className="rounded-[15px] items-center py-2 m-[1px] px-10 bg-[#01000F]"
                                 style={styles.button}
                                 onPress={() => console.log("Pressed")}
                             >
@@ -156,10 +158,6 @@ const styles = StyleSheet.create({
 
     linearGradientMicrophone: {
         borderRadius: 100,
-    },
-
-    linearGradientLanguage: {
-        borderRadius: 15,
     },
 
     gradient: { flex: 1 },
