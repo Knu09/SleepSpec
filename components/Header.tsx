@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Image } from "expo-image";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { FontAwesome, FontAwesome6, Feather } from "@expo/vector-icons";
 
 interface HeaderProps {
-    menu: boolean;
-    back: boolean;
+    menu?: boolean;
+    back?: boolean;
     title: string;
-    userMan: boolean;
+    userMan?: boolean;
 }
 
 const Header = ({
