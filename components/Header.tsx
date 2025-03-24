@@ -36,17 +36,28 @@ const Header = ({
     return (
         <View
             style={styles.header}
-            className="flex flex-row w-full h-14 justify-between items-center bg-transparent"
+            className="flex flex-row px-6 w-full h-14 justify-between items-center bg-transparent"
         >
             <View className="">
                 {back && (
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <FontAwesome size={28} name={"angle-left"} color="#006FFF" />
+                        <FontAwesome
+                            size={28}
+                            width={28}
+                            name={"angle-left"}
+                            color="#006FFF"
+                        />
                     </TouchableOpacity>
                 )}
                 {userMan && (
                     <View>
-                        <FontAwesome6 name="circle-question" size={22} color="#006FFF" />
+                        <FontAwesome6
+                            name="circle-question"
+                            size={22}
+                            className="text-center"
+                            width={28}
+                            color="#006FFF"
+                        />
                     </View>
                 )}
             </View>
@@ -62,8 +73,14 @@ const Header = ({
 
             <View className="w-10 items-end">
                 {menu && (
-                    <TouchableOpacity>
-                        <Feather size={20} name={"menu"} color="#006FFF" />
+                    <TouchableOpacity className="">
+                        <Feather
+                            size={20}
+                            className="text-center"
+                            width={28}
+                            name={"menu"}
+                            color="#006FFF"
+                        />
                     </TouchableOpacity>
                 )}
             </View>
