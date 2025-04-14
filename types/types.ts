@@ -1,0 +1,4 @@
+enum LANG {
+    ENGLISH,
+    FILIPINO
+}
