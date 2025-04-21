@@ -1,4 +1,4 @@
-enum LANG {
+export enum LANG {
     ENGLISH,
     FILIPINO
 }
