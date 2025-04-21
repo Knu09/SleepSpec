@@ -5,7 +5,7 @@ import GradientSelectButton from "@/components/GradientSelectButton";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import { SplashScreen } from "expo-router";
+import { SplashScreen, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { useLangStore } from "@/store/store"
 import { LANG } from "@/types/types";
@@ -19,6 +19,7 @@ interface LangChoiceProps {
 }
 
 export default function SelectLanguage() {
+    const router = useRouter()
     const langStore = useLangStore((state) => state)
     const [lang, setLang] = useState(langStore.currentLang)
 
@@ -72,7 +73,12 @@ export default function SelectLanguage() {
                 </View>
             </View>
             <View className="bg-darkBg border border-t-lightWhite py-8 items-center">
-                <GradientSelectButton pressHandler={() => langStore.setCurrentLang(lang)} />
+                <GradientSelectButton
+                    pressHandler={() => {
+                        langStore.setCurrentLang(lang)
+                        router.back()
+                    }}
+                />
             </View>
         </SafeAreaView>
     );
