@@ -1,4 +1,3 @@
-import { Route } from "expo-router/build/Route";
 import "@/global.css";
 import {
     StyleSheet,
@@ -6,8 +5,7 @@ import {
     ScrollView,
     Text,
 } from "react-native";
-import { Image } from "expo-image";
-import { Stack, useRouter, Link } from "expo-router";
+import { Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -20,11 +18,9 @@ import { useEffect } from "react";
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
-import { useLangStore } from "@/store/store";
 import LanguageSelected from "@/components/LanguageSelected";
 
 export default function Index() {
-    const router = useRouter();
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
