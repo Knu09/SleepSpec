@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import Lang from "@/constants/speech_scripts";
 import Advice, { AdviceType, adviceList } from "@/constants/analysis_advice";
+import { LANG } from "@/types/types"
 
 type LangStore = {
-    currentLang: Lang;
-    setCurrentLang: (language: Lang) => void;
+    currentLang: LANG;
+    setCurrentLang: (language: LANG) => void;
 };
 
 type AdviceStore = {
@@ -14,13 +14,13 @@ type AdviceStore = {
 };
 
 export const useLangStore = create<LangStore>((set) => ({
-    currentLang: Lang.ENGLISH,
-    setCurrentLang: (language: Lang) => set({ currentLang: language }),
+    currentLang: LANG.ENGLISH,
+    setCurrentLang: (language: LANG) => set({ currentLang: language }),
 }));
 
 export const useAdviceStore = create<AdviceStore>((set) => ({
     currentAdvice: "HIGHLY",
-    adviceRecommendations: adviceList["HIGHLY"],
+    adviceRecommendations: adviceList.HIGHLY,
     setCurrentAdvice: (advice: AdviceType) =>
         set({
             currentAdvice: advice,

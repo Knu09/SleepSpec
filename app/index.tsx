@@ -2,10 +2,8 @@ import { Route } from "expo-router/build/Route";
 import "@/global.css";
 import {
     StyleSheet,
-    Pressable,
     View,
     ScrollView,
-    Button,
     Text,
 } from "react-native";
 import { Image } from "expo-image";
@@ -22,8 +20,8 @@ import { useEffect } from "react";
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
-
-const FlagPH = require("@/assets/images/flag-ph.svg");
+import { useLangStore } from "@/store/store";
+import LanguageSelected from "@/components/LanguageSelected";
 
 export default function Index() {
     const router = useRouter();
@@ -106,25 +104,14 @@ export default function Index() {
                                     <Text className="font-bold font-publicsans text-secondary mb-2">
                                         Select language
                                     </Text>
-                                    <View className="flex flex-row items-center text gap-2">
-                                        <Image
-                                            source={FlagPH}
-                                            style={{ width: 25, height: 25 }}
-                                        />
-                                        <Text className="text-secondary">
-                                            Filipino
-                                        </Text>
-                                    </View>
+                                    <LanguageSelected />
                                 </View>
                             </LinearGradient>
                         </Link>
                     </View>
                 </View>
                 <View className="flex items-center t-10">
-                    <Link
-                        href="/recording"
-                        onPress={() => console.log("Link pressed")}
-                    >
+                    <Link href="/recording" onPress={() => console.log("Link pressed")}>
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
@@ -133,11 +120,7 @@ export default function Index() {
                             style={styles.linearGradientMicrophone}
                         >
                             <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                <Icon
-                                    name="microphone"
-                                    size={50}
-                                    color={"#FFF"}
-                                />
+                                <Icon name="microphone" size={50} color={"#FFF"} />
                             </View>
                         </LinearGradient>
                     </Link>

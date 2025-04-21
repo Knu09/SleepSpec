@@ -115,5 +115,3 @@ export default function Results() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({});

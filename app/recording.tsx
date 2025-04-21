@@ -9,9 +9,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 import Header from "@/components/Header";
+import SCRIPTS from "@/constants/speech_scripts";
+import LanguageSelected from "@/components/LanguageSelected";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
-const FlagPH = require("@/assets/images/flag-ph.svg");
 
 type Timer = {
     secs: number;
@@ -70,17 +71,14 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(
-        recordReducer,
-        initialRecordState,
-    );
+    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
     const [index, setIndex] = useState(-1);
     const indexRef = useRef<NodeJS.Timeout>();
     const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
-    const language = useLangStore((state) => state.currentLang);
-    const script = language.split(" ");
+    const lang = useLangStore((state) => state.currentLang);
+    const script = SCRIPTS[lang].split(" ");
 
     useEffect(() => {
         // remove intervals when component unmounts
@@ -117,8 +115,7 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } =
-                await Audio.Recording.createAsync(CustomRCPreset);
+            const { recording } = await Audio.Recording.createAsync(CustomRCPreset);
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -151,19 +148,9 @@ export default function Recording() {
             <Header title={"Recording"} back={true} menu={true} />
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
-                    <Text className="text-lg text-white font-medium">
-                        Language
-                    </Text>
+                    <Text className="text-lg text-white font-medium">Language</Text>
                     <Link href="/select_language">
-                        <View className="flex flex-row text gap-[9px] pl-[2px]">
-                            <Image
-                                source={FlagPH}
-                                style={{ width: 25, aspectRatio: 1 }}
-                            />
-                            <Text className="text-lg text-white font-normal">
-                                Filipino
-                            </Text>
-                        </View>
+                        <LanguageSelected />
                     </Link>
                 </View>
                 <View className="py-6">
@@ -178,10 +165,7 @@ export default function Recording() {
                             {script.map((text, i) => {
                                 const highlight = "font-medium text-[#006fff]";
                                 return (
-                                    <Text
-                                        key={text + i}
-                                        className={i <= index ? highlight : ""}
-                                    >
+                                    <Text key={text + i} className={i <= index ? highlight : ""}>
                                         {text}{" "}
                                     </Text>
                                 );
@@ -195,9 +179,7 @@ export default function Recording() {
                 </Text>
                 <View className="flex justify-center items-center">
                     <Pressable
-                        onPress={
-                            recordState.isRecording ? recordStop : recordStart
-                        }
+                        onPress={recordState.isRecording ? recordStop : recordStart}
                     >
                         <Image
                             source={RecorderImage}
@@ -231,9 +213,7 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
 
     const env = process.env.EXPO_PUBLIC_ENV;
     let api =
-        env == "PROD"
-            ? process.env.EXPO_PUBLIC_API_URL
-            : "http://10.0.2.2:5000";
+        env == "PROD" ? process.env.EXPO_PUBLIC_API_URL : "http://10.0.2.2:5000";
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {
