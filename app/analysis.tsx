@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
+import { Text, View, FlatList } from "react-native";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, RelativePathString } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
