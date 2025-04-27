@@ -34,13 +34,13 @@ export default function TabNavigation() {
 function Tab({icon, name, link}: TabProps) {
     const PATH = useRouteInfo().pathname
     const ICON_SIZE = 36; 
-    let viewStyle = "flex items-center gap-2"
+    let opacity = "opacity-100"
 
     // Dim all non-selected tabs
-    if (PATH != link) viewStyle += " opacity-30";
+    if (PATH != link) opacity = "opacity-30";
 
     return <Link href={link}>
-        <View className={viewStyle}>
+        <View className={`flex items-center gap-2 ${opacity}`}>
             <Image source={icon} style={{width: ICON_SIZE, height: ICON_SIZE}} />
             <Text className="text-white font-semibold">{name}</Text>
         </View>
