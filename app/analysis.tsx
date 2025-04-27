@@ -4,13 +4,14 @@ import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+import { Link, RelativePathString } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import { useAdviceStore } from "@/store/store";
 import Advice from "@/constants/analysis_advice";
+import TabNavigation from "@/components/TabNavigation";
 
 export default function Results() {
     const { currentAdvice, adviceRecommendations } = useAdviceStore();
@@ -29,13 +30,10 @@ export default function Results() {
     return (
         <SafeAreaView className="bg-[#01000f] flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
-            <ScrollView
+            <View
                 className="mt-10 px-6"
                 style={{
                     flex: 1,
-                }}
-                contentContainerStyle={{
-                    flexGrow: 1,
                 }}
             >
                 <View className="flex justify-center items-center text-center text-secondary">
@@ -111,7 +109,9 @@ export default function Results() {
                         )}
                     />
                 </View>
-            </ScrollView>
+                <TabNavigation />
+            </View>
         </SafeAreaView>
     );
 }
+

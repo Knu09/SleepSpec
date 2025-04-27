@@ -53,9 +53,8 @@
   #   echo hello from $GREET
   # '';
 
-  enterShell = ''
-    exec fish
-  '';
+  # enterShell = ''
+  # '';
 
   # https://devenv.sh/tasks/
   # tasks = {

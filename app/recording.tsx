@@ -77,7 +77,7 @@ export default function Recording() {
     const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
-    const lang = useLangStore((state) => state.currentLang);
+    const { currentLang: lang } = useLangStore();
     const script = SCRIPTS[lang].split(" ");
 
     useEffect(() => {
