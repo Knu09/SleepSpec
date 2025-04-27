@@ -107,7 +107,7 @@ export default function Index() {
                     </View>
                 </View>
                 <View className="flex items-center t-10">
-                    <Link href="/recording" onPress={() => console.log("Link pressed")}>
+                    <Link href="/recording">
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
