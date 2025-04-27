@@ -1,6 +1,6 @@
-import { Link } from "expo-router";
+import { Link, useRouter, Router } from "expo-router";
 import { useState, useEffect, useReducer, useRef } from "react";
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useLangStore } from "@/store/store";
@@ -11,6 +11,7 @@ import axios from "axios";
 import Header from "@/components/Header";
 import SCRIPTS from "@/constants/speech_scripts";
 import LanguageSelected from "@/components/LanguageSelected";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 
@@ -28,6 +29,12 @@ enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
+}
+
+enum UploadResult {
+    IDLE,
+    PENDING,
+    READY,
 }
 
 const recordReducer = (
@@ -79,6 +86,7 @@ export default function Recording() {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const { currentLang: lang } = useLangStore();
     const script = SCRIPTS[lang].split(" ");
+    const [upload, setUpload] = useState(UploadResult.IDLE);
 
     useEffect(() => {
         // remove intervals when component unmounts
@@ -141,10 +149,11 @@ export default function Recording() {
         const uri = recording.getURI();
         const result = await uploadAudio(uri!);
         console.log(result);
+        setUpload(UploadResult.READY)
     }
 
     return (
-        <SafeAreaView className="bg-[#01000f]" style={{ flex: 1 }}>
+        <SafeAreaView className="bg-darkBg" style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
@@ -163,7 +172,7 @@ export default function Recording() {
                 text-secondary font-light text-ellipsis"
                         >
                             {script.map((text, i) => {
-                                const highlight = "font-medium text-[#006fff]";
+                                const highlight = "font-medium text-primaryBlue";
                                 return (
                                     <Text key={text + i} className={i <= index ? highlight : ""}>
                                         {text}{" "}
@@ -179,7 +188,14 @@ export default function Recording() {
                 </Text>
                 <View className="flex justify-center items-center">
                     <Pressable
-                        onPress={recordState.isRecording ? recordStop : recordStart}
+                        onPress={() => {
+                            if (recordState.isRecording) {
+                                recordStop()
+                                setUpload(UploadResult.PENDING)
+                            } else {
+                                recordStart()
+                            }
+                        }}
                     >
                         <Image
                             source={RecorderImage}
@@ -192,15 +208,43 @@ export default function Recording() {
                     </Pressable>
                 </View>
 
-                <Text className="text-[#006fff] text-2xl font-medium mx-auto">
+                <Text className="text-primaryBlue text-2xl font-medium mx-auto">
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
-                <Link href="/analysis" className="text-secondary mt-6">
-                    Go to Results
-                </Link>
+
+                { upload == UploadResult.READY && // only show link when results are ready
+                <Link href="/analysis" className="text-secondary font-medium mt-12">
+                    <Text className="ml-auto" style={{textAlign: 'right'}}>
+                        View Results
+                    </Text>
+                </Link>}
             </ScrollView>
+            <ProcessOverlay state={upload} />
         </SafeAreaView>
     );
+}
+
+function ProcessOverlay({ state }: { state: UploadResult }) {
+    const router = useRouter();
+
+    useEffect(() => {
+        if (state == UploadResult.READY) {
+            router.push("/analysis");
+        }
+    }, [state, router]);
+
+    // Do not render overlay
+    if (state != UploadResult.PENDING) return;
+
+    return (
+        <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
+            <View className="flex items-center gap-2">
+                <Text className="text-primaryBlue text-4xl font-bold">Pre - processing</Text>
+                <Text className="text-secondary mb-8 text-lg">Please wait for a moment...</Text>
+                <ActivityIndicator size={70} color={'#006fff'} />
+            </View>
+        </View>
+    )
 }
 
 async function uploadAudio(audioUri: string): Promise<string | void> {
@@ -215,7 +259,7 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
 
     let api
     if (env == 'PHYSICAL') {
-        api = process.env.EXPO_PUBLIC_API_URL; 
+        api = process.env.EXPO_PUBLIC_API_URL;
     } else if (env == 'EMU') {
         api = "http://127.0.0.1:5000";
     } else {
