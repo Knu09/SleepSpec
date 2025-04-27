@@ -207,13 +207,22 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
     const formData = new FormData();
     formData.append("audio", {
         uri: audioUri,
-        name: "recording.m4a", // or .m4a depending on your settings
-        type: "audio/m4a", // or audio/m4a
+        name: "recording.m4a",
+        type: "audio/m4a",
     } as any);
 
-    const env = process.env.EXPO_PUBLIC_ENV;
-    let api =
-        env == "PROD" ? process.env.EXPO_PUBLIC_API_URL : "http://10.0.2.2:5000";
+    const env = process.env.EXPO_PUBLIC_DEVICE;
+
+    let api
+    if (env == 'PHYSICAL') {
+        api = process.env.EXPO_PUBLIC_API_URL; 
+    } else if (env == 'EMU') {
+        api = "http://127.0.0.1:5000";
+    } else {
+        throw "Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!"
+    }
+
+    console.log(env, api)
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {
