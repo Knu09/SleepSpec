@@ -1,13 +1,13 @@
 import Header from "@/components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, Pressable, GestureResponderEvent } from "react-native";
+import { GestureResponderEvent, Pressable, Text, View } from "react-native";
 import GradientSelectButton from "@/components/GradientSelectButton";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { SplashScreen, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
-import { useLangStore } from "@/store/store"
+import { useLangStore } from "@/store/store";
 import { LANG } from "@/types/types";
 
 interface LangChoiceProps {
@@ -15,13 +15,13 @@ interface LangChoiceProps {
     src: NodeJS.Require;
     name: string;
     border: string;
-    setLang: React.Dispatch<React.SetStateAction<LANG>>
+    setLang: React.Dispatch<React.SetStateAction<LANG>>;
 }
 
 export default function SelectLanguage() {
-    const router = useRouter()
-    const langStore = useLangStore()
-    const [lang, setLang] = useState(langStore.currentLang)
+    const router = useRouter();
+    const langStore = useLangStore();
+    const [lang, setLang] = useState(langStore.currentLang);
 
     const languages: LangChoiceProps[] = [
         {
@@ -29,22 +29,28 @@ export default function SelectLanguage() {
             src: require("@/assets/images/flag-us.svg"),
             name: "English",
             border: "border-b-lightWhite",
-            setLang
+            setLang,
         },
         {
             lang: LANG.FILIPINO,
             src: require("@/assets/images/flag-ph.svg"),
             name: "Filipino",
             border: "border-x-lightWhite border-b-lightWhite",
-            setLang
+            setLang,
         },
     ];
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("@/assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "@/assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {
@@ -68,15 +74,16 @@ export default function SelectLanguage() {
                 <View style={{ flex: 1 }}>
                     <View className="flex-row flex-wrap">
                         {languages.map(LangChoice)}
-                        <View className="w-1/3 border border-b-lightWhite"></View>
+                        <View className="w-1/3 border border-b-lightWhite">
+                        </View>
                     </View>
                 </View>
             </View>
             <View className="bg-darkBg border border-t-lightWhite py-8 items-center">
                 <GradientSelectButton
                     pressHandler={() => {
-                        langStore.setCurrentLang(lang)
-                        router.back()
+                        langStore.setCurrentLang(lang);
+                        router.back();
                     }}
                 />
             </View>

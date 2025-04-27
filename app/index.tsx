@@ -1,10 +1,5 @@
 import "@/global.css";
-import {
-    StyleSheet,
-    View,
-    ScrollView,
-    Text,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,10 +17,16 @@ import LanguageSelected from "@/components/LanguageSelected";
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "../assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {
@@ -107,7 +108,7 @@ export default function Index() {
                     </View>
                 </View>
                 <View className="flex items-center t-10">
-                    <Link href="/recording" onPress={() => console.log("Link pressed")}>
+                    <Link href="/recording">
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
@@ -116,7 +117,11 @@ export default function Index() {
                             style={styles.linearGradientMicrophone}
                         >
                             <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                <Icon name="microphone" size={50} color={"#FFF"} />
+                                <Icon
+                                    name="microphone"
+                                    size={50}
+                                    color={"#FFF"}
+                                />
                             </View>
                         </LinearGradient>
                     </Link>

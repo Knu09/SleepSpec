@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
-import { FontAwesome, FontAwesome6, Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 
 interface HeaderProps {
     menu?: boolean;

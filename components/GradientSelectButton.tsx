@@ -1,4 +1,4 @@
-import { Text, Pressable, GestureResponderEvent } from "react-native";
+import { GestureResponderEvent, Pressable, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 type GradientSelectButtonProps = {

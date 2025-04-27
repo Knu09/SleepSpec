@@ -1,5 +1,6 @@
 const Advice = {
-    HIGHLY: "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
+    HIGHLY:
+        "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
     MODERATE:
         "Your sleep quality is moderate, but there is room for improvement.",
     LOW: "Your sleep habits seem healthy, but consistent monitoring is recommended.",
