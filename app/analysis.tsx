@@ -1,4 +1,4 @@
-import { Text, View, FlatList } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,10 +15,16 @@ import TabNavigation from "@/components/TabNavigation";
 export default function Results() {
     const { currentAdvice, adviceRecommendations } = useAdviceStore();
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "../assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {
@@ -95,10 +101,8 @@ export default function Results() {
                                 <Text className="text-secondary leading-6">
                                     •
                                 </Text>
-                                <Text
-                                    className="font-bold text-secondary
-                                    "
-                                >
+                                <Text className="font-bold text-secondary
+                                    ">
                                     {item.title}:{" "}
                                     <Text className="font-normal text-secondary">
                                         {item.description}
@@ -113,4 +117,3 @@ export default function Results() {
         </SafeAreaView>
     );
 }
-

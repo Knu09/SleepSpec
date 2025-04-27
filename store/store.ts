@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import Advice, { AdviceType, adviceList } from "@/constants/analysis_advice";
-import { LANG } from "@/types/types"
+import Advice, { adviceList, AdviceType } from "@/constants/analysis_advice";
+import { LANG } from "@/types/types";
 
 type LangStore = {
     currentLang: LANG;

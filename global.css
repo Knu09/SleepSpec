@@ -11,8 +11,6 @@
     --color-red: #ff2121;
 }
 
-@layer base {
-}
+@layer base {}
 
-@layer components {
-}
+@layer components {}

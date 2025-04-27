@@ -1,6 +1,12 @@
-import { Link, useRouter, Router } from "expo-router";
-import { useState, useEffect, useReducer, useRef } from "react";
-import { View, Text, Pressable, ScrollView, ActivityIndicator } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { useEffect, useReducer, useRef, useState } from "react";
+import {
+    ActivityIndicator,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
+} from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useLangStore } from "@/store/store";
@@ -150,11 +156,11 @@ export default function Recording() {
         const result = await uploadAudio(uri!);
 
         if (!result) {
-            setUpload(UploadResult.FAILED)
-            return
+            setUpload(UploadResult.FAILED);
+            return;
         }
 
-        setUpload(UploadResult.READY)
+        setUpload(UploadResult.READY);
     }
 
     return (
@@ -195,10 +201,10 @@ export default function Recording() {
                     <Pressable
                         onPress={() => {
                             if (recordState.isRecording) {
-                                recordStop()
-                                setUpload(UploadResult.PENDING)
+                                recordStop();
+                                setUpload(UploadResult.PENDING);
                             } else {
-                                recordStart()
+                                recordStart();
                             }
                         }}
                     >
@@ -217,12 +223,11 @@ export default function Recording() {
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
 
-                { upload == UploadResult.READY && // only show link when results are ready
-                <Link href="/analysis" className="text-secondary font-medium mt-12">
-                    <Text className="text-right">
-                        View Results
-                    </Text>
-                </Link>}
+                {upload == UploadResult.READY && ( // only show link when results are ready
+                    <Link href="/analysis" className="text-secondary font-medium mt-12">
+                        <Text className="text-right">View Results</Text>
+                    </Link>
+                )}
             </ScrollView>
             <ProcessOverlay state={upload} />
         </SafeAreaView>
@@ -244,12 +249,16 @@ function ProcessOverlay({ state }: { state: UploadResult }) {
     return (
         <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
             <View className="flex items-center gap-2">
-                <Text className="text-primaryBlue text-4xl font-bold">Pre - processing</Text>
-                <Text className="text-secondary mb-8 text-lg">Please wait for a moment...</Text>
-                <ActivityIndicator size={70} color={'#006fff'} />
+                <Text className="text-primaryBlue text-4xl font-bold">
+                    Pre - processing
+                </Text>
+                <Text className="text-secondary mb-8 text-lg">
+                    Please wait for a moment...
+                </Text>
+                <ActivityIndicator size={70} color={"#006fff"} />
             </View>
         </View>
-    )
+    );
 }
 
 async function uploadAudio(audioUri: string): Promise<string | void> {
@@ -262,16 +271,18 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 
-    let api
-    if (env == 'PHYSICAL') {
+    let api;
+    if (env == "PHYSICAL") {
         api = process.env.EXPO_PUBLIC_API_URL;
-    } else if (env == 'EMU') {
+    } else if (env == "EMU") {
         api = "http://127.0.0.1:5000";
     } else {
-        console.error("Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!")
+        console.error(
+            "Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!",
+        );
     }
 
-    console.log(env, api)
+    console.log(env, api);
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {
