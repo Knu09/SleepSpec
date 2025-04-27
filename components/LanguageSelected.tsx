@@ -4,7 +4,7 @@ import { LANG } from "@/types/types";
 import { useLangStore } from "@/store/store";
 
 export default function LanguageSelected() {
-    const lang = useLangStore((state) => state.currentLang)
+    const { currentLang: lang } = useLangStore()
     return (
         <View className="flex flex-row text pl-[2px]">
             <Image source={LANG.asImg(lang)} style={{ width: 25, aspectRatio: 1, marginRight: 6 }} />

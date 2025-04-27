@@ -20,7 +20,7 @@ interface LangChoiceProps {
 
 export default function SelectLanguage() {
     const router = useRouter()
-    const langStore = useLangStore((state) => state)
+    const langStore = useLangStore()
     const [lang, setLang] = useState(langStore.currentLang)
 
     const languages: LangChoiceProps[] = [
