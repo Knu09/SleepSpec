@@ -4,13 +4,14 @@ import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+import { Link, RelativePathString } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import { useAdviceStore } from "@/store/store";
 import Advice from "@/constants/analysis_advice";
+import TabNavigation from "@/components/TabNavigation";
 
 export default function Results() {
     const { currentAdvice, adviceRecommendations } = useAdviceStore();
@@ -108,7 +109,9 @@ export default function Results() {
                         )}
                     />
                 </View>
+                <TabNavigation />
             </View>
         </SafeAreaView>
     );
 }
+
