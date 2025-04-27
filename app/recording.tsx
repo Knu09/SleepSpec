@@ -11,7 +11,6 @@ import axios from "axios";
 import Header from "@/components/Header";
 import SCRIPTS from "@/constants/speech_scripts";
 import LanguageSelected from "@/components/LanguageSelected";
-import { useFocusEffect } from "@react-navigation/native";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 
@@ -35,6 +34,7 @@ enum UploadResult {
     IDLE,
     PENDING,
     READY,
+    FAILED,
 }
 
 const recordReducer = (
@@ -148,7 +148,12 @@ export default function Recording() {
 
         const uri = recording.getURI();
         const result = await uploadAudio(uri!);
-        console.log(result);
+
+        if (!result) {
+            setUpload(UploadResult.FAILED)
+            return
+        }
+
         setUpload(UploadResult.READY)
     }
 
@@ -263,7 +268,7 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
     } else if (env == 'EMU') {
         api = "http://127.0.0.1:5000";
     } else {
-        throw "Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!"
+        console.error("Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!")
     }
 
     console.log(env, api)
