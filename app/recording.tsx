@@ -84,21 +84,21 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
-    const [index, setIndex] = useState(-1);
-    const indexRef = useRef<NodeJS.Timeout>();
+    const [recordState, dispatch] = useReducer(
+        recordReducer,
+        initialRecordState,
+    );
     const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const { currentLang: lang } = useLangStore();
-    const script = SCRIPTS[lang].split(" ");
+    const script = SCRIPTS[lang];
     const [upload, setUpload] = useState(UploadResult.IDLE);
 
     useEffect(() => {
-        // remove intervals when component unmounts
+        // remove interval when component unmounts
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
-            if (indexRef.current) clearInterval(indexRef.current);
         };
     }, []);
 
@@ -112,12 +112,7 @@ export default function Recording() {
             dispatch(RecordAction.INCREMENT_TIMER);
         }, 1000);
 
-        const indexInterval = setInterval(() => {
-            setIndex((prev) => prev + 1);
-        }, 650);
-
         timerRef.current = timerInterval;
-        indexRef.current = indexInterval;
 
         try {
             if (permissionResponse!.status !== "granted") {
@@ -129,7 +124,9 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } = await Audio.Recording.createAsync(CustomRCPreset);
+            const { recording } = await Audio.Recording.createAsync(
+                CustomRCPreset,
+            );
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -142,9 +139,7 @@ export default function Recording() {
         }
 
         dispatch(RecordAction.STOP);
-        setIndex(-1);
         clearInterval(timerRef.current);
-        clearInterval(indexRef.current);
 
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
@@ -168,28 +163,20 @@ export default function Recording() {
             <Header title={"Recording"} back={true} menu={true} />
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
-                    <Text className="text-lg text-white font-medium">Language</Text>
+                    <Text className="text-lg text-white font-medium">
+                        Language
+                    </Text>
                     <Link href="/select_language">
                         <LanguageSelected />
                     </Link>
                 </View>
                 <View className="py-6">
                     <ScrollView
-                        className="max-h-[350px] border-2 rounded-lg border-blue-800 p-4"
+                        className="max-h-[350px] pb-6 border-2 rounded-lg border-blue-800 p-4"
                         nestedScrollEnabled={true}
                     >
-                        <Text
-                            className=" text-lg leading-6
-                text-secondary font-light text-ellipsis"
-                        >
-                            {script.map((text, i) => {
-                                const highlight = "font-medium text-primaryBlue";
-                                return (
-                                    <Text key={text + i} className={i <= index ? highlight : ""}>
-                                        {text}{" "}
-                                    </Text>
-                                );
-                            })}
+                        <Text className=" text-lg leading-6 text-secondary font-light text-ellipsis">
+                            {script}
                         </Text>
                     </ScrollView>
                 </View>
@@ -224,7 +211,10 @@ export default function Recording() {
                 </Text>
 
                 {upload == UploadResult.READY && ( // only show link when results are ready
-                    <Link href="/analysis" className="text-secondary font-medium mt-12">
+                    <Link
+                        href="/analysis"
+                        className="text-secondary font-medium mt-12"
+                    >
                         <Text className="text-right">View Results</Text>
                     </Link>
                 )}
