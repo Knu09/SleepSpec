@@ -217,9 +217,9 @@ export default function Recording() {
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
 
-                { upload == UploadResult.READY && // only show link when results are ready
+                { upload != UploadResult.READY && // only show link when results are ready
                 <Link href="/analysis" className="text-secondary font-medium mt-12">
-                    <Text className="ml-auto" style={{textAlign: 'right'}}>
+                    <Text className="text-right">
                         View Results
                     </Text>
                 </Link>}
