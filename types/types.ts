@@ -32,19 +32,19 @@ export enum CLASS {
     SD, // Sleep deprived
 }
 
-export type ClassResult = {
+type ClassResult = {
     class: CLASS,
     confidence_score: number,
 }
 
-export namespace ClassResult {
+export namespace CLASS {
     type ResultObj = {
         class: number,
         confidence_score: number,
     }
 
-    export function toHeader(self: ClassResult): string {
-        switch (self.class) {
+    export function toHeader(self: CLASS): string {
+        switch (self) {
             case CLASS.SD:
                 return "Highly Sleep-Deprived"
             case CLASS.NSD:
