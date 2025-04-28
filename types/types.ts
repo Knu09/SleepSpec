@@ -177,9 +177,23 @@ const advices: {
         contents: [
             {
                 id: "1",
-                title: "Keep Monitoring",
-                desc:
-                "Continue your current routine and monitor any changes in sleep quality.",
+                title: "Continue Following a Healthy Sleep Routine",
+                desc: "Stick to a regular sleep schedule and avoid late-night disruptions.",
+            },
+            {
+                id: "2",
+                title: "Practice Good Sleep Hygiene",
+                desc: "Limit screen exposure before bedtime and create a restful sleeping environment.",
+            },
+            {
+                id: "3",
+                title: "Manage Stress and Lifestyle Factors",
+                desc: "Engage in regular physical activity, avoid heavy meals before sleep, and manage stress effectively.",
+            },
+            {
+                id: "4",
+                title: "Stay Hydrated and Maintain a Balanced Diet",
+                desc: "Proper hydration and nutrition contribute to better overall sleep health.",
             },
         ]
     },
