@@ -61,7 +61,7 @@ export namespace CLASS {
             case CLASS.SD:
                 return "Sleep-Deprived"
             case CLASS.NSD:
-                return "Not Sleep-Deprived"
+                return "Non-Sleep-Deprived"
         }
     }
 
