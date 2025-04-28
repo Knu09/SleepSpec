@@ -3,12 +3,16 @@ export enum LANG {
     FILIPINO,
 }
 
+type CFS = {
+    score: number;
+}
+
 type Advices = {
-    summary: string,
+    summary: string;
     contents: {
-        id: number,
-        title: string,
-        desc: string,
+        id: string;
+        title: string;
+        desc: string;
     }[]
 }
 
@@ -41,9 +45,9 @@ export enum CLASS {
     SD, // Sleep deprived
 }
 
-type ClassResult = {
+export type ClassResult = {
     class: CLASS,
-    confidence_score: number,
+    confidence_score: CFS,
 }
 
 export namespace CLASS {
@@ -61,18 +65,24 @@ export namespace CLASS {
         }
     }
 
-    export function fromJSON(data: string): ClassResult {
-        const { class: c, confidence_score }: ResultObj = JSON.parse(data)
+    export function fromJSON(data: ResultObj): ClassResult {
+        const { class: c, confidence_score: score } = data
         const result: ClassResult = {
             class: c == 1 ? CLASS.SD : CLASS.NSD,
-            confidence_score
+            confidence_score: { score }
         }
+
 
         return result
     }
 
     export function getAdvices(result: ClassResult): Advices  {
         return advices[result.class]
+    }
+
+    export function getConfScorePercent(self: ClassResult): string {
+        let percent = self.confidence_score.score * 100;
+        return percent.toFixed(2) + "%"
     }
 }
 
@@ -108,38 +118,38 @@ const scripts = {
 
 
 const advices: {
-    [CLASS.SD]: Advices,
-    // MODERATE: Advices,
+    [CLASS.SD]: Advices;
+    // MODERATE: Advices;
     [CLASS.NSD]: Advices;
 } = {
     [CLASS.SD]: {
         summary: "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
         contents: [
             {
-                id: 1,
+                id: "1",
                 title: "Prioritizing Rest",
                 desc: "Aim for at least 7–9 hours of sleep per night.",
             },
             {
-                id: 2,
+                id: "2",
                 title: "Maintaining a Consistent Sleep Schedule",
                 desc:
                     "Going to bed and waking up at the same time daily helps regulate your body's internal clock.",
             },
             {
-                id: 3,
+                id: "3",
                 title: "Creating a Relaxing Bedtime Routine",
                 desc:
                     "Reduce screen time, avoid caffeine, and engage in relaxation techniques such as meditation or reading before bed.",
             },
             {
-                id: 4,
+                id: "4",
                 title: "Optimizing Sleep Environment",
                 desc:
                     "Keep your room dark, cool, and quiet to enhance sleep quality.",
             },
             {
-                id: 5,
+                id: "5",
                 title: "Monitoring Your Sleep Patterns",
                 desc:
                     "If sleep deprivation persists, consult a healthcare professional for further evaluation.",
@@ -150,13 +160,13 @@ const advices: {
     //     summary: "Your sleep quality is moderate, but there is room for improvement.",
     //     contents: [
     //         {
-    //             id: 1,
+    //             id: "1",
     //             title: "Improve Sleep Duration",
     //             desc:
     //                 "Try to increase your sleep time by 30–60 minutes per night.",
     //         },
     //         {
-    //             id: 2,
+    //             id: "2",
     //             title: "Reduce Stimulants",
     //             desc: "Limit caffeine intake in the afternoon and evening.",
     //         },
@@ -166,7 +176,7 @@ const advices: {
         summary: "Your sleep habits seem healthy, but consistent monitoring is recommended.",
         contents: [
             {
-                id: 1,
+                id: "1",
                 title: "Keep Monitoring",
                 desc:
                 "Continue your current routine and monitor any changes in sleep quality.",
