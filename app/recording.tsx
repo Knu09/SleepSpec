@@ -15,8 +15,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 import Header from "@/components/Header";
-import SCRIPTS from "@/constants/speech_scripts";
 import LanguageSelected from "@/components/LanguageSelected";
+import { LANG } from "@/types/types";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 
@@ -92,7 +92,6 @@ export default function Recording() {
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const { currentLang: lang } = useLangStore();
-    const script = SCRIPTS[lang];
     const [upload, setUpload] = useState(UploadResult.IDLE);
 
     useEffect(() => {
@@ -176,7 +175,7 @@ export default function Recording() {
                         nestedScrollEnabled={true}
                     >
                         <Text className=" text-lg leading-6 text-secondary font-light text-ellipsis">
-                            {script}
+                            {LANG.getScript(lang)}
                         </Text>
                     </ScrollView>
                 </View>
