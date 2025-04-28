@@ -3,6 +3,15 @@ export enum LANG {
     FILIPINO,
 }
 
+type Advices = {
+    summary: string,
+    contents: {
+        id: number,
+        title: string,
+        desc: string,
+    }[]
+}
+
 export namespace LANG {
     export function asString(lang: LANG): string {
         switch (lang) {
@@ -43,10 +52,10 @@ export namespace CLASS {
         confidence_score: number,
     }
 
-    export function toHeader(self: CLASS): string {
-        switch (self) {
+    export function toHeader(result: ClassResult): string {
+        switch (result.class) {
             case CLASS.SD:
-                return "Highly Sleep-Deprived"
+                return "Sleep-Deprived"
             case CLASS.NSD:
                 return "Not Sleep-Deprived"
         }
@@ -60,6 +69,10 @@ export namespace CLASS {
         }
 
         return result
+    }
+
+    export function getAdvices(result: ClassResult): Advices  {
+        return advices[result.class]
     }
 }
 
@@ -91,4 +104,73 @@ const scripts = {
     //     came up to her, not unsweetly, in her nursery; and so, to stout Labor’s iron lullaby,
     //     the blacksmith’s infants were rocked to slumber.
     // `,
+};
+
+
+const advices: {
+    [CLASS.SD]: Advices,
+    // MODERATE: Advices,
+    [CLASS.NSD]: Advices;
+} = {
+    [CLASS.SD]: {
+        summary: "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
+        contents: [
+            {
+                id: 1,
+                title: "Prioritizing Rest",
+                desc: "Aim for at least 7–9 hours of sleep per night.",
+            },
+            {
+                id: 2,
+                title: "Maintaining a Consistent Sleep Schedule",
+                desc:
+                    "Going to bed and waking up at the same time daily helps regulate your body's internal clock.",
+            },
+            {
+                id: 3,
+                title: "Creating a Relaxing Bedtime Routine",
+                desc:
+                    "Reduce screen time, avoid caffeine, and engage in relaxation techniques such as meditation or reading before bed.",
+            },
+            {
+                id: 4,
+                title: "Optimizing Sleep Environment",
+                desc:
+                    "Keep your room dark, cool, and quiet to enhance sleep quality.",
+            },
+            {
+                id: 5,
+                title: "Monitoring Your Sleep Patterns",
+                desc:
+                    "If sleep deprivation persists, consult a healthcare professional for further evaluation.",
+            },
+        ]
+    },
+    // MODERATE: {
+    //     summary: "Your sleep quality is moderate, but there is room for improvement.",
+    //     contents: [
+    //         {
+    //             id: 1,
+    //             title: "Improve Sleep Duration",
+    //             desc:
+    //                 "Try to increase your sleep time by 30–60 minutes per night.",
+    //         },
+    //         {
+    //             id: 2,
+    //             title: "Reduce Stimulants",
+    //             desc: "Limit caffeine intake in the afternoon and evening.",
+    //         },
+    //     ]
+    // },
+    [CLASS.NSD]: {
+        summary: "Your sleep habits seem healthy, but consistent monitoring is recommended.",
+        contents: [
+            {
+                id: 1,
+                title: "Keep Monitoring",
+                desc:
+                "Continue your current routine and monitor any changes in sleep quality.",
+            },
+        ]
+    },
 };
