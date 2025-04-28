@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
-import { useLangStore } from "@/store/store";
+import { useClassStore, useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
-import { LANG } from "@/types/types";
+import { CLASS, LANG } from "@/types/types";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 
@@ -93,6 +93,7 @@ export default function Recording() {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(UploadResult.IDLE);
+    const { setResult } = useClassStore();
 
     useEffect(() => {
         // remove interval when component unmounts
@@ -154,7 +155,10 @@ export default function Recording() {
             return;
         }
 
+        console.log(result)
         setUpload(UploadResult.READY);
+
+        setResult(CLASS.fromJSON(result)!)
     }
 
     return (
