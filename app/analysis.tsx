@@ -8,12 +8,9 @@ import { LinearGradient } from "expo-linear-gradient";
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
-import { useAdviceStore } from "@/store/store";
-import Advice from "@/constants/analysis_advice";
 import TabNavigation from "@/components/TabNavigation";
 
 export default function Results() {
-    const { currentAdvice, adviceRecommendations } = useAdviceStore();
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require(
             "../assets/fonts/Poppins/Poppins-Regular.ttf",
@@ -90,11 +87,11 @@ export default function Results() {
                 </View>
                 <View className="gap-6">
                     <Text className="text-secondary">
-                        {Advice[currentAdvice]}
+                        {}
                     </Text>
                     <FlatList
                         className=""
-                        data={adviceRecommendations}
+                        data={}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <View className="mt-2 flex flex-row gap-4">
