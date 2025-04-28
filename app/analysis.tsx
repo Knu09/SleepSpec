@@ -9,8 +9,14 @@ SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import TabNavigation from "@/components/TabNavigation";
+import { useClassStore } from "@/store/store";
+import { CLASS } from "@/types/types";
+import { useRouter } from "expo-router";
 
 export default function Results() {
+    const { result } = useClassStore();
+    const router = useRouter();
+
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require(
             "../assets/fonts/Poppins/Poppins-Regular.ttf",
@@ -28,7 +34,17 @@ export default function Results() {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
+    if (!result) {
+        console.error("No Results Found!");
+        router.back();
+        return
+    }
+
+    const advices = CLASS.getAdvices(result)
+    const headerColor = result.class == CLASS.SD ?  '#ff2121' : '#006fff';
+
     if (!fontsLoaded) return null;
+
     return (
         <SafeAreaView className="bg-[#01000f] flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
@@ -40,12 +56,16 @@ export default function Results() {
             >
                 <View className="flex justify-center items-center text-center text-secondary">
                     <Text className="text-secondary">You are</Text>
-                    <Text className="text-danger font-publicsans text-2xl font-bold">
-                        Highly Sleep-deprived!
+                    <Text style={{color: headerColor}} className={`font-publicsans text-2xl font-bold`}>
+                        {CLASS.toHeader(result)}
                     </Text>
                 </View>
                 <View className="my-6">
-                    <LinearGradient
+                    <Text className="text-secondary text-xl mb-4 font-medium text-center">Confidence Score:</Text>
+                    <Text className="text-5xl text-center font-extrabold text-secondary">
+                        {CLASS.getConfScorePercent(result)}
+                    </Text>
+                    {/*<LinearGradient
                         colors={["#006EFF", "#7800D3"]}
                         start={{ x: 0.5, y: 0 }}
                         end={{ x: 0.5, y: 1 }}
@@ -83,26 +103,26 @@ export default function Results() {
                                 </View>
                             </View>
                         </View>
-                    </LinearGradient>
+                    </LinearGradient> */}
                 </View>
                 <View className="gap-6">
                     <Text className="text-secondary">
-                        {}
+                        {advices.summary}
                     </Text>
                     <FlatList
                         className=""
-                        data={}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
+                        data={advices.contents}
+                        keyExtractor={(content) => content.id}
+                        renderItem={({ item: { title, desc } }) => (
                             <View className="mt-2 flex flex-row gap-4">
                                 <Text className="text-secondary leading-6">
                                     •
                                 </Text>
                                 <Text className="font-bold text-secondary
                                     ">
-                                    {item.title}:{" "}
+                                    {title}:{" "}
                                     <Text className="font-normal text-secondary">
-                                        {item.description}
+                                        {desc}
                                     </Text>
                                 </Text>
                             </View>
