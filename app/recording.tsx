@@ -93,7 +93,7 @@ export default function Recording() {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(UploadResult.IDLE);
-    const { setResult } = useClassStore();
+    const { result, setResult } = useClassStore();
 
     useEffect(() => {
         // remove interval when component unmounts
@@ -158,7 +158,8 @@ export default function Recording() {
         console.log(result)
         setUpload(UploadResult.READY);
 
-        setResult(CLASS.fromJSON(result)!)
+        // ignore error
+        setResult(CLASS.fromJSON(result))
     }
 
     return (
@@ -213,7 +214,7 @@ export default function Recording() {
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
 
-                {upload == UploadResult.READY && ( // only show link when results are ready
+                {result && ( // only show link when results are ready
                     <Link
                         href="/analysis"
                         className="text-secondary font-medium mt-12"
