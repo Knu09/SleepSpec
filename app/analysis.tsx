@@ -46,7 +46,7 @@ export default function Results() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="bg-[#01000f] flex-1">
+        <SafeAreaView className="bg-darkBg flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
             <View
                 className="mt-10 px-6"
