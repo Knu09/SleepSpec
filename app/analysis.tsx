@@ -1,19 +1,21 @@
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
-import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+
+import Header from "@/components/Header";
+import TabNavigation from "@/components/TabNavigation";
+import { useClassStore } from "@/store/store";
+import { CLASS } from "@/types/types";
+import { useRouter } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
-import Header from "@/components/Header";
-import { useAdviceStore } from "@/store/store";
-import Advice from "@/constants/analysis_advice";
-
 export default function Results() {
-    const { currentAdvice, adviceRecommendations } = useAdviceStore();
+    const { result } = useClassStore();
+    const router = useRouter();
+
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -25,82 +27,64 @@ export default function Results() {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
+    if (!result) {
+        console.error("No Results Found!");
+        router.back();
+        return null;
+    }
+
+    const advices = CLASS.getAdvices(result);
+    const headerColor = result.class === CLASS.SD ? "#ff2121" : "#006fff";
+
     if (!fontsLoaded) return null;
+
     return (
-        <SafeAreaView className="bg-[#01000f] flex-1">
+        <SafeAreaView className="bg-darkBg flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
-            <FlatList
-                className="flex flex-1 mt-10 px-6"
-                data={adviceRecommendations}
-                keyExtractor={(item) => item.id}
-                ListHeaderComponent={
-                    <>
-                        <View className="flex justify-center items-center text-center text-secondary">
-                            <Text className="text-secondary">You are</Text>
-                            <Text className="text-danger font-publicsans text-2xl font-bold">
-                                Highly Sleep-deprived!
-                            </Text>
-                        </View>
-                        <View className="mt-6 mb-4 flex gap-6">
-                            <LinearGradient
-                                colors={["#006EFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                className="flex"
-                                style={{ borderRadius: 10 }}
-                            >
-                                <View className="flex gap-6 rounded-[10px] bg-[#01000F] m-[1px] py-4 px-3">
-                                    <Text className="text-secondary font-bold text-lg">
-                                        Detection Logs
+            <View className="mt-10 px-6 flex-1">
+                <View className="flex justify-center items-center text-center">
+                    <Text className="text-secondary">You are</Text>
+                    <Text
+                        style={{ color: headerColor }}
+                        className="font-publicsans text-2xl font-bold"
+                    >
+                        {CLASS.toHeader(result)}
+                    </Text>
+                </View>
+
+                <View className="my-6">
+                    <Text className="text-secondary text-xl mb-4 font-medium text-center">
+                        Confidence Score:
+                    </Text>
+                    <Text className="text-5xl text-center font-extrabold text-secondary">
+                        {CLASS.getConfScorePercent(result)}
+                    </Text>
+                </View>
+
+                <View className="gap-6 mb-4">
+                    <Text className="text-secondary">{advices.summary}</Text>
+                </View>
+
+                <FlatList
+                    data={advices.contents}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View className="mt-2 flex flex-row gap-4">
+                            <Text className="text-secondary leading-6">•</Text>
+                            <View className="flex-1">
+                                <Text className="font-bold text-secondary">
+                                    {item.title}:{" "}
+                                    <Text className="font-normal text-secondary">
+                                        {item.description}
                                     </Text>
-                                    <View className="flex flex-row justify-between">
-                                        <View className="flex-1 gap-3">
-                                            <Text className="text-secondary font-semibold">
-                                                Categories
-                                            </Text>
-                                            <Text className="text-secondary">
-                                                Sleep-deprived
-                                            </Text>
-                                            <Text className="text-secondary">
-                                                Non-sleep-deprived
-                                            </Text>
-                                        </View>
-                                        <View className="flex-1 gap-3">
-                                            <Text className="text-secondary font-semibold">
-                                                Confidence Score
-                                            </Text>
-                                            <Text className="text-secondary">
-                                                00.00%
-                                            </Text>
-                                            <Text className="text-secondary">
-                                                00.00%
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </LinearGradient>
-                            <Text className="text-secondary">
-                                {Advice[currentAdvice]}
-                            </Text>
-                        </View>
-                    </>
-                }
-                renderItem={({ item }) => (
-                    <View className="mt-2 flex flex-row gap-4">
-                        <Text className="text-secondary leading-6">•</Text>
-                        <View className="flex-1">
-                            <Text className="font-bold text-secondary">
-                                {item.title}:{" "}
-                                <Text className="font-normal text-secondary">
-                                    {item.description}
                                 </Text>
-                            </Text>
+                            </View>
                         </View>
-                    </View>
-                )}
-            />
+                    )}
+                />
+
+                <TabNavigation />
+            </View>
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({});

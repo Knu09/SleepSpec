@@ -1,15 +1,6 @@
-import { Route } from "expo-router/build/Route";
 import "@/global.css";
-import {
-    StyleSheet,
-    Pressable,
-    View,
-    ScrollView,
-    Button,
-    Text,
-} from "react-native";
-import { Image } from "expo-image";
-import { Stack, useRouter, Link } from "expo-router";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -22,16 +13,20 @@ import { useEffect } from "react";
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
-
-const FlagPH = require("@/assets/images/flag-ph.svg");
+import LanguageSelected from "@/components/LanguageSelected";
 
 export default function Index() {
-    const router = useRouter();
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "../assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {
@@ -106,25 +101,14 @@ export default function Index() {
                                     <Text className="font-bold font-publicsans text-secondary mb-2">
                                         Select language
                                     </Text>
-                                    <View className="flex flex-row items-center text gap-2">
-                                        <Image
-                                            source={FlagPH}
-                                            style={{ width: 25, height: 25 }}
-                                        />
-                                        <Text className="text-secondary">
-                                            Filipino
-                                        </Text>
-                                    </View>
+                                    <LanguageSelected />
                                 </View>
                             </LinearGradient>
                         </Link>
                     </View>
                 </View>
                 <View className="flex items-center t-10">
-                    <Link
-                        href="/recording"
-                        onPress={() => console.log("Link pressed")}
-                    >
+                    <Link href="/recording">
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}

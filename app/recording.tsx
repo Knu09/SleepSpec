@@ -1,17 +1,24 @@
-import { Link } from "expo-router";
-import { useState, useEffect, useReducer, useRef } from "react";
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { useEffect, useReducer, useRef, useState } from "react";
+import {
+    ActivityIndicator,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
+} from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
-import { useLangStore } from "@/store/store";
+import { useClassStore, useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 import Header from "@/components/Header";
+import LanguageSelected from "@/components/LanguageSelected";
+import { CLASS, LANG } from "@/types/types";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
-const FlagPH = require("@/assets/images/flag-ph.svg");
 
 type Timer = {
     secs: number;
@@ -27,6 +34,13 @@ enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
+}
+
+enum UploadResult {
+    IDLE,
+    PENDING,
+    READY,
+    FAILED,
 }
 
 const recordReducer = (
@@ -74,19 +88,17 @@ export default function Recording() {
         recordReducer,
         initialRecordState,
     );
-    const [index, setIndex] = useState(-1);
-    const indexRef = useRef<NodeJS.Timeout>();
     const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
-    const language = useLangStore((state) => state.currentLang);
-    const script = language.split(" ");
+    const { currentLang: lang } = useLangStore();
+    const [upload, setUpload] = useState(UploadResult.IDLE);
+    const { result, setResult } = useClassStore();
 
     useEffect(() => {
-        // remove intervals when component unmounts
+        // remove interval when component unmounts
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
-            if (indexRef.current) clearInterval(indexRef.current);
         };
     }, []);
 
@@ -100,12 +112,7 @@ export default function Recording() {
             dispatch(RecordAction.INCREMENT_TIMER);
         }, 1000);
 
-        const indexInterval = setInterval(() => {
-            setIndex((prev) => prev + 1);
-        }, 650);
-
         timerRef.current = timerInterval;
-        indexRef.current = indexInterval;
 
         try {
             if (permissionResponse!.status !== "granted") {
@@ -117,8 +124,9 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } =
-                await Audio.Recording.createAsync(CustomRCPreset);
+            const { recording } = await Audio.Recording.createAsync(
+                CustomRCPreset,
+            );
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -131,9 +139,7 @@ export default function Recording() {
         }
 
         dispatch(RecordAction.STOP);
-        setIndex(-1);
         clearInterval(timerRef.current);
-        clearInterval(indexRef.current);
 
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
@@ -143,11 +149,21 @@ export default function Recording() {
 
         const uri = recording.getURI();
         const result = await uploadAudio(uri!);
-        console.log(result);
+
+        if (!result) {
+            setUpload(UploadResult.FAILED);
+            return;
+        }
+
+        console.log(result)
+        setUpload(UploadResult.READY);
+
+        // ignore error
+        setResult(CLASS.fromJSON(result))
     }
 
     return (
-        <SafeAreaView className="bg-[#01000f]" style={{ flex: 1 }}>
+        <SafeAreaView className="bg-darkBg" style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
@@ -155,37 +171,16 @@ export default function Recording() {
                         Language
                     </Text>
                     <Link href="/select_language">
-                        <View className="flex flex-row text gap-[9px] pl-[2px]">
-                            <Image
-                                source={FlagPH}
-                                style={{ width: 25, aspectRatio: 1 }}
-                            />
-                            <Text className="text-lg text-white font-normal">
-                                Filipino
-                            </Text>
-                        </View>
+                        <LanguageSelected />
                     </Link>
                 </View>
                 <View className="py-6">
                     <ScrollView
-                        className="max-h-[350px] border-2 rounded-lg border-blue-800 p-4"
+                        className="max-h-[350px] pb-6 border-2 rounded-lg border-blue-800 p-4"
                         nestedScrollEnabled={true}
                     >
-                        <Text
-                            className=" text-lg leading-6
-                text-secondary font-light text-ellipsis"
-                        >
-                            {script.map((text, i) => {
-                                const highlight = "font-medium text-[#006fff]";
-                                return (
-                                    <Text
-                                        key={text + i}
-                                        className={i <= index ? highlight : ""}
-                                    >
-                                        {text}{" "}
-                                    </Text>
-                                );
-                            })}
+                        <Text className=" text-lg leading-6 text-secondary font-light text-ellipsis">
+                            {LANG.getScript(lang)}
                         </Text>
                     </ScrollView>
                 </View>
@@ -195,9 +190,14 @@ export default function Recording() {
                 </Text>
                 <View className="flex justify-center items-center">
                     <Pressable
-                        onPress={
-                            recordState.isRecording ? recordStop : recordStart
-                        }
+                        onPress={() => {
+                            if (recordState.isRecording) {
+                                recordStop();
+                                setUpload(UploadResult.PENDING);
+                            } else {
+                                recordStart();
+                            }
+                        }}
                     >
                         <Image
                             source={RecorderImage}
@@ -210,14 +210,48 @@ export default function Recording() {
                     </Pressable>
                 </View>
 
-                <Text className="text-[#006fff] text-2xl font-medium mx-auto">
+                <Text className="text-primaryBlue text-2xl font-medium mx-auto">
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
-                <Link href="/analysis" className="text-secondary mt-6">
-                    Go to Results
-                </Link>
+
+                {result && ( // only show link when results are ready
+                    <Link
+                        href="/analysis"
+                        className="text-secondary font-medium mt-12"
+                    >
+                        <Text className="text-right">View Results</Text>
+                    </Link>
+                )}
             </ScrollView>
+            <ProcessOverlay state={upload} />
         </SafeAreaView>
+    );
+}
+
+function ProcessOverlay({ state }: { state: UploadResult }) {
+    const router = useRouter();
+
+    useEffect(() => {
+        if (state == UploadResult.READY) {
+            router.push("/analysis");
+        }
+    }, [state, router]);
+
+    // Do not render overlay
+    if (state != UploadResult.PENDING) return;
+
+    return (
+        <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
+            <View className="flex items-center gap-2">
+                <Text className="text-primaryBlue text-4xl font-bold">
+                    Pre - processing
+                </Text>
+                <Text className="text-secondary mb-8 text-lg">
+                    Please wait for a moment...
+                </Text>
+                <ActivityIndicator size={70} color={"#006fff"} />
+            </View>
+        </View>
     );
 }
 
@@ -225,15 +259,24 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
     const formData = new FormData();
     formData.append("audio", {
         uri: audioUri,
-        name: "recording.m4a", // or .m4a depending on your settings
-        type: "audio/m4a", // or audio/m4a
+        name: "recording.m4a",
+        type: "audio/m4a",
     } as any);
 
-    const env = process.env.EXPO_PUBLIC_ENV;
-    let api =
-        env == "PROD"
-            ? process.env.EXPO_PUBLIC_API_URL
-            : "http://10.0.2.2:5000";
+    const env = process.env.EXPO_PUBLIC_DEVICE;
+
+    let api;
+    if (env == "PHYSICAL") {
+        api = process.env.EXPO_PUBLIC_API_URL;
+    } else if (env == "EMU") {
+        api = "http://10.0.2.2:5000";
+    } else {
+        console.error(
+            "Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!",
+        );
+    }
+
+    console.log(env, api);
     try {
         const response = await axios.post(`${api}/upload`, formData, {
             headers: {

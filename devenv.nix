@@ -11,6 +11,7 @@
   # https://devenv.sh/packages/
   packages = with pkgs; [
     nodejs_23
+    tailwindcss
   ];
 
   android = {
@@ -53,9 +54,8 @@
   #   echo hello from $GREET
   # '';
 
-  enterShell = ''
-    exec fish
-  '';
+  # enterShell = ''
+  # '';
 
   # https://devenv.sh/tasks/
   # tasks = {

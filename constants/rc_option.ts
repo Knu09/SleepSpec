@@ -1,9 +1,9 @@
 import {
-    RecordingOptions,
-    AndroidOutputFormat,
     AndroidAudioEncoder,
-    IOSOutputFormat,
+    AndroidOutputFormat,
     IOSAudioQuality,
+    IOSOutputFormat,
+    RecordingOptions,
 } from "expo-av/build/Audio";
 
 const MONO = 1;
