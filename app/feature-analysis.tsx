@@ -50,7 +50,7 @@ export default function() {
                 <View className="flex justify-center items-center text-center text-secondary">
                     <Text className="text-secondary">You are</Text>
                     <Text style={{ color: headerColor }} className={`font-publicsans text-2xl font-bold`}>
-                        {CLASS.toHeader(result)}
+                        {CLASS.getTitle(result)}
                     </Text>
                 </View>
             </ScrollView>
