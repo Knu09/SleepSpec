@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
-import { useLangStore } from "@/store/store";
+import { useClassStore, useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 import Header from "@/components/Header";
-import SCRIPTS from "@/constants/speech_scripts";
 import LanguageSelected from "@/components/LanguageSelected";
+import { CLASS, LANG } from "@/types/types";
 
 const RecorderImage = require("@/assets/images/recording-button.png");
 
@@ -92,8 +92,8 @@ export default function Recording() {
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const { currentLang: lang } = useLangStore();
-    const script = SCRIPTS[lang];
     const [upload, setUpload] = useState(UploadResult.IDLE);
+    const { result, setResult } = useClassStore();
 
     useEffect(() => {
         // remove interval when component unmounts
@@ -155,7 +155,11 @@ export default function Recording() {
             return;
         }
 
+        console.log(result)
         setUpload(UploadResult.READY);
+
+        // ignore error
+        setResult(CLASS.fromJSON(result))
     }
 
     return (
@@ -176,7 +180,7 @@ export default function Recording() {
                         nestedScrollEnabled={true}
                     >
                         <Text className=" text-lg leading-6 text-secondary font-light text-ellipsis">
-                            {script}
+                            {LANG.getScript(lang)}
                         </Text>
                     </ScrollView>
                 </View>
@@ -210,7 +214,7 @@ export default function Recording() {
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
 
-                {upload == UploadResult.READY && ( // only show link when results are ready
+                {result && ( // only show link when results are ready
                     <Link
                         href="/analysis"
                         className="text-secondary font-medium mt-12"

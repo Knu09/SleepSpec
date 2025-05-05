@@ -10,7 +10,7 @@ import { useFonts } from "expo-font";
 import { useLangStore } from "@/store/store";
 import { LANG } from "@/types/types";
 
-interface LangChoiceProps {
+type LangChoiceProps = {
     lang: LANG;
     src: NodeJS.Require;
     name: string;
