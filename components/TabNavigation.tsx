@@ -25,7 +25,7 @@ export default function TabNavigation() {
             <Tab
                 icon={require("@/assets/images/tab-feature-analysis.svg")}
                 name="F - Analysis"
-                link="/"
+                link="/feature-analysis"
             />
         </View>
     );
