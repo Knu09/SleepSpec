@@ -269,7 +269,7 @@ async function uploadAudio(audioUri: string): Promise<string | void> {
     if (env == "PHYSICAL") {
         api = process.env.EXPO_PUBLIC_API_URL;
     } else if (env == "EMU") {
-        api = "http://127.0.0.1:5000";
+        api = "http://10.0.2.2:5000";
     } else {
         console.error(
             "Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!",
