@@ -35,7 +35,7 @@ export default function() {
     return (
         <SafeAreaView className="flex-1 bg-darkBg pt-10">
             <Header title={"Classification"} back={true} menu={true} />
-            <View className="mt-10 px-6 flex-1">
+            <View className="mt-10 px-1 flex-1">
                 <View className="flex justify-center items-center text-center text-secondary">
                     <Text className="text-secondary">You are</Text>
                     <Text
@@ -65,10 +65,16 @@ function AudioSegment({ num, result }: { num: number; result: ClassResult }) {
     return (
         <View className="flex-1 flex-row justify-between">
             <View>
-                <Text className="text-secondary font-semibold">
+                <Text className="text-lg text-secondary font-semibold">
                     Recording Segment {num}
                 </Text>
-                <Text className="text-lightWhite">00:00 / 00:15</Text>
+                <Text
+                    className="text-lightWhite"
+                >
+                    00:00 / 00:15
+                    &nbsp;&nbsp;
+                    04/24/25
+                </Text>
                 <Text
                     className="font-semibold"
                     style={{ color: CLASS.getTitleColor(result) }}
