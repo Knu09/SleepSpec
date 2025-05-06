@@ -17,16 +17,10 @@ import LanguageSelected from "@/components/LanguageSelected";
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require(
-            "../assets/fonts/Poppins/Poppins-Regular.ttf",
-        ),
+        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
-        ),
-        "PublicSans-Bold": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
-        ),
+        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
 
     useEffect(() => {
@@ -95,11 +89,11 @@ export default function Index() {
                                 }}
                             >
                                 <View
-                                    className="rounded-[15px] items-center py-2 m-[1px] px-8 bg-[#01000F]"
+                                    className="rounded-[15px] items-center py-3 m-[1px] px-4 bg-[#01000F]"
                                     style={styles.button}
                                 >
                                     <Text className="font-bold font-publicsans text-secondary mb-2">
-                                        Select language
+                                        Select a language speech
                                     </Text>
                                     <LanguageSelected />
                                 </View>
@@ -116,7 +110,7 @@ export default function Index() {
                             className="justify-center items-center p-[2px]"
                             style={styles.linearGradientMicrophone}
                         >
-                            <View className="w-32 h-32 flex justify-center items-center bg-[#01000F] rounded-full">
+                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
                                 <Icon
                                     name="microphone"
                                     size={60}
