@@ -1,10 +1,14 @@
-import { useEffect } from "react";
-import { SafeAreaView, ScrollView, View, Text } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, View, Text, Pressable } from "react-native";
 import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { useClassStore } from "@/store/store";
 import { useRouter, SplashScreen } from "expo-router";
-import { CLASS } from "@/types/types";
+import { CLASS, ClassResult } from "@/types/types";
+import { Image } from "expo-image";
+
+const PLAY_BTN = require("@/assets/images/play-btn.svg")
+const PAUSE_BTN = require("@/assets/images/pause-btn.svg")
 
 export default function() {
     const { result } = useClassStore();
@@ -56,4 +60,30 @@ export default function() {
             </ScrollView>
         </SafeAreaView>
     );
+}
+
+function AudioSegment({ num, result }: { num: number, result: ClassResult }) {
+    const headerColor = result.class == CLASS.SD ? '#ff2121' : '#006fff';
+
+    const [playing, setPlaying] = useState(false)
+
+    return (
+        <View className="flex-1 flex-row">
+            <View>
+                <Text className="text-secondary">
+                    Recording Segment {num}
+                </Text>
+                <Text className="text-lightWhite">
+                    00:00 / 00:15
+                </Text>
+                <Text style={{color: headerColor}}>
+                    {CLASS.getTitle(result)}
+                </Text>
+            </View>
+
+            <Pressable onPress={() => setPlaying(p => !p)}>
+                <Image source={playing ? PLAY_BTN : PAUSE_BTN} />
+            </Pressable>
+        </View>
+    )
 }
