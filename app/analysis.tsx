@@ -34,7 +34,6 @@ export default function Results() {
     }
 
     const advices = CLASS.getAdvices(result);
-    const headerColor = result.class === CLASS.SD ? "#ff2121" : "#006fff";
 
     if (!fontsLoaded) return null;
 
@@ -45,7 +44,7 @@ export default function Results() {
                 <View className="flex justify-center items-center text-center">
                     <Text className="text-secondary">You are</Text>
                     <Text
-                        style={{ color: headerColor }}
+                        style={{ color: CLASS.getTitleColor(result) }}
                         className="font-publicsans text-2xl font-bold"
                     >
                         {CLASS.getTitle(result)}
