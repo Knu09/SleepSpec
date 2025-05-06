@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
-import { Href, Link, RelativePathString, useRouter } from "expo-router";
+import { Href, useRouter } from "expo-router";
 import { useRouteInfo } from "expo-router/build/hooks";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type TabProps = {
     icon: NodeJS.Require;
@@ -33,12 +33,13 @@ export default function TabNavigation() {
 
 function Tab({ icon, name, link }: TabProps) {
     const PATH = useRouteInfo().pathname;
+    const router = useRouter()
     const ICON_SIZE = 36;
 
     const is_selected = PATH == link;
 
     return (
-        <Link href={link}>
+        <Pressable onPress={() => is_selected || router.replace(link)}>
             <View
                 className="flex items-center gap-2"
                 style={{ opacity: is_selected ? 1 : 0.4 }}
@@ -54,7 +55,7 @@ function Tab({ icon, name, link }: TabProps) {
                     {name}
                 </Text>
             </View>
-        </Link>
+        </Pressable>
     );
 }
 
