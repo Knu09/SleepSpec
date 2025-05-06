@@ -84,10 +84,7 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(
-        recordReducer,
-        initialRecordState,
-    );
+    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
     const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -124,9 +121,7 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } = await Audio.Recording.createAsync(
-                CustomRCPreset,
-            );
+            const { recording } = await Audio.Recording.createAsync(CustomRCPreset);
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -155,11 +150,11 @@ export default function Recording() {
             return;
         }
 
-        console.log(result)
+        console.log(result);
         setUpload(UploadResult.READY);
 
         // ignore error
-        setResult(CLASS.fromJSON(result))
+        setResult(CLASS.fromJSON(result));
     }
 
     return (
@@ -167,9 +162,7 @@ export default function Recording() {
             <Header title={"Recording"} back={true} menu={true} />
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
-                    <Text className="text-lg text-white font-medium">
-                        Language
-                    </Text>
+                    <Text className="text-lg text-white font-medium">Language</Text>
                     <Link href="/select_language">
                         <LanguageSelected />
                     </Link>
@@ -215,10 +208,7 @@ export default function Recording() {
                 </Text>
 
                 {result && ( // only show link when results are ready
-                    <Link
-                        href="/analysis"
-                        className="text-secondary font-medium mt-12"
-                    >
+                    <Link href="/analysis" className="text-secondary font-medium mt-12">
                         <Text className="text-right">View Results</Text>
                     </Link>
                 )}
@@ -255,7 +245,19 @@ function ProcessOverlay({ state }: { state: UploadResult }) {
     );
 }
 
-async function uploadAudio(audioUri: string): Promise<string | void> {
+async function uploadAudio(audioUri: string): Promise<{
+    class: number;
+    confidence_score: number;
+} | void> {
+
+    if (process.env.EXPO_PUBLIC_SERVER == "NO") {
+        // return mock result
+        return {
+            class: 1,
+            confidence_score: 0.56,
+        };
+    }
+
     const formData = new FormData();
     formData.append("audio", {
         uri: audioUri,
