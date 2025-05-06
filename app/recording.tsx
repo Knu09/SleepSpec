@@ -169,7 +169,7 @@ export default function Recording() {
                     <Text className="text-lg text-white font-medium">
                         Language
                     </Text>
-                    <Link href="/select_language">
+                    <Link href="/select_language" className="w-28">
                         <LanguageSelected />
                     </Link>
                 </View>
@@ -254,7 +254,18 @@ function ProcessOverlay({ state }: { state: UploadResult }) {
     );
 }
 
-async function uploadAudio(audioUri: string): Promise<string | void> {
+async function uploadAudio(audioUri: string): Promise<{
+    class: number;
+    confidence_score: number;
+} | void> {
+    if (process.env.EXPO_PUBLIC_SERVER == "NO") {
+        // return mock result
+        return {
+            class: 1,
+            confidence_score: 0.56,
+        };
+    }
+
     const formData = new FormData();
     formData.append("audio", {
         uri: audioUri,

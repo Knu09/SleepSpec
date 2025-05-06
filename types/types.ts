@@ -1,3 +1,5 @@
+import { ColorValue } from "react-native";
+
 export enum LANG {
     ENGLISH,
     FILIPINO,
@@ -56,13 +58,17 @@ export namespace CLASS {
         confidence_score: number,
     }
 
-    export function toHeader(result: ClassResult): string {
+    export function getTitle(result: ClassResult): string {
         switch (result.class) {
             case CLASS.SD:
                 return "Sleep-Deprived"
             case CLASS.NSD:
                 return "Non-Sleep-Deprived"
         }
+    }
+
+    export function getTitleColor(result: ClassResult): ColorValue {
+        return result.class == CLASS.SD ? '#ff2121' : '#006fff';
     }
 
     export function fromJSON(data: ResultObj): ClassResult {
