@@ -37,25 +37,27 @@ export default function() {
     const headerColor = result.class == CLASS.SD ? '#ff2121' : '#006fff';
 
     return (
-        <SafeAreaView className="flex-1 bg-darkBg">
+        <SafeAreaView className="flex-1 bg-darkBg pt-10">
             <Header title={"Feature Analysis"} back={true} menu={true} />
-            <ScrollView
-                className="mt-10 px-6"
-                style={{
-                    flex: 1,
-                }}
-                contentContainerStyle={{
-                    flexGrow: 1,
-                }}
-            >
-                <View className="flex justify-center items-center text-center text-secondary">
-                    <Text className="text-secondary">You are</Text>
-                    <Text style={{ color: headerColor }} className={`font-publicsans text-2xl font-bold`}>
-                        {CLASS.getTitle(result)}
-                    </Text>
-                </View>
-            </ScrollView>
-            <TabNavigation />
+            <View className="mt-10 px-6 flex-1">
+                <ScrollView
+                    className="mt-10 px-6"
+                    style={{
+                        flex: 1,
+                    }}
+                    contentContainerStyle={{
+                        flexGrow: 1,
+                    }}
+                >
+                    <View className="flex justify-center items-center text-center text-secondary">
+                        <Text className="text-secondary">You are</Text>
+                        <Text style={{ color: headerColor }} className={`font-publicsans text-2xl font-bold`}>
+                            {CLASS.getTitle(result)}
+                        </Text>
+                    </View>
+                </ScrollView>
+                <TabNavigation />
+            </View>
         </SafeAreaView>
     );
 }
