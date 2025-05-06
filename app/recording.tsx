@@ -124,9 +124,8 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } = await Audio.Recording.createAsync(
-                CustomRCPreset,
-            );
+            const { recording } =
+                await Audio.Recording.createAsync(CustomRCPreset);
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -155,11 +154,11 @@ export default function Recording() {
             return;
         }
 
-        console.log(result)
+        console.log(result);
         setUpload(UploadResult.READY);
 
         // ignore error
-        setResult(CLASS.fromJSON(result))
+        setResult(CLASS.fromJSON(result));
     }
 
     return (
