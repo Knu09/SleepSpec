@@ -48,7 +48,7 @@ export default function Results() {
                         style={{ color: headerColor }}
                         className="font-publicsans text-2xl font-bold"
                     >
-                        {CLASS.toHeader(result)}
+                        {CLASS.getTitle(result)}
                     </Text>
                 </View>
 
