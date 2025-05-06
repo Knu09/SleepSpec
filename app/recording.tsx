@@ -165,7 +165,6 @@ export default function Recording() {
         console.log(result);
         setUpload(UploadResult.READY);
 
-        // ignore error
         setResult(CLASS.fromJSON(result));
     }
 
