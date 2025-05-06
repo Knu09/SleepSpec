@@ -56,7 +56,7 @@ export namespace CLASS {
         confidence_score: number,
     }
 
-    export function toHeader(result: ClassResult): string {
+    export function getTitle(result: ClassResult): string {
         switch (result.class) {
             case CLASS.SD:
                 return "Sleep-Deprived"

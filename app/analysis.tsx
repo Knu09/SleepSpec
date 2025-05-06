@@ -75,7 +75,7 @@ export default function Results() {
                                 <Text className="font-bold text-secondary">
                                     {item.title}:{" "}
                                     <Text className="font-normal text-secondary">
-                                        {item.description}
+                                        {item.desc}
                                     </Text>
                                 </Text>
                             </View>
