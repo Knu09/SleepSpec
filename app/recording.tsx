@@ -84,7 +84,10 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
+    const [recordState, dispatch] = useReducer(
+        recordReducer,
+        initialRecordState,
+    );
     const timerRef = useRef<NodeJS.Timeout>();
     const [recording, setRecording] = useState<Audio.Recording>();
     const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -130,7 +133,8 @@ export default function Recording() {
                 playsInSilentModeIOS: true,
             });
 
-            const { recording } = await Audio.Recording.createAsync(CustomRCPreset);
+            const { recording } =
+                await Audio.Recording.createAsync(CustomRCPreset);
             setRecording(recording);
         } catch (err) {
             console.error("Failed to start recording", err);
@@ -173,7 +177,9 @@ export default function Recording() {
             <Header title={"Recording"} back={true} menu={true} />
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
-                    <Text className="text-lg text-white font-medium">Language</Text>
+                    <Text className="text-lg text-white font-medium">
+                        Language
+                    </Text>
                     <Link href="/select_language" className="w-28">
                         <LanguageSelected />
                     </Link>
@@ -219,7 +225,10 @@ export default function Recording() {
                 </Text>
 
                 {result && ( // only show link when results are ready
-                    <Link href="/analysis" className="text-secondary font-medium mt-12">
+                    <Link
+                        href="/analysis"
+                        className="text-secondary font-medium mt-12"
+                    >
                         <Text className="text-right">View Results</Text>
                     </Link>
                 )}
@@ -260,7 +269,6 @@ async function uploadAudio(audioUri: string): Promise<{
     class: number;
     confidence_score: number;
 } | void> {
-
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {

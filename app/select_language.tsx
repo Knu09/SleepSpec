@@ -16,7 +16,7 @@ type LangChoiceProps = {
     name: string;
     border: string;
     setLang: React.Dispatch<React.SetStateAction<LANG>>;
-}
+};
 
 export default function SelectLanguage() {
     const router = useRouter();
@@ -41,16 +41,10 @@ export default function SelectLanguage() {
     ];
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require(
-            "@/assets/fonts/Poppins/Poppins-Regular.ttf",
-        ),
+        "Poppins-Regular": require("@/assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require(
-            "@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
-        ),
-        "PublicSans-Bold": require(
-            "@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
-        ),
+        "PublicSans-Regular": require("@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
 
     useEffect(() => {
@@ -66,7 +60,7 @@ export default function SelectLanguage() {
                 <Header back={true} menu={true} />
                 <View className="pb-8 pt-6 px-6">
                     <Text className="font-poppins font-bold text-3xl">
-                        Select language
+                        Select a language speech
                     </Text>
                 </View>
             </View>
@@ -74,12 +68,11 @@ export default function SelectLanguage() {
                 <View style={{ flex: 1 }}>
                     <View className="flex-row flex-wrap">
                         {languages.map(LangChoice)}
-                        <View className="w-1/3 border border-b-lightWhite">
-                        </View>
+                        <View className="w-1/3 border border-b-lightWhite focus:bg-lightWhite/80 hover:bg-lightWhite/50"></View>
                     </View>
                 </View>
             </View>
-            <View className="bg-darkBg border border-t-lightWhite py-8 items-center">
+            <View className="bg-darkBg border border-t-lightWhite/50 py-8 items-center">
                 <GradientSelectButton
                     pressHandler={() => {
                         langStore.setCurrentLang(lang);
@@ -96,7 +89,7 @@ function LangChoice({ lang, src, name, border, setLang }: LangChoiceProps) {
         <Pressable
             key={lang}
             onPress={() => setLang(lang)}
-            className={`w-1/3 items-center p-7 border gap-3 ${border}`}
+            className={`w-1/3 items-center p-5 border gap-3 ${border}`}
         >
             <Image style={{ width: 80, aspectRatio: 1 }} source={src} />
             <Text className="text-white text-xl font-bold">{name}</Text>
