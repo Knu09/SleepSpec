@@ -43,22 +43,20 @@ export default function() {
     return (
         <SafeAreaView className="flex-1 bg-darkBg pt-10">
             <Header title={"Classification"} back={true} menu={true} />
-            <View className="px-6 flex-1">
+            <View className="mt-10 px-6 flex-1">
+                <View className="flex justify-center items-center text-center text-secondary">
+                    <Text className="text-secondary">You are</Text>
+                    <Text style={{ color: headerColor }} className={`font-publicsans text-2xl font-bold`}>
+                        {CLASS.getTitle(result)}
+                    </Text>
+                </View>
                 <ScrollView
                     className="mt-10 px-6"
                     style={{
                         flex: 1,
                     }}
-                    contentContainerStyle={{
-                        flexGrow: 1,
-                    }}
                 >
-                    <View className="flex justify-center items-center text-center text-secondary">
-                        <Text className="text-secondary">You are</Text>
-                        <Text style={{ color: headerColor }} className={`font-publicsans text-2xl font-bold`}>
-                            {CLASS.getTitle(result)}
-                        </Text>
-                    </View>
+                    <AudioSegment num={1} result={result} />
                 </ScrollView>
                 <TabNavigation />
             </View>
@@ -72,21 +70,32 @@ function AudioSegment({ num, result }: { num: number, result: ClassResult }) {
     const [playing, setPlaying] = useState(false)
 
     return (
-        <View className="flex-1 flex-row">
+        <View className="flex-1 flex-row justify-between">
             <View>
-                <Text className="text-secondary">
+                <Text className="text-secondary font-semibold">
                     Recording Segment {num}
                 </Text>
                 <Text className="text-lightWhite">
                     00:00 / 00:15
                 </Text>
-                <Text style={{color: titleColor}}>
+                <Text 
+                    className="font-semibold"
+                    style={{color: titleColor}}>
                     {CLASS.getTitle(result)}
+                </Text>
+                <Text className="text-secondary font-semibold">
+                    Confidence Score:&nbsp; 
+                    <Text className="text-lightWhite font-normal">69.0%</Text>
                 </Text>
             </View>
 
-            <Pressable onPress={() => setPlaying(p => !p)}>
-                <Image source={playing ? PLAY_BTN : PAUSE_BTN} />
+            <Pressable 
+                className="self-center" 
+                onPress={() => setPlaying(p => !p)}>
+                <Image 
+                    source={playing ? PAUSE_BTN : PLAY_BTN} 
+                    style={{width: 42, aspectRatio: 1}}
+                />
             </Pressable>
         </View>
     )
