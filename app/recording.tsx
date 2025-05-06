@@ -1,5 +1,5 @@
-import { Link, useRouter } from "expo-router";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { Link, useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
     ActivityIndicator,
     Pressable,
@@ -99,6 +99,15 @@ export default function Recording() {
         };
     }, []);
 
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                // Cleanup when this page goes out of focus
+                recordStop(false)
+            }
+        }, [recording])
+    )
+
     async function recordStart() {
         if (recordState.isRecording) {
             return;
@@ -128,7 +137,7 @@ export default function Recording() {
         }
     }
 
-    async function recordStop() {
+    async function recordStop(upload: boolean) {
         if (!recordState.isRecording || !recording) {
             return;
         }
@@ -141,6 +150,9 @@ export default function Recording() {
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
         });
+
+        // Skip upload when specified
+        if (!upload) return;
 
         const uri = recording.getURI();
         const result = await uploadAudio(uri!);
@@ -185,7 +197,7 @@ export default function Recording() {
                     <Pressable
                         onPress={() => {
                             if (recordState.isRecording) {
-                                recordStop();
+                                recordStop(true);
                                 setUpload(UploadResult.PENDING);
                             } else {
                                 recordStart();
