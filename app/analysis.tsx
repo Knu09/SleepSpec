@@ -40,7 +40,7 @@ export default function Results() {
     return (
         <SafeAreaView className="bg-darkBg flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
-            <View className="mt-10 px-6 flex-1">
+            <View className="mt-10 px-6 flex-1 relative">
                 <View className="flex justify-center items-center text-center">
                     <Text className="text-secondary">You are</Text>
                     <Text
@@ -82,7 +82,16 @@ export default function Results() {
                     )}
                 />
 
-                <TabNavigation />
+                <View
+                    style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                    }}
+                >
+                    <TabNavigation />
+                </View>
             </View>
         </SafeAreaView>
     );
