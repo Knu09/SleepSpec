@@ -163,7 +163,7 @@ export default function Recording() {
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
                     <Text className="text-lg text-white font-medium">Language</Text>
-                    <Link href="/select_language">
+                    <Link href="/select_language" className="w-28">
                         <LanguageSelected />
                     </Link>
                 </View>
