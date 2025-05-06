@@ -11,7 +11,7 @@ import TabNavigation from "@/components/TabNavigation";
 const PLAY_BTN = require("@/assets/images/play-btn.svg");
 const PAUSE_BTN = require("@/assets/images/pause-btn.svg");
 
-export default function() {
+export default function () {
     const { result } = useClassStore();
     const router = useRouter();
 
@@ -53,7 +53,16 @@ export default function() {
                 >
                     <AudioSegment num={1} result={result} />
                 </ScrollView>
-                <TabNavigation />
+                <View
+                    style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                    }}
+                >
+                    <TabNavigation />
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -68,12 +77,8 @@ function AudioSegment({ num, result }: { num: number; result: ClassResult }) {
                 <Text className="text-lg text-secondary font-semibold">
                     Recording Segment {num}
                 </Text>
-                <Text
-                    className="text-lightWhite"
-                >
-                    00:00 / 00:15
-                    &nbsp;&nbsp;
-                    04/24/25
+                <Text className="text-lightWhite">
+                    00:00 / 00:15 &nbsp;&nbsp; 04/24/25
                 </Text>
                 <Text
                     className="font-semibold"
@@ -87,7 +92,10 @@ function AudioSegment({ num, result }: { num: number; result: ClassResult }) {
                 </Text>
             </View>
 
-            <Pressable className="self-center" onPress={() => setPlaying((p) => !p)}>
+            <Pressable
+                className="self-center"
+                onPress={() => setPlaying((p) => !p)}
+            >
                 <Image
                     source={playing ? PAUSE_BTN : PLAY_BTN}
                     style={{ width: 42, aspectRatio: 1 }}

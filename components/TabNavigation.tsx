@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
 import { Href, useRouter } from "expo-router";
+import Icon from "@expo/vector-icons/FontAwesome";
 import { useRouteInfo } from "expo-router/build/hooks";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -44,7 +45,7 @@ function Tab({ icon, name, link }: TabProps) {
     return (
         <Pressable onPress={() => is_selected || router.replace(link)}>
             <View
-                className="flex items-center gap-2"
+                className="flex items-center gap-1"
                 style={{ opacity: is_selected ? 1 : 0.4 }}
             >
                 <Image

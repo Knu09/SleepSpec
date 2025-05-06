@@ -7,21 +7,15 @@ import { useRouter, SplashScreen } from "expo-router";
 import { CLASS } from "@/types/types";
 import TabNavigation from "@/components/TabNavigation";
 
-export default function() {
+export default function () {
     const { result } = useClassStore();
     const router = useRouter();
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require(
-            "../assets/fonts/Poppins/Poppins-Regular.ttf",
-        ),
+        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
-        ),
-        "PublicSans-Bold": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
-        ),
+        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
 
     useEffect(() => {
@@ -31,7 +25,7 @@ export default function() {
     if (!result) {
         console.error("No Results Found!");
         router.back();
-        return
+        return;
     }
 
     return (
@@ -51,12 +45,23 @@ export default function() {
                         <Text className="text-secondary">You are</Text>
                         <Text
                             style={{ color: CLASS.getTitleColor(result) }}
-                            className={`font-publicsans text-2xl font-bold`}>
+                            className={`font-publicsans text-2xl font-bold`}
+                        >
                             {CLASS.getTitle(result)}
                         </Text>
                     </View>
                 </ScrollView>
-                <TabNavigation />
+
+                <View
+                    style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                    }}
+                >
+                    <TabNavigation />
+                </View>
             </View>
         </SafeAreaView>
     );
