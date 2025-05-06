@@ -39,7 +39,7 @@ export default function() {
     return (
         <SafeAreaView className="flex-1 bg-darkBg pt-10">
             <Header title={"Feature Analysis"} back={true} menu={true} />
-            <View className="mt-10 px-6 flex-1">
+            <View className="px-6 flex-1">
                 <ScrollView
                     className="mt-10 px-6"
                     style={{
