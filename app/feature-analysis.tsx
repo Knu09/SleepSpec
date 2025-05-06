@@ -7,7 +7,9 @@ import { useRouter, SplashScreen } from "expo-router";
 import { CLASS } from "@/types/types";
 import TabNavigation from "@/components/TabNavigation";
 
-export default function () {
+// SplashScreen.preventAutoHideAsync();
+
+export default function FeatureAnalysis() {
     const { result } = useClassStore();
     const router = useRouter();
 
@@ -19,14 +21,13 @@ export default function () {
     });
 
     useEffect(() => {
-        if (fontsLoaded) SplashScreen.hideAsync();
-    }, [fontsLoaded]);
+        if (fontsLoaded && !result) {
+            console.error("No Results Found!");
+            router.replace("/"); // or router.back()
+        }
+    }, [fontsLoaded, result]);
 
-    if (!result) {
-        console.error("No Results Found!");
-        router.back();
-        return;
-    }
+    if (!fontsLoaded || !result) return null;
 
     return (
         <SafeAreaView className="flex-1 bg-darkBg pt-10">

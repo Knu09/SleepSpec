@@ -53,7 +53,7 @@ export default function Results() {
 
                 <View className="my-6">
                     <Text className="text-secondary text-xl mb-4 font-medium text-center">
-                        Confidence Score:
+                        Confidence Scoren:
                     </Text>
                     <Text className="text-5xl text-center font-extrabold text-secondary">
                         {CLASS.getConfScorePercent(result)}

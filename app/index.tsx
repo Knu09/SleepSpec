@@ -120,6 +120,9 @@ export default function Index() {
                         </LinearGradient>
                     </Link>
                 </View>
+                <Link className="text-white" href="/feature-analysis">
+                    Go to Feature Analysis
+                </Link>
             </ScrollView>
         </SafeAreaView>
     );
