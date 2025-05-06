@@ -20,7 +20,7 @@ export default function TabNavigation() {
             <Tab
                 icon={require("@/assets/images/tab-classification.svg")}
                 name="Classification"
-                link="/"
+                link="/classification"
             />
             <Tab
                 icon={require("@/assets/images/tab-feature-analysis.svg")}
