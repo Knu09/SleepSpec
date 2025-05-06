@@ -6,12 +6,15 @@ import {
     ScrollView,
     Text,
     View,
+    StyleSheet,
 } from "react-native";
 import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useClassStore, useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import Icon from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
 
 import Header from "@/components/Header";
@@ -187,7 +190,7 @@ export default function Recording() {
                 <Text className="text-white mx-auto text-3xl">
                     {formatTime(recordState.timer)}
                 </Text>
-                <View className="flex justify-center items-center">
+                <View className="flex justify-center items-center my-5">
                     <Pressable
                         onPress={() => {
                             if (recordState.isRecording) {
@@ -198,18 +201,35 @@ export default function Recording() {
                             }
                         }}
                     >
-                        <Image
-                            source={RecorderImage}
-                            style={{
-                                width: 150,
-                                aspectRatio: 1,
-                                marginInline: "auto",
-                            }}
-                        />
+                        <LinearGradient
+                            colors={["#006EFF", "#7800D3"]}
+                            start={{ x: 0.5, y: 0 }}
+                            end={{ x: 0.5, y: 1 }}
+                            className="justify-center items-center p-[2px]"
+                            style={styles.linearGradientMicrophone}
+                        >
+                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
+                                <Icon
+                                    name="microphone"
+                                    size={60}
+                                    color={
+                                        recordState.isRecording
+                                            ? "#006fff"
+                                            : "#FFF"
+                                    }
+                                />
+                            </View>
+                        </LinearGradient>
                     </Pressable>
                 </View>
 
-                <Text className="text-primaryBlue text-2xl font-medium mx-auto">
+                <Text
+                    className={`text-2xl font-medium mx-auto ${
+                        recordState.isRecording
+                            ? "text-primaryBlue"
+                            : "text-white"
+                    }`}
+                >
                     {recordState.isRecording ? "Speak Now" : "Press to Record"}
                 </Text>
 
@@ -222,6 +242,7 @@ export default function Recording() {
                     </Link>
                 )}
             </ScrollView>
+
             <ProcessOverlay state={upload} />
         </SafeAreaView>
     );
@@ -242,7 +263,7 @@ function ProcessOverlay({ state }: { state: UploadResult }) {
     return (
         <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
             <View className="flex items-center gap-2">
-                <Text className="text-primaryBlue text-4xl font-bold">
+                <Text className="text-primaryBlue text-2xl font-medium">
                     Pre - processing
                 </Text>
                 <Text className="text-secondary mb-8 text-lg">
@@ -306,3 +327,9 @@ function formatTime({ secs, mins }: Timer): string {
 
     return `${formattedMinutes}:${formattedSeconds}`;
 }
+
+const styles = StyleSheet.create({
+    linearGradientMicrophone: {
+        borderRadius: 100,
+    },
+});
