@@ -36,7 +36,7 @@ export default function Index() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="bg-black" style={styles.container}>
+        <SafeAreaView className="bg-darkBg" style={styles.container}>
             <StatusBar />
             <Header title={"Home"} userMan={true} menu={true} />
             <ScrollView
@@ -116,10 +116,10 @@ export default function Index() {
                             className="justify-center items-center p-[2px]"
                             style={styles.linearGradientMicrophone}
                         >
-                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
+                            <View className="w-32 h-32 flex justify-center items-center bg-[#01000F] rounded-full">
                                 <Icon
                                     name="microphone"
-                                    size={50}
+                                    size={60}
                                     color={"#FFF"}
                                 />
                             </View>
