@@ -11,7 +11,10 @@ type TabProps = {
 
 export default function TabNavigation() {
     return (
-        <View className="flex flex-row" style={styles.nav}>
+        <View
+            className="flex-row justify-center border border-t-lightWhite/50"
+            style={styles.nav}
+        >
             <Tab
                 icon={require("@/assets/images/tab-analysis.svg")}
                 name="Analysis"
@@ -24,7 +27,7 @@ export default function TabNavigation() {
             />
             <Tab
                 icon={require("@/assets/images/tab-feature-analysis.svg")}
-                name="F - Analysis"
+                name={"Feature\nAnalysis"}
                 link="/feature-analysis"
             />
         </View>
@@ -33,8 +36,8 @@ export default function TabNavigation() {
 
 function Tab({ icon, name, link }: TabProps) {
     const PATH = useRouteInfo().pathname;
-    const router = useRouter()
-    const ICON_SIZE = 36;
+    const router = useRouter();
+    const ICON_SIZE = 30;
 
     const is_selected = PATH == link;
 
@@ -49,7 +52,7 @@ function Tab({ icon, name, link }: TabProps) {
                     style={{ width: ICON_SIZE, height: ICON_SIZE }}
                 />
                 <Text
-                    className="font-semibold"
+                    className="font-semibold text-xs text-center"
                     style={{ color: is_selected ? "#ddd" : "gray" }}
                 >
                     {name}
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
     nav: {
         marginTop: "auto",
         paddingVertical: 14,
-        paddingHorizontal: 12,
+        paddingHorizontal: 25,
         justifyContent: "space-between",
     },
 });
