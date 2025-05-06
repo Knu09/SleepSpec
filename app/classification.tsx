@@ -6,6 +6,7 @@ import { useClassStore } from "@/store/store";
 import { useRouter, SplashScreen } from "expo-router";
 import { CLASS, ClassResult } from "@/types/types";
 import { Image } from "expo-image";
+import TabNavigation from "@/components/TabNavigation";
 
 const PLAY_BTN = require("@/assets/images/play-btn.svg")
 const PAUSE_BTN = require("@/assets/images/pause-btn.svg")
@@ -58,12 +59,13 @@ export default function() {
                     </Text>
                 </View>
             </ScrollView>
+            <TabNavigation />
         </SafeAreaView>
     );
 }
 
 function AudioSegment({ num, result }: { num: number, result: ClassResult }) {
-    const headerColor = result.class == CLASS.SD ? '#ff2121' : '#006fff';
+    const titleColor = result.class == CLASS.SD ? '#ff2121' : '#006fff';
 
     const [playing, setPlaying] = useState(false)
 
@@ -76,7 +78,7 @@ function AudioSegment({ num, result }: { num: number, result: ClassResult }) {
                 <Text className="text-lightWhite">
                     00:00 / 00:15
                 </Text>
-                <Text style={{color: headerColor}}>
+                <Text style={{color: titleColor}}>
                     {CLASS.getTitle(result)}
                 </Text>
             </View>

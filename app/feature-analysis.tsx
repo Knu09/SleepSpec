@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { useClassStore } from "@/store/store";
 import { useRouter, SplashScreen } from "expo-router";
 import { CLASS } from "@/types/types";
+import TabNavigation from "@/components/TabNavigation";
 
 export default function() {
     const { result } = useClassStore();
@@ -54,6 +55,7 @@ export default function() {
                     </Text>
                 </View>
             </ScrollView>
+            <TabNavigation />
         </SafeAreaView>
     );
 }
