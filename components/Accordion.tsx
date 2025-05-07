@@ -14,11 +14,13 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function Accordion({
     title,
     description,
+    isOpened = false,
 }: {
     title: string;
     description: string;
+    isOpened: boolean;
 }) {
-    const [opened, setOpened] = useState(false);
+    const [opened, setOpened] = useState(isOpened);
 
     useEffect(() => {
         if (Platform.OS === "android") {

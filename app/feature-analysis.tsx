@@ -16,16 +16,19 @@ export default function FeatureAnalysis() {
             title: "Scale-Rate Representation",
             description:
                 "Displays how spectral (scale) and temporal (rate) modulatinos interact in speech. It rhythmic and dynamic changes in voice affected by sleep deprivation. It helps detect slower speech rates and altered spectral modulation, common in fatigued individuals. ",
+            isOpened: true,
         },
         {
             title: "Frequency-Rate Representation",
             description:
                 "Examines the relationship between speech frequency components and spectral scales. It highlights how vocal harmonics and formants shift due to sleep deprivation.",
+            isOpened: false,
         },
         {
             title: "Frequency-Scale Representation",
             description:
                 "Analyzes how different frequency components (voice pitch, formants) change over time. It captures how fast or slow vocal frequencies modulate (e.g., irregular speech patterns due to fatigue).",
+            isOpened: false,
         },
     ];
     const { result } = useClassStore();
@@ -86,6 +89,7 @@ export default function FeatureAnalysis() {
                                 key={index.toString()}
                                 title={stm.title}
                                 description={stm.description}
+                                isOpened={stm.isOpened}
                             ></Accordion>
                         ))}
                     </View>
