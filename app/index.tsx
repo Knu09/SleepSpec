@@ -4,11 +4,12 @@ import { Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-// import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import SleepSpecLogo from "@/components/SleepSpecLogo";
+import SleepSpecTitle from "@/components/SleepSpecTitle";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,19 +44,13 @@ export default function Index() {
                     justifyContent: "center",
                 }}
             >
-                {/* <MaskedView */}
-                {/*     maskElement={<Text style={styles.title}>SleepSpec.</Text>} */}
-                {/* > */}
-                {/*     <LinearGradient */}
-                {/*         colors={["#006EFF", "#7800D3"]} */}
-                {/*         style={styles.gradient} */}
-                {/*     /> */}
-                {/* </MaskedView> */}
-                <View>
-                    <Text className="text-center font-poppins text-5xl text-white font-bold">
-                        SleepSpec
-                    </Text>
-                    <Text className="text-center mt-2 text-2xl font-poppins text-white font-bold">
+                <View className="flex flex-col items-center">
+                    <SleepSpecLogo></SleepSpecLogo>
+                    <SleepSpecTitle
+                        width={218 + 20}
+                        height={65 + 20}
+                    ></SleepSpecTitle>
+                    <Text className="text-center mt-2 text-2xl px-5 font-poppins text-white font-bold">
                         Sleep Deprivation Detection using SVM
                     </Text>
                 </View>
