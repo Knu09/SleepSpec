@@ -35,40 +35,37 @@ export default function Index() {
             <StatusBar />
             <Header title={"Home"} userMan={true} menu={true} />
             <ScrollView
-                className="mt-10 px-6"
-                style={{
-                    flex: 1,
-                }}
+                className="mt-5 px-6"
                 contentContainerStyle={{
                     flexGrow: 1,
+                    alignItems: "center",
+                    gap: 10,
                     justifyContent: "center",
                 }}
             >
                 <View className="flex flex-col items-center">
                     <SleepSpecLogo></SleepSpecLogo>
                     <SleepSpecTitle
-                        width={218 + 20}
-                        height={65 + 20}
+                        width={218 + 60}
+                        height={80}
                     ></SleepSpecTitle>
-                    <Text className="text-center mt-2 text-2xl px-5 font-poppins text-white font-bold">
+                    <Text className="text-center text-3xl px-5 font-poppins text-white font-bold">
                         Sleep Deprivation Detection using SVM
                     </Text>
                 </View>
                 <View className="my-12 items-center gap-6">
-                    <View>
-                        <Text className="text-white font-publicsans text-center">
-                            Start
-                            <View className="inline-flex flex-row items-center mx-2 py-2 px-2 bg-[#35007680] rounded-full">
-                                <Icon
-                                    className="me-2"
-                                    name="microphone"
-                                    size={20}
-                                    color={"#006FFF"}
-                                />
-                                <Text className="font-semibold text-primaryBlue">
-                                    detecting
-                                </Text>
-                            </View>
+                    <View className="items-center flex-row flex-wrap justify-center px-4">
+                        <Text className="text-secondary text-base font-publicsans text-center">
+                            Start{" "}
+                        </Text>
+
+                        <View className="flex-row items-center px-2 py-1 rounded-full bg-[#35007680] mx-1">
+                            <Icon name="microphone" size={16} color="#006FFF" />
+                            <Text className="font-semibold text-primaryBlue ms-1">
+                                detecting
+                            </Text>
+                        </View>
+                        <Text className="text-secondary text-base font-publicsans text-center">
                             sleep deprivation by clicking the microphone below.
                         </Text>
                     </View>
