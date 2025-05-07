@@ -6,10 +6,28 @@ import { useClassStore } from "@/store/store";
 import { useRouter, SplashScreen } from "expo-router";
 import { CLASS } from "@/types/types";
 import TabNavigation from "@/components/TabNavigation";
+import Accordion from "@/components/Accordion";
 
 // SplashScreen.preventAutoHideAsync();
 
 export default function FeatureAnalysis() {
+    const STM = [
+        {
+            title: "Scale-Rate Representation",
+            description:
+                "Displays how spectral (scale) and temporal (rate) modulatinos interact in speech. It rhythmic and dynamic changes in voice affected by sleep deprivation. It helps detect slower speech rates and altered spectral modulation, common in fatigued individuals. ",
+        },
+        {
+            title: "Frequency-Rate Representation",
+            description:
+                "Examines the relationship between speech frequency components and spectral scales. It highlights how vocal harmonics and formants shift due to sleep deprivation.",
+        },
+        {
+            title: "Frequency-Scale Representation",
+            description:
+                "Analyzes how different frequency components (voice pitch, formants) change over time. It captures how fast or slow vocal frequencies modulate (e.g., irregular speech patterns due to fatigue).",
+        },
+    ];
     const { result } = useClassStore();
     const router = useRouter();
 
@@ -34,7 +52,7 @@ export default function FeatureAnalysis() {
             <Header title={"Feature Analysis"} back={true} menu={true} />
             <View className="px-6 flex-1">
                 <ScrollView
-                    className="mt-10 px-6"
+                    className="mt-10"
                     style={{
                         flex: 1,
                     }}
@@ -42,7 +60,7 @@ export default function FeatureAnalysis() {
                         flexGrow: 1,
                     }}
                 >
-                    <View className="flex justify-center items-center text-center text-secondary">
+                    <View className="flex justify-center items-center text-center text-secondary mb-10">
                         <Text className="text-secondary">You are</Text>
                         <Text
                             style={{ color: CLASS.getTitleColor(result) }}
@@ -50,6 +68,26 @@ export default function FeatureAnalysis() {
                         >
                             {CLASS.getTitle(result)}
                         </Text>
+                    </View>
+                    <View className="flex flex-col items-center gap-5">
+                        <View className="flex flex-col px-2">
+                            <Text className="text-secondary text-center font-bold border-b-lightWhite">
+                                Spectro-Temporal Modulation
+                            </Text>
+                            <View className="w-full h-[1px] bg-lightWhite"></View>
+                            <Text className="text-secondary/80">
+                                Spectro-temporal modulation (STM) description
+                                goes here...
+                            </Text>
+                        </View>
+                        {/* Customized Collapsible */}
+                        {STM.map((stm, index) => (
+                            <Accordion
+                                key={index.toString()}
+                                title={stm.title}
+                                description={stm.description}
+                            ></Accordion>
+                        ))}
                     </View>
                 </ScrollView>
 
