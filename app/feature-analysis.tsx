@@ -50,7 +50,7 @@ export default function FeatureAnalysis() {
     return (
         <SafeAreaView className="flex-1 bg-darkBg pt-10">
             <Header title={"Feature Analysis"} back={true} menu={true} />
-            <View className="px-6 flex-1">
+            <View className="px-6 flex-1 pb-28">
                 <ScrollView
                     className="mt-10"
                     style={{
@@ -93,6 +93,7 @@ export default function FeatureAnalysis() {
 
                 <View
                     style={{
+                        zIndex: 100,
                         position: "absolute",
                         bottom: 0,
                         left: 0,
