@@ -35,7 +35,7 @@ export default function () {
     return (
         <SafeAreaView className="flex-1 bg-darkBg pt-10">
             <Header title={"Classification"} back={true} menu={true} />
-            <View className="mt-10 px-1 flex-1">
+            <View className="mt-10 px-1 flex-1 pb-28">
                 <View className="flex justify-center items-center text-center text-secondary">
                     <Text className="text-secondary">You are</Text>
                     <Text
@@ -55,6 +55,7 @@ export default function () {
                 </ScrollView>
                 <View
                     style={{
+                        zIndex: 100,
                         position: "absolute",
                         bottom: 0,
                         left: 0,
