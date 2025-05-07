@@ -40,7 +40,7 @@ export default function Results() {
     return (
         <SafeAreaView className="bg-darkBg flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
-            <View className="mt-10 px-6 flex-1 relative">
+            <View className="mt-10 px-6 flex-1 relative pb-28">
                 <View className="flex justify-center items-center text-center">
                     <Text className="text-secondary">You are</Text>
                     <Text
@@ -84,6 +84,7 @@ export default function Results() {
 
                 <View
                     style={{
+                        zIndex: 100,
                         position: "absolute",
                         bottom: 0,
                         left: 0,
