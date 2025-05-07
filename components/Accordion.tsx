@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-    Animated,
     Text,
     StyleSheet,
     View,
     TouchableWithoutFeedback,
+    LayoutAnimation,
+    Platform,
+    UIManager,
 } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
@@ -17,35 +19,33 @@ export default function Accordion({
     description: string;
 }) {
     const [opened, setOpened] = useState(false);
-    const [animation] = useState(new Animated.Value(0));
 
-    const numberOfWords = description.split(" ").length;
+    useEffect(() => {
+        if (Platform.OS === "android") {
+            UIManager.setLayoutAnimationEnabledExperimental?.(true);
+        }
+    }, []);
+
+    const customAnimation = {
+        duration: 300,
+        update: {
+            type: LayoutAnimation.Types.easeInEaseOut,
+        },
+        create: {
+            type: LayoutAnimation.Types.easeInEaseOut,
+            property: LayoutAnimation.Properties.opacity,
+        },
+        delete: {
+            type: LayoutAnimation.Types.easeInEaseOut,
+            property: LayoutAnimation.Properties.opacity,
+        },
+    };
 
     function toggleAccordion() {
-        if (!opened) {
-            Animated.timing(animation, {
-                toValue: 1,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-        } else {
-            Animated.timing(animation, {
-                toValue: 0,
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-        }
+        LayoutAnimation.configureNext(customAnimation);
         setOpened(!opened);
     }
 
-    const heightAnimationInterpolation = animation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, (numberOfWords / 2.6) * 10], // Animation from first value to second value
-    });
-    const paddingAnimationInterpolation = animation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, 12], // Animation from first value to second value
-    });
     return (
         <LinearGradient
             colors={["#006EFF", "#7800D3"]}
@@ -54,7 +54,7 @@ export default function Accordion({
             className="justify-center items-center"
             style={styles.linearGradientContainer}
         >
-            <View className=" bg-darkBg" style={styles.borderRadius}>
+            <View className="bg-darkBg" style={styles.borderRadius}>
                 <TouchableWithoutFeedback onPress={toggleAccordion}>
                     <View
                         className="flex flex-row w-full items-center justify-between px-4 py-3"
@@ -64,26 +64,19 @@ export default function Accordion({
                             {title}
                         </Text>
                         <Icon
-                            className="me-2 opacity-50"
                             name={opened ? "chevron-up" : "chevron-down"}
                             size={15}
                             color={"rgba(128, 128, 128, 0.5)"}
                         />
                     </View>
                 </TouchableWithoutFeedback>
-                <Animated.View
-                    style={[
-                        styles.contentAccordion,
-                        {
-                            height: heightAnimationInterpolation,
-                            paddingVertical: paddingAnimationInterpolation,
-                        },
-                    ]}
-                >
-                    <Text className="text-white font-normal">
-                        {description}
-                    </Text>
-                </Animated.View>
+                {opened && (
+                    <View style={styles.contentAccordion}>
+                        <Text className="text-white font-normal">
+                            {description}
+                        </Text>
+                    </View>
+                )}
             </View>
         </LinearGradient>
     );
