@@ -102,7 +102,7 @@ export default function Accordion({
                             <Image
                                 key={imageKey}
                                 source={{
-                                    uri: `http://192.168.134.107:5000/plots/${image}?t=${Date.now()}`,
+                                    uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
                                 }}
                                 style={{
                                     flex: 1,
