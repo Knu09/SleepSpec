@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -96,6 +96,7 @@ const Header = ({
             className=""
             onPress={() => {
               console.log("Menu icon pressed");
+              // navigation.dispatch(DrawerActions.openDrawer());
               <BottomNavigationSheet />;
             }}
           >
