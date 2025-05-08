@@ -286,9 +286,9 @@ async function uploadAudio(audioUri: string): Promise<
         };
     }
 
-    const file = new File(audioUri)
+    const file = new File(audioUri);
     const formData = new FormData();
-    formData.append("audio", file.blob(), 'recording.m4a');
+    formData.append("audio", file.blob(), "recording.m4a");
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 
@@ -312,14 +312,15 @@ async function uploadAudio(audioUri: string): Promise<
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}, Response: ${response}`);
+            throw new Error(
+                `HTTP error! Status: ${response.status}, Response: ${response}`,
+            );
         }
 
         const data = await response.json();
         console.log("Success:", data);
 
-        return data
-
+        return data;
     } catch (error) {
         console.error("Error:", error);
     }
