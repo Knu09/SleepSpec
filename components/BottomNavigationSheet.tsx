@@ -5,10 +5,16 @@ import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import Header from "./Header";
+import BottomSheet, {
+  BottomSheetProps,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 
-const BottomNavigationSheet = () => {
+interface ButtomNavigationSheetProps {
+  onClose: () => void;
+}
+
+const BottomNavigationSheet = ({ onClose }: ButtomNavigationSheetProps) => {
   const navigation = useNavigation();
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -20,27 +26,42 @@ const BottomNavigationSheet = () => {
       setFontsLoaded(true);
     }
     loadFonts();
-    bottomSheetRef.current?.expand();
+    // bottomSheetRef.current?.expand();
   }, []);
 
-  if (!fontsLoaded) return null;
+  useEffect(() => {
+    if (fontsLoaded && bottomSheetRef.current) {
+      bottomSheetRef.current.expand();
+    }
+  }, [fontsLoaded]);
 
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const handleSheetChanges = useCallback(
+    (index: number) => {
+      console.log("handleSheetChanges", index);
+      if (index === -1) onClose();
+    },
+    [onClose],
+  );
+  if (!fontsLoaded) return null;
 
   // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log("handleSheetChanges", index);
+  // }, []);
 
   // renders
   return (
     <GestureHandlerRootView style={styles.container}>
       <BottomSheet
         ref={bottomSheetRef}
-        index={-1}
+        index={0}
         snapPoints={["25%", "50%"]}
-        onChange={handleSheetChanges}
+        onChange={(index) => {
+          handleSheetChanges(index);
+          if (index === -1) onClose(); // Dismiss callback
+        }}
       >
         <BottomSheetView style={styles.contentContainer}>
           <Text>Awesome 🎉</Text>

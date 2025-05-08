@@ -1,16 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import BottomNavigationSheet from "@/components/BottomNavigationSheet";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 interface HeaderProps {
   menu?: boolean;
   back?: boolean;
   title?: string;
   userMan?: boolean;
+}
+
+function BottomNavigationSheet() {
+  const snapPoints = useMemo(() => ["25%", "50%", "75%", "100%"], []);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const handleClosePress = bottomSheetRef.current?.close();
+
+  // callbacks
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log("handleSheetChanges", index);
+  // }, []);
+
+  // renders
+  return <View style={styles.container}></View>;
 }
 
 const Header = ({
@@ -21,6 +36,7 @@ const Header = ({
 }: HeaderProps) => {
   const navigation = useNavigation();
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  // const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -106,5 +122,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "transparent",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "grey",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 36,
+    alignItems: "center",
   },
 });
