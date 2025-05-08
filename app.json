@@ -28,7 +28,9 @@
             [
                 "expo-font",
                 {
-                    "assetBundlePatterns": ["**/*"],
+                    "assetBundlePatterns": [
+                        "**/*"
+                    ],
                     "extra": {
                         "fonts": {
                             "Poppins-Regular": "assets/fonts/Poppins/Poppins-Regular.ttf",
@@ -50,7 +52,8 @@
                     "backgroundColor": "#ffffff"
                 }
             ],
-            "expo-font"
+            "expo-font",
+            "expo-audio"
         ],
         "experiments": {
             "typedRoutes": true
