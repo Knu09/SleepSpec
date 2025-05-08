@@ -4,7 +4,7 @@ import React from "react";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 interface HeaderProps {
@@ -15,18 +15,43 @@ interface HeaderProps {
 }
 
 function BottomNavigationSheet() {
-  const snapPoints = useMemo(() => ["25%", "50%", "75%", "100%"], []);
+  console.log("IM RUNING");
+  // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const handleClosePress = bottomSheetRef.current?.close();
 
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  // renders
   return (
-    <View style={styles.container}>
-      <BottomSheet snapPoints={snapPoints}>
-        <View>
-          <Text>This is the bottom sheet content</Text>
-        </View>
+    <GestureHandlerRootView style={styles.container}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        onChange={handleSheetChanges}
+        snapPoints={["30%"]}
+        handleComponent={() => null}
+      >
+        <BottomSheetView style={styles.bottomsheetContent}>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>User Manual</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>Trained Model Source</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>Training Results</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>About Us</Text>
+          </TouchableOpacity>
+        </BottomSheetView>
       </BottomSheet>
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
@@ -52,66 +77,7 @@ const Header = ({
 
   if (!fontsLoaded) return null;
 
-  return (
-    <View
-      style={styles.header}
-      className="flex flex-row px-6 w-full h-14 justify-between items-center bg-transparent"
-    >
-      <View className="">
-        {back && (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesome
-              size={28}
-              width={28}
-              name={"angle-left"}
-              color="#006FFF"
-            />
-          </TouchableOpacity>
-        )}
-        {userMan && (
-          <View>
-            <FontAwesome6
-              name="circle-question"
-              size={22}
-              className="text-center"
-              width={28}
-              color="#006FFF"
-            />
-          </View>
-        )}
-      </View>
-
-      <View className="flex-1 items-center">
-        <Text
-          style={{ color: "#DDDDDD" }}
-          className="font-bold text-lg text-center"
-        >
-          {title}
-        </Text>
-      </View>
-
-      <View className="w-10 items-end">
-        {menu && (
-          <TouchableOpacity
-            className=""
-            onPress={() => {
-              console.log("Menu icon pressed");
-              // navigation.dispatch(DrawerActions.openDrawer());
-              <BottomNavigationSheet />;
-            }}
-          >
-            <Feather
-              size={20}
-              className="text-center"
-              width={28}
-              name={"menu"}
-              color="#006FFF"
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-    </View>
-  );
+  return <BottomNavigationSheet />;
 };
 
 export default Header;
@@ -134,5 +100,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 36,
     alignItems: "center",
+  },
+  bottomsheetContent: {
+    // flex: 1,
+    // padding: 36,
+    backgroundColor: "#000000",
+    alignItems: "center",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
+  bottomsheetText: {
+    color: "#ffffff",
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
