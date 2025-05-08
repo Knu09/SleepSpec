@@ -8,7 +8,6 @@ import {
     View,
     StyleSheet,
 } from "react-native";
-import { Image } from "expo-image";
 import { Audio } from "expo-av";
 import { useClassStore, useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
