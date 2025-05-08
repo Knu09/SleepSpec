@@ -2,14 +2,15 @@ import { Link, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
     ActivityIndicator,
+    Alert,
     Pressable,
     ScrollView,
+    StyleSheet,
     Text,
     View,
-    StyleSheet,
 } from "react-native";
-import { Image } from "expo-image";
-import { Audio } from "expo-av";
+import { AudioModule, useAudioRecorder } from "expo-audio";
+
 import { useClassStore, useLangStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,8 +21,6 @@ import axios from "axios";
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
 import { CLASS, LANG } from "@/types/types";
-
-const RecorderImage = require("@/assets/images/recording-button.png");
 
 type Timer = {
     secs: number;
@@ -92,13 +91,22 @@ export default function Recording() {
         initialRecordState,
     );
     const timerRef = useRef<NodeJS.Timeout>();
-    const [recording, setRecording] = useState<Audio.Recording>();
-    const [permissionResponse, requestPermission] = Audio.usePermissions();
+    // const [recording, setRecording] = useState<Audio.Recording>();
+    // const [permissionResponse, requestPermission] = Audio.usePermissions();
+    const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(UploadResult.IDLE);
     const { result, setResult } = useClassStore();
 
     useEffect(() => {
+        // request recording permissions
+        (async () => {
+            const status = await AudioModule.requestRecordingPermissionsAsync();
+            if (!status.granted) {
+                Alert.alert("Permission to access microphone was denied");
+            }
+        })();
+
         // remove interval when component unmounts
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
@@ -109,10 +117,10 @@ export default function Recording() {
         useCallback(() => {
             return () => {
                 // Cleanup when this page goes out of focus
-                recordStop(false)
-            }
-        }, [recording])
-    )
+                recordStop(false);
+            };
+        }, [audioRecorder]),
+    );
 
     async function recordStart() {
         if (recordState.isRecording) {
@@ -125,43 +133,20 @@ export default function Recording() {
         }, 1000);
 
         timerRef.current = timerInterval;
-
-        try {
-            if (permissionResponse!.status !== "granted") {
-                await requestPermission();
-            }
-
-            await Audio.setAudioModeAsync({
-                allowsRecordingIOS: true,
-                playsInSilentModeIOS: true,
-            });
-
-            const { recording } =
-                await Audio.Recording.createAsync(CustomRCPreset);
-            setRecording(recording);
-        } catch (err) {
-            console.error("Failed to start recording", err);
-        }
     }
 
     async function recordStop(upload: boolean) {
-        if (!recordState.isRecording || !recording) {
-            return;
-        }
+        if (!recordState.isRecording) return;
 
         dispatch(RecordAction.STOP);
         clearInterval(timerRef.current);
 
-        setRecording(undefined);
-        await recording.stopAndUnloadAsync();
-        await Audio.setAudioModeAsync({
-            allowsRecordingIOS: false,
-        });
+        await audioRecorder.stop();
 
         // Skip upload when specified
         if (!upload) return;
 
-        const uri = recording.getURI();
+        const uri = audioRecorder.uri;
         const result = await uploadAudio(uri!);
 
         if (!result) {
@@ -223,11 +208,9 @@ export default function Recording() {
                                 <Icon
                                     name="microphone"
                                     size={60}
-                                    color={
-                                        recordState.isRecording
-                                            ? "#006fff"
-                                            : "#FFF"
-                                    }
+                                    color={recordState.isRecording
+                                        ? "#006fff"
+                                        : "#FFF"}
                                 />
                             </View>
                         </LinearGradient>
@@ -286,10 +269,12 @@ function ProcessOverlay({ state }: { state: UploadResult }) {
     );
 }
 
-async function uploadAudio(audioUri: string): Promise<{
-    class: number;
-    confidence_score: number;
-} | void> {
+async function uploadAudio(audioUri: string): Promise<
+    {
+        class: number;
+        confidence_score: number;
+    } | void
+> {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {

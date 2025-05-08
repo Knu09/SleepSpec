@@ -1,5 +1,5 @@
 import React from "react";
-import Svg, { Defs, LinearGradient, Stop, Path } from "react-native-svg";
+import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
 export default function SleepSpecTitle({ width = 208, height = 55 }) {
     return (
         <Svg width={width} height={height} viewBox="0 0 208 55" fill="none">
