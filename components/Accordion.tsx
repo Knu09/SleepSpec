@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+    Image,
     Text,
     StyleSheet,
     View,
@@ -15,10 +16,12 @@ export default function Accordion({
     title,
     description,
     isOpened = false,
+    image,
 }: {
     title: string;
     description: string;
     isOpened: boolean;
+    image: string;
 }) {
     const [opened, setOpened] = useState(isOpened);
 
@@ -73,10 +76,35 @@ export default function Accordion({
                     </View>
                 </TouchableWithoutFeedback>
                 {opened && (
-                    <View style={styles.contentAccordion}>
-                        <Text className="text-white font-normal">
-                            {description}
-                        </Text>
+                    <View
+                        style={styles.contentAccordion}
+                        className="flex flex-col gap-3"
+                    >
+                        <View>
+                            <Text className="text-white font-normal">
+                                {description}
+                            </Text>
+                        </View>
+
+                        <View
+                            style={{
+                                height: 215,
+                                width: "100%",
+                                borderRadius: 10,
+                            }}
+                            className="p-4 bg-white"
+                        >
+                            <Image
+                                source={{
+                                    uri: `http://192.168.134.107:5000/plots/${image}`,
+                                }}
+                                style={{
+                                    flex: 1,
+                                    width: "100%",
+                                }}
+                                resizeMode="cover"
+                            />
+                        </View>
                     </View>
                 )}
             </View>
