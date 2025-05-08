@@ -19,13 +19,15 @@ function BottomNavigationSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleClosePress = bottomSheetRef.current?.close();
 
-  // callbacks
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log("handleSheetChanges", index);
-  // }, []);
-
-  // renders
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      <BottomSheet snapPoints={snapPoints}>
+        <View>
+          <Text>This is the bottom sheet content</Text>
+        </View>
+      </BottomSheet>
+    </View>
+  );
 }
 
 const Header = ({
