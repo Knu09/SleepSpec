@@ -1,3 +1,5 @@
+import { fetch } from "expo/fetch";
+import { File } from "expo-file-system/next";
 import { Link, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
@@ -16,7 +18,6 @@ import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "@expo/vector-icons/FontAwesome";
-import axios from "axios";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
@@ -90,9 +91,7 @@ export default function Recording() {
         recordReducer,
         initialRecordState,
     );
-    const timerRef = useRef<NodeJS.Timeout>();
-    // const [recording, setRecording] = useState<Audio.Recording>();
-    // const [permissionResponse, requestPermission] = Audio.usePermissions();
+    const timerRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(UploadResult.IDLE);
@@ -128,6 +127,10 @@ export default function Recording() {
         }
 
         dispatch(RecordAction.START);
+
+        await audioRecorder.prepareToRecordAsync();
+        audioRecorder.record();
+
         const timerInterval = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
         }, 1000);
@@ -283,12 +286,9 @@ async function uploadAudio(audioUri: string): Promise<
         };
     }
 
+    const file = new File(audioUri)
     const formData = new FormData();
-    formData.append("audio", {
-        uri: audioUri,
-        name: "recording.m4a",
-        type: "audio/m4a",
-    } as any);
+    formData.append("audio", file.blob(), 'recording.m4a');
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 
@@ -303,17 +303,25 @@ async function uploadAudio(audioUri: string): Promise<
         );
     }
 
-    console.log(env, api);
     try {
-        const response = await axios.post(`${api}/upload`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
+        console.log(env, api);
+
+        const response = await fetch(`${api}/upload`, {
+            method: "POST",
+            body: formData,
         });
 
-        return response.data;
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}, Response: ${response}`);
+        }
+
+        const data = await response.json();
+        console.log("Success:", data);
+
+        return data
+
     } catch (error) {
-        console.error("Upload failed", error);
+        console.error("Error:", error);
     }
 }
 
