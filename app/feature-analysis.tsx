@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView, View, Text } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Image } from "react-native";
 import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { useClassStore } from "@/store/store";
@@ -17,18 +17,21 @@ export default function FeatureAnalysis() {
             description:
                 "Displays how spectral (scale) and temporal (rate) modulatinos interact in speech. It rhythmic and dynamic changes in voice affected by sleep deprivation. It helps detect slower speech rates and altered spectral modulation, common in fatigued individuals. ",
             isOpened: true,
+            image: "avg_scale_rate.png",
         },
         {
             title: "Frequency-Rate Representation",
             description:
                 "Examines the relationship between speech frequency components and spectral scales. It highlights how vocal harmonics and formants shift due to sleep deprivation.",
             isOpened: false,
+            image: "avg_freq_rate.png",
         },
         {
             title: "Frequency-Scale Representation",
             description:
                 "Analyzes how different frequency components (voice pitch, formants) change over time. It captures how fast or slow vocal frequencies modulate (e.g., irregular speech patterns due to fatigue).",
             isOpened: false,
+            image: "avg_freq_scale.png",
         },
     ];
     const { result } = useClassStore();
@@ -90,6 +93,7 @@ export default function FeatureAnalysis() {
                                 title={stm.title}
                                 description={stm.description}
                                 isOpened={stm.isOpened}
+                                image={stm.image}
                             ></Accordion>
                         ))}
                     </View>
