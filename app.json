@@ -1,70 +1,71 @@
 {
-    "expo": {
-        "name": "sleepspec",
-        "slug": "sleepspec",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
-        "scheme": "myapp",
-        "userInterfaceStyle": "automatic",
-        "newArchEnabled": true,
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "com.sleepspec.myapp"
-        },
-        "android": {
-            "package": "com.sleepspec.myapp",
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
+  "expo": {
+    "name": "sleepspec",
+    "slug": "sleepspec",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sleepspec.myapp"
+    },
+    "android": {
+      "package": "com.sleepspec.myapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "assetBundlePatterns": [
+            "**/*"
+          ],
+          "extra": {
+            "fonts": {
+              "Poppins-Regular": "assets/fonts/Poppins/Poppins-Regular.ttf",
+              "Poppins-Bold": "assets/fonts/Poppins/Poppins-Bold.ttf",
+              "PublicSans-Regular": "assets/fonts/Public_Sans/PublicSans-Regular.ttf",
+              "PublicSans-Bold": "assets/fonts/Public_Sans/PublicSans-Bold.ttf",
+              "SpaceMono-Regular": "assets/fonts/SpaceMono-Regular.ttf"
             }
-        },
-        "web": {
-            "bundler": "metro",
-            "output": "static",
-            "favicon": "./assets/images/favicon.png"
-        },
-        "plugins": [
-            [
-                "expo-font",
-                {
-                    "assetBundlePatterns": [
-                        "**/*"
-                    ],
-                    "extra": {
-                        "fonts": {
-                            "Poppins-Regular": "assets/fonts/Poppins/Poppins-Regular.ttf",
-                            "Poppins-Bold": "assets/fonts/Poppins/Poppins-Bold.ttf",
-                            "PublicSans-Regular": "assets/fonts/Public_Sans/PublicSans-Regular.ttf",
-                            "PublicSans-Bold": "assets/fonts/Public_Sans/PublicSans-Bold.ttf",
-                            "SpaceMono-Regular": "assets/fonts/SpaceMono-Regular.ttf"
-                        }
-                    }
-                }
-            ],
-            "expo-router",
-            [
-                "expo-splash-screen",
-                {
-                    "image": "./assets/images/splash-icon.png",
-                    "imageWidth": 200,
-                    "resizeMode": "contain",
-                    "backgroundColor": "#ffffff"
-                }
-            ],
-            "expo-font",
-            "expo-audio"
-        ],
-        "experiments": {
-            "typedRoutes": true
-        },
-        "extra": {
-            "router": {
-                "origin": false
-            },
-            "eas": {
-                "projectId": "1dd347f8-a07a-4c74-94a1-f3d2d37cb285"
-            }
+          }
         }
+      ],
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-font",
+      "expo-audio",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1dd347f8-a07a-4c74-94a1-f3d2d37cb285"
+      }
     }
+  }
 }
