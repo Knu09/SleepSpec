@@ -34,7 +34,66 @@ const Header = ({
 
   if (!fontsLoaded) return null;
 
-  return <BottomNavigationSheet />;
+  // return <BottomNavigationSheet />;
+  return (
+    <View
+      style={styles.header}
+      className="flex flex-row px-6 w-full h-14 justify-between items-center bg-transparent"
+    >
+      <View className="">
+        {back && (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesome
+              size={28}
+              width={28}
+              name={"angle-left"}
+              color="#006FFF"
+            />
+          </TouchableOpacity>
+        )}
+        {userMan && (
+          <View>
+            <FontAwesome6
+              name="circle-question"
+              size={22}
+              className="text-center"
+              width={28}
+              color="#006FFF"
+            />
+          </View>
+        )}
+      </View>
+
+      <View className="flex-1 items-center">
+        <Text
+          style={{ color: "#DDDDDD" }}
+          className="font-bold text-lg text-center"
+        >
+          {title}
+        </Text>
+      </View>
+
+      <View className="w-10 items-end">
+        {menu && (
+          <TouchableOpacity
+            className=""
+            onPress={() => {
+              console.log("Menu icon pressed");
+              <BottomNavigationSheet />;
+            }}
+          >
+            <Feather
+              size={20}
+              className="text-center"
+              width={28}
+              name={"menu"}
+              color="#006FFF"
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
 };
 
 export default Header;
