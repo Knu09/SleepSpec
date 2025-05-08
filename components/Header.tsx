@@ -4,13 +4,13 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import BottomNavigationSheet from "@/components/BottomNavigationSheet";
 
 interface HeaderProps {
   menu?: boolean;
   back?: boolean;
   title?: string;
   userMan?: boolean;
-  onMenuPressed?: () => void;
 }
 
 const Header = ({
@@ -18,7 +18,6 @@ const Header = ({
   back = false,
   title = "",
   userMan = false,
-  onMenuPressed,
 }: HeaderProps) => {
   const navigation = useNavigation();
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -75,7 +74,13 @@ const Header = ({
 
       <View className="w-10 items-end">
         {menu && (
-          <TouchableOpacity className="" onPress={onMenuPressed}>
+          <TouchableOpacity
+            className=""
+            onPress={() => {
+              console.log("Menu icon pressed");
+              <BottomNavigationSheet />;
+            }}
+          >
             <Feather
               size={20}
               className="text-center"
