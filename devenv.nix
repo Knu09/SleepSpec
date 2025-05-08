@@ -8,6 +8,8 @@
   # https://devenv.sh/basics/
   env.GREET = "devenv";
 
+  dotenv.disableHint = true;
+
   # https://devenv.sh/packages/
   packages = with pkgs; [
     nodejs_23

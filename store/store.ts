@@ -9,7 +9,7 @@ type LangStore = {
 type ClassStore = {
     result?: ClassResult;
     setResult: (cr: ClassResult) => void;
-}
+};
 
 export const useLangStore = create<LangStore>((set) => ({
     currentLang: LANG.ENGLISH,
@@ -17,5 +17,5 @@ export const useLangStore = create<LangStore>((set) => ({
 }));
 
 export const useClassStore = create<ClassStore>((set) => ({
-    setResult: (cr: ClassResult) => set({ result: cr })
-}))
+    setResult: (cr: ClassResult) => set({ result: cr }),
+}));

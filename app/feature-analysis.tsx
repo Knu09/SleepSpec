@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView, View, Text, Image } from "react-native";
+import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
 import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { useClassStore } from "@/store/store";
-import { useRouter, SplashScreen } from "expo-router";
+import { SplashScreen, useRouter } from "expo-router";
 import { CLASS } from "@/types/types";
 import TabNavigation from "@/components/TabNavigation";
 import Accordion from "@/components/Accordion";
@@ -38,10 +38,16 @@ export default function FeatureAnalysis() {
     const router = useRouter();
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "../assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {
@@ -80,7 +86,8 @@ export default function FeatureAnalysis() {
                             <Text className="text-secondary text-center font-bold border-b-lightWhite">
                                 Spectro-Temporal Modulation
                             </Text>
-                            <View className="w-full h-[1px] bg-lightWhite"></View>
+                            <View className="w-full h-[1px] bg-lightWhite">
+                            </View>
                             <Text className="text-secondary/80">
                                 Spectro-temporal modulation (STM) description
                                 goes here...
@@ -94,7 +101,8 @@ export default function FeatureAnalysis() {
                                 description={stm.description}
                                 isOpened={stm.isOpened}
                                 image={stm.image}
-                            ></Accordion>
+                            >
+                            </Accordion>
                         ))}
                     </View>
                 </ScrollView>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
-    Text,
-    StyleSheet,
-    View,
-    TouchableWithoutFeedback,
     LayoutAnimation,
     Platform,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
     UIManager,
+    View,
 } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
@@ -102,7 +102,7 @@ export default function Accordion({
                             <Image
                                 key={imageKey}
                                 source={{
-                                    uri: `http://192.168.134.107:5000/plots/${image}?t=${Date.now()}`,
+                                    uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
                                 }}
                                 style={{
                                     flex: 1,

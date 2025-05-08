@@ -17,6 +17,7 @@ import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
 
 export default function Index() {
+
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -26,6 +27,7 @@ export default function Index() {
   useEffect(() => {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
+
 
   if (!fontsLoaded) return null;
 
