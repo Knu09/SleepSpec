@@ -1,79 +1,67 @@
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
-import * as Font from "expo-font";
-import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+// import { useNavigation } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet, {
-  BottomSheetProps,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 interface ButtomNavigationSheetProps {
   onClose: () => void;
 }
 
-const BottomNavigationSheet = ({ onClose }: ButtomNavigationSheetProps) => {
-  const navigation = useNavigation();
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        FontAwesome: FontAwesome.font,
-      });
-      setFontsLoaded(true);
-    }
-    loadFonts();
-    // bottomSheetRef.current?.expand();
-  }, []);
-
-  useEffect(() => {
-    if (fontsLoaded && bottomSheetRef.current) {
-      bottomSheetRef.current.expand();
-    }
-  }, [fontsLoaded]);
-
+function BottomNavigationSheet() {
+  console.log("IM RUNING");
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const handleSheetChanges = useCallback(
-    (index: number) => {
-      console.log("handleSheetChanges", index);
-      if (index === -1) onClose();
-    },
-    [onClose],
-  );
-  if (!fontsLoaded) return null;
 
   // callbacks
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log("handleSheetChanges", index);
-  // }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   // renders
   return (
     <GestureHandlerRootView style={styles.container}>
       <BottomSheet
         ref={bottomSheetRef}
-        index={0}
-        snapPoints={["25%", "50%"]}
-        onChange={(index) => {
-          handleSheetChanges(index);
-          if (index === -1) onClose(); // Dismiss callback
-        }}
+        onChange={handleSheetChanges}
+        snapPoints={["30%"]}
+        handleComponent={() => null}
       >
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
+        <BottomSheetView style={styles.bottomsheetContent}>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>User Manual</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>Trained Model Source</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>Training Results</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomsheetText}>About Us</Text>
+          </TouchableOpacity>
         </BottomSheetView>
       </BottomSheet>
     </GestureHandlerRootView>
   );
-};
+}
 
 export default BottomNavigationSheet;
 
 const styles = StyleSheet.create({
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: 50,
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
   container: {
     flex: 1,
     backgroundColor: "grey",
@@ -82,5 +70,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 36,
     alignItems: "center",
+  },
+  bottomsheetContent: {
+    // flex: 1,
+    // padding: 36,
+    backgroundColor: "#000000",
+    alignItems: "center",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
+  bottomsheetText: {
+    color: "#ffffff",
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
