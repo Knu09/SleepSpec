@@ -1,3 +1,4 @@
+import { AudioSource } from "expo-audio";
 import { ColorValue } from "react-native";
 
 export enum LANG {
@@ -42,6 +43,12 @@ export namespace LANG {
     }
 }
 
+export type ResultObj = {
+    class: number;
+    confidence_score: number;
+    segments: string[];
+};
+
 export enum CLASS {
     NSD, // Not Sleep deprived
     SD, // Sleep deprived
@@ -50,14 +57,10 @@ export enum CLASS {
 export type ClassResult = {
     class: CLASS;
     confidence_score: CFS;
+    segments: AudioSource[];
 };
 
 export namespace CLASS {
-    type ResultObj = {
-        class: number;
-        confidence_score: number;
-    };
-
     export function getTitle(result: ClassResult): string {
         switch (result.class) {
             case CLASS.SD:
@@ -73,9 +76,12 @@ export namespace CLASS {
 
     export function fromJSON(data: ResultObj): ClassResult {
         const { class: c, confidence_score: score } = data;
+        const segments: AudioSource[] = data.segments.map(uri => ({ uri }));
+
         const result: ClassResult = {
             class: c == 1 ? CLASS.SD : CLASS.NSD,
             confidence_score: { score },
+            segments
         };
 
         return result;
