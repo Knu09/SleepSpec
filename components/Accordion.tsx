@@ -24,12 +24,17 @@ export default function Accordion({
     image: string;
 }) {
     const [opened, setOpened] = useState(isOpened);
+    const [imageKey, setImageKey] = useState(Date.now());
 
     useEffect(() => {
         if (Platform.OS === "android") {
             UIManager.setLayoutAnimationEnabledExperimental?.(true);
         }
     }, []);
+
+    useEffect(() => {
+        setImageKey(Date.now());
+    }, [isOpened]);
 
     const customAnimation = {
         duration: 300,
@@ -95,8 +100,9 @@ export default function Accordion({
                             className="p-4 bg-white"
                         >
                             <Image
+                                key={imageKey}
                                 source={{
-                                    uri: `http://192.168.134.107:5000/plots/${image}`,
+                                    uri: `http://192.168.134.107:5000/plots/${image}?t=${Date.now()}`,
                                 }}
                                 style={{
                                     flex: 1,
