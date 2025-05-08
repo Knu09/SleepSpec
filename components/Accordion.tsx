@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
-    Text,
-    StyleSheet,
-    View,
-    TouchableWithoutFeedback,
     LayoutAnimation,
     Platform,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
     UIManager,
+    View,
 } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";

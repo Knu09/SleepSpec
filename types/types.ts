@@ -7,7 +7,7 @@ export enum LANG {
 
 type CFS = {
     score: number;
-}
+};
 
 type Advices = {
     summary: string;
@@ -15,8 +15,8 @@ type Advices = {
         id: string;
         title: string;
         desc: string;
-    }[]
-}
+    }[];
+};
 
 export namespace LANG {
     export function asString(lang: LANG): string {
@@ -38,7 +38,7 @@ export namespace LANG {
     }
 
     export function getScript(self: LANG): string {
-        return scripts[self]
+        return scripts[self];
     }
 }
 
@@ -48,50 +48,48 @@ export enum CLASS {
 }
 
 export type ClassResult = {
-    class: CLASS,
-    confidence_score: CFS,
-}
+    class: CLASS;
+    confidence_score: CFS;
+};
 
 export namespace CLASS {
     type ResultObj = {
-        class: number,
-        confidence_score: number,
-    }
+        class: number;
+        confidence_score: number;
+    };
 
     export function getTitle(result: ClassResult): string {
         switch (result.class) {
             case CLASS.SD:
-                return "Sleep-Deprived"
+                return "Sleep-Deprived";
             case CLASS.NSD:
-                return "Non-Sleep-Deprived"
+                return "Non-Sleep-Deprived";
         }
     }
 
     export function getTitleColor(result: ClassResult): ColorValue {
-        return result.class == CLASS.SD ? '#ff2121' : '#006fff';
+        return result.class == CLASS.SD ? "#ff2121" : "#006fff";
     }
 
     export function fromJSON(data: ResultObj): ClassResult {
-        const { class: c, confidence_score: score } = data
+        const { class: c, confidence_score: score } = data;
         const result: ClassResult = {
             class: c == 1 ? CLASS.SD : CLASS.NSD,
-            confidence_score: { score }
-        }
+            confidence_score: { score },
+        };
 
-
-        return result
+        return result;
     }
 
-    export function getAdvices(result: ClassResult): Advices  {
-        return advices[result.class]
+    export function getAdvices(result: ClassResult): Advices {
+        return advices[result.class];
     }
 
     export function getConfScorePercent(self: ClassResult): string {
         let percent = self.confidence_score.score * 100;
-        return percent.toFixed(2) + "%"
+        return percent.toFixed(2) + "%";
     }
 }
-
 
 const scripts = {
     [LANG.ENGLISH]:
@@ -122,14 +120,14 @@ const scripts = {
     // `,
 };
 
-
 const advices: {
     [CLASS.SD]: Advices;
     // MODERATE: Advices;
     [CLASS.NSD]: Advices;
 } = {
     [CLASS.SD]: {
-        summary: "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
+        summary:
+            "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
         contents: [
             {
                 id: "1",
@@ -160,7 +158,7 @@ const advices: {
                 desc:
                     "If sleep deprivation persists, consult a healthcare professional for further evaluation.",
             },
-        ]
+        ],
     },
     // MODERATE: {
     //     summary: "Your sleep quality is moderate, but there is room for improvement.",
@@ -179,28 +177,33 @@ const advices: {
     //     ]
     // },
     [CLASS.NSD]: {
-        summary: "Your sleep habits seem healthy, but consistent monitoring is recommended.",
+        summary:
+            "Your sleep habits seem healthy, but consistent monitoring is recommended.",
         contents: [
             {
                 id: "1",
                 title: "Continue Following a Healthy Sleep Routine",
-                desc: "Stick to a regular sleep schedule and avoid late-night disruptions.",
+                desc:
+                    "Stick to a regular sleep schedule and avoid late-night disruptions.",
             },
             {
                 id: "2",
                 title: "Practice Good Sleep Hygiene",
-                desc: "Limit screen exposure before bedtime and create a restful sleeping environment.",
+                desc:
+                    "Limit screen exposure before bedtime and create a restful sleeping environment.",
             },
             {
                 id: "3",
                 title: "Manage Stress and Lifestyle Factors",
-                desc: "Engage in regular physical activity, avoid heavy meals before sleep, and manage stress effectively.",
+                desc:
+                    "Engage in regular physical activity, avoid heavy meals before sleep, and manage stress effectively.",
             },
             {
                 id: "4",
                 title: "Stay Hydrated and Maintain a Balanced Diet",
-                desc: "Proper hydration and nutrition contribute to better overall sleep health.",
+                desc:
+                    "Proper hydration and nutrition contribute to better overall sleep health.",
             },
-        ]
+        ],
     },
 };

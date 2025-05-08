@@ -2,22 +2,28 @@ import React from "react";
 import Svg, {
     Defs,
     LinearGradient,
-    Stop,
-    Text as SvgText,
     Mask,
     Rect,
+    Stop,
+    Text as SvgText,
 } from "react-native-svg";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 
 export default function GradientText({ text = "Gradient Text", fontSize }) {
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "../assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {

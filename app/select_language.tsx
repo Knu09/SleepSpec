@@ -41,10 +41,16 @@ export default function SelectLanguage() {
     ];
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("@/assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Regular": require(
+            "@/assets/fonts/Poppins/Poppins-Regular.ttf",
+        ),
         "Poppins-Bold": require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "PublicSans-Regular": require(
+            "@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
+        ),
+        "PublicSans-Bold": require(
+            "@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
+        ),
     });
 
     useEffect(() => {
@@ -68,7 +74,8 @@ export default function SelectLanguage() {
                 <View style={{ flex: 1 }}>
                     <View className="flex-row flex-wrap">
                         {languages.map(LangChoice)}
-                        <View className="w-1/3 border border-b-lightWhite focus:bg-lightWhite/80 hover:bg-lightWhite/50"></View>
+                        <View className="w-1/3 border border-b-lightWhite focus:bg-lightWhite/80 hover:bg-lightWhite/50">
+                        </View>
                     </View>
                 </View>
             </View>
