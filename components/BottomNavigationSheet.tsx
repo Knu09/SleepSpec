@@ -10,16 +10,13 @@ interface ButtomNavigationSheetProps {
 }
 
 function BottomNavigationSheet() {
-  console.log("IM RUNING");
-  // ref
+  console.log("IM RUNNING");
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
 
-  // renders
   return (
     <GestureHandlerRootView style={styles.container}>
       <BottomSheet
