@@ -21,7 +21,7 @@ import Icon from "@expo/vector-icons/FontAwesome";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
-import { CLASS, LANG, ResultObj } from "@/types/types";
+import { CLASS, LANG } from "@/types/types";
 
 type Timer = {
     secs: number;
@@ -273,14 +273,16 @@ function ProcessOverlay({ state }: { state: UploadResult }) {
 }
 
 async function uploadAudio(audioUri: string): Promise<
-    ResultObj | void
+    {
+        class: number;
+        confidence_score: number;
+    } | void
 > {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {
             class: 1,
             confidence_score: 0.56,
-            segments: ['mock_segment.wav'],
         };
     }
 
