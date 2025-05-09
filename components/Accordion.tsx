@@ -16,6 +16,7 @@ import localImages from "../store/imageMap";
 export default function Accordion({
     title,
     description,
+    list,
     isOpened = false,
     image,
 }: {
@@ -23,9 +24,17 @@ export default function Accordion({
     description: string;
     isOpened: boolean;
     image: string;
+    list?: {
+        type: "bullet" | "number";
+        items: {
+            title: string;
+            description: string;
+        }[];
+    };
 }) {
     const [opened, setOpened] = useState(isOpened);
     const [imageKey, setImageKey] = useState(Date.now());
+    const imageSource = image && localImages[image];
 
     useEffect(() => {
         if (Platform.OS === "android") {
@@ -90,6 +99,30 @@ export default function Accordion({
                             <Text className="text-white font-normal">
                                 {description}
                             </Text>
+                            {list && (
+                                <View className="mt-2">
+                                    {list.items.map((item, idx) => (
+                                        <View
+                                            key={idx}
+                                            className="flex flex-row gap-4 mb-2"
+                                        >
+                                            <Text className="text-secondary leading-6">
+                                                {list.type === "number"
+                                                    ? `${idx + 1}.`
+                                                    : "•"}
+                                            </Text>
+                                            <View className="flex-1">
+                                                <Text className="text-secondary font-bold">
+                                                    {item.title}:{" "}
+                                                    <Text className="font-normal text-secondary">
+                                                        {item.description}
+                                                    </Text>
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    ))}
+                                </View>
+                            )}
                         </View>
                         {image !== "" && (
                             <View
@@ -108,7 +141,7 @@ export default function Accordion({
                                             ? {
                                                   uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
                                               }
-                                            : localImages[image] || null
+                                            : imageSource || null
                                     }
                                     style={{
                                         flex: 1,
