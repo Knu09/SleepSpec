@@ -13,24 +13,26 @@ type TabProps = {
 export default function TabNavigation() {
     return (
         <View
-            className="flex-row justify-center border border-t-lightWhite/50"
-            style={styles.nav}
+            className="border border-t-lightWhite/50"
+            style={{ justifyContent: "center" }}
         >
-            <Tab
-                icon={require("@/assets/images/tab-analysis.svg")}
-                name="Analysis"
-                link="/analysis"
-            />
-            <Tab
-                icon={require("@/assets/images/tab-classification.svg")}
-                name="Classification"
-                link="/classification"
-            />
-            <Tab
-                icon={require("@/assets/images/tab-feature-analysis.svg")}
-                name={"Feature\nAnalysis"}
-                link="/feature-analysis"
-            />
+            <View className="flex-row" style={styles.nav}>
+                <Tab
+                    icon={require("@/assets/images/tab-analysis.svg")}
+                    name="Analysis"
+                    link="/analysis"
+                />
+                <Tab
+                    icon={require("@/assets/images/tab-classification.svg")}
+                    name="Classification"
+                    link="/classification"
+                />
+                <Tab
+                    icon={require("@/assets/images/tab-feature-analysis.svg")}
+                    name={"Feature"}
+                    link="/feature-analysis"
+                />
+            </View>
         </View>
     );
 }
@@ -53,7 +55,7 @@ function Tab({ icon, name, link }: TabProps) {
                     style={{ width: ICON_SIZE, height: ICON_SIZE }}
                 />
                 <Text
-                    className="font-semibold text-xs text-center"
+                    className="font-medium text-xs text-center"
                     style={{ color: is_selected ? "#ddd" : "gray" }}
                 >
                     {name}
@@ -67,7 +69,6 @@ const styles = StyleSheet.create({
     nav: {
         marginTop: "auto",
         paddingVertical: 14,
-        paddingHorizontal: 25,
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
     },
 });
