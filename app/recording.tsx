@@ -3,7 +3,6 @@ import { File } from "expo-file-system/next";
 import { Link, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
-    ActivityIndicator,
     Alert,
     Pressable,
     ScrollView,
@@ -21,7 +20,8 @@ import Icon from "@expo/vector-icons/FontAwesome";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
-import { CLASS, LANG } from "@/types/types";
+import { CLASS, LANG, Process } from "@/types/types";
+import Overlay from "@/components/Overlay";
 
 type Timer = {
     secs: number;
@@ -37,13 +37,6 @@ enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
-}
-
-enum UploadResult {
-    IDLE,
-    PENDING,
-    READY,
-    FAILED,
 }
 
 const recordReducer = (
@@ -94,7 +87,7 @@ export default function Recording() {
     const timerRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
-    const [upload, setUpload] = useState(UploadResult.IDLE);
+    const [upload, setUpload] = useState(Process.IDLE);
     const { result, setResult } = useClassStore();
 
     useEffect(() => {
@@ -153,12 +146,12 @@ export default function Recording() {
         const result = await uploadAudio(uri!);
 
         if (!result) {
-            setUpload(UploadResult.FAILED);
+            setUpload(Process.FAILED);
             return;
         }
 
         console.log(result);
-        setUpload(UploadResult.READY);
+        setUpload(Process.READY);
 
         setResult(CLASS.fromJSON(result));
     }
@@ -194,7 +187,7 @@ export default function Recording() {
                         onPress={() => {
                             if (recordState.isRecording) {
                                 recordStop(true);
-                                setUpload(UploadResult.PENDING);
+                                setUpload(Process.PENDING);
                             } else {
                                 recordStart();
                             }
@@ -240,35 +233,8 @@ export default function Recording() {
                 )}
             </ScrollView>
 
-            <ProcessOverlay state={upload} />
+            <Overlay heading="Pre - processing" state={upload} redirect='/analysis' />;
         </SafeAreaView>
-    );
-}
-
-function ProcessOverlay({ state }: { state: UploadResult }) {
-    const router = useRouter();
-
-    useEffect(() => {
-        if (state == UploadResult.READY) {
-            router.push("/analysis");
-        }
-    }, [state, router]);
-
-    // Do not render overlay
-    if (state != UploadResult.PENDING) return;
-
-    return (
-        <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
-            <View className="flex items-center gap-2">
-                <Text className="text-primaryBlue text-2xl font-medium">
-                    Pre - processing
-                </Text>
-                <Text className="text-secondary mb-8 text-lg">
-                    Please wait for a moment...
-                </Text>
-                <ActivityIndicator size={70} color={"#006fff"} />
-            </View>
-        </View>
     );
 }
 

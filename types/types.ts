@@ -1,5 +1,12 @@
 import { ColorValue } from "react-native";
 
+export enum Process {
+    IDLE,
+    PENDING,
+    READY,
+    FAILED,
+}
+
 export enum LANG {
     ENGLISH,
     FILIPINO,
