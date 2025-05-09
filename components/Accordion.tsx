@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
+import localImages from "../store/imageMap";
 
 export default function Accordion({
     title,
@@ -90,27 +91,33 @@ export default function Accordion({
                                 {description}
                             </Text>
                         </View>
-
-                        <View
-                            style={{
-                                height: 215,
-                                width: "100%",
-                                borderRadius: 10,
-                            }}
-                            className="p-4 bg-white"
-                        >
-                            <Image
-                                key={imageKey}
-                                source={{
-                                    uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
-                                }}
+                        {image !== "" && (
+                            <View
                                 style={{
-                                    flex: 1,
+                                    height: 215,
                                     width: "100%",
+                                    borderRadius: 10,
                                 }}
-                                resizeMode="cover"
-                            />
-                        </View>
+                                className="p-4 bg-white"
+                            >
+                                <Image
+                                    key={imageKey}
+                                    source={
+                                        image.startsWith("http") ||
+                                        image.includes("/")
+                                            ? {
+                                                  uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
+                                              }
+                                            : localImages[image] || null
+                                    }
+                                    style={{
+                                        flex: 1,
+                                        width: "100%",
+                                    }}
+                                    resizeMode="cover"
+                                />
+                            </View>
+                        )}
                     </View>
                 )}
             </View>
