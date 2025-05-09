@@ -23,7 +23,7 @@ export default function Overlay({ heading, waitMsg, state, redirect }: OverlayPr
     if (state != Process.PENDING) return;
 
     return (
-        <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
+        <View className="flex justify-center items-center pb-28 bg-darkBg w-full" style={{height: '100%'}}>
             <View className="flex items-center gap-2">
                 <Text className="text-primaryBlue text-2xl font-medium">{heading}</Text>
                 <Text className="text-secondary mb-8 text-lg">
