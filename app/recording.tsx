@@ -1,6 +1,6 @@
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
-import { Link, useFocusEffect, useRouter } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
     Alert,
@@ -80,10 +80,7 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(
-        recordReducer,
-        initialRecordState,
-    );
+    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
     const timerRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
@@ -233,7 +230,7 @@ export default function Recording() {
                 )}
             </ScrollView>
 
-            <Overlay heading="Pre - processing" state={upload} redirect='/analysis' />;
+            <Overlay heading="Pre - processing" state={upload} redirect='/analysis' />
         </SafeAreaView>
     );
 }
