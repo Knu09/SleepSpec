@@ -12,15 +12,30 @@ export default function UserManual() {
             title: "Welcome to SleepSpec!",
             description:
                 "SleepSpec is a mobile application that helps you check for signs of sleep deprivation based on your voice. It's easy to use and only takes a few minutes to process.",
-            imagePath: "",
+            image: "",
             isOpened: true,
         },
 
         {
-            title: "Welcome to SleepSpec!",
+            title: "Home",
             description:
-                "SleepSpec is a mobile application that helps you check for signs of sleep deprivation based on your voice. It's easy to use and only takes a few minutes to process.",
-            imagePath: "",
+                "When you open the app, you will see two main buttons:",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        title: "Start Test",
+                        description:
+                            "Choose the language you want to speak in.",
+                    },
+                    {
+                        title: "Microphone",
+                        description:
+                            "Takes you to the Recording Page to start voice recording.",
+                    },
+                ],
+            },
+            image: "home_guide.png",
             isOpened: true,
         },
     ];
@@ -60,8 +75,9 @@ export default function UserManual() {
                             key={index.toString()}
                             title={manual.title}
                             description={manual.description}
-                            image={manual.imagePath}
+                            image={manual.image}
                             isOpened={manual.isOpened}
+                            {...(manual.list && { list: manual.list })}
                         ></Accordion>
                     ))}
                 </View>
