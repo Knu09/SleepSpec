@@ -1,44 +1,85 @@
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-// import { useNavigation } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { useBottomSheet } from "./BottomSheetContext";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+// import { BlurView } from "expo-blur";
 
-interface ButtomNavigationSheetProps {
-  onClose: () => void;
-}
+// function RootStack() {
+//   return (
+//     <Stack.Navigator initialRouteName="Home">
+//       <Stack.Screen name="Home" component={Index} />
+//     </Stack.Navigator>
+//   );
+// }
 
-function BottomNavigationSheet() {
-  console.log("IM RUNNING");
+export default function BottomNavigationSheet() {
+  const { isVisible, hideBottomSheet } = useBottomSheet();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const router = useRouter();
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  useEffect(() => {
+    if (isVisible) {
+      bottomSheetRef.current?.expand();
+    } else {
+      bottomSheetRef.current?.close();
+    }
+  }, [isVisible]);
+
+  const handleSheetChanges = useCallback(
+    (index: number) => {
+      console.log(index);
+      if (index === -1) {
+        hideBottomSheet();
+      }
+    },
+    [hideBottomSheet],
+  );
+
+  const navigateTo = (screen: string) => {
+    hideBottomSheet();
+    router.push(`/${screen}` as any);
+    // navigation.navigate(screen as never);
+  };
+
+  if (!isVisible) return null;
 
   return (
-    <GestureHandlerRootView style={styles.container}>
+    <GestureHandlerRootView style={StyleSheet.absoluteFill}>
       <BottomSheet
         ref={bottomSheetRef}
+        index={0}
         onChange={handleSheetChanges}
         snapPoints={["30%"]}
         handleComponent={() => null}
+        enablePanDownToClose={true}
+        backgroundStyle={{ backgroundColor: "#000000" }}
       >
+        {/* TODO: change the navigation links */}
+        {/* FIXME: blue view not working */}
+        {/* <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> */}
         <BottomSheetView style={styles.bottomsheetContent}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              // hideBottomSheet();
+              // router.push("/");
+              navigateTo("");
+            }}
+          >
             <Text style={styles.bottomsheetText}>Home</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigateTo("feature-analysis")}>
             <Text style={styles.bottomsheetText}>User Manual</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigateTo("feature-analysis")}>
             <Text style={styles.bottomsheetText}>Trained Model Source</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigateTo("feature-analysis")}>
             <Text style={styles.bottomsheetText}>Training Results</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigateTo("feature-analysis")}>
             <Text style={styles.bottomsheetText}>About Us</Text>
           </TouchableOpacity>
         </BottomSheetView>
@@ -47,38 +88,17 @@ function BottomNavigationSheet() {
   );
 }
 
-export default BottomNavigationSheet;
-
 const styles = StyleSheet.create({
-  header: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    height: 50,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "grey",
-  },
-  contentContainer: {
-    flex: 1,
-    padding: 36,
-    alignItems: "center",
-  },
   bottomsheetContent: {
-    // flex: 1,
-    // padding: 36,
-    backgroundColor: "#000000",
+    backgroundColor: "transparent",
     alignItems: "center",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    paddingVertical: 20,
   },
   bottomsheetText: {
     color: "#ffffff",
-    marginTop: 10,
-    marginBottom: 10,
+    marginVertical: 12,
+    fontSize: 16,
   },
 });
