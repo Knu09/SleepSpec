@@ -35,6 +35,16 @@ export default function Accordion({
     const [opened, setOpened] = useState(isOpened);
     const [imageKey, setImageKey] = useState(Date.now());
     const imageSource = image && localImages[image];
+    const isRemote = image.startsWith("http");
+    const isPlotFilename = !image.includes("/");
+
+    const imageUri = isRemote
+        ? image
+        : isPlotFilename
+          ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`
+          : null;
+
+    console.log(`${process.env.EXPO_PUBLIC_API_URL}/plots/${image}`);
 
     useEffect(() => {
         if (Platform.OS === "android") {
@@ -136,11 +146,8 @@ export default function Accordion({
                                 <Image
                                     key={imageKey}
                                     source={
-                                        image.startsWith("http") ||
-                                        image.includes("/")
-                                            ? {
-                                                  uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
-                                              }
+                                        imageUri
+                                            ? { uri: imageUri }
                                             : imageSource || null
                                     }
                                     style={{
