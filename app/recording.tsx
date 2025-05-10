@@ -120,11 +120,9 @@ export default function Recording() {
         await audioRecorder.prepareToRecordAsync();
         audioRecorder.record();
 
-        const timerInterval = setInterval(() => {
+        timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
         }, 1000);
-
-        timerRef.current = timerInterval;
     }
 
     async function recordStop(upload: boolean) {
