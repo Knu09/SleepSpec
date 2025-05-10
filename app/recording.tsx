@@ -1,9 +1,8 @@
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
-import { Link, useFocusEffect, useRouter } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
-    ActivityIndicator,
     Alert,
     Pressable,
     ScrollView,
@@ -13,7 +12,7 @@ import {
 } from "react-native";
 import { AudioModule, useAudioRecorder } from "expo-audio";
 
-import { useClassStore, useLangStore } from "@/store/store";
+import { useClassStore, useLangStore, useSegmentStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,14 +20,10 @@ import Icon from "@expo/vector-icons/FontAwesome";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
-import { CLASS, LANG } from "@/types/types";
+import { Timer, CLASS, LANG, Process } from "@/types/types";
+import Overlay from "@/components/Overlay";
 
-type Timer = {
-    secs: number;
-    mins: number;
-};
-
-interface RecordingState {
+type RecordingState = {
     timer: Timer;
     isRecording: boolean;
 }
@@ -37,13 +32,6 @@ enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
-}
-
-enum UploadResult {
-    IDLE,
-    PENDING,
-    READY,
-    FAILED,
 }
 
 const recordReducer = (
@@ -94,8 +82,9 @@ export default function Recording() {
     const timerRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
-    const [upload, setUpload] = useState(UploadResult.IDLE);
+    const [upload, setUpload] = useState(Process.IDLE);
     const { result, setResult } = useClassStore();
+    const { syncSegments } = useSegmentStore();
 
     useEffect(() => {
         // request recording permissions
@@ -131,11 +120,9 @@ export default function Recording() {
         await audioRecorder.prepareToRecordAsync();
         audioRecorder.record();
 
-        const timerInterval = setInterval(() => {
+        timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
         }, 1000);
-
-        timerRef.current = timerInterval;
     }
 
     async function recordStop(upload: boolean) {
@@ -153,14 +140,15 @@ export default function Recording() {
         const result = await uploadAudio(uri!);
 
         if (!result) {
-            setUpload(UploadResult.FAILED);
+            setUpload(Process.FAILED);
             return;
         }
 
         console.log(result);
-        setUpload(UploadResult.READY);
+        setUpload(Process.READY);
 
         setResult(CLASS.fromJSON(result));
+        syncSegments()
     }
 
     return (
@@ -187,14 +175,14 @@ export default function Recording() {
                 </View>
 
                 <Text className="text-white mx-auto text-3xl">
-                    {formatTime(recordState.timer)}
+                    {Timer.format(recordState.timer)}
                 </Text>
                 <View className="flex justify-center items-center my-5">
                     <Pressable
                         onPress={() => {
                             if (recordState.isRecording) {
                                 recordStop(true);
-                                setUpload(UploadResult.PENDING);
+                                setUpload(Process.PENDING);
                             } else {
                                 recordStart();
                             }
@@ -240,35 +228,12 @@ export default function Recording() {
                 )}
             </ScrollView>
 
-            <ProcessOverlay state={upload} />
+            <Overlay
+                heading="Pre - processing"
+                state={upload}
+                redirect="/analysis"
+            />
         </SafeAreaView>
-    );
-}
-
-function ProcessOverlay({ state }: { state: UploadResult }) {
-    const router = useRouter();
-
-    useEffect(() => {
-        if (state == UploadResult.READY) {
-            router.push("/analysis");
-        }
-    }, [state, router]);
-
-    // Do not render overlay
-    if (state != UploadResult.PENDING) return;
-
-    return (
-        <View className="flex justify-center items-center pb-28 bg-darkBg absolute top-[90] w-full h-full">
-            <View className="flex items-center gap-2">
-                <Text className="text-primaryBlue text-2xl font-medium">
-                    Pre - processing
-                </Text>
-                <Text className="text-secondary mb-8 text-lg">
-                    Please wait for a moment...
-                </Text>
-                <ActivityIndicator size={70} color={"#006fff"} />
-            </View>
-        </View>
     );
 }
 
@@ -324,13 +289,6 @@ async function uploadAudio(audioUri: string): Promise<
     } catch (error) {
         console.error("Error:", error);
     }
-}
-
-function formatTime({ secs, mins }: Timer): string {
-    const formattedMinutes = String(mins).padStart(2, "0");
-    const formattedSeconds = String(secs).padStart(2, "0");
-
-    return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 const styles = StyleSheet.create({
