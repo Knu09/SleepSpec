@@ -1,6 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useBottomSheet } from "./BottomSheetContext";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
