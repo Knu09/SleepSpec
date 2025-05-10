@@ -5,7 +5,7 @@
 local.properties
 
 # Environment Variable
-.env
+.env 
 
 # dependencies
 node_modules/
