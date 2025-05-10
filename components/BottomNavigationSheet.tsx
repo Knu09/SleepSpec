@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     // padding: 36,
     backgroundColor: "#000000",
     alignItems: "center",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   bottomsheetText: {
     color: "#ffffff",
