@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { AudioModule, useAudioRecorder } from "expo-audio";
 
-import { useClassStore, useLangStore } from "@/store/store";
+import { useClassStore, useLangStore, useSegmentStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -80,12 +80,16 @@ const initialRecordState: RecordingState = {
 };
 
 export default function Recording() {
-    const [recordState, dispatch] = useReducer(recordReducer, initialRecordState);
+    const [recordState, dispatch] = useReducer(
+        recordReducer,
+        initialRecordState,
+    );
     const timerRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
     const { result, setResult } = useClassStore();
+    const { syncSegments } = useSegmentStore();
 
     useEffect(() => {
         // request recording permissions
@@ -151,6 +155,7 @@ export default function Recording() {
         setUpload(Process.READY);
 
         setResult(CLASS.fromJSON(result));
+        syncSegments()
     }
 
     return (
@@ -230,7 +235,11 @@ export default function Recording() {
                 )}
             </ScrollView>
 
-            <Overlay heading="Pre - processing" state={upload} redirect='/analysis' />
+            <Overlay
+                heading="Pre - processing"
+                state={upload}
+                redirect="/analysis"
+            />
         </SafeAreaView>
     );
 }
