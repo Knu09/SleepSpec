@@ -1,5 +1,19 @@
 import { ColorValue } from "react-native";
 
+export type Timer = {
+    secs: number;
+    mins: number;
+};
+
+export namespace Timer {
+    export function format({ secs, mins }: Timer): string {
+        const formattedMinutes = String(mins).padStart(2, "0");
+        const formattedSeconds = String(secs).padStart(2, "0");
+
+        return `${formattedMinutes}:${formattedSeconds}`;
+    }
+}
+
 export enum Process {
     IDLE,
     PENDING,

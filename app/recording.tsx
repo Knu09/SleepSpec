@@ -20,15 +20,10 @@ import Icon from "@expo/vector-icons/FontAwesome";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
-import { CLASS, LANG, Process } from "@/types/types";
+import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 
-type Timer = {
-    secs: number;
-    mins: number;
-};
-
-interface RecordingState {
+type RecordingState = {
     timer: Timer;
     isRecording: boolean;
 }
@@ -182,7 +177,7 @@ export default function Recording() {
                 </View>
 
                 <Text className="text-white mx-auto text-3xl">
-                    {formatTime(recordState.timer)}
+                    {Timer.format(recordState.timer)}
                 </Text>
                 <View className="flex justify-center items-center my-5">
                     <Pressable
@@ -296,13 +291,6 @@ async function uploadAudio(audioUri: string): Promise<
     } catch (error) {
         console.error("Error:", error);
     }
-}
-
-function formatTime({ secs, mins }: Timer): string {
-    const formattedMinutes = String(mins).padStart(2, "0");
-    const formattedSeconds = String(secs).padStart(2, "0");
-
-    return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 const styles = StyleSheet.create({
