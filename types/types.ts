@@ -1,5 +1,37 @@
 import { ColorValue } from "react-native";
 
+export type Timer = {
+    secs: number;
+    mins: number;
+};
+
+export namespace Timer {
+    export function fromSeconds(seconds: number): Timer {
+        return {
+            secs: Math.floor(seconds % 60),
+            mins: Math.floor(seconds / 60)
+        }
+    }
+
+    export function format({ secs, mins }: Timer): string {
+        const formattedMinutes = String(mins).padStart(2, "0");
+        const formattedSeconds = String(secs).padStart(2, "0");
+
+        return `${formattedMinutes}:${formattedSeconds}`;
+    }
+
+    export function reset(): Timer {
+        return { secs: 0, mins: 0 }
+    }
+}
+
+export enum Process {
+    IDLE,
+    PENDING,
+    READY,
+    FAILED,
+}
+
 export enum LANG {
     ENGLISH,
     FILIPINO,
