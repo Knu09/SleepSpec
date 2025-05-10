@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { useEffect } from "react";
 import { Href, useRouter } from "expo-router";
 import { Process } from "@/types/types";
@@ -7,10 +7,12 @@ type OverlayProps = {
     heading: string;
     waitMsg?: string;
     state: Process;
-    redirect?: Href
+    redirect?: Href;
 };
 
-export default function Overlay({ heading, waitMsg, state, redirect }: OverlayProps) {
+export default function Overlay(
+    { heading, waitMsg, state, redirect }: OverlayProps,
+) {
     const router = useRouter();
 
     useEffect(() => {
@@ -23,9 +25,14 @@ export default function Overlay({ heading, waitMsg, state, redirect }: OverlayPr
     if (state != Process.PENDING) return;
 
     return (
-        <View className="flex justify-center items-center pb-28 bg-darkBg w-full" style={{height: '100%'}}>
+        <View
+            className="flex justify-center items-center pb-28 bg-darkBg w-full"
+            style={{ height: "100%" }}
+        >
             <View className="flex items-center gap-2">
-                <Text className="text-primaryBlue text-2xl font-medium">{heading}</Text>
+                <Text className="text-primaryBlue text-2xl font-medium">
+                    {heading}
+                </Text>
                 <Text className="text-secondary mb-8 text-lg">
                     {waitMsg || "Please wait for a moment..."}
                 </Text>
