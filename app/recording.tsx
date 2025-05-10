@@ -45,7 +45,7 @@ const recordReducer = (
         case RecordAction.STOP:
             return {
                 ...state,
-                timer: { secs: 0, mins: 0 },
+                timer: Timer.reset(),
                 isRecording: false,
             };
 
@@ -53,24 +53,16 @@ const recordReducer = (
             const {
                 timer: { secs, mins },
             } = state;
-            const newSecs = secs + 1;
-            const newMins = mins + Math.floor(newSecs / 60);
 
             return {
                 ...state,
-                timer: {
-                    secs: newSecs % 60,
-                    mins: newMins,
-                },
+                timer: Timer.fromSeconds((secs + 1) + mins * 60),
             };
     }
 };
 
 const initialRecordState: RecordingState = {
-    timer: {
-        secs: 0,
-        mins: 0,
-    },
+    timer: Timer.reset(),
     isRecording: false,
 };
 
