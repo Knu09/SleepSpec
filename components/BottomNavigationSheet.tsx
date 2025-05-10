@@ -3,13 +3,22 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useBottomSheet } from "./BottomSheetContext";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 // import { BlurView } from "expo-blur";
+
+// function RootStack() {
+//   return (
+//     <Stack.Navigator initialRouteName="Home">
+//       <Stack.Screen name="Home" component={Index} />
+//     </Stack.Navigator>
+//   );
+// }
 
 export default function BottomNavigationSheet() {
   const { isVisible, hideBottomSheet } = useBottomSheet();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const navigation = useNavigation();
+  const router = useRouter();
 
   useEffect(() => {
     if (isVisible) {
@@ -21,6 +30,7 @@ export default function BottomNavigationSheet() {
 
   const handleSheetChanges = useCallback(
     (index: number) => {
+      console.log(index);
       if (index === -1) {
         hideBottomSheet();
       }
@@ -30,7 +40,8 @@ export default function BottomNavigationSheet() {
 
   const navigateTo = (screen: string) => {
     hideBottomSheet();
-    navigation.navigate(screen as never);
+    router.push(`/${screen}` as any);
+    // navigation.navigate(screen as never);
   };
 
   if (!isVisible) return null;
@@ -50,7 +61,13 @@ export default function BottomNavigationSheet() {
         {/* FIXME: blue view not working */}
         {/* <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> */}
         <BottomSheetView style={styles.bottomsheetContent}>
-          <TouchableOpacity onPress={() => navigateTo("index")}>
+          <TouchableOpacity
+            onPress={() => {
+              // hideBottomSheet();
+              // router.push("/");
+              navigateTo("");
+            }}
+          >
             <Text style={styles.bottomsheetText}>Home</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigateTo("feature-analysis")}>
