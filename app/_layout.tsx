@@ -1,28 +1,29 @@
 import { Stack } from "expo-router";
-import { Text } from "react-native";
+import BottomNavigationSheet from "@/components/BottomNavigationSheet";
+import { BottomSheetProvider } from "@/components/BottomSheetContext";
 
 const { Screen } = Stack;
 const accent = "#006fff";
 
 export default function RootLayout() {
-    return (
-        <Stack
-            screenOptions={{
-                headerShown: false,
-                // headerStyle: {
-                //     backgroundColor: "#01000f",
-                // },
-                // headerTitleStyle: {
-                //     color: "#ddd",
-                //     fontWeight: 700,
-                // },
-                // headerTintColor: accent,
-                // headerRight: () => <Text className="text-white">Menu</Text>,
-                // headerTitleAlign: "center",
-            }}
-        >
-            <Screen name="index" options={{ title: "Home" }} />
-            <Screen name="recording" options={{ title: "Recording" }} />
-        </Stack>
-    );
+  return (
+    <BottomSheetProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Screen name="index" options={{ title: "Home" }} />
+        <Screen name="recording" options={{ title: "Recording" }} />
+        <Screen name="select_language" options={{ title: "Select Language" }} />
+        <Screen name="analysis" options={{ title: "Analysis" }} />
+        <Screen name="classification" options={{ title: "Classification" }} />
+        <Screen
+          name="feature-analysis"
+          options={{ title: "Feature Analysis" }}
+        />
+      </Stack>
+      <BottomNavigationSheet />
+    </BottomSheetProvider>
+  );
 }
