@@ -16,16 +16,10 @@ export default function () {
     const router = useRouter();
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require(
-            "../assets/fonts/Poppins/Poppins-Regular.ttf",
-        ),
+        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
-        ),
-        "PublicSans-Bold": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
-        ),
+        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
 
     useEffect(() => {
