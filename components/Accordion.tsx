@@ -11,10 +11,12 @@ import {
 } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
+import localImages from "../store/imageMap";
 
 export default function Accordion({
     title,
     description,
+    list,
     isOpened = false,
     image,
 }: {
@@ -22,9 +24,17 @@ export default function Accordion({
     description: string;
     isOpened: boolean;
     image: string;
+    list?: {
+        type: "bullet" | "number";
+        items: {
+            title: string;
+            description: string;
+        }[];
+    };
 }) {
     const [opened, setOpened] = useState(isOpened);
     const [imageKey, setImageKey] = useState(Date.now());
+    const imageSource = image && localImages[image];
 
     useEffect(() => {
         if (Platform.OS === "android") {
@@ -89,28 +99,58 @@ export default function Accordion({
                             <Text className="text-white font-normal">
                                 {description}
                             </Text>
+                            {list && (
+                                <View className="mt-2">
+                                    {list.items.map((item, idx) => (
+                                        <View
+                                            key={idx}
+                                            className="flex flex-row gap-4 mb-2"
+                                        >
+                                            <Text className="text-secondary leading-6">
+                                                {list.type === "number"
+                                                    ? `${idx + 1}.`
+                                                    : "•"}
+                                            </Text>
+                                            <View className="flex-1">
+                                                <Text className="text-secondary font-bold">
+                                                    {item.title}:{" "}
+                                                    <Text className="font-normal text-secondary">
+                                                        {item.description}
+                                                    </Text>
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    ))}
+                                </View>
+                            )}
                         </View>
-
-                        <View
-                            style={{
-                                height: 215,
-                                width: "100%",
-                                borderRadius: 10,
-                            }}
-                            className="p-4 bg-white"
-                        >
-                            <Image
-                                key={imageKey}
-                                source={{
-                                    uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
-                                }}
+                        {image !== "" && (
+                            <View
                                 style={{
-                                    flex: 1,
+                                    height: 215,
                                     width: "100%",
+                                    borderRadius: 10,
                                 }}
-                                resizeMode="cover"
-                            />
-                        </View>
+                                className="p-4 bg-white"
+                            >
+                                <Image
+                                    key={imageKey}
+                                    source={
+                                        image.startsWith("http") ||
+                                        image.includes("/")
+                                            ? {
+                                                  uri: `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`,
+                                              }
+                                            : imageSource || null
+                                    }
+                                    style={{
+                                        flex: 1,
+                                        width: "100%",
+                                    }}
+                                    resizeMode="cover"
+                                />
+                            </View>
+                        )}
                     </View>
                 )}
             </View>
