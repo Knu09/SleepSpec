@@ -12,7 +12,7 @@ import { useRouter } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Results() {
+export default function Analysis() {
     const { result } = useClassStore();
     const router = useRouter();
 
