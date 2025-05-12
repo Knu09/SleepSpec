@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import "@/global.css";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
