@@ -62,7 +62,6 @@ export default function TrainingResults() {
               description={manual.description}
               image={manual.image}
               isOpened={manual.isOpened}
-              {...(manual.list && { list: manual.list })}
             ></Accordion>
           ))}
         </View>
