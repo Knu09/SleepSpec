@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import Accordion from "@/components/Accordion";
 
 export default function TrainingResults() {
-  const user_manual = [
+  const training_results = [
     {
       title: "Accuracy",
       description:
@@ -19,8 +19,8 @@ export default function TrainingResults() {
     {
       title: "AUC-ROC Curve",
       description:
-        "Figure 16 shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension frequency-scale has the highest AUC of 0.95 (1.0 - 0.05), which is closer to 1.0, indicating an excellent separation between classes (See Figure 4). The second feature dimension with the high AUC is the combined features (Strf) with an AUC of 0.86, which is also within the very good range from Figure 4. The third feature dimension that aligns the value of AUC in combined features is the frequency-rate has a very good with an AUC of 0.85. While the scale-rate, performs a satisfactory that lies with an AUC of 0.70. Overall, the frequency-scale performs an excellent feature for the SVM classifier.",
-      image: "../assets/images/roc_curve_all_dimensions.png",
+        "The figure below shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension frequency-scale has the highest AUC of 0.95 (1.0 - 0.05), which is closer to 1.0, indicating an excellent separation between classes (See Figure 4). The second feature dimension with the high AUC is the combined features (Strf) with an AUC of 0.86, which is also within the very good range from Figure 4. The third feature dimension that aligns the value of AUC in combined features is the frequency-rate has a very good with an AUC of 0.85. While the scale-rate, performs a satisfactory that lies with an AUC of 0.70. Overall, the frequency-scale performs an excellent feature for the SVM classifier.",
+      image: require("./../assets/images/roc_curve_all_dimensions.png"),
       isOpened: true,
     },
   ];
@@ -55,7 +55,7 @@ export default function TrainingResults() {
           </Text>
         </View>
         <View className="gap-5">
-          {user_manual.map((manual, index) => (
+          {training_results.map((manual, index) => (
             <Accordion
               key={index.toString()}
               title={manual.title}
