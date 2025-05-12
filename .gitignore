@@ -98,3 +98,4 @@ devenv.local.nix
 nativewind-env.d.ts
 
 ios/*
+android/*
