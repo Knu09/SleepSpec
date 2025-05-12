@@ -221,7 +221,7 @@ export default function Recording() {
             </ScrollView>
 
             <Overlay
-                heading="Pre - processing"
+                heading="Processing Audio Data"
                 state={upload}
                 redirect="/analysis"
             />
