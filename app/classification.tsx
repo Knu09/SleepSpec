@@ -45,10 +45,6 @@ export default function Classification() {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
-    const signalFinish = () => {
-        setPlayingSegmentID(null)
-    };
-
     const togglePlay = (s: Segment) => {
         if (s.id != playingSegmentID) {
             setPlayingSegmentID(s.id)
@@ -104,7 +100,6 @@ export default function Classification() {
                             selected={playingSegmentID == segment.id}
                             togglePlay={togglePlay}
                             player={player}
-                            signalFinish={signalFinish}
                         />
                     ))}
                 </ScrollView>
@@ -131,7 +126,6 @@ type AudioSegmentProps = {
     result: ClassResult;
     togglePlay: (s: Segment) => boolean;
     player: AudioPlayer,
-    signalFinish: () => void;
 };
 
 function AudioSegment({
@@ -140,7 +134,6 @@ function AudioSegment({
     result,
     togglePlay,
     player,
-    signalFinish,
 }: AudioSegmentProps) {
     const [seconds, setSeconds] = useState(0);
     const [playing, setPlaying] = useState(false);
