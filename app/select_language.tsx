@@ -1,8 +1,8 @@
 import Header from "@/components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { GestureResponderEvent, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import GradientSelectButton from "@/components/GradientSelectButton";
-import { Image } from "expo-image";
+import { Image, ImageSource } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { SplashScreen, useRouter } from "expo-router";
@@ -12,7 +12,7 @@ import { LANG } from "@/types/types";
 
 type LangChoiceProps = {
     lang: LANG;
-    src: NodeJS.Require;
+    src: ImageSource;
     name: string;
     border: string;
     setLang: React.Dispatch<React.SetStateAction<LANG>>;
