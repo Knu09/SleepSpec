@@ -96,3 +96,6 @@ devenv.local.nix
 .pre-commit-config.yaml
 
 nativewind-env.d.ts
+
+ios/*
+android/*
