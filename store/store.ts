@@ -13,17 +13,22 @@ type ClassStore = {
     setResult: (cr: ClassResult) => void;
 };
 
+export type PendingSegment = {
+    id: number;
+    uri: string;
+}
+
 export type Segment = {
     id: number;
     uri: string;
-    class?: CLASS;
-    confidence_score?: number;
+    class: CLASS;
+    confidence_score: number;
 };
 
 type SegmentStore = {
-    pendingSegments: Promise<Segment[]>;
+    pendingSegments: Promise<PendingSegment[]>;
     syncSegments: () => void;
-    syncResultsFrom: (evals: Evaluations, segments: Segment[]) => Segment[];
+    syncResultsFrom: (evals: Evaluations, segments: PendingSegment[]) => Segment[];
 };
 
 export const useLangStore = create<LangStore>((set) => ({
@@ -41,7 +46,7 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
         const url = `${process.env.EXPO_PUBLIC_API_URL}/segments`;
         const dest = new Directory(Paths.cache, "segments");
 
-        const fetchSegments = async (): Promise<Segment[]> => {
+        const fetchSegments = async (): Promise<PendingSegment[]> => {
             try {
                 // delete old files
                 if (dest.exists) dest.delete();
@@ -88,7 +93,7 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
         return segments.map((segment, i) => ({
             ...segment,
             class: classes[i],
-            score: scores[i],
+            confidence_score: scores[i],
         }));
     },
 }));
