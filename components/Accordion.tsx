@@ -23,13 +23,13 @@ export default function Accordion({
     image,
 }: {
     title: string;
-    description: string;
+    description?: string;
     isOpened: boolean;
     image?: ImageSourcePropType | string;
     list?: {
         type: "bullet" | "number";
         items: {
-            title: string;
+            title?: string;
             description: string;
         }[];
     };
@@ -123,7 +123,7 @@ export default function Accordion({
                 {opened && (
                     <View style={styles.contentAccordion} className="flex flex-col gap-3">
                         <View>
-                            <Text className="text-white font-normal">{description}</Text>
+                            { description != undefined && <Text className="text-white font-normal">{description}</Text>}
                             {list && (
                                 <View className="mt-2">
                                     {list.items.map((item, idx) => (
@@ -133,7 +133,7 @@ export default function Accordion({
                                             </Text>
                                             <View className="flex-1">
                                                 <Text className="text-secondary font-bold">
-                                                    {item.title}:
+                                                    {item.title && item.title + ": "}
                                                     <Text className="font-normal text-secondary">
                                                         {item.description}
                                                     </Text>
