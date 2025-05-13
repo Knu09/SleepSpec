@@ -17,7 +17,7 @@ export default function GradientSelectButton({
             style={{ borderRadius: 100 }}
         >
             <Pressable
-                className="rounded-full m-[1px] gap-4 justify-center py-5 px-10 bg-[#01000F]"
+                className="rounded-full m-[1px] gap-4 justify-center px-10 bg-[#01000F]"
                 style={{ width: 145, height: 45 }}
                 onPress={pressHandler}
             >
