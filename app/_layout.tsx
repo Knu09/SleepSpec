@@ -1,7 +1,7 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
 import BottomNavigationSheet from "@/components/BottomNavigationSheet";
 import { BottomSheetProvider } from "@/components/BottomSheetContext";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const { Screen } = Stack;
 const accent = "#006fff";
@@ -13,6 +13,7 @@ export default function RootLayout() {
                 <Stack
                     screenOptions={{
                         headerShown: false,
+                        animation: "fade_from_bottom",
                     }}
                 >
                     <Screen name="index" options={{ title: "Home" }} />
