@@ -34,6 +34,7 @@
     sources.enable = false;
     systemImages.enable = true;
     ndk.enable = true;
+    ndk.version = ["27.1.12297006"];
     googleAPIs.enable = true;
     googleTVAddOns.enable = false;
     android-studio = {

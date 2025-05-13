@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ClassResult, LANG } from "@/types/types";
+import { CLASS, ClassResult, Evaluations, LANG } from "@/types/types";
 import { Directory, File, Paths } from "expo-file-system/next";
 import { unzip } from "react-native-zip-archive";
 
@@ -16,11 +16,14 @@ type ClassStore = {
 export type Segment = {
     id: number;
     uri: string;
+    class?: CLASS;
+    confidence_score?: number;
 };
 
 type SegmentStore = {
     pendingSegments: Promise<Segment[]>;
     syncSegments: () => void;
+    syncResultsFrom: (evals: Evaluations, segments: Segment[]) => Segment[];
 };
 
 export const useLangStore = create<LangStore>((set) => ({
@@ -63,9 +66,9 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
                     .filter((entry) => entry instanceof File)
                     .map((file, i) => {
                         // remove 'file://' substring
-                        const cut = "file://".length
-                        const audiopath = file.uri.substring(cut)
-                        return { id: i + 1, uri: audiopath }
+                        const cut = "file://".length;
+                        const audiopath = file.uri.substring(cut);
+                        return { id: i + 1, uri: audiopath };
                     });
             } catch (error) {
                 console.error("Error:", error);
@@ -75,5 +78,17 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
         };
 
         set({ pendingSegments: fetchSegments() });
+    },
+    syncResultsFrom: ({ classes, scores }, segments) => {
+        if (classes.length != scores.length) {
+            console.error("Insufficient classes or scores received!");
+            return [];
+        }
+
+        return segments.map((segment, i) => ({
+            ...segment,
+            class: classes[i],
+            score: scores[i],
+        }));
     },
 }));

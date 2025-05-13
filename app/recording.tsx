@@ -139,7 +139,7 @@ export default function Recording() {
         console.log(result);
         setUpload(Process.READY);
 
-        setResult(CLASS.fromJSON(result));
+        setResult(CLASS.from(result));
         syncSegments()
     }
 
@@ -233,12 +233,16 @@ async function uploadAudio(audioUri: string): Promise<
     {
         class: number;
         confidence_score: number;
+        classes: number[];
+        scores: number[];
     } | void
 > {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {
             class: 1,
+            classes: [1],
+            scores: [0.56],
             confidence_score: 0.56,
         };
     }
