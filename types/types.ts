@@ -1,3 +1,4 @@
+import { Segment } from "@/store/store";
 import { ColorValue } from "react-native";
 
 export type Timer = {
@@ -9,8 +10,8 @@ export namespace Timer {
     export function fromSeconds(seconds: number): Timer {
         return {
             secs: Math.floor(seconds % 60),
-            mins: Math.floor(seconds / 60)
-        }
+            mins: Math.floor(seconds / 60),
+        };
     }
 
     export function format({ secs, mins }: Timer): string {
@@ -21,7 +22,7 @@ export namespace Timer {
     }
 
     export function reset(): Timer {
-        return { secs: 0, mins: 0 }
+        return { secs: 0, mins: 0 };
     }
 }
 
@@ -36,10 +37,6 @@ export enum LANG {
     ENGLISH,
     FILIPINO,
 }
-
-type CFS = {
-    score: number;
-};
 
 type Advices = {
     summary: string;
@@ -79,15 +76,23 @@ export enum CLASS {
     SD, // Sleep deprived
 }
 
+export type Evaluations = {
+    classes: CLASS[];
+    scores: number[];
+};
+
 export type ClassResult = {
     class: CLASS;
-    confidence_score: CFS;
+    confidence_score: number;
+    evals: Evaluations;
 };
 
 export namespace CLASS {
     type ResultObj = {
         class: number;
         confidence_score: number;
+        classes: number[];
+        scores: number[];
     };
 
     export function getTitle(result: ClassResult): string {
@@ -99,15 +104,19 @@ export namespace CLASS {
         }
     }
 
-    export function getTitleColor(result: ClassResult): ColorValue {
+    export function getTitleColor(result: ClassResult | Segment): ColorValue {
         return result.class == CLASS.SD ? "#ff2121" : "#006fff";
     }
 
-    export function fromJSON(data: ResultObj): ClassResult {
-        const { class: c, confidence_score: score } = data;
+    export function from(data: ResultObj): ClassResult {
+        const { class: c, confidence_score: score, classes, scores } = data;
         const result: ClassResult = {
             class: c == 1 ? CLASS.SD : CLASS.NSD,
-            confidence_score: { score },
+            confidence_score: score,
+            evals: {
+                classes: classes.map((c) => (c == 1 ? CLASS.SD : CLASS.NSD)),
+                scores,
+            },
         };
 
         return result;
@@ -118,7 +127,7 @@ export namespace CLASS {
     }
 
     export function getConfScorePercent(self: ClassResult): string {
-        let percent = self.confidence_score.score * 100;
+        let percent = self.confidence_score * 100;
         return percent.toFixed(2) + "%";
     }
 }
@@ -127,8 +136,7 @@ const scripts = {
     [LANG.ENGLISH]:
         "He was an old man, who, at the age of nearly sixty, had postponedly encountered that thing in sorrow’s technicals called ruin. He had been an artisan of famed excellence, and with plenty to do; owned a house and garden; embraced a youthful, daughter-like, loving wife, and three blithe, ruddy children; every Sunday went to a cheerful-looking church, planted in a grove.\n\nBut one night, under cover of darkness, and further concealed in a most cunning disguisement, a desperate burglar slid into his happy home, and robbed them all of everything. And darker yet to tell, the blacksmith himself did ignorantly conduct this burglar into his family’s heart. It was the Bottle Conjuror! Upon the opening of that fatal cork, forth flew the fiend, and shriveled up his home.",
 
-    [LANG.FILIPINO]:
-        `Ngayon, nais kong pag-usapan ang isang napakahalagang paksa na madalas nating binabalewala—ang kahalagahan ng pagtulog. Sa mundong mabilis ang takbo, kadalasan nating inuuna ang tulog, pag-aaral, at iba pang gawain kaysa ang ating kalusugan. Ngunit, alam ba ninyo na ang kawalan ng sapat na tulog ay may masamang epekto sa ating katawan at isipan?
+    [LANG.FILIPINO]: `Ngayon, nais kong pag-usapan ang isang napakahalagang paksa na madalas nating binabalewala—ang kahalagahan ng pagtulog. Sa mundong mabilis ang takbo, kadalasan nating inuuna ang tulog, pag-aaral, at iba pang gawain kaysa ang ating kalusugan. Ngunit, alam ba ninyo na ang kawalan ng sapat na tulog ay may masamang epekto sa ating katawan at isipan?
     Kapag kulang tayo sa tulog, bumababa ang ating
 `,
     // ENGLISH = `
@@ -169,26 +177,22 @@ const advices: {
             {
                 id: "2",
                 title: "Maintaining a Consistent Sleep Schedule",
-                desc:
-                    "Going to bed and waking up at the same time daily helps regulate your body's internal clock.",
+                desc: "Going to bed and waking up at the same time daily helps regulate your body's internal clock.",
             },
             {
                 id: "3",
                 title: "Creating a Relaxing Bedtime Routine",
-                desc:
-                    "Reduce screen time, avoid caffeine, and engage in relaxation techniques such as meditation or reading before bed.",
+                desc: "Reduce screen time, avoid caffeine, and engage in relaxation techniques such as meditation or reading before bed.",
             },
             {
                 id: "4",
                 title: "Optimizing Sleep Environment",
-                desc:
-                    "Keep your room dark, cool, and quiet to enhance sleep quality.",
+                desc: "Keep your room dark, cool, and quiet to enhance sleep quality.",
             },
             {
                 id: "5",
                 title: "Monitoring Your Sleep Patterns",
-                desc:
-                    "If sleep deprivation persists, consult a healthcare professional for further evaluation.",
+                desc: "If sleep deprivation persists, consult a healthcare professional for further evaluation.",
             },
         ],
     },
@@ -215,26 +219,22 @@ const advices: {
             {
                 id: "1",
                 title: "Continue Following a Healthy Sleep Routine",
-                desc:
-                    "Stick to a regular sleep schedule and avoid late-night disruptions.",
+                desc: "Stick to a regular sleep schedule and avoid late-night disruptions.",
             },
             {
                 id: "2",
                 title: "Practice Good Sleep Hygiene",
-                desc:
-                    "Limit screen exposure before bedtime and create a restful sleeping environment.",
+                desc: "Limit screen exposure before bedtime and create a restful sleeping environment.",
             },
             {
                 id: "3",
                 title: "Manage Stress and Lifestyle Factors",
-                desc:
-                    "Engage in regular physical activity, avoid heavy meals before sleep, and manage stress effectively.",
+                desc: "Engage in regular physical activity, avoid heavy meals before sleep, and manage stress effectively.",
             },
             {
                 id: "4",
                 title: "Stay Hydrated and Maintain a Balanced Diet",
-                desc:
-                    "Proper hydration and nutrition contribute to better overall sleep health.",
+                desc: "Proper hydration and nutrition contribute to better overall sleep health.",
             },
         ],
     },
