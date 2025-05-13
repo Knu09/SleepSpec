@@ -46,7 +46,7 @@ export default function Analysis() {
     return (
         <SafeAreaView className="bg-darkBg flex-1">
             <Header title={"Analysis"} back={true} menu={true} />
-            <View className="mt-10 px-6 flex-1 relative pb-28">
+            <View className="mt-4 px-6 flex-1 relative pb-28">
                 <View className="flex justify-center items-center text-center">
                     <Text className="text-secondary">You are</Text>
                     <Text
@@ -59,7 +59,7 @@ export default function Analysis() {
 
                 <View className="my-6">
                     <Text className="text-secondary text-xl mb-4 font-medium text-center">
-                        Confidence Scoren:
+                        Confidence Score:
                     </Text>
                     <Text className="text-5xl text-center font-extrabold text-secondary">
                         {CLASS.getConfScorePercent(result)}

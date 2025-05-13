@@ -14,22 +14,79 @@ export default function FeatureAnalysis() {
     const STM = [
         {
             title: "Scale-Rate Representation",
-            description:
-                "Displays how spectral (scale) and temporal (rate) modulatinos interact in speech. It rhythmic and dynamic changes in voice affected by sleep deprivation. It helps detect slower speech rates and altered spectral modulation, common in fatigued individuals. ",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        description:
+                            "Shows how fast the voice’s amplitude patterns change over time — like how quickly someone is speaking or emphasizing words.",
+                    },
+                    {
+                        description:
+                            "Displays how spectral(scale) and temporal(rate) modulations interact in speech.",
+                    },
+                    {
+                        description:
+                            "Captures rhythmic and dynamic changes in voice affected by sleep deprivation.",
+                    },
+                    {
+                        description:
+                            "Helps detect slower speech rates and altered spectral modulation, common in fatigued individuals.",
+                    },
+                ],
+            },
             isOpened: true,
             image: "avg_scale_rate.png",
         },
         {
             title: "Frequency-Rate Representation",
-            description:
-                "Examines the relationship between speech frequency components and spectral scales. It highlights how vocal harmonics and formants shift due to sleep deprivation.",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        description:
+                            "Shows how fast the voice’s amplitude patterns change over time — like how quickly someone is speaking or emphasizing words.",
+                    },
+                    {
+                        description:
+                            "Displays how spectral(scale) and temporal(rate) modulations interact in speech.",
+                    },
+                    {
+                        description:
+                            "Captures rhythmic and dynamic changes in voice affected by sleep deprivation.",
+                    },
+                    {
+                        description:
+                            "Helps detect slower speech rates and altered spectral modulation, common in fatigued individuals.",
+                    },
+                ],
+            },
             isOpened: false,
             image: "avg_freq_rate.png",
         },
         {
             title: "Frequency-Scale Representation",
-            description:
-                "Analyzes how different frequency components (voice pitch, formants) change over time. It captures how fast or slow vocal frequencies modulate (e.g., irregular speech patterns due to fatigue).",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        description:
+                            "Shows how fast the voice’s amplitude patterns change over time — like how quickly someone is speaking or emphasizing words.",
+                    },
+                    {
+                        description:
+                            "Displays how spectral(scale) and temporal(rate) modulations interact in speech.",
+                    },
+                    {
+                        description:
+                            "Captures rhythmic and dynamic changes in voice affected by sleep deprivation.",
+                    },
+                    {
+                        description:
+                            "Helps detect slower speech rates and altered spectral modulation, common in fatigued individuals.",
+                    },
+                ],
+            },
             isOpened: false,
             image: "avg_freq_scale.png",
         },
@@ -58,7 +115,7 @@ export default function FeatureAnalysis() {
             <Header title={"Feature Analysis"} back={true} menu={true} />
             <View className="px-6 flex-1 pb-2">
                 <ScrollView
-                    className="mt-10"
+                    className="mt-4"
                     style={{
                         flex: 1,
                     }}
@@ -77,13 +134,16 @@ export default function FeatureAnalysis() {
                     </View>
                     <View className="flex flex-col items-center gap-5 mb-32">
                         <View className="flex flex-col px-2">
-                            <Text className="text-secondary text-center font-bold border-b-lightWhite">
+                            <Text className="text-xl text-secondary text-center font-bold border-b-lightWhite">
                                 Spectro-Temporal Modulation
                             </Text>
                             <View className="w-full h-[1px] bg-lightWhite"></View>
                             <Text className="text-secondary/80">
-                                Spectro-temporal modulation (STM) description
-                                goes here...
+                                Spectro-Temporal Modulation (STM) helps us understand the rhythm
+                                and texture of a person’s voice — how their pitch (frequency)
+                                and loudness (amplitude) change over time. In simpler terms, it
+                                breaks down speech like a fingerprint, showing how your voice
+                                moves up and down (like melody) and how quickly it changes.
                             </Text>
                         </View>
                         {/* Customized Collapsible */}
@@ -91,7 +151,7 @@ export default function FeatureAnalysis() {
                             <Accordion
                                 key={index.toString()}
                                 title={stm.title}
-                                description={stm.description}
+                                list={stm.list}
                                 isOpened={stm.isOpened}
                                 image={stm.image}
                             ></Accordion>
