@@ -12,6 +12,7 @@ import { LANG } from "@/types/types";
 
 type LangChoiceProps = {
     lang: LANG;
+    currentLang: LANG;
     src: ImageSource;
     name: string;
     border: string;
@@ -26,6 +27,7 @@ export default function SelectLanguage() {
     const languages: LangChoiceProps[] = [
         {
             lang: LANG.ENGLISH,
+            currentLang: lang,
             src: require("@/assets/images/flag-us.svg"),
             name: "English",
             border: "border-b-lightWhite",
@@ -33,6 +35,7 @@ export default function SelectLanguage() {
         },
         {
             lang: LANG.FILIPINO,
+            currentLang: lang,
             src: require("@/assets/images/flag-ph.svg"),
             name: "Filipino",
             border: "border-x-lightWhite border-b-lightWhite",
@@ -84,12 +87,23 @@ export default function SelectLanguage() {
     );
 }
 
-function LangChoice({ lang, src, name, border, setLang }: LangChoiceProps) {
+function LangChoice({
+    lang,
+    currentLang,
+    src,
+    name,
+    border,
+    setLang,
+}: LangChoiceProps) {
+    const IS_SELECTED = lang == currentLang;
+
     return (
         <Pressable
             key={lang}
+            disabled={IS_SELECTED}
             onPress={() => setLang(lang)}
             className={`w-1/3 items-center p-5 border gap-3 ${border}`}
+            style={{ opacity: IS_SELECTED ? 0.5 : 1 }}
         >
             <Image style={{ width: 80, aspectRatio: 1 }} source={src} />
             <Text className="text-white text-xl font-bold">{name}</Text>

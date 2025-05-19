@@ -1,10 +1,10 @@
-import { Image } from "expo-image";
+import { Image, ImageSource } from "expo-image";
 import { Href, useRouter } from "expo-router";
 import { useRouteInfo } from "expo-router/build/hooks";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type TabProps = {
-    icon: NodeJS.Require;
+    icon: ImageSource;
     name: string;
     link: Href;
 };

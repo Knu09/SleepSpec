@@ -1,4 +1,5 @@
 import { Segment } from "@/store/store";
+import { ImageSource } from "expo-image";
 import { ColorValue } from "react-native";
 
 export type Timer = {
@@ -57,7 +58,7 @@ export namespace LANG {
         }
     }
 
-    export function asImg(self: LANG): NodeJS.Require {
+    export function asImg(self: LANG): ImageSource {
         switch (self) {
             case LANG.ENGLISH:
                 return require("@/assets/images/flag-us.svg");
