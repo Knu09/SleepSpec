@@ -16,21 +16,27 @@ const PAUSE_BTN = require("@/assets/images/pause-btn.svg");
 export default function Classification() {
     const router = useRouter();
     const { result } = useClassStore();
-    const { pendingSegments } = useSegmentStore();
+    const { pendingSegments, syncResultsFrom } = useSegmentStore();
     const [segments, setSegments] = useState<Segment[]>([]);
     const [download, setDownload] = useState(Process.PENDING);
     const [playingSegmentID, setPlayingSegmentID] = useState<number | null>(null);
     const player = useAudioPlayer(undefined);
 
     useEffect(() => {
-        pendingSegments.then((value) => {
-            if (value.length == 0) {
+
+        if (!result) {
+            console.error("No Results Found!");
+            return;
+        }
+
+        pendingSegments.then((segments) => {
+            if (segments.length == 0) {
                 setDownload(Process.FAILED);
                 return;
             }
 
             setDownload(Process.READY);
-            setSegments(value);
+            setSegments(syncResultsFrom(result.evals, segments));
         });
     }, []);
 
@@ -96,7 +102,6 @@ export default function Classification() {
                         <AudioSegment
                             key={segment.id}
                             segment={segment}
-                            result={result}
                             selected={playingSegmentID == segment.id}
                             togglePlay={togglePlay}
                             player={player}
@@ -123,7 +128,6 @@ export default function Classification() {
 type AudioSegmentProps = {
     selected: boolean;
     segment: Segment;
-    result: ClassResult;
     togglePlay: (s: Segment) => boolean;
     player: AudioPlayer,
 };
@@ -131,7 +135,6 @@ type AudioSegmentProps = {
 function AudioSegment({
     selected,
     segment,
-    result,
     togglePlay,
     player,
 }: AudioSegmentProps) {
@@ -175,14 +178,14 @@ function AudioSegment({
                     {Timer.format(timer)} / 00:15 &nbsp;&nbsp;
                     <Text
                         className="font-semibold"
-                        style={{ color: CLASS.getTitleColor(result) }}
+                        style={{ color: CLASS.getTitleColor(segment) }}
                     >
-                        {CLASS.getTitle(result)}
+                        {CLASS.getTitle(segment)}
                     </Text>
                 </Text>
                 <Text className="text-secondary font-semibold">
                     Confidence Score:&nbsp;
-                    <Text className="text-lightWhite font-normal">69.0%</Text>
+                    <Text className="text-lightWhite font-normal">{CLASS.getConfScorePercent(segment)}</Text>
                 </Text>
             </View>
 

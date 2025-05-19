@@ -95,7 +95,7 @@ export namespace CLASS {
         scores: number[];
     };
 
-    export function getTitle(result: ClassResult): string {
+    export function getTitle(result: ClassResult | Segment): string {
         switch (result.class) {
             case CLASS.SD:
                 return "Sleep-Deprived";
@@ -126,7 +126,7 @@ export namespace CLASS {
         return advices[result.class];
     }
 
-    export function getConfScorePercent(self: ClassResult): string {
+    export function getConfScorePercent(self: ClassResult | Segment): string {
         let percent = self.confidence_score * 100;
         return percent.toFixed(2) + "%";
     }
