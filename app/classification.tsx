@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { Segment, useClassStore, useSegmentStore } from "@/store/store";
 import { SplashScreen, useRouter } from "expo-router";
-import { CLASS, ClassResult, Process, Timer } from "@/types/types";
+import { CLASS, Process, Timer } from "@/types/types";
 import { Image } from "expo-image";
 import TabNavigation from "@/components/TabNavigation";
 import Overlay from "@/components/Overlay";
