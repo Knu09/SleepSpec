@@ -58,6 +58,10 @@ export default function BottomNavigationSheet() {
             {/* TODO: change the navigation links */}
             {/* FIXME: blue view not working */}
             {/* <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> */}
+            <View
+                className="w-6 h-1 bg-white"
+                style={styles.drawerHolder}
+            ></View>
             <BottomSheetView style={styles.bottomsheetContent}>
                 <TouchableOpacity
                     onPress={() => {
@@ -91,15 +95,23 @@ export default function BottomNavigationSheet() {
 
 const styles = StyleSheet.create({
     bottomsheetContent: {
-        backgroundColor: "transparent",
-        alignItems: "center",
+        backgroundColor: "#23242A",
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
-        paddingVertical: 20,
+        paddingTop: 20,
+        paddingBottom: 30,
+        paddingHorizontal: 20,
     },
     bottomsheetText: {
-        color: "#ffffff",
+        color: "#DDDDDD",
         marginVertical: 12,
         fontSize: 16,
+    },
+
+    drawerHolder: {
+        top: 15,
+        left: "47%",
+        borderRadius: 20,
+        zIndex: 100,
     },
 });
