@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { Segment, useClassStore, useSegmentStore } from "@/store/store";
 import { SplashScreen, useRouter } from "expo-router";
-import { CLASS, ClassResult, Process, Timer } from "@/types/types";
+import { CLASS, Process, Timer } from "@/types/types";
 import { Image } from "expo-image";
 import TabNavigation from "@/components/TabNavigation";
 import Overlay from "@/components/Overlay";
@@ -59,6 +59,7 @@ export default function Classification() {
 
             return true;
         } else {
+            setPlayingSegmentID(null)
             if (player.playing) {
                 player.pause();
                 player.seekTo(0);
@@ -139,7 +140,7 @@ function AudioSegment({
     player,
 }: AudioSegmentProps) {
     const [seconds, setSeconds] = useState(0);
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(selected);
     const timerRef = useRef<number>(0);
     const timer = Timer.fromSeconds(seconds)
 
@@ -151,7 +152,7 @@ function AudioSegment({
             }
         }
 
-        if (selected) {
+        if (playing) {
             timerRef.current = setInterval(() => {
                 setPlaying(player.playing)
 
@@ -166,7 +167,7 @@ function AudioSegment({
 
         // remove interval when component unmounts
         return cleanup;
-    }, [selected]);
+    }, [playing]);
 
     return (
         <View className="flex-1 flex-row justify-between mt-7">
