@@ -59,6 +59,7 @@ export default function Classification() {
 
             return true;
         } else {
+            setPlayingSegmentID(null)
             if (player.playing) {
                 player.pause();
                 player.seekTo(0);
@@ -142,8 +143,10 @@ function AudioSegment({
     const [playing, setPlaying] = useState(false);
     const timerRef = useRef<number>(0);
     const timer = Timer.fromSeconds(seconds)
+    console.log(`${seconds} playing: ${playing} selected: ${selected}`)
 
     useEffect(() => {
+        console.log("effect ran")
         const cleanup = () => {
             if (timerRef.current) {
                 setSeconds(0);
@@ -166,7 +169,7 @@ function AudioSegment({
 
         // remove interval when component unmounts
         return cleanup;
-    }, [selected]);
+    }, [selected, playing]);
 
     return (
         <View className="flex-1 flex-row justify-between mt-7">
