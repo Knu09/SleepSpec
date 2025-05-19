@@ -16,7 +16,7 @@ export default function RootLayout() {
                         animation: "fade_from_bottom",
                     }}
                 >
-                    <Screen name="index" options={{ title: "Home" }} />
+                    <Screen name="index" options={{ title: "" }} />
                     <Screen name="recording" options={{ title: "Recording" }} />
                     <Screen
                         name="select_language"
