@@ -140,13 +140,11 @@ function AudioSegment({
     player,
 }: AudioSegmentProps) {
     const [seconds, setSeconds] = useState(0);
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(selected);
     const timerRef = useRef<number>(0);
     const timer = Timer.fromSeconds(seconds)
-    console.log(`${seconds} playing: ${playing} selected: ${selected}`)
 
     useEffect(() => {
-        console.log("effect ran")
         const cleanup = () => {
             if (timerRef.current) {
                 setSeconds(0);
@@ -154,7 +152,7 @@ function AudioSegment({
             }
         }
 
-        if (selected) {
+        if (playing) {
             timerRef.current = setInterval(() => {
                 setPlaying(player.playing)
 
@@ -169,7 +167,7 @@ function AudioSegment({
 
         // remove interval when component unmounts
         return cleanup;
-    }, [selected, playing]);
+    }, [playing]);
 
     return (
         <View className="flex-1 flex-row justify-between mt-7">
