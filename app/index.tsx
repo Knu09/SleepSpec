@@ -44,12 +44,15 @@ export default function Index() {
                 }}
             >
                 <View className="flex flex-col items-center">
-                    {/* <SleepSpecLogo></SleepSpecLogo> */}
+                    <SleepSpecLogo></SleepSpecLogo>
                     <SleepSpecTitle
                         width={218 + 60}
-                        height={80}
+                        height={75}
                     ></SleepSpecTitle>
-                    <Text className="text-center text-3xl px-5 text-white font-poppinsBold">
+                    <Text
+                        className="text-center px-5 text-white font-poppins"
+                        style={styles.subtitle}
+                    >
                         Sleep Deprivation Detection using SVM
                     </Text>
                 </View>
@@ -128,6 +131,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         color: "white",
         textAlign: "center",
+    },
+
+    subtitle: {
+        fontSize: 15,
     },
 
     linearGradientMicrophone: {

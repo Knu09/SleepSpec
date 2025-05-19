@@ -35,8 +35,94 @@ export default function UserManual() {
                     },
                 ],
             },
+            image: require("./../assets/images/home_guide.png"),
+            isOpened: false,
+        },
+        {
+            title: "Select Language Page",
+            description:
+                "Pick the language you are most comfortable speaking. The sentence you need to read will appear based on this choice. On this page, you can choose between:",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        title: "English",
+                        description: "English speech script",
+                    },
+                    {
+                        title: "Filipino",
+                        description: "Filipino speech script",
+                    },
+                ],
+            },
+            image: require("./../assets/images/language_selector_guide.png"),
+            isOpened: false,
+        },
+        {
+            title: "Recording Page",
+            description:
+                "The app will automatically process your recording and check for signs of sleep deprivation.",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        title: "Change Language",
+                        description:
+                            "If you want to switch to another language before recording, you can still do it here.",
+                    },
+                    {
+                        title: "Read the Sentence",
+                        description:
+                            "The sentence you need to read will appear based on the language you selected.",
+                    },
+                    {
+                        title: "Microphone Button Controls",
+                        description:
+                            "Tap once to start recording, tap again to pause the recordin, and press and hold to stop recording and analyze your voice.",
+                    },
+                ],
+            },
+            image: require("./../assets/images/recording_guide.png"),
+            isOpened: false,
+        },
+        {
+            title: "Tips for Best Results",
+            description:
+                "When you open the app, you will see two main buttons:",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        description: "Use the app in a quiet place.",
+                    },
+                    {
+                        description:
+                            "Speak naturally—no need to rush or change your voice.",
+                    },
+                    {
+                        description:
+                            "Follow the instructions on screen for a smooth experience.",
+                    },
+                ],
+            },
             image: "home_guide.png",
-            isOpened: true,
+            isOpened: false,
+        },
+        {
+            title: "Need Help?",
+            description:
+                "If you're unsure what to do, you can always return to the User Manual from the Home Page and Menu Bar.",
+            list: {
+                type: "bullet",
+                items: [
+                    {
+                        title: "Email us",
+                        description: "sleepspec@gmail.com",
+                    },
+                ],
+            },
+            image: "home_guide.png",
+            isOpened: false,
         },
     ];
 
