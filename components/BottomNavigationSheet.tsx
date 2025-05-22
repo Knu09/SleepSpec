@@ -53,7 +53,8 @@ export default function BottomNavigationSheet() {
             snapPoints={["30%"]}
             handleComponent={() => null}
             enablePanDownToClose={true}
-            backgroundStyle={{ backgroundColor: "#000000" }}
+            backgroundStyle={{ backgroundColor: "transparent" }}
+            style={styles.bottomSheetWrapper}
         >
             {/* TODO: change the navigation links */}
             {/* FIXME: blue view not working */}
@@ -94,10 +95,12 @@ export default function BottomNavigationSheet() {
 }
 
 const styles = StyleSheet.create({
-    bottomsheetContent: {
+    bottomSheetWrapper: {
         backgroundColor: "#23242A",
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+    },
+    bottomsheetContent: {
         paddingTop: 20,
         paddingBottom: 30,
         paddingHorizontal: 20,
