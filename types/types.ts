@@ -52,9 +52,9 @@ export namespace LANG {
     export function asString(lang: LANG): string {
         switch (lang) {
             case LANG.ENGLISH:
-                return "English";
+                return "AMERICAN E";
             case LANG.FILIPINO:
-                return "Filipino";
+                return "FILIPINO";
         }
     }
 
