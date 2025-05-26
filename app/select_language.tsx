@@ -29,7 +29,7 @@ export default function SelectLanguage() {
             lang: LANG.ENGLISH,
             currentLang: lang,
             src: require("@/assets/images/flag-us.svg"),
-            name: "English",
+            name: "AMERICAN E",
             border: "border-b-lightWhite",
             setLang,
         },
@@ -102,11 +102,31 @@ function LangChoice({
             key={lang}
             disabled={IS_SELECTED}
             onPress={() => setLang(lang)}
-            className={`w-1/3 items-center p-5 border gap-3 ${border}`}
-            style={{ opacity: IS_SELECTED ? 1 : 0.5 }}
+            className={`w-1/3 items-center p-2 py-5 border gap-3 ${border}`}
         >
-            <Image style={{ width: 80, aspectRatio: 1 }} source={src} />
-            <Text className="text-white text-xl font-bold">{name}</Text>
+            <Image
+                style={{
+                    width: 80,
+                    aspectRatio: 1,
+                    opacity: IS_SELECTED ? 1 : 0.5,
+                }}
+                source={src}
+            />
+            <View
+                style={{
+                    opacity: IS_SELECTED ? 1 : 0.5,
+                }}
+            >
+                <Text className="text-primaryBlue text-center font-publicsans uppercase text-lg font-bold">
+                    {name}
+                </Text>
+                <Text className="text-secondary text-center font-publicsans font-bold text-sm leading-6">
+                    Maring
+                </Text>
+                <Text className="pb-2 text-secondary text-center font-publicsans text-sm leading-none">
+                    ch. 1, Napitas ang Bulaklak
+                </Text>
+            </View>
         </Pressable>
     );
 }
