@@ -26,7 +26,7 @@ import Overlay from "@/components/Overlay";
 type RecordingState = {
     timer: Timer;
     isRecording: boolean;
-}
+};
 
 enum RecordAction {
     START,
@@ -56,7 +56,7 @@ const recordReducer = (
 
             return {
                 ...state,
-                timer: Timer.fromSeconds((secs + 1) + mins * 60),
+                timer: Timer.fromSeconds(secs + 1 + mins * 60),
             };
     }
 };
@@ -140,7 +140,7 @@ export default function Recording() {
         setUpload(Process.READY);
 
         setResult(CLASS.from(result));
-        syncSegments()
+        syncSegments();
     }
 
     return (
@@ -149,21 +149,33 @@ export default function Recording() {
             <ScrollView className="flex gap-4 mt-10 px-6">
                 <View className="gap-2">
                     <Text className="text-lg text-white font-medium">
-                        Language
+                        Language Speech
                     </Text>
                     <Link href="/select_language" className="w-28">
                         <LanguageSelected />
                     </Link>
                 </View>
-                <View className="py-6">
-                    <ScrollView
-                        className="max-h-[350px] pb-6 border-2 rounded-lg border-blue-800 p-4"
-                        nestedScrollEnabled={true}
+                <View className="py-6 bg-transparent">
+                    <LinearGradient
+                        colors={["#006EFF", "#7800D3"]}
+                        start={{ x: 0.5, y: 0 }}
+                        end={{ x: 0.5, y: 1 }}
+                        className="flex justify-center items-center"
+                        style={{
+                            borderRadius: 15,
+                        }}
                     >
-                        <Text className=" text-lg leading-6 text-secondary font-light text-ellipsis">
-                            {LANG.getScript(lang)}
-                        </Text>
-                    </ScrollView>
+                        <View className=" rounded-[15px] m-[1px] bg-darkBg">
+                            <ScrollView
+                                className="max-h-[350px] mx-6"
+                                nestedScrollEnabled={true}
+                            >
+                                <Text className=" text-lg leading-6 py-4 text-secondary font-light text-ellipsis">
+                                    {LANG.getScript(lang)}
+                                </Text>
+                            </ScrollView>
+                        </View>
+                    </LinearGradient>
                 </View>
 
                 <Text className="text-white mx-auto text-3xl">
@@ -191,9 +203,11 @@ export default function Recording() {
                                 <Icon
                                     name="microphone"
                                     size={60}
-                                    color={recordState.isRecording
-                                        ? "#006fff"
-                                        : "#FFF"}
+                                    color={
+                                        recordState.isRecording
+                                            ? "#006fff"
+                                            : "#FFF"
+                                    }
                                 />
                             </View>
                         </LinearGradient>
@@ -229,14 +243,12 @@ export default function Recording() {
     );
 }
 
-async function uploadAudio(audioUri: string): Promise<
-    {
-        class: number;
-        confidence_score: number;
-        classes: number[];
-        scores: number[];
-    } | void
-> {
+async function uploadAudio(audioUri: string): Promise<{
+    class: number;
+    confidence_score: number;
+    classes: number[];
+    scores: number[];
+} | void> {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {
