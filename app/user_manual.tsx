@@ -105,7 +105,7 @@ export default function UserManual() {
                     },
                 ],
             },
-            image: "home_guide.png",
+            image: "",
             isOpened: false,
         },
         {
@@ -121,7 +121,7 @@ export default function UserManual() {
                     },
                 ],
             },
-            image: "home_guide.png",
+            image: "",
             isOpened: false,
         },
     ];
