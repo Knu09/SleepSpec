@@ -103,7 +103,7 @@ function LangChoice({
             disabled={IS_SELECTED}
             onPress={() => setLang(lang)}
             className={`w-1/3 items-center p-5 border gap-3 ${border}`}
-            style={{ opacity: IS_SELECTED ? 0.5 : 1 }}
+            style={{ opacity: IS_SELECTED ? 1 : 0.5 }}
         >
             <Image style={{ width: 80, aspectRatio: 1 }} source={src} />
             <Text className="text-white text-xl font-bold">{name}</Text>
