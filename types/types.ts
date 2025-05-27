@@ -52,9 +52,9 @@ export namespace LANG {
     export function asString(lang: LANG): string {
         switch (lang) {
             case LANG.ENGLISH:
-                return "AMERICAN E";
+                return "American E";
             case LANG.FILIPINO:
-                return "FILIPINO";
+                return "Filipino";
         }
     }
 
@@ -128,7 +128,8 @@ export namespace CLASS {
     }
 
     export function getConfScorePercent(self: ClassResult | Segment): string {
-        return self.confidence_score.toFixed(2) + "%";
+        let percent = self.confidence_score * 100;
+        return percent.toFixed(2) + "%";
     }
 }
 
