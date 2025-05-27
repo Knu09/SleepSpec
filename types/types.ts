@@ -112,7 +112,7 @@ export namespace CLASS {
     export function from(data: ResultObj): ClassResult {
         const { class: c, confidence_score: score, classes, scores } = data;
         const result: ClassResult = {
-            class: c == 1 ? CLASS.POST : CLASS.PRE,
+            class: c === "post" ? CLASS.POST : CLASS.PRE,
             confidence_score: score,
             evals: {
                 classes: classes.map((c) => (c == 1 ? CLASS.POST : CLASS.PRE)),
