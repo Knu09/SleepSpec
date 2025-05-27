@@ -17,16 +17,10 @@ export default function Analysis() {
     const router = useRouter();
 
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require(
-            "../assets/fonts/Poppins/Poppins-Regular.ttf",
-        ),
+        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf",
-        ),
-        "PublicSans-Bold": require(
-            "../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf",
-        ),
+        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
 
     useEffect(() => {
@@ -59,7 +53,7 @@ export default function Analysis() {
 
                 <View className="my-6">
                     <Text className="text-secondary text-xl mb-4 font-medium text-center">
-                        Confidence Score:
+                        Confidence Score
                     </Text>
                     <Text className="text-5xl text-center font-extrabold text-secondary">
                         {CLASS.getConfScorePercent(result)}
