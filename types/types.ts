@@ -115,7 +115,9 @@ export namespace CLASS {
             class: c === "post" ? CLASS.POST : CLASS.PRE,
             confidence_score: score,
             evals: {
-                classes: classes.map((c) => (c == 1 ? CLASS.POST : CLASS.PRE)),
+                classes: classes.map((c) =>
+                    c === "post" ? CLASS.POST : CLASS.PRE,
+                ),
                 scores,
             },
         };
