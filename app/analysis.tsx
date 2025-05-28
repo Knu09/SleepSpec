@@ -3,12 +3,14 @@ import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
 
 import Header from "@/components/Header";
 import TabNavigation from "@/components/TabNavigation";
 import { useClassStore } from "@/store/store";
 import { CLASS } from "@/types/types";
 import { useRouter } from "expo-router";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -52,12 +54,64 @@ export default function Analysis() {
                 </View>
 
                 <View className="my-6">
-                    <Text className="text-secondary text-xl mb-4 font-medium text-center">
-                        Confidence Score
-                    </Text>
-                    <Text className="text-5xl text-center font-extrabold text-secondary">
-                        {CLASS.getConfScorePercent(result)}
-                    </Text>
+                    <LinearGradient
+                        colors={["#006EFF", "#7800D3"]}
+                        start={{ x: 0.5, y: 0 }}
+                        end={{ x: 0.5, y: 1 }}
+                        className="flex justify-center items-center p-[1px]"
+                        style={{
+                            borderRadius: 15,
+                        }}
+                    >
+                        <View className="w-full rounded-[15px] gap-5 py-3 px-5 bg-darkBg">
+                            <View className="flex flex-row justify-between items-center">
+                                <Text className="text-secondary text-lg font-bold">
+                                    Detection Logs
+                                </Text>
+                                <FontAwesome6
+                                    size={15}
+                                    className="text-center"
+                                    width={15}
+                                    name={"circle-info"}
+                                    color="#006FFF"
+                                />
+                            </View>
+                            <View className="flex flex-row justify-between">
+                                <View className="flex flex-col gap-3">
+                                    <Text className="text-secondary text-sm font-bold font-publicsans">
+                                        Categories
+                                    </Text>
+                                    <View className="gap-1">
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            Sleep-deprived
+                                        </Text>
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            Non-Sleep-deprived
+                                        </Text>
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            Decision Score
+                                        </Text>
+                                    </View>
+                                </View>
+                                <View className="flex flex-col gap-3">
+                                    <Text className="text-secondary text-sm font-bold font-publicsans">
+                                        Confidence Score (Overall)
+                                    </Text>
+                                    <View className="gap-1">
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            82.6%
+                                        </Text>
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            17.4%
+                                        </Text>
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            1.245
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </LinearGradient>
                 </View>
 
                 <View className="gap-6 mb-4">
