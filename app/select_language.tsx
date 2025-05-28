@@ -71,7 +71,6 @@ export default function SelectLanguage() {
                 <View style={{ flex: 1 }}>
                     <View className="flex-row flex-wrap">
                         {languages.map(LangChoice)}
-                        <View className="w-1/3 border border-b-lightWhite focus:bg-lightWhite/80 hover:bg-lightWhite/50"></View>
                     </View>
                 </View>
             </View>
