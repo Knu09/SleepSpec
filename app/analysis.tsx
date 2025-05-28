@@ -37,6 +37,10 @@ export default function Analysis() {
 
     const advices = CLASS.getAdvices(result);
 
+    const probs = CLASS.getProbabilities(result);
+    const nsd_prob = probs[CLASS.PRE];
+    const sd_prob = probs[CLASS.POST];
+
     if (!fontsLoaded) return null;
 
     return (
@@ -65,7 +69,7 @@ export default function Analysis() {
                     >
                         <View className="w-full rounded-[15px] gap-5 py-3 px-5 bg-darkBg">
                             <View className="flex flex-row justify-between items-center">
-                                <Text className="text-secondary text-lg font-bold">
+                                <Text className="text-secondary font-publicsans text-lg font-bold">
                                     Detection Logs
                                 </Text>
                                 <FontAwesome6
@@ -89,20 +93,26 @@ export default function Analysis() {
                                             Non-Sleep-deprived
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            Avg. Confidence Score
+                                        </Text>
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
                                             Decision Score
                                         </Text>
                                     </View>
                                 </View>
                                 <View className="flex flex-col gap-3">
                                     <Text className="text-secondary text-sm font-bold font-publicsans">
-                                        Confidence Score (Overall)
+                                        Scores (Overall)
                                     </Text>
                                     <View className="gap-1">
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            82.6%
+                                            {sd_prob}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            17.4%
+                                            {nsd_prob}
+                                        </Text>
+                                        <Text className="text-secondary text-sm font-normal font-publicsans">
+                                            {CLASS.getConfScorePercent(result)}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
                                             1.245
