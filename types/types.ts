@@ -52,7 +52,7 @@ export namespace LANG {
     export function asString(lang: LANG): string {
         switch (lang) {
             case LANG.ENGLISH:
-                return "English";
+                return "American E";
             case LANG.FILIPINO:
                 return "Filipino";
         }
@@ -73,8 +73,8 @@ export namespace LANG {
 }
 
 export enum CLASS {
-    NSD, // Not Sleep deprived
-    SD, // Sleep deprived
+    PRE = "pre", // Not Sleep deprived
+    POST = "post", // Sleep deprived
 }
 
 export type Evaluations = {
@@ -90,32 +90,34 @@ export type ClassResult = {
 
 export namespace CLASS {
     type ResultObj = {
-        class: number;
+        class: string;
         confidence_score: number;
-        classes: number[];
+        classes: string[];
         scores: number[];
     };
 
     export function getTitle(result: ClassResult | Segment): string {
         switch (result.class) {
-            case CLASS.SD:
+            case CLASS.POST:
                 return "Sleep-Deprived";
-            case CLASS.NSD:
+            case CLASS.PRE:
                 return "Non-Sleep-Deprived";
         }
     }
 
     export function getTitleColor(result: ClassResult | Segment): ColorValue {
-        return result.class == CLASS.SD ? "#ff2121" : "#006fff";
+        return result.class == CLASS.POST ? "#ff2121" : "#006fff";
     }
 
     export function from(data: ResultObj): ClassResult {
         const { class: c, confidence_score: score, classes, scores } = data;
         const result: ClassResult = {
-            class: c == 1 ? CLASS.SD : CLASS.NSD,
+            class: c === "post" ? CLASS.POST : CLASS.PRE,
             confidence_score: score,
             evals: {
-                classes: classes.map((c) => (c == 1 ? CLASS.SD : CLASS.NSD)),
+                classes: classes.map((c) =>
+                    c === "post" ? CLASS.POST : CLASS.PRE,
+                ),
                 scores,
             },
         };
@@ -141,11 +143,11 @@ const scripts = {
 };
 
 const advices: {
-    [CLASS.SD]: Advices;
+    [CLASS.POST]: Advices;
     // MODERATE: Advices;
-    [CLASS.NSD]: Advices;
+    [CLASS.PRE]: Advices;
 } = {
-    [CLASS.SD]: {
+    [CLASS.POST]: {
         summary:
             "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
         contents: [
@@ -192,7 +194,7 @@ const advices: {
     //         },
     //     ]
     // },
-    [CLASS.NSD]: {
+    [CLASS.PRE]: {
         summary:
             "Your sleep habits seem healthy, but consistent monitoring is recommended.",
         contents: [

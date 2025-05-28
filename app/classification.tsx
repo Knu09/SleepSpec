@@ -19,11 +19,12 @@ export default function Classification() {
     const { pendingSegments, syncResultsFrom } = useSegmentStore();
     const [segments, setSegments] = useState<Segment[]>([]);
     const [download, setDownload] = useState(Process.PENDING);
-    const [playingSegmentID, setPlayingSegmentID] = useState<number | null>(null);
+    const [playingSegmentID, setPlayingSegmentID] = useState<number | null>(
+        null,
+    );
     const player = useAudioPlayer(undefined);
 
     useEffect(() => {
-
         if (!result) {
             console.error("No Results Found!");
             return;
@@ -53,20 +54,20 @@ export default function Classification() {
 
     const togglePlay = (s: Segment) => {
         if (s.id != playingSegmentID) {
-            setPlayingSegmentID(s.id)
+            setPlayingSegmentID(s.id);
             player.replace(s.uri);
             player.play();
 
             return true;
         } else {
-            setPlayingSegmentID(null)
+            setPlayingSegmentID(null);
             if (player.playing) {
                 player.pause();
                 player.seekTo(0);
             } else {
                 player.play();
             }
-            return player.playing
+            return player.playing;
         }
     };
 
@@ -120,7 +121,10 @@ export default function Classification() {
                 >
                     <TabNavigation />
                 </View>
-                <Overlay heading="Downloading Audio Segments" state={download} />
+                <Overlay
+                    heading="Downloading Audio Segments"
+                    state={download}
+                />
             </View>
         </SafeAreaView>
     );
@@ -130,7 +134,7 @@ type AudioSegmentProps = {
     selected: boolean;
     segment: Segment;
     togglePlay: (s: Segment) => boolean;
-    player: AudioPlayer,
+    player: AudioPlayer;
 };
 
 function AudioSegment({
@@ -142,7 +146,7 @@ function AudioSegment({
     const [seconds, setSeconds] = useState(0);
     const [playing, setPlaying] = useState(selected);
     const timerRef = useRef<number>(0);
-    const timer = Timer.fromSeconds(seconds)
+    const timer = Timer.fromSeconds(seconds);
 
     useEffect(() => {
         const cleanup = () => {
@@ -150,17 +154,17 @@ function AudioSegment({
                 setSeconds(0);
                 clearInterval(timerRef.current);
             }
-        }
+        };
 
         if (playing) {
             timerRef.current = setInterval(() => {
-                setPlaying(player.playing)
+                setPlaying(player.playing);
 
                 if (player.playing) {
-                    setSeconds(s => s + 1)
+                    setSeconds((s) => s + 1);
                 } else {
-                    clearInterval(timerRef.current)
-                    setSeconds(0)
+                    clearInterval(timerRef.current);
+                    setSeconds(0);
                 }
             }, 1000);
         }
@@ -186,13 +190,18 @@ function AudioSegment({
                 </Text>
                 <Text className="text-secondary font-semibold">
                     Confidence Score:&nbsp;
-                    <Text className="text-lightWhite font-normal">{CLASS.getConfScorePercent(segment)}</Text>
+                    <Text className="text-lightWhite font-normal">
+                        {CLASS.getConfScorePercent(segment)}
+                    </Text>
                 </Text>
             </View>
 
-            <Pressable className="self-center" onPress={() => {
-                setPlaying(togglePlay(segment))
-            }}>
+            <Pressable
+                className="self-center"
+                onPress={() => {
+                    setPlaying(togglePlay(segment));
+                }}
+            >
                 <Image
                     source={playing && selected ? PAUSE_BTN : PLAY_BTN}
                     style={{ width: 42, aspectRatio: 1 }}
