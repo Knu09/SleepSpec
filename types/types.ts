@@ -125,6 +125,16 @@ export namespace CLASS {
         return result;
     }
 
+    export function getProbabilities(result: ClassResult) {
+        return result.evals.classes.reduce(
+            (acc, cls, idx) => {
+                acc[cls] = result.evals.scores[idx];
+                return acc;
+            },
+            {} as Record<CLASS, number>,
+        );
+    }
+
     export function getAdvices(result: ClassResult): Advices {
         return advices[result.class];
     }
