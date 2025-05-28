@@ -33,7 +33,7 @@ export default function Index() {
     return (
         <SafeAreaView className="bg-darkBg" style={styles.container}>
             <StatusBar />
-            <Header title={"Home"} userMan={true} menu={true} />
+            <Header userMan={true} menu={true} />
             <ScrollView
                 className="px-6"
                 contentContainerStyle={{
