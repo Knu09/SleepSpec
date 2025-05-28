@@ -32,7 +32,7 @@ type SegmentStore = {
 };
 
 export const useLangStore = create<LangStore>((set) => ({
-    currentLang: LANG.ENGLISH,
+    currentLang: LANG.ENG1,
     setCurrentLang: (language: LANG) => set({ currentLang: language }),
 }));
 

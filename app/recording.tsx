@@ -171,7 +171,7 @@ export default function Recording() {
                                 nestedScrollEnabled={true}
                             >
                                 <Text className=" text-lg leading-6 py-4 text-secondary font-light text-ellipsis">
-                                    {LANG.getScript(lang)}
+                                    {LANG.getScript(lang).content}
                                 </Text>
                             </ScrollView>
                         </View>
@@ -244,16 +244,16 @@ export default function Recording() {
 }
 
 async function uploadAudio(audioUri: string): Promise<{
-    class: number;
+    class: string;
     confidence_score: number;
-    classes: number[];
+    classes: string[];
     scores: number[];
 } | void> {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {
-            class: 1,
-            classes: [1],
+            class: "post",
+            classes: ["post"],
             scores: [0.56],
             confidence_score: 0.56,
         };

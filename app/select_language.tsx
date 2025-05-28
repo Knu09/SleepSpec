@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Pressable, Text, View } from "react-native";
 import GradientSelectButton from "@/components/GradientSelectButton";
-import { Image, ImageSource } from "expo-image";
+import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { SplashScreen, useRouter } from "expo-router";
@@ -13,8 +13,6 @@ import { LANG } from "@/types/types";
 type LangChoiceProps = {
     lang: LANG;
     currentLang: LANG;
-    src: ImageSource;
-    name: string;
     border: string;
     setLang: React.Dispatch<React.SetStateAction<LANG>>;
 };
@@ -26,19 +24,21 @@ export default function SelectLanguage() {
 
     const languages: LangChoiceProps[] = [
         {
-            lang: LANG.ENGLISH,
+            lang: LANG.ENG1,
             currentLang: lang,
-            src: require("@/assets/images/flag-us.svg"),
-            name: "AMERICAN E",
             border: "border-b-lightWhite",
             setLang,
         },
         {
-            lang: LANG.FILIPINO,
+            lang: LANG.ENG2,
             currentLang: lang,
-            src: require("@/assets/images/flag-ph.svg"),
-            name: "Filipino",
             border: "border-x-lightWhite border-b-lightWhite",
+            setLang,
+        },
+        {
+            lang: LANG.FIL1,
+            currentLang: lang,
+            border: "border-b-lightWhite",
             setLang,
         },
     ];
@@ -87,15 +87,9 @@ export default function SelectLanguage() {
     );
 }
 
-function LangChoice({
-    lang,
-    currentLang,
-    src,
-    name,
-    border,
-    setLang,
-}: LangChoiceProps) {
+function LangChoice({ lang, currentLang, border, setLang }: LangChoiceProps) {
     const IS_SELECTED = lang == currentLang;
+    const { book, chapter } = LANG.getScript(lang);
 
     return (
         <Pressable
@@ -110,7 +104,7 @@ function LangChoice({
                     aspectRatio: 1,
                     opacity: IS_SELECTED ? 1 : 0.5,
                 }}
-                source={src}
+                source={LANG.asImg(lang)}
             />
             <View
                 style={{
@@ -118,13 +112,13 @@ function LangChoice({
                 }}
             >
                 <Text className="text-primaryBlue text-center font-publicsans uppercase text-lg font-bold">
-                    {name}
+                    {LANG.asString(lang).toUpperCase()}
                 </Text>
                 <Text className="text-secondary text-center font-publicsans font-bold text-sm leading-6">
-                    Maring
+                    {book}
                 </Text>
                 <Text className="pb-2 text-secondary text-center font-publicsans text-sm leading-none">
-                    ch. 1, Napitas ang Bulaklak
+                    {chapter}
                 </Text>
             </View>
         </Pressable>
