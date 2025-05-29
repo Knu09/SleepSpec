@@ -280,7 +280,7 @@ export default function Recording() {
                                         size={16}
                                         color="#FFF"
                                     />{" "}
-                                    to Resume
+                                    to Resume Recording
                                 </Text>
                             ) : (
                                 <Text className="text-white text-center mt-4">
@@ -290,7 +290,7 @@ export default function Recording() {
                                         size={16}
                                         color="#006FFF"
                                     />{" "}
-                                    to Stop
+                                    to Stop Recording
                                 </Text>
                             )
                         ) : (
