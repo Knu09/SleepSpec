@@ -153,8 +153,11 @@ export namespace CLASS {
     }
 
     export function getConfScorePercent(self: ClassResult | Segment): string {
-        let percent = self.confidence_score * 100;
-        return percent.toFixed(2) + "%";
+        return toPercent(self.confidence_score)
+    }
+
+    export function toPercent(n: number) {
+        return (n * 100).toFixed(2) + "%";
     }
 }
 
