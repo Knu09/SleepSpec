@@ -45,19 +45,15 @@ export default function FeatureAnalysis() {
                 items: [
                     {
                         description:
-                            "Shows how fast the voice’s amplitude patterns change over time — like how quickly someone is speaking or emphasizing words.",
+                            "Describes the relationship between pitch and clarity, helping detect the richness or dullness in the voice.",
                     },
                     {
                         description:
-                            "Displays how spectral(scale) and temporal(rate) modulations interact in speech.",
+                            "Analyzes how different frequency components (voice pitch, formants) change over time.",
                     },
                     {
                         description:
-                            "Captures rhythmic and dynamic changes in voice affected by sleep deprivation.",
-                    },
-                    {
-                        description:
-                            "Helps detect slower speech rates and altered spectral modulation, common in fatigued individuals.",
+                            "Captures how fast or slow vocal frequencies modulate (e.g., irregular speech patterns due to fatigue).",
                     },
                 ],
             },
@@ -71,19 +67,15 @@ export default function FeatureAnalysis() {
                 items: [
                     {
                         description:
-                            "Shows how fast the voice’s amplitude patterns change over time — like how quickly someone is speaking or emphasizing words.",
+                            "Shows how fast the pitch patterns (high or low tones) are changing — helping identify monotone versus expressive speech.",
                     },
                     {
                         description:
-                            "Displays how spectral(scale) and temporal(rate) modulations interact in speech.",
+                            "Examines the relationship between speech frequency components and spectral scales.",
                     },
                     {
                         description:
-                            "Captures rhythmic and dynamic changes in voice affected by sleep deprivation.",
-                    },
-                    {
-                        description:
-                            "Helps detect slower speech rates and altered spectral modulation, common in fatigued individuals.",
+                            "Highlights how vocal harmonics and formants shift due to sleep deprivation.",
                     },
                 ],
             },
@@ -139,11 +131,13 @@ export default function FeatureAnalysis() {
                             </Text>
                             <View className="w-full h-[1px] bg-lightWhite"></View>
                             <Text className="text-secondary/80">
-                                Spectro-Temporal Modulation (STM) helps us understand the rhythm
-                                and texture of a person’s voice — how their pitch (frequency)
-                                and loudness (amplitude) change over time. In simpler terms, it
-                                breaks down speech like a fingerprint, showing how your voice
-                                moves up and down (like melody) and how quickly it changes.
+                                Spectro-Temporal Modulation (STM) helps us
+                                understand the rhythm and texture of a person’s
+                                voice — how their pitch (frequency) and loudness
+                                (amplitude) change over time. In simpler terms,
+                                it breaks down speech like a fingerprint,
+                                showing how your voice moves up and down (like
+                                melody) and how quickly it changes.
                             </Text>
                         </View>
                         {/* Customized Collapsible */}
