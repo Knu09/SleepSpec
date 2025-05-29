@@ -106,10 +106,10 @@ export default function Analysis() {
                                     </Text>
                                     <View className="gap-1">
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            {sd_prob}
+                                            {CLASS.toPercent(sd_prob)}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            {nsd_prob}
+                                            {CLASS.toPercent(nsd_prob)}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
                                             {CLASS.getConfScorePercent(result)}
