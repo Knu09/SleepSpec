@@ -26,12 +26,15 @@ import Overlay from "@/components/Overlay";
 type RecordingState = {
     timer: Timer;
     isRecording: boolean;
+    isPaused: boolean;
 };
 
 enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
+    PAUSE,
+    RESUME,
 }
 
 const recordReducer = (
@@ -40,7 +43,7 @@ const recordReducer = (
 ): RecordingState => {
     switch (action) {
         case RecordAction.START:
-            return { ...state, isRecording: true };
+            return { ...state, isRecording: true, isPaused: false };
 
         case RecordAction.STOP:
             return {
@@ -48,6 +51,11 @@ const recordReducer = (
                 timer: Timer.reset(),
                 isRecording: false,
             };
+        case RecordAction.PAUSE:
+            return { ...state, isPaused: true };
+
+        case RecordAction.RESUME:
+            return { ...state, isPaused: false };
 
         case RecordAction.INCREMENT_TIMER:
             const {
@@ -64,6 +72,7 @@ const recordReducer = (
 const initialRecordState: RecordingState = {
     timer: Timer.reset(),
     isRecording: false,
+    isPaused: false,
 };
 
 export default function Recording() {
@@ -112,6 +121,22 @@ export default function Recording() {
         await audioRecorder.prepareToRecordAsync();
         audioRecorder.record();
 
+        timerRef.current = setInterval(() => {
+            dispatch(RecordAction.INCREMENT_TIMER);
+        }, 1000);
+    }
+
+    async function recordPause() {
+        dispatch(RecordAction.PAUSE);
+        clearInterval(timerRef.current);
+        await audioRecorder.pause();
+    }
+
+    async function recordResume() {
+        dispatch(RecordAction.RESUME);
+        await audioRecorder.record();
+
+        if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
         }, 1000);
@@ -181,14 +206,27 @@ export default function Recording() {
                 <Text className="text-white mx-auto text-3xl">
                     {Timer.format(recordState.timer)}
                 </Text>
-                <View className="flex justify-center items-center my-5">
+                <View className="flex justify-center items-center my-3">
                     <Pressable
                         onPress={() => {
+                            if (
+                                recordState.isRecording &&
+                                !recordState.isPaused
+                            ) {
+                                recordPause();
+                            } else if (
+                                recordState.isRecording &&
+                                recordState.isPaused
+                            ) {
+                                recordResume();
+                            } else {
+                                recordStart();
+                            }
+                        }}
+                        onLongPress={() => {
                             if (recordState.isRecording) {
                                 recordStop(true);
                                 setUpload(Process.PENDING);
-                            } else {
-                                recordStart();
                             }
                         }}
                     >
@@ -205,7 +243,9 @@ export default function Recording() {
                                     size={60}
                                     color={
                                         recordState.isRecording
-                                            ? "#006fff"
+                                            ? recordState.isPaused
+                                                ? "#FFF"
+                                                : "#006fff"
                                             : "#FFF"
                                     }
                                 />
@@ -214,15 +254,58 @@ export default function Recording() {
                     </Pressable>
                 </View>
 
-                <Text
-                    className={`text-2xl font-medium mx-auto ${
-                        recordState.isRecording
-                            ? "text-primaryBlue"
-                            : "text-white"
-                    }`}
-                >
-                    {recordState.isRecording ? "Speak Now" : "Press to Record"}
-                </Text>
+                <View className="text-center gap-2">
+                    <Text
+                        className={`text-xl font-bold mx-auto font-publicsans ${
+                            recordState.isRecording
+                                ? recordState.isPaused
+                                    ? "text-secondary"
+                                    : "text-primaryBlue"
+                                : "text-white"
+                        }`}
+                    >
+                        {recordState.isRecording
+                            ? recordState.isPaused
+                                ? "Paused"
+                                : "Recording"
+                            : "Press to Record"}
+                    </Text>
+                    <Text className="text-secondary text-center text-sm font-regular font-publicsans">
+                        {recordState.isRecording ? (
+                            recordState.isPaused ? (
+                                <Text className="text-white text-center mt-4">
+                                    Tap{" "}
+                                    <Icon
+                                        name="microphone"
+                                        size={16}
+                                        color="#FFF"
+                                    />{" "}
+                                    to Resume
+                                </Text>
+                            ) : (
+                                <Text className="text-white text-center mt-4">
+                                    Hold{" "}
+                                    <Icon
+                                        name="microphone"
+                                        size={16}
+                                        color="#006FFF"
+                                    />{" "}
+                                    to Stop
+                                </Text>
+                            )
+                        ) : (
+                            <Text className="text-white text-center mt-4">
+                                Tap{" "}
+                                <Icon
+                                    name="microphone"
+                                    size={16}
+                                    color="#FFF"
+                                />{" "}
+                                to Start Recording
+                            </Text>
+                        )}
+                    </Text>
+                </View>
 
                 {result && ( // only show link when results are ready
                     <Link
