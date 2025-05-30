@@ -37,10 +37,6 @@ export default function Analysis() {
 
     const advices = CLASS.getAdvices(result);
 
-    const probs = CLASS.getProbabilities(result);
-    const nsd_prob = probs[CLASS.PRE];
-    const sd_prob = probs[CLASS.POST];
-
     if (!fontsLoaded) return null;
 
     return (
@@ -106,16 +102,16 @@ export default function Analysis() {
                                     </Text>
                                     <View className="gap-1">
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            {CLASS.toPercent(sd_prob)}
+                                            {CLASS.toPercent(result.sd_prob)}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            {CLASS.toPercent(nsd_prob)}
+                                            {CLASS.toPercent(result.nsd_prob)}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
                                             {CLASS.getConfScorePercent(result)}
                                         </Text>
                                         <Text className="text-secondary text-sm font-normal font-publicsans">
-                                            1.245
+                                            {result.decision_score.toFixed(3)}
                                         </Text>
                                     </View>
                                 </View>
