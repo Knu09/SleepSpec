@@ -306,15 +306,6 @@ export default function Recording() {
                         )}
                     </Text>
                 </View>
-
-                {result && ( // only show link when results are ready
-                    <Link
-                        href="/analysis"
-                        className="text-secondary font-medium mt-8"
-                    >
-                        <Text className="text-right">View Results</Text>
-                    </Link>
-                )}
             </ScrollView>
 
             <Overlay
