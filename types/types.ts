@@ -98,6 +98,9 @@ export type Evaluations = {
 export type ClassResult = {
     class: CLASS;
     confidence_score: number;
+    decision_score: number;
+    sd_prob: number;
+    nsd_prob: number;
     evals: Evaluations;
 };
 
@@ -107,6 +110,9 @@ export namespace CLASS {
         confidence_score: number;
         classes: string[];
         scores: number[];
+        sd_prob: number;
+        nsd_prob: number;
+        decision_score: number;
     };
 
     export function getTitle(result: ClassResult | Segment): string {
@@ -123,14 +129,24 @@ export namespace CLASS {
     }
 
     export function from(data: ResultObj): ClassResult {
-        const { class: c, confidence_score: score, classes, scores } = data;
+        const {
+            class: c,
+            confidence_score,
+            classes,
+            scores,
+            sd_prob,
+            nsd_prob,
+            decision_score,
+        } = data;
+
         const result: ClassResult = {
             class: c === "post" ? CLASS.POST : CLASS.PRE,
-            confidence_score: score,
+            confidence_score,
+            decision_score,
+            sd_prob,
+            nsd_prob,
             evals: {
-                classes: classes.map((c) =>
-                    c === "post" ? CLASS.POST : CLASS.PRE,
-                ),
+                classes: classes.map((c) => (c === "post" ? CLASS.POST : CLASS.PRE)),
                 scores,
             },
         };
@@ -138,22 +154,12 @@ export namespace CLASS {
         return result;
     }
 
-    export function getProbabilities(result: ClassResult) {
-        return result.evals.classes.reduce(
-            (acc, cls, idx) => {
-                acc[cls] = result.evals.scores[idx];
-                return acc;
-            },
-            {} as Record<CLASS, number>,
-        );
-    }
-
     export function getAdvices(result: ClassResult): Advices {
         return advices[result.class];
     }
 
     export function getConfScorePercent(self: ClassResult | Segment): string {
-        return toPercent(self.confidence_score)
+        return toPercent(self.confidence_score);
     }
 
     export function toPercent(n: number) {
@@ -178,7 +184,7 @@ const SCRIPTS: Record<LANG, Script> = {
         book: "Maring",
         chapter: "ch. 1, Napitas ang Bulaklak",
         content:
-            "Sila ay may bugtong na anak, uliran ng bait, si Maria na tinagurian ng Maring. Kung kaaya-aya man ang ganda ng kalooban ni Maring, ay lalo pa naman kaaya-aya ang ganda ng kaniyang anyo, anyo ng bagong bumubukang kampupot, at lalong-lalo pa yaong mukha niyang anaki’y mukhang anghel, mukhang pinagkalooban ng langit ng lubhang mapanghalinang dikit na bihirang ipagkaloob sa taong kinapal. Ang kaniyang mapupungay na mata ay anaki’y salamin ng pag-ibig, anaki’y sibol ng lambing, anaki’y larawan ng bait. At dahil nga sa gayon, ay pinag-ingatan yatang talaga ng palad, kaya’t pinalamutihan sa dakong noo ng masinsin, ngunit makitid na kilay na hubog tari, at binakuran ng mayabong at malantik na pilikmata, akala marahil ng Maykapal ay upang huwag manganib sa puwing man lamang yaong mga matang kaniyang pinagpalang talaga. Ang kaniyang mga ngiti ay ngiting langit: naghahandog sa kaharap ng lugod na di mahulilip at walang hanggang tamis ng maamong kalooban, lalo’t talagang maririkit yaong kaniyang mga maliliit at masinsing ngiping kinaiinggitan ng tunay na garing, at sinalitan ng isang ngiping gintong ipinasadya ng kaniyang ama, upang malubos mandin ang ganda noong napakatamis na bibig. Kung lugay ang kaniyang mayabong na buhok, ay umaabot hanggang sakong, malinis, maitim at makinang na anaki’y sarampuli ng mga Lakhang-dalaga sa unang panahon. Si Maring ay kayumangging maligat na namumula-mula, at ang kaniyang pangangatawan ay katatagan sa taas at sa bilog. Ang kaniyang mga kilos ay mabining-pawa, mahinhin at kalugod-lugod sa lahat ng bagay. May isang binata, bagong-taong basal na nagngangalang Gonsalo. Ito ay maralita ring gaya nila Maring, palibhasa’y gaya rin nilang walang ibang paghahanap kundi pamamalakaya sa mga ilog at dagat. Si Gonsalo ay may mga tatlong taon ng nananhik ng ligaw kay Maring, ngunit hindi pinansin nito ang kaniyang matapat na pagsuyo, at kadalasang isagot sa kaniya ay ang kaniyang nais na makasuyo muna sa kaniyang mga magulang.",
+            "Sila ay may bugtong na anak, uliran ng bait, si Maria na tinagurian ng Maring.\n\nKung kaaya-aya man ang ganda ng kalooban ni Maring, ay lalo pa naman kaaya-aya ang ganda ng kaniyang anyo, anyo ng bagong bumubukang kampupot, at lalong-lalo pa yaong mukha niyang anaki’y mukhang anghel, mukhang pinagkalooban ng langit ng lubhang mapanghalinang dikit na bihirang ipagkaloob sa taong kinapal.\n\nAng kaniyang mapupungay na mata ay anaki’y salamin ng pag-ibig, anaki’y sibol ng lambing, anaki’y larawan ng bait.\n\nAt dahil nga sa gayon, ay pinag-ingatan yatang talaga ng palad, kaya’t pinalamutihan sa dakong noo ng masinsin, ngunit makitid na kilay na hubog tari, at binakuran ng mayabong at malantik na pilikmata, akala marahil ng Maykapal ay upang huwag manganib sa puwing man lamang yaong mga matang kaniyang pinagpalang talaga.\n\nAng kaniyang mga ngiti ay ngiting langit: naghahandog sa kaharap ng lugod na di mahulilip at walang hanggang tamis ng maamong kalooban, lalo’t talagang maririkit yaong kaniyang mga maliliit at masinsing ngiping kinaiinggitan ng tunay na garing, at sinalitan ng isang ngiping gintong ipinasadya ng kaniyang ama, upang malubos mandin ang ganda noong napakatamis na bibig.\n\nKung lugay ang kaniyang mayabong na buhok, ay umaabot hanggang sakong, malinis, maitim at makinang na anaki’y sarampuli ng mga Lakhang-dalaga sa unang panahon.\n\nSi Maring ay kayumangging maligat na namumula-mula, at ang kaniyang pangangatawan ay katatagan sa taas at sa bilog. Ang kaniyang mga kilos ay mabining-pawa, mahinhin at kalugod-lugod sa lahat ng bagay.\n\nMay isang binata, bagong-taong basal na nagngangalang Gonsalo. Ito ay maralita ring gaya nila Maring, palibhasa’y gaya rin nilang walang ibang paghahanap kundi pamamalakaya sa mga ilog at dagat.\n\nSi Gonsalo ay may mga tatlong taon ng nananhik ng ligaw kay Maring, ngunit hindi pinansin nito ang kaniyang matapat na pagsuyo, at kadalasang isagot sa kaniya ay ang kaniyang nais na makasuyo muna sa kaniyang mga magulang.",
     },
 };
 

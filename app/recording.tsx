@@ -322,6 +322,9 @@ async function uploadAudio(audioUri: string): Promise<{
     confidence_score: number;
     classes: string[];
     scores: number[];
+    sd_prob: number;
+    nsd_prob: number;
+    decision_score: number;
 } | void> {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
@@ -329,7 +332,10 @@ async function uploadAudio(audioUri: string): Promise<{
             class: "post",
             classes: ["post"],
             scores: [0.56],
+            sd_prob: 0,
+            nsd_prob: 0,
             confidence_score: 0.56,
+            decision_score: 1.2345,
         };
     }
 
