@@ -1,7 +1,7 @@
 {
     "expo": {
         "name": "SleepSpec",
-        "slug": "SleepSpec",
+        "slug": "sleepspec",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
@@ -15,8 +15,8 @@
         "android": {
             "package": "com.sleepspec.myapp",
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
+                "foregroundImage": "./assets/images/adaptive-icon-sleepspec.png",
+                "backgroundColor": "#01000F"
             }
         },
         "web": {
@@ -44,10 +44,10 @@
             [
                 "expo-splash-screen",
                 {
-                    "image": "./assets/images/splash-icon.png",
+                    "image": "./assets/images/splash-sleepspec.png",
                     "imageWidth": 200,
                     "resizeMode": "contain",
-                    "backgroundColor": "#ffffff"
+                    "backgroundColor": "#01000F"
                 }
             ],
             "expo-font",
