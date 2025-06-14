@@ -146,7 +146,9 @@ export namespace CLASS {
             sd_prob,
             nsd_prob,
             evals: {
-                classes: classes.map((c) => (c === "post" ? CLASS.POST : CLASS.PRE)),
+                classes: classes.map((c) =>
+                    c === "post" ? CLASS.POST : CLASS.PRE,
+                ),
                 scores,
             },
         };
