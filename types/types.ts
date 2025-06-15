@@ -2,6 +2,13 @@ import { Segment } from "@/store/store";
 import { ImageSource } from "expo-image";
 import { ColorValue } from "react-native";
 
+export type UIModeProps = {
+    title: string;
+    icon: string;
+    onPress: () => void;
+    isActive: boolean;
+};
+
 export type Timer = {
     secs: number;
     mins: number;
