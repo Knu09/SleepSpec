@@ -1,10 +1,11 @@
 import { Segment } from "@/store/store";
+import { Entypo } from "@expo/vector-icons";
 import { ImageSource } from "expo-image";
 import { ColorValue } from "react-native";
 
-export type UIModeProps = {
+export type SettingButtonProps = {
     title: string;
-    icon: string;
+    icon: React.ComponentProps<typeof Entypo>["name"];
     onPress: () => void;
     isActive: boolean;
 };
