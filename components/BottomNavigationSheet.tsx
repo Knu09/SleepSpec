@@ -63,7 +63,7 @@ export default function BottomNavigationSheet() {
                 ref={bottomSheetRef}
                 index={0}
                 onChange={handleSheetChanges}
-                snapPoints={["38%"]}
+                snapPoints={["35%"]}
                 handleComponent={() => null}
                 enablePanDownToClose={true}
                 backgroundStyle={{ backgroundColor: "transparent" }}
@@ -73,7 +73,7 @@ export default function BottomNavigationSheet() {
                 {/* FIXME: blue view not working */}
                 {/* <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> */}
                 <View
-                    className="w-6 h-1 bg-white"
+                    className="w-8 h-1.5 bg-white"
                     style={styles.drawerHolder}
                 ></View>
                 <BottomSheetView style={styles.bottomsheetContent}>
@@ -131,8 +131,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 15,
     },
     bottomsheetContent: {
-        paddingTop: 20,
-        paddingBottom: 30,
+        paddingVertical: 20,
         paddingHorizontal: 20,
     },
     bottomsheetText: {
