@@ -76,7 +76,24 @@ export default function Settings() {
                         <Text className="text-secondary font-publicsans">
                             UI Mode
                         </Text>
-                        <SettingButton />
+                        <SettingButton
+                            title="Light"
+                            icon="light-up"
+                            onPress={() => {}}
+                            isActive={false}
+                        />
+                        <SettingButton
+                            title="Dark"
+                            icon="moon"
+                            onPress={() => {}}
+                            isActive={false}
+                        />
+                        <SettingButton
+                            title="System"
+                            icon="adjust"
+                            onPress={() => {}}
+                            isActive={false}
+                        />
                     </View>
                 </View>
             </ScrollView>
