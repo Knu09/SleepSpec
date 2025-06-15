@@ -63,7 +63,7 @@ export default function BottomNavigationSheet() {
                 ref={bottomSheetRef}
                 index={0}
                 onChange={handleSheetChanges}
-                snapPoints={["35%"]}
+                snapPoints={["40%"]}
                 handleComponent={() => null}
                 enablePanDownToClose={true}
                 backgroundStyle={{ backgroundColor: "transparent" }}
@@ -100,6 +100,9 @@ export default function BottomNavigationSheet() {
                         <Text style={styles.bottomsheetText}>
                             Training Results
                         </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateTo("settings")}>
+                        <Text style={styles.bottomsheetText}>Settings</Text>
                     </TouchableOpacity>
                     {result && (
                         <TouchableOpacity
