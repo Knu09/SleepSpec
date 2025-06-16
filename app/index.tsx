@@ -40,23 +40,23 @@ export default function Index() {
                     flexGrow: 1,
                     alignItems: "center",
                     gap: 10,
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
                 }}
             >
                 <View className="flex flex-col items-center">
                     <SleepSpecLogo></SleepSpecLogo>
                     <SleepSpecTitle
-                        width={218 + 60}
-                        height={75}
+                        width={218 + 100}
+                        height={72.5}
                     ></SleepSpecTitle>
                     <Text
-                        className="text-center px-5 text-white font-poppins"
+                        className="text-center px-5 text-secondary font-publicsans"
                         style={styles.subtitle}
                     >
                         Sleep Deprivation Detection using SVM
                     </Text>
                 </View>
-                <View className="my-16 items-center gap-4">
+                <View className="my-24 items-center gap-4">
                     <View className="items-center flex-row flex-wrap justify-center px-4">
                         <Text className="text-secondary text-base font-publicsans text-center">
                             Start{" "}
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     },
 
     subtitle: {
+        marginTop: 5,
         fontSize: 15,
     },
 
