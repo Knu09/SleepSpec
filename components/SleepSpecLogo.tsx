@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function SleepSpecLogo({ width = 55, height = 41 }) {
+export default function SleepSpecLogo({ width = 70, height = 56 }) {
     return (
         <Svg width={width} height={height} viewBox="0 0 55 41" fill="none">
             <Path
