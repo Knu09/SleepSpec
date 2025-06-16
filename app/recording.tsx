@@ -171,7 +171,7 @@ export default function Recording() {
     return (
         <SafeAreaView className="bg-darkBg" style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
-            <ScrollView className="flex gap-4 mt-10 px-6">
+            <ScrollView className="flex gap-4 mt-4 px-6">
                 <View className="gap-2">
                     <Text className="text-lg text-white font-medium">
                         Language Speech
