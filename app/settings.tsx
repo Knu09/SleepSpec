@@ -50,13 +50,14 @@ export default function Settings() {
                         <Text className="text-secondary font-publicsans">
                             General
                         </Text>
-                        <View className="bg-darkGray p-4 rounded-lg gap-5">
+                        <View className="bg-darkLayer p-4 rounded-lg gap-5">
                             <View className="flex flex-row justify-between items-center">
                                 <Text className="text-secondary">
                                     Noise Reduction
                                 </Text>
                                 <Switch />
                             </View>
+
                             <View className="flex flex-row justify-between items-center">
                                 <Text className="text-secondary">
                                     Background Noise Remover
