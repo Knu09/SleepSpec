@@ -72,48 +72,133 @@ export default function BottomNavigationSheet() {
                 {/* TODO: change the navigation links */}
                 {/* FIXME: blue view not working */}
                 {/* <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> */}
-                <View className="bg-white" style={styles.drawerHolder}></View>
-                <BottomSheetView style={styles.bottomsheetContent}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            // hideBottomSheet();
-                            // router.push("/");
-                            navigateTo("");
-                        }}
-                    >
-                        <Text style={styles.bottomsheetText}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigateTo("user_manual")}>
-                        <Text style={styles.bottomsheetText}>User Manual</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigateTo("")}>
-                        <Text style={styles.bottomsheetText}>
-                            Trained Model Source
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigateTo("training_results")}
-                    >
-                        <Text style={styles.bottomsheetText}>
-                            Training Results
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigateTo("settings")}>
-                        <Text style={styles.bottomsheetText}>Settings</Text>
-                    </TouchableOpacity>
-                    {result && (
-                        <TouchableOpacity
-                            onPress={() => navigateTo("analysis")}
-                        >
-                            <Text style={styles.bottomsheetText}>
-                                View Recent Test Results
-                            </Text>
-                        </TouchableOpacity>
-                    )}
 
-                    <TouchableOpacity onPress={() => navigateTo("about_us")}>
-                        <Text style={styles.bottomsheetText}>About Us</Text>
-                    </TouchableOpacity>
+                <BottomSheetView
+                    className="bg-darkLayer"
+                    style={styles.bottomsheetContent}
+                >
+                    <View
+                        className="bg-white"
+                        style={styles.drawerHolder}
+                    ></View>
+                    <View
+                        className="py-6 px-5 bg-darkLayer border-b-[0.5px]"
+                        style={styles.bottomSheetHeader}
+                    >
+                        <View>
+                            <Text className="text-secondary font-poppins font-bold text-xl">
+                                SleepSpec
+                            </Text>
+                            <Text className="text-secondary font-publicsans opacity-80 text-sm">
+                                Sleep deprivation detection
+                            </Text>
+                        </View>
+                    </View>
+                    <View className="p-5 bg-arsenic gap-4">
+                        <View>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    // hideBottomSheet();
+                                    // router.push("/");
+                                    navigateTo("");
+                                }}
+                                className="rounded-tr-md rounded-tl-md"
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <Text style={styles.bottomsheetText}>Home</Text>
+                            </TouchableOpacity>
+                            {/* Divider */}
+                            <View
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+                            <TouchableOpacity
+                                onPress={() => navigateTo("user_manual")}
+                                className="rounded-br-md rounded-bl-md"
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <Text style={styles.bottomsheetText}>
+                                    User Manual
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <TouchableOpacity
+                                onPress={() => navigateTo("")}
+                                className="rounded-tr-md rounded-tl-md"
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <Text style={styles.bottomsheetText}>
+                                    Trained Model Source
+                                </Text>
+                            </TouchableOpacity>
+
+                            {/* Divider */}
+                            <View
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => navigateTo("training_results")}
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <Text style={styles.bottomsheetText}>
+                                    Training Results
+                                </Text>
+                            </TouchableOpacity>
+
+                            {/* Divider */}
+                            <View
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => navigateTo("settings")}
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <Text style={styles.bottomsheetText}>
+                                    Settings
+                                </Text>
+                            </TouchableOpacity>
+                            {result && (
+                                <TouchableOpacity
+                                    onPress={() => navigateTo("analysis")}
+                                    style={styles.bottomSheetLinkTab}
+                                >
+                                    <Text style={styles.bottomsheetText}>
+                                        View Recent Test Results
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+
+                            {/* Divider */}
+                            <View
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => navigateTo("about_us")}
+                                className="rounded-br-md rounded-bl-md"
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <Text style={styles.bottomsheetText}>
+                                    About Us
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </BottomSheetView>
             </BottomSheet>
         </>
@@ -127,16 +212,18 @@ const styles = StyleSheet.create({
     },
     bottomSheetWrapper: {
         backgroundColor: "#1F242A",
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
     },
-    bottomsheetContent: {
-        paddingVertical: 20,
-        paddingHorizontal: 20,
+    bottomSheetHeader: { borderBottomColor: "#808080" },
+    bottomsheetContent: {},
+    bottomSheetLinkTab: {
+        backgroundColor: "#161B21",
     },
     bottomsheetText: {
         color: "#DDDDDD",
-        marginVertical: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
         fontSize: 16,
     },
 
