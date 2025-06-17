@@ -19,6 +19,7 @@ module.exports = {
                 lightWhite: "#808080",
                 arsenic: "#1F242A",
                 darkLayer: "#161B21",
+                divider: "#585858",
             },
             fontFamily: {
                 poppins: ["Poppins"],
