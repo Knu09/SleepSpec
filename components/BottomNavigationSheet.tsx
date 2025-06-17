@@ -9,6 +9,7 @@ import {
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useBottomSheet } from "./BottomSheetContext";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useClassStore } from "@/store/store";
 // import { BlurView } from "expo-blur";
@@ -85,13 +86,23 @@ export default function BottomNavigationSheet() {
                         className="py-6 px-5 bg-darkLayer border-b-[0.5px]"
                         style={styles.bottomSheetHeader}
                     >
-                        <View>
-                            <Text className="text-secondary font-poppins font-bold text-xl">
-                                SleepSpec
-                            </Text>
-                            <Text className="text-secondary font-publicsans opacity-80 text-sm">
-                                Sleep deprivation detection
-                            </Text>
+                        <View className="flex flex-row gap-4 items-center">
+                            <View className="flex justify-center items-center aspect-square bg-darkBg rounded-lg w-[38px]">
+                                <Image
+                                    source={require("../assets/images/logo_sleepspec.png")}
+                                    contentFit="contain"
+                                    style={{ width: 28, height: 18 }}
+                                />
+                            </View>
+
+                            <View>
+                                <Text className="text-secondary font-poppins font-bold text-xl">
+                                    SleepSpec
+                                </Text>
+                                <Text className="text-secondary font-publicsans opacity-80 text-sm">
+                                    Sleep deprivation detection
+                                </Text>
+                            </View>
                         </View>
                     </View>
                     <View className="p-5 bg-arsenic gap-4">
