@@ -10,7 +10,7 @@ const SettingButton = ({
 }: SettingButtonProps) => {
     return (
         <TouchableOpacity
-            className="flex flex-row justify-between items-center bg-darkGray p-4 rounded-lg"
+            className="flex flex-row justify-between items-center bg-darkLayer p-4 rounded-lg"
             onPress={onPress}
         >
             <View className="flex flex-row items-center gap-4">
