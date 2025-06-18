@@ -12,17 +12,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import SettingButton from "@/components/SettingButton";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Settings() {
+    const { currentTheme, toggleTheme } = useContext(ThemeContext);
+
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
-        "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
         "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
         "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
@@ -57,7 +59,6 @@ export default function Settings() {
                                 </Text>
                                 <Switch />
                             </View>
-
                             <View className="flex flex-row justify-between items-center">
                                 <Text className="text-secondary">
                                     Background Noise Remover
@@ -68,7 +69,16 @@ export default function Settings() {
                                 <Text className="text-secondary">
                                     Dark Mode
                                 </Text>
-                                <Switch />
+                                <Switch
+                                    value={currentTheme === "light"}
+                                    onValueChange={() =>
+                                        toggleTheme(
+                                            currentTheme === "dark"
+                                                ? "light"
+                                                : "dark",
+                                        )
+                                    }
+                                />
                             </View>
                         </View>
                     </View>
