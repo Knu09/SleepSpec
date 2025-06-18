@@ -8,7 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import SleepSpecLogo from "@/components/SleepSpecLogo";
 import SleepSpecTitle from "@/components/SleepSpecTitle";
 
@@ -16,6 +16,7 @@ SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
@@ -30,8 +31,16 @@ export default function Index() {
 
     if (!fontsLoaded) return null;
 
+    const { currentTheme } = useContext(ThemeContext);
+    const textClass = currentTheme === "dark" ? "text-secondary" : "text-black";
+
+    console.log(textClass);
+
     return (
-        <SafeAreaView className="bg-darkBg" style={styles.container}>
+        <SafeAreaView
+            className={currentTheme === "dark" ? "bg-darkBg" : "bg-white"}
+            style={styles.container}
+        >
             <StatusBar />
             <Header userMan={true} menu={true} />
             <ScrollView
@@ -50,7 +59,9 @@ export default function Index() {
                         height={72.5}
                     ></SleepSpecTitle>
                     <Text
-                        className="text-center px-5 text-secondary font-publicsans"
+                        className={
+                            textClass + " text-center px-5 font-publicsans"
+                        }
                         style={styles.subtitle}
                     >
                         Sleep Deprivation Detection using SVM
@@ -126,7 +137,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        color: "white",
+        // color: "white",
         textAlign: "center",
     },
 
