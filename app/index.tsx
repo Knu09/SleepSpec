@@ -20,21 +20,20 @@ import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
-        "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
-        "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
-        "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
-        "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+        "Poppins-Regular": require("@/assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Bold": require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
+        "PublicSans-Regular": require("@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
+
+    const { currentTheme } = useContext(ThemeContext);
+    const textClass = currentTheme === "dark" ? "text-secondary" : "text-black";
+
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
     if (!fontsLoaded) return null;
-
-    const { currentTheme } = useContext(ThemeContext);
-    const textClass = currentTheme === "dark" ? "text-secondary" : "text-black";
-
-    console.log(textClass);
 
     return (
         <SafeAreaView
