@@ -8,6 +8,7 @@ export type SettingButtonProps = {
     icon: React.ComponentProps<typeof Entypo>["name"];
     onPress: () => void;
     isActive: boolean;
+    theme: string;
 };
 
 export type Timer = {
