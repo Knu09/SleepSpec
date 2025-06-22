@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -37,10 +37,9 @@ export default function Index() {
 
     return (
         <SafeAreaView
-            className={currentTheme === "dark" ? "bg-darkBg" : "bg-white"}
+            className={currentTheme === "dark" ? "bg-darkBg" : "bg-lightBg"}
             style={styles.container}
         >
-            <StatusBar />
             <Header userMan={true} menu={true} />
             <ScrollView
                 className="px-6"
