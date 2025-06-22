@@ -15,6 +15,7 @@ module.exports = {
                 primaryBlue: "#006FFF",
                 danger: "#FF2121",
                 darkBg: "#01000F",
+                lightBg: "#F1F5FD",
                 darkGray: "#32322F",
                 lightWhite: "#808080",
                 arsenic: "#1F242A",
