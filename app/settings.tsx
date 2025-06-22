@@ -9,7 +9,6 @@ import {
 import { Link } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useRef, useContext } from "react";
@@ -22,6 +21,10 @@ import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Settings() {
     const { currentTheme, toggleTheme } = useContext(ThemeContext);
+    const currentText =
+        currentTheme === "dark" ? "text-secondary" : "text-darkBg";
+
+    const currentLayer = currentTheme === "dark" ? "bg-darkLayer" : "bg-white";
 
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
@@ -35,8 +38,10 @@ export default function Settings() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="bg-darkBg" style={styles.container}>
-            <StatusBar />
+        <SafeAreaView
+            className={currentTheme === "dark" ? "bg-darkBg" : "bg-lightBg"}
+            style={styles.container}
+        >
             <Header back={true} menu={true} title="Settings" />
             <ScrollView
                 className="px-6 w-full text-start"
@@ -48,25 +53,61 @@ export default function Settings() {
                 }}
             >
                 <View className="gap-5">
-                    <View className="gap-2">
-                        <Text className="text-secondary font-publicsans">
+                    <View className="gap-2 py-5">
+                        <Text className={currentText + " font-publicsans"}>
                             General
                         </Text>
-                        <View className="bg-darkLayer p-4 rounded-lg gap-5">
+                        <View
+                            className={
+                                currentLayer + " p-4 rounded-lg gap-5 shadow-md"
+                            }
+                        >
                             <View className="flex flex-row justify-between items-center">
-                                <Text className="text-secondary">
+                                <Text
+                                    className={currentText + " font-publicsans"}
+                                >
                                     Noise Reduction
                                 </Text>
-                                <Switch />
+                                <Switch
+                                    trackColor={{
+                                        false:
+                                            currentTheme === "dark"
+                                                ? "#808080"
+                                                : "#ccc",
+                                        true: "#006fff", // active color
+                                    }}
+                                    thumbColor={
+                                        currentTheme === "dark"
+                                            ? "#eee"
+                                            : "#fff"
+                                    }
+                                />
                             </View>
                             <View className="flex flex-row justify-between items-center">
-                                <Text className="text-secondary">
+                                <Text
+                                    className={currentText + " font-publicsans"}
+                                >
                                     Background Noise Remover
                                 </Text>
-                                <Switch />
+                                <Switch
+                                    trackColor={{
+                                        false:
+                                            currentTheme === "dark"
+                                                ? "#808080"
+                                                : "#ccc",
+                                        true: "#006fff", // active color
+                                    }}
+                                    thumbColor={
+                                        currentTheme === "dark"
+                                            ? "#eee"
+                                            : "#fff"
+                                    }
+                                />
                             </View>
                             <View className="flex flex-row justify-between items-center">
-                                <Text className="text-secondary">
+                                <Text
+                                    className={currentText + " font-publicsans"}
+                                >
                                     Dark Mode
                                 </Text>
                                 <Switch
@@ -78,13 +119,25 @@ export default function Settings() {
                                                 : "dark",
                                         )
                                     }
+                                    trackColor={{
+                                        false:
+                                            currentTheme === "dark"
+                                                ? "#808080"
+                                                : "#ccc",
+                                        true: "#006fff", // active color
+                                    }}
+                                    thumbColor={
+                                        currentTheme === "dark"
+                                            ? "#eee"
+                                            : "#fff"
+                                    }
                                 />
                             </View>
                         </View>
                     </View>
 
                     <View className="gap-2">
-                        <Text className="text-secondary font-publicsans">
+                        <Text className={currentText + " font-publicsans"}>
                             UI Mode
                         </Text>
                         <SettingButton
@@ -92,18 +145,21 @@ export default function Settings() {
                             icon="light-up"
                             onPress={() => {}}
                             isActive={false}
+                            theme={currentTheme}
                         />
                         <SettingButton
                             title="Dark"
                             icon="moon"
                             onPress={() => {}}
                             isActive={false}
+                            theme={currentTheme}
                         />
                         <SettingButton
                             title="System"
                             icon="adjust"
                             onPress={() => {}}
                             isActive={false}
+                            theme={currentTheme}
                         />
                     </View>
                 </View>
