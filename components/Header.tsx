@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Link } from "expo-router";
 import React from "react";
@@ -7,6 +7,8 @@ import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import BottomNavigationSheet from "./BottomNavigationSheet";
 import { useBottomSheet } from "./BottomSheetContext";
+
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface HeaderProps {
     menu?: boolean;
@@ -21,11 +23,10 @@ const Header = ({
     title = "",
     userMan = false,
 }: HeaderProps) => {
-
-  const navigation = useNavigation();
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  const { showBottomSheet } = useBottomSheet();
-
+    const { currentTheme } = useContext(ThemeContext);
+    const navigation = useNavigation();
+    const [fontsLoaded, setFontsLoaded] = useState(false);
+    const { showBottomSheet } = useBottomSheet();
 
     useEffect(() => {
         async function loadFonts() {
@@ -43,7 +44,10 @@ const Header = ({
     return (
         <View
             style={styles.header}
-            className="flex flex-row px-6 w-full h-14 justify-between items-center bg-transparent"
+            className={
+                "flex flex-row px-6 w-full h-14 justify-between items-center shadow-md " +
+                (currentTheme === "dark" ? "bg-darkBg" : "bg-white")
+            }
         >
             <View className="">
                 {back && (
@@ -71,28 +75,30 @@ const Header = ({
 
             <View className="flex-1 items-center">
                 <Text
-                    style={{ color: "#DDDDDD" }}
+                    style={{
+                        color: currentTheme === "dark" ? "#FFF" : "#01000F",
+                    }}
                     className="font-bold text-lg text-center"
                 >
                     {title}
                 </Text>
             </View>
-      <View className="w-10 items-end">
-        {menu && (
-          <TouchableOpacity className="" onPress={showBottomSheet}>
-            <Feather
-              size={20}
-              className="text-center"
-              width={28}
-              name={"menu"}
-              color="#006FFF"
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-    </View>
-  );
-
+            <View className="w-10 items-end">
+                {menu && (
+                    <TouchableOpacity className="" onPress={showBottomSheet}>
+                        <Feather
+                            size={20}
+                            className="text-center"
+                            width={28}
+                            name={"menu"}
+                            color="#006FFF"
+                            theme={currentTheme}
+                        />
+                    </TouchableOpacity>
+                )}
+            </View>
+        </View>
+    );
 };
 
 export default Header;
@@ -105,7 +111,6 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "transparent",
     },
     container: {
         flex: 1,
