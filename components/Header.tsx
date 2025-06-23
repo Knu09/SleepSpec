@@ -15,6 +15,7 @@ interface HeaderProps {
     back?: boolean;
     title?: string;
     userMan?: boolean;
+    theme?: string;
 }
 
 const Header = ({
@@ -22,8 +23,10 @@ const Header = ({
     back = false,
     title = "",
     userMan = false,
+    theme = "",
 }: HeaderProps) => {
     const { currentTheme } = useContext(ThemeContext);
+    const isDark = (theme || currentTheme) === "dark";
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const { showBottomSheet } = useBottomSheet();
@@ -43,10 +46,10 @@ const Header = ({
     // return <BottomNavigationSheet />;
     return (
         <View
-            style={(styles.header, { elevation: 5 })}
+            style={styles.header}
             className={
                 "flex flex-row px-6 w-full h-14 justify-between items-center " +
-                (currentTheme === "dark" ? "bg-darkBg" : "bg-white")
+                (isDark ? "bg-darkBg" : "bg-white")
             }
         >
             <View className="">
@@ -111,6 +114,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: "space-between",
         alignItems: "center",
+        elevation: 3,
     },
     container: {
         flex: 1,
