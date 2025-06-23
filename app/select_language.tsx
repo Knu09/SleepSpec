@@ -14,36 +14,33 @@ import { ThemeContext } from "@/context/ThemeContext";
 type LangChoiceProps = {
     lang: LANG;
     currentLang: LANG;
-    border: string;
     setLang: React.Dispatch<React.SetStateAction<LANG>>;
 };
 
 export default function SelectLanguage() {
-    const router = useRouter();
-    const langStore = useLangStore();
-    const [lang, setLang] = useState(langStore.currentLang);
-    const currentTheme = useContext(ThemeContext);
+    const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass =
         currentTheme === "dark" ? "text-secondary" : "text-bgDark";
+
+    const router = useRouter();
+    const langStore = useLangStore();
+    const [lang, setLang] = useState(langStore.currentLang);
 
     const languages: LangChoiceProps[] = [
         {
             lang: LANG.ENG1,
             currentLang: lang,
-            border: "border-b-lightWhite",
             setLang,
         },
         {
             lang: LANG.ENG2,
             currentLang: lang,
-            border: "border-x-lightWhite border-b-lightWhite",
             setLang,
         },
         {
             lang: LANG.FIL1,
             currentLang: lang,
-            border: "border-b-lightWhite",
             setLang,
         },
     ];
@@ -96,17 +93,28 @@ export default function SelectLanguage() {
     );
 }
 
-function LangChoice({ lang, currentLang, border, setLang }: LangChoiceProps) {
+function LangChoice({ lang, currentLang, setLang }: LangChoiceProps) {
     const IS_SELECTED = lang == currentLang;
     const { book, chapter } = LANG.getScript(lang);
 
+    let borderStyle = {};
+    if (lang === LANG.ENG2) {
+        borderStyle = {
+            borderRightWidth: 0.5,
+            borderLeftWidth: 0.5,
+            borderRightColor: "#585858CC",
+            borderLeftColor: "#585858CC",
+        };
+    }
     return (
         <Pressable
             key={lang}
             disabled={IS_SELECTED}
             onPress={() => setLang(lang)}
-            className={`w-1/3 items-center p-2 py-5 border gap-3 ${border}`}
+            style={borderStyle}
+            className={`w-1/3 items-center p-2 py-5 gap-3`}
         >
+            {" "}
             <Image
                 style={{
                     width: 80,
