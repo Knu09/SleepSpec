@@ -6,6 +6,7 @@ import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { LinearGradient } from "expo-linear-gradient";
+import MaskedView from "@react-native-masked-view/masked-view";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useContext, useEffect, useRef } from "react";
@@ -27,7 +28,9 @@ export default function Index() {
     });
 
     const { currentTheme } = useContext(ThemeContext);
-    const textClass = currentTheme === "dark" ? "text-secondary" : "text-black";
+    const isDark = currentTheme === "dark";
+    const textClass =
+        currentTheme === "dark" ? "text-secondary" : "text-bgDark";
 
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
@@ -42,7 +45,7 @@ export default function Index() {
         >
             <Header userMan={true} menu={true} />
             <ScrollView
-                className="px-6"
+                className="px-3 py-5"
                 contentContainerStyle={{
                     flexGrow: 1,
                     alignItems: "center",
@@ -50,62 +53,109 @@ export default function Index() {
                     justifyContent: "flex-start",
                 }}
             >
-                <View className="flex flex-col items-center">
-                    <SleepSpecLogo></SleepSpecLogo>
-                    <SleepSpecTitle
-                        width={218 + 100}
-                        height={72.5}
-                    ></SleepSpecTitle>
-                    <Text
-                        className={
-                            textClass + " text-center px-5 font-publicsans"
-                        }
-                        style={styles.subtitle}
-                    >
-                        Sleep Deprivation Detection using SVM
-                    </Text>
-                </View>
-                <View className="my-24 items-center gap-4">
-                    <View className="items-center flex-row flex-wrap justify-center px-4">
-                        <Text className="text-secondary text-base font-publicsans text-center">
-                            Start{" "}
+                <View
+                    style={styles.shadowBox}
+                    className={
+                        (isDark ? "bg-transparent" : "bg-white") +
+                        " gap-14 rounded-3xl py-10 px-2"
+                    }
+                >
+                    <View className="flex flex-col items-center">
+                        <SleepSpecLogo></SleepSpecLogo>
+                        <SleepSpecTitle
+                            width={218 + 100}
+                            height={72.5}
+                        ></SleepSpecTitle>
+                        <Text
+                            className={
+                                textClass + " text-center px-5 font-publicsans"
+                            }
+                            style={styles.subtitle}
+                        >
+                            Sleep Deprivation Detection using SVM
                         </Text>
+                    </View>
+                    <View className="items-center gap-4">
+                        <View className="items-center flex-row flex-wrap justify-center px-4">
+                            <Text
+                                className={
+                                    textClass +
+                                    " text-base font-publicsans text-center"
+                                }
+                            >
+                                Start{" "}
+                            </Text>
 
-                        <View className="flex-row items-center px-2 py-1 rounded-full bg-[#35007680] mx-1">
-                            <Icon name="microphone" size={16} color="#006FFF" />
-                            <Text className="font-semibold text-primaryBlue ms-1">
-                                detecting
+                            <View
+                                className={
+                                    "flex-row items-center px-4 py-2 rounded-full mx-1 " +
+                                    (isDark
+                                        ? "bg-[#35007680]"
+                                        : "bg-[#006FFF23]")
+                                }
+                            >
+                                <Icon
+                                    name="microphone"
+                                    size={16}
+                                    color="#006FFF"
+                                />
+                                <Text className="font-semibold text-primaryBlue ms-1">
+                                    detecting
+                                </Text>
+                            </View>
+                            <Text
+                                className={
+                                    textClass +
+                                    " text-base font-publicsans text-center"
+                                }
+                            >
+                                sleep deprivation by clicking the microphone
+                                below.
                             </Text>
                         </View>
-                        <Text className="text-secondary text-base font-publicsans text-center">
-                            sleep deprivation by clicking the microphone below.
-                        </Text>
-                    </View>
-                    <View>
-                        <Link href="/select_language">
-                            <LinearGradient
-                                colors={["#006EFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                className="flex justify-center items-center"
-                                style={{
-                                    borderRadius: 15,
-                                }}
-                            >
-                                <View
-                                    className="rounded-[15px] items-center py-3 m-[1px] px-4 bg-[#01000F]"
-                                    style={styles.button}
+                        <View
+                            style={{
+                                borderRadius: 15,
+                                elevation: 3,
+                            }}
+                        >
+                            <Link href="/select_language">
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="flex justify-center items-center"
+                                    style={{
+                                        padding: 1,
+                                        borderRadius: 15,
+                                    }}
                                 >
-                                    <Text className="font-bold font-publicsans text-secondary mb-2">
-                                        Select a language speech
-                                    </Text>
-                                    <LanguageSelected />
-                                </View>
-                            </LinearGradient>
-                        </Link>
+                                    <View
+                                        className={
+                                            "rounded-[15px] items-center py-3 px-4 " +
+                                            (isDark ? "bg-darkBg" : "bg-white")
+                                        }
+                                        style={
+                                            (styles.button, { elevation: 6 })
+                                        }
+                                    >
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans mb-2"
+                                            }
+                                        >
+                                            Select a language speech
+                                        </Text>
+                                        <LanguageSelected />
+                                    </View>
+                                </LinearGradient>
+                            </Link>
+                        </View>
                     </View>
                 </View>
-                <View className="flex items-center t-10">
+
+                <View className="flex w-full flex-1 items-center justify-center gap-2">
                     <Link href="/recording">
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
@@ -114,15 +164,35 @@ export default function Index() {
                             className="justify-center items-center p-[2px]"
                             style={styles.linearGradientMicrophone}
                         >
-                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                <Icon
-                                    name="microphone"
-                                    size={60}
-                                    color={"#FFF"}
-                                />
+                            <View
+                                style={styles.shadowProp}
+                                className={
+                                    (isDark ? "bg-darkBg" : "bg-white") +
+                                    " w-40 h-40 flex justify-center items-center rounded-full"
+                                }
+                            >
+                                <MaskedView
+                                    maskElement={
+                                        <Icon
+                                            name="microphone"
+                                            size={60}
+                                            color="black"
+                                        />
+                                    }
+                                >
+                                    <LinearGradient
+                                        colors={["#006FFF", "#7800D3"]}
+                                        start={{ x: 0.5, y: 0 }}
+                                        end={{ x: 0.5, y: 1 }}
+                                        style={{ width: 40, height: 60 }}
+                                    />
+                                </MaskedView>
                             </View>
                         </LinearGradient>
                     </Link>
+                    <Text className="text-primaryBlue font-publicsans font-bold text-xl">
+                        Press here to Start
+                    </Text>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -154,5 +224,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginTop: 5,
         alignItems: "center",
+    },
+    shadowBox: {
+        elevation: 3,
+    },
+    shadowProp: {
+        elevation: 10,
+        shadowColor: "#000",
     },
 });
