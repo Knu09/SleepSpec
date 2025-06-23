@@ -1,14 +1,15 @@
 import Header from "@/components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import GradientSelectButton from "@/components/GradientSelectButton";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SplashScreen, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { useLangStore } from "@/store/store";
 import { LANG } from "@/types/types";
+import { ThemeContext } from "@/context/ThemeContext";
 
 type LangChoiceProps = {
     lang: LANG;
@@ -21,6 +22,10 @@ export default function SelectLanguage() {
     const router = useRouter();
     const langStore = useLangStore();
     const [lang, setLang] = useState(langStore.currentLang);
+    const currentTheme = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass =
+        currentTheme === "dark" ? "text-secondary" : "text-bgDark";
 
     const languages: LangChoiceProps[] = [
         {
@@ -58,16 +63,21 @@ export default function SelectLanguage() {
 
     return (
         <SafeAreaView className="bg-white" style={{ flex: 1 }}>
-            <StatusBar style="dark" />
-            <View className="">
-                <Header back={true} menu={true} />
-                <View className="pb-8 pt-6 px-6">
+            <StatusBar style="dark" backgroundColor="#fff" />;
+            <View className="bg-white" style={styles.headerShadow}>
+                <Header back={true} menu={true} theme="light" />
+                <View className="bg-white pb-8 pt-6 px-6">
                     <Text className="font-poppins font-bold text-3xl">
                         Select a language speech
                     </Text>
                 </View>
             </View>
-            <View className="bg-darkBg flex flex-1 pt-10 px-6">
+            <View
+                className={
+                    (isDark ? "bg-darkBg" : "bg-lightBg") +
+                    " flex flex-1 pt-10 px-6 z-0"
+                }
+            >
                 <View style={{ flex: 1 }}>
                     <View className="flex-row flex-wrap">
                         {languages.map(LangChoice)}
@@ -123,3 +133,10 @@ function LangChoice({ lang, currentLang, border, setLang }: LangChoiceProps) {
         </Pressable>
     );
 }
+
+const styles = StyleSheet.create({
+    headerShadow: {
+        elevation: 3,
+        zIndex: 10,
+    },
+});
