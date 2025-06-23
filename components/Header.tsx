@@ -43,9 +43,9 @@ const Header = ({
     // return <BottomNavigationSheet />;
     return (
         <View
-            style={styles.header}
+            style={(styles.header, { elevation: 5 })}
             className={
-                "flex flex-row px-6 w-full h-14 justify-between items-center shadow-md " +
+                "flex flex-row px-6 w-full h-14 justify-between items-center " +
                 (currentTheme === "dark" ? "bg-darkBg" : "bg-white")
             }
         >
