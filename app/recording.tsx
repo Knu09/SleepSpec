@@ -22,6 +22,7 @@ import { AudioModule, useAudioRecorder } from "expo-audio";
 import { useClassStore, useLangStore, useSegmentStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "@expo/vector-icons/FontAwesome";
 
@@ -30,6 +31,7 @@ import LanguageSelected from "@/components/LanguageSelected";
 import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 import { ThemeContext } from "@/context/ThemeContext";
+import GradientIcon from "@/components/GradientIcon";
 
 type RecordingState = {
     timer: Timer;
@@ -99,7 +101,8 @@ export default function Recording() {
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
     const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
-    const micColor = isDark ? "#FFF" : "000";
+    const micColor = "#006FFF";
+    const bottomGradient = isDark ? "#01000F" : "#FFF";
 
     useEffect(() => {
         // request recording permissions
@@ -212,41 +215,38 @@ export default function Recording() {
                             end={{ x: 0.5, y: 1 }}
                             className="flex justify-center items-center"
                             style={{
-                                borderRadius: 15,
+                                borderRadius: 12,
+                                padding: 2,
                             }}
                         >
-                            <View className=" rounded-[15px] m-[1px] bg-darkBg relative overflow-hidden">
+                            <View
+                                className={
+                                    (isDark ? "bg-darkBg" : "bg-white") +
+                                    " rounded-[10px] relative overflow-hidden"
+                                }
+                            >
                                 <ScrollView
-                                    className="max-h-[340px] mx-6"
+                                    className="max-h-[340px] mx-4"
                                     nestedScrollEnabled={true}
                                     showsVerticalScrollIndicator={false}
                                 >
-                                    <Text className=" text-lg leading-6 py-4 pb-10 text-secondary font-light text-ellipsis">
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-lg leading-6 py-4 pb-10 font-light font-publicsans"
+                                        }
+                                    >
                                         {LANG.getScript(lang).content}
                                     </Text>
                                 </ScrollView>
-                                {/* Top Transparent Overlay */}
                                 <LinearGradient
-                                    colors={["rgba(0,0,0,.5)", "transparent"]}
-                                    style={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        height: 30,
-                                    }}
-                                    pointerEvents="none"
-                                />
-
-                                {/* Bottom Dark Fade */}
-                                <LinearGradient
-                                    colors={["transparent", "rgba(0,0,0,0.8)"]}
+                                    colors={["transparent", bottomGradient]}
                                     style={{
                                         position: "absolute",
                                         bottom: 0,
                                         left: 0,
                                         right: 0,
-                                        height: 100,
+                                        height: 80,
                                     }}
                                     pointerEvents="none"
                                 />
@@ -259,12 +259,12 @@ export default function Recording() {
                     <Text
                         className={
                             textClass +
-                            " mx-auto text-3xl font-bold font-poppins"
+                            " mx-auto text-3xl font-normal font-poppins"
                         }
                     >
                         {Timer.format(recordState.timer)}
                     </Text>
-                    <View className="flex justify-center items-center my-3">
+                    <View className="flex justify-center items-center mb-2 mt-3">
                         <Pressable
                             onPress={() => {
                                 if (
@@ -295,18 +295,26 @@ export default function Recording() {
                                 className="justify-center items-center p-[2px]"
                                 style={styles.linearGradientMicrophone}
                             >
-                                <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                    <Icon
-                                        name="microphone"
-                                        size={60}
-                                        color={
-                                            recordState.isRecording
-                                                ? recordState.isPaused
-                                                    ? "#FFF"
-                                                    : "#006fff"
-                                                : "#FFF"
-                                        }
-                                    />
+                                <View
+                                    className={
+                                        (isDark ? "bg-darkBg" : "bg-white") +
+                                        " w-40 h-40 flex justify-center items-center rounded-full"
+                                    }
+                                    style={styles.shadowProp}
+                                >
+                                    {recordState.isRecording &&
+                                    !recordState.isPaused ? (
+                                        <GradientIcon
+                                            name="microphone"
+                                            size={60}
+                                        />
+                                    ) : (
+                                        <Icon
+                                            name="microphone"
+                                            size={60}
+                                            color="#006fff"
+                                        />
+                                    )}
                                 </View>
                             </LinearGradient>
                         </Pressable>
@@ -341,39 +349,68 @@ export default function Recording() {
                                             textClass + " text-center mt-4"
                                         }
                                     >
-                                        Tap{" "}
+                                        Tap{"  "}
                                         <Icon
                                             name="microphone"
                                             size={16}
                                             color={micColor}
-                                        />{" "}
+                                        />
+                                        {"  "}
                                         to Resume Recording
                                     </Text>
                                 ) : (
-                                    <Text
-                                        className={
-                                            textClass + " text-center mt-4"
-                                        }
-                                    >
-                                        Hold{" "}
-                                        <Icon
-                                            name="microphone"
-                                            size={16}
-                                            color="#006FFF"
-                                        />{" "}
-                                        to Stop Recording
-                                    </Text>
+                                    <View className="flex-row justify-center items-center mt-4">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-publicsans"
+                                            }
+                                        >
+                                            Hold
+                                        </Text>
+                                        <MaskedView
+                                            maskElement={
+                                                <View className="justify-center items-center">
+                                                    <Icon
+                                                        name="microphone"
+                                                        size={16}
+                                                        color="black"
+                                                    />
+                                                </View>
+                                            }
+                                        >
+                                            <LinearGradient
+                                                colors={["#006FFF", "#7800D3"]}
+                                                start={{ x: 0.5, y: 0 }}
+                                                end={{ x: 0.5, y: 1 }}
+                                                style={{
+                                                    width: 16,
+                                                    height: 16,
+                                                    marginHorizontal: 2,
+                                                }}
+                                            />
+                                        </MaskedView>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-publicsans"
+                                            }
+                                        >
+                                            to Stop Recording
+                                        </Text>
+                                    </View>
                                 )
                             ) : (
                                 <Text
                                     className={textClass + " text-center mt-4"}
                                 >
-                                    Tap{" "}
+                                    Tap{"  "}
                                     <Icon
                                         name="microphone"
                                         size={16}
                                         color={micColor}
-                                    />{" "}
+                                    />
+                                    {"  "}
                                     to Start Recording
                                 </Text>
                             )}
@@ -456,5 +493,10 @@ async function uploadAudio(audioUri: string): Promise<{
 const styles = StyleSheet.create({
     linearGradientMicrophone: {
         borderRadius: 100,
+    },
+
+    shadowProp: {
+        elevation: 10,
+        shadowColor: "#000",
     },
 });
