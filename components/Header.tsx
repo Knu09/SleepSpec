@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
@@ -30,6 +30,12 @@ const Header = ({
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const { showBottomSheet } = useBottomSheet();
+    const router = useRouter();
+
+    const navigateTo = (screen: string) => {
+        router.push(`/${screen}` as any);
+        // navigation.navigate(screen as never);
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -52,7 +58,7 @@ const Header = ({
                 (isDark ? "bg-darkBg" : "bg-white")
             }
         >
-            <View className="">
+            <View className="w-10 h-10 items-start justify-center">
                 {back && (
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <FontAwesome
@@ -64,7 +70,7 @@ const Header = ({
                     </TouchableOpacity>
                 )}
                 {userMan && (
-                    <Link href="/user_manual">
+                    <TouchableOpacity onPress={() => navigateTo("user_manual")}>
                         <FontAwesome6
                             name="circle-question"
                             size={22}
@@ -72,7 +78,7 @@ const Header = ({
                             width={28}
                             color="#006FFF"
                         />
-                    </Link>
+                    </TouchableOpacity>
                 )}
             </View>
 
@@ -86,7 +92,7 @@ const Header = ({
                     {title}
                 </Text>
             </View>
-            <View className="w-10 items-end">
+            <View className="w-10 h-10 items-end justify-center">
                 {menu && (
                     <TouchableOpacity className="" onPress={showBottomSheet}>
                         <Feather
