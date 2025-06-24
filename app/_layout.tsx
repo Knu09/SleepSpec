@@ -34,7 +34,7 @@ function InnerLayout() {
                 <Stack
                     screenOptions={{
                         headerShown: false,
-                        animation: "fade",
+                        animation: "none",
                     }}
                 >
                     <Screen name="index" options={{ title: "" }} />
