@@ -98,7 +98,7 @@ export default function Recording() {
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
-    const bgClass = isDark ? "bg-darkBg" : "bg-white";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
     const micColor = isDark ? "#FFF" : "000";
 
     useEffect(() => {
@@ -185,17 +185,27 @@ export default function Recording() {
     return (
         <SafeAreaView className={bgClass} style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
-            <ScrollView className="flex gap-4 mt-4 px-6">
-                <View>
-                    <View className="gap-2">
-                        <Text className={textClass + " text-lg font-medium"}>
+            <ScrollView className="flex my-5 px-3">
+                <View
+                    style={{ elevation: 3 }}
+                    className={
+                        (isDark ? "bg-transparent" : "bg-white") +
+                        " px-5 py-3 rounded-3xl gap-4"
+                    }
+                >
+                    <View className="gap-1">
+                        <Text
+                            className={
+                                textClass + " text-lg font-bold font-publicsans"
+                            }
+                        >
                             Language Speech
                         </Text>
                         <Link href="/select_language" className="w-28">
                             <LanguageSelected />
                         </Link>
                     </View>
-                    <View className="py-6 bg-transparent">
+                    <View className="bg-transparent">
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
@@ -205,21 +215,47 @@ export default function Recording() {
                                 borderRadius: 15,
                             }}
                         >
-                            <View className=" rounded-[15px] m-[1px] bg-darkBg">
+                            <View className=" rounded-[15px] m-[1px] bg-darkBg relative overflow-hidden">
                                 <ScrollView
-                                    className="max-h-[350px] mx-6"
+                                    className="max-h-[340px] mx-6"
                                     nestedScrollEnabled={true}
+                                    showsVerticalScrollIndicator={false}
                                 >
-                                    <Text className=" text-lg leading-6 py-4 text-secondary font-light text-ellipsis">
+                                    <Text className=" text-lg leading-6 py-4 pb-10 text-secondary font-light text-ellipsis">
                                         {LANG.getScript(lang).content}
                                     </Text>
                                 </ScrollView>
+                                {/* Top Transparent Overlay */}
+                                <LinearGradient
+                                    colors={["rgba(0,0,0,.5)", "transparent"]}
+                                    style={{
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: 30,
+                                    }}
+                                    pointerEvents="none"
+                                />
+
+                                {/* Bottom Dark Fade */}
+                                <LinearGradient
+                                    colors={["transparent", "rgba(0,0,0,0.8)"]}
+                                    style={{
+                                        position: "absolute",
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: 100,
+                                    }}
+                                    pointerEvents="none"
+                                />
                             </View>
                         </LinearGradient>
                     </View>
                 </View>
 
-                <View>
+                <View className="mt-5">
                     <Text
                         className={
                             textClass +
