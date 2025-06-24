@@ -18,14 +18,14 @@ type LangChoiceProps = {
 };
 
 export default function SelectLanguage() {
+    const router = useRouter();
+    const langStore = useLangStore();
+    const [lang, setLang] = useState(langStore.currentLang);
+
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass =
         currentTheme === "dark" ? "text-secondary" : "text-bgDark";
-
-    const router = useRouter();
-    const langStore = useLangStore();
-    const [lang, setLang] = useState(langStore.currentLang);
 
     const languages: LangChoiceProps[] = [
         {
@@ -60,7 +60,7 @@ export default function SelectLanguage() {
 
     return (
         <SafeAreaView className="bg-white" style={{ flex: 1 }}>
-            <StatusBar style="dark" backgroundColor="#fff" />;
+            <StatusBar style="dark" backgroundColor="#fff" />
             <View className="bg-white" style={styles.headerShadow}>
                 <Header back={true} menu={true} theme="light" />
                 <View className="bg-white pb-8 pt-6 px-6">
@@ -70,18 +70,33 @@ export default function SelectLanguage() {
                 </View>
             </View>
             <View
+                style={{ flex: 1 }}
                 className={
                     (isDark ? "bg-darkBg" : "bg-lightBg") +
-                    " flex flex-1 pt-10 px-6 z-0"
+                    " flex flex-1 py-5 px-3 z-0"
                 }
             >
-                <View style={{ flex: 1 }}>
+                <View
+                    style={{ elevation: 3 }}
+                    className={
+                        (isDark ? "bg-darkLayer" : "bg-white") +
+                        " px-3 py-5 rounded-3xl"
+                    }
+                >
                     <View className="flex-row flex-wrap">
                         {languages.map(LangChoice)}
                     </View>
                 </View>
             </View>
-            <View className="bg-darkBg border border-t-lightWhite/50 py-8 items-center">
+            <View
+                style={{
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#585858CC",
+                }}
+                className={
+                    isDark ? "bg-darkBg" : "bg-white" + " py-8 items-center"
+                }
+            >
                 <GradientSelectButton
                     pressHandler={() => {
                         langStore.setCurrentLang(lang);
@@ -96,6 +111,11 @@ export default function SelectLanguage() {
 function LangChoice({ lang, currentLang, setLang }: LangChoiceProps) {
     const IS_SELECTED = lang == currentLang;
     const { book, chapter } = LANG.getScript(lang);
+
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass =
+        currentTheme === "dark" ? "text-secondary" : "text-bgDark";
 
     let borderStyle = {};
     if (lang === LANG.ENG2) {
@@ -112,9 +132,8 @@ function LangChoice({ lang, currentLang, setLang }: LangChoiceProps) {
             disabled={IS_SELECTED}
             onPress={() => setLang(lang)}
             style={borderStyle}
-            className={`w-1/3 items-center p-2 py-5 gap-3`}
+            className={`w-1/3 items-center px-2 gap-3`}
         >
-            {" "}
             <Image
                 style={{
                     width: 80,
@@ -131,10 +150,20 @@ function LangChoice({ lang, currentLang, setLang }: LangChoiceProps) {
                 <Text className="text-primaryBlue text-center font-publicsans uppercase text-lg font-bold">
                     {LANG.asString(lang).toUpperCase()}
                 </Text>
-                <Text className="text-secondary text-center font-publicsans font-bold text-sm leading-6">
+                <Text
+                    className={
+                        textClass +
+                        " text-center font-publicsans font-bold text-sm leading-6"
+                    }
+                >
                     {book}
                 </Text>
-                <Text className="pb-2 text-secondary text-center font-publicsans text-sm leading-none">
+                <Text
+                    className={
+                        textClass +
+                        " pb-2 text-center font-publicsans text-sm leading-none"
+                    }
+                >
                     {chapter}
                 </Text>
             </View>
