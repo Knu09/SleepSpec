@@ -20,6 +20,7 @@ module.exports = {
                 lightWhite: "#808080",
                 arsenic: "#1F242A",
                 darkLayer: "#161B21",
+                grayLayer: "#EEF0F1",
                 divider: "#585858",
                 lightGray: "#E9E9E9",
             },
