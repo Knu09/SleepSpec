@@ -49,7 +49,6 @@ export default function Index() {
                 contentContainerStyle={{
                     flexGrow: 1,
                     alignItems: "center",
-                    gap: 10,
                     justifyContent: "flex-start",
                 }}
             >

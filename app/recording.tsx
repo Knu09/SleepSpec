@@ -1,7 +1,14 @@
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
 import { Link, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState,
+} from "react";
 import {
     Alert,
     Pressable,
@@ -15,6 +22,7 @@ import { AudioModule, useAudioRecorder } from "expo-audio";
 import { useClassStore, useLangStore, useSegmentStore } from "@/store/store";
 import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "@expo/vector-icons/FontAwesome";
 
@@ -22,6 +30,8 @@ import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
 import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
+import { ThemeContext } from "@/context/ThemeContext";
+import GradientIcon from "@/components/GradientIcon";
 
 type RecordingState = {
     timer: Timer;
@@ -86,6 +96,13 @@ export default function Recording() {
     const [upload, setUpload] = useState(Process.IDLE);
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
+
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const micColor = "#006FFF";
+    const bottomGradient = isDark ? "#01000F" : "#FFF";
 
     useEffect(() => {
         // request recording permissions
@@ -169,142 +186,236 @@ export default function Recording() {
     }
 
     return (
-        <SafeAreaView className="bg-darkBg" style={{ flex: 1 }}>
+        <SafeAreaView className={bgClass} style={{ flex: 1 }}>
             <Header title={"Recording"} back={true} menu={true} />
-            <ScrollView className="flex gap-4 mt-4 px-6">
-                <View className="gap-2">
-                    <Text className="text-lg text-white font-medium">
-                        Language Speech
-                    </Text>
-                    <Link href="/select_language" className="w-28">
-                        <LanguageSelected />
-                    </Link>
-                </View>
-                <View className="py-6 bg-transparent">
-                    <LinearGradient
-                        colors={["#006EFF", "#7800D3"]}
-                        start={{ x: 0.5, y: 0 }}
-                        end={{ x: 0.5, y: 1 }}
-                        className="flex justify-center items-center"
-                        style={{
-                            borderRadius: 15,
-                        }}
-                    >
-                        <View className=" rounded-[15px] m-[1px] bg-darkBg">
-                            <ScrollView
-                                className="max-h-[350px] mx-6"
-                                nestedScrollEnabled={true}
-                            >
-                                <Text className=" text-lg leading-6 py-4 text-secondary font-light text-ellipsis">
-                                    {LANG.getScript(lang).content}
-                                </Text>
-                            </ScrollView>
-                        </View>
-                    </LinearGradient>
-                </View>
-
-                <Text className="text-white mx-auto text-3xl">
-                    {Timer.format(recordState.timer)}
-                </Text>
-                <View className="flex justify-center items-center my-3">
-                    <Pressable
-                        onPress={() => {
-                            if (
-                                recordState.isRecording &&
-                                !recordState.isPaused
-                            ) {
-                                recordPause();
-                            } else if (
-                                recordState.isRecording &&
-                                recordState.isPaused
-                            ) {
-                                recordResume();
-                            } else {
-                                recordStart();
+            <ScrollView className="flex my-5 px-3">
+                <View
+                    style={{ elevation: 3 }}
+                    className={
+                        (isDark ? "bg-transparent" : "bg-white") +
+                        " px-5 py-3 rounded-3xl gap-4"
+                    }
+                >
+                    <View className="gap-1">
+                        <Text
+                            className={
+                                textClass + " text-lg font-bold font-publicsans"
                             }
-                        }}
-                        onLongPress={() => {
-                            if (recordState.isRecording) {
-                                recordStop(true);
-                                setUpload(Process.PENDING);
-                            }
-                        }}
-                    >
+                        >
+                            Language Speech
+                        </Text>
+                        <Link href="/select_language" className="w-28">
+                            <LanguageSelected />
+                        </Link>
+                    </View>
+                    <View className="bg-transparent">
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
                             end={{ x: 0.5, y: 1 }}
-                            className="justify-center items-center p-[2px]"
-                            style={styles.linearGradientMicrophone}
+                            className="flex justify-center items-center"
+                            style={{
+                                borderRadius: 12,
+                                padding: 2,
+                            }}
                         >
-                            <View className="w-40 h-40 flex justify-center items-center bg-[#01000F] rounded-full">
-                                <Icon
-                                    name="microphone"
-                                    size={60}
-                                    color={
-                                        recordState.isRecording
-                                            ? recordState.isPaused
-                                                ? "#FFF"
-                                                : "#006fff"
-                                            : "#FFF"
-                                    }
+                            <View
+                                className={
+                                    (isDark ? "bg-darkBg" : "bg-white") +
+                                    " rounded-[10px] relative overflow-hidden"
+                                }
+                            >
+                                <ScrollView
+                                    className="max-h-[340px] mx-4"
+                                    nestedScrollEnabled={true}
+                                    showsVerticalScrollIndicator={false}
+                                >
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-lg leading-6 py-4 pb-10 font-light font-publicsans"
+                                        }
+                                    >
+                                        {LANG.getScript(lang).content}
+                                    </Text>
+                                </ScrollView>
+                                <LinearGradient
+                                    colors={["transparent", bottomGradient]}
+                                    style={{
+                                        position: "absolute",
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: 80,
+                                    }}
+                                    pointerEvents="none"
                                 />
                             </View>
                         </LinearGradient>
-                    </Pressable>
+                    </View>
                 </View>
 
-                <View className="text-center gap-2">
+                <View className="mt-5">
                     <Text
-                        className={`text-xl font-bold mx-auto font-publicsans ${
-                            recordState.isRecording
-                                ? recordState.isPaused
-                                    ? "text-secondary"
-                                    : "text-primaryBlue"
-                                : "text-white"
-                        }`}
+                        className={
+                            textClass +
+                            " mx-auto text-3xl font-normal font-poppins"
+                        }
                     >
-                        {recordState.isRecording
-                            ? recordState.isPaused
-                                ? "Paused"
-                                : "Recording"
-                            : "Press to Record"}
+                        {Timer.format(recordState.timer)}
                     </Text>
-                    <Text className="text-secondary text-center text-sm font-regular font-publicsans">
-                        {recordState.isRecording ? (
-                            recordState.isPaused ? (
-                                <Text className="text-white text-center mt-4">
-                                    Tap{" "}
-                                    <Icon
-                                        name="microphone"
-                                        size={16}
-                                        color="#FFF"
-                                    />{" "}
-                                    to Resume Recording
-                                </Text>
+                    <View className="flex justify-center items-center mb-2 mt-3">
+                        <Pressable
+                            onPress={() => {
+                                if (
+                                    recordState.isRecording &&
+                                    !recordState.isPaused
+                                ) {
+                                    recordPause();
+                                } else if (
+                                    recordState.isRecording &&
+                                    recordState.isPaused
+                                ) {
+                                    recordResume();
+                                } else {
+                                    recordStart();
+                                }
+                            }}
+                            onLongPress={() => {
+                                if (recordState.isRecording) {
+                                    recordStop(true);
+                                    setUpload(Process.PENDING);
+                                }
+                            }}
+                        >
+                            <LinearGradient
+                                colors={["#006EFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                className="justify-center items-center p-[2px]"
+                                style={styles.linearGradientMicrophone}
+                            >
+                                <View
+                                    className={
+                                        (isDark ? "bg-darkBg" : "bg-white") +
+                                        " w-40 h-40 flex justify-center items-center rounded-full"
+                                    }
+                                    style={styles.shadowProp}
+                                >
+                                    {recordState.isRecording &&
+                                    !recordState.isPaused ? (
+                                        <GradientIcon
+                                            name="microphone"
+                                            size={60}
+                                        />
+                                    ) : (
+                                        <Icon
+                                            name="microphone"
+                                            size={60}
+                                            color="#006fff"
+                                        />
+                                    )}
+                                </View>
+                            </LinearGradient>
+                        </Pressable>
+                    </View>
+
+                    <View className="text-center gap-2">
+                        <Text
+                            className={`text-xl font-bold mx-auto font-publicsans ${
+                                recordState.isRecording
+                                    ? recordState.isPaused
+                                        ? textClass
+                                        : "text-primaryBlue"
+                                    : textClass
+                            }`}
+                        >
+                            {recordState.isRecording
+                                ? recordState.isPaused
+                                    ? "Paused"
+                                    : "Recording"
+                                : "Press to Record"}
+                        </Text>
+                        <Text
+                            className={
+                                textClass +
+                                " text-center text-sm font-regular font-publicsans"
+                            }
+                        >
+                            {recordState.isRecording ? (
+                                recordState.isPaused ? (
+                                    <Text
+                                        className={
+                                            textClass + " text-center mt-4"
+                                        }
+                                    >
+                                        Tap{"  "}
+                                        <Icon
+                                            name="microphone"
+                                            size={16}
+                                            color={micColor}
+                                        />
+                                        {"  "}
+                                        to Resume Recording
+                                    </Text>
+                                ) : (
+                                    <View className="flex-row justify-center items-center mt-4">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-publicsans"
+                                            }
+                                        >
+                                            Hold
+                                        </Text>
+                                        <MaskedView
+                                            maskElement={
+                                                <View className="justify-center items-center">
+                                                    <Icon
+                                                        name="microphone"
+                                                        size={16}
+                                                        color="black"
+                                                    />
+                                                </View>
+                                            }
+                                        >
+                                            <LinearGradient
+                                                colors={["#006FFF", "#7800D3"]}
+                                                start={{ x: 0.5, y: 0 }}
+                                                end={{ x: 0.5, y: 1 }}
+                                                style={{
+                                                    width: 16,
+                                                    height: 16,
+                                                    marginHorizontal: 2,
+                                                }}
+                                            />
+                                        </MaskedView>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-publicsans"
+                                            }
+                                        >
+                                            to Stop Recording
+                                        </Text>
+                                    </View>
+                                )
                             ) : (
-                                <Text className="text-white text-center mt-4">
-                                    Hold{" "}
+                                <Text
+                                    className={textClass + " text-center mt-4"}
+                                >
+                                    Tap{"  "}
                                     <Icon
                                         name="microphone"
                                         size={16}
-                                        color="#006FFF"
-                                    />{" "}
-                                    to Stop Recording
+                                        color={micColor}
+                                    />
+                                    {"  "}
+                                    to Start Recording
                                 </Text>
-                            )
-                        ) : (
-                            <Text className="text-white text-center mt-4">
-                                Tap{" "}
-                                <Icon
-                                    name="microphone"
-                                    size={16}
-                                    color="#FFF"
-                                />{" "}
-                                to Start Recording
-                            </Text>
-                        )}
-                    </Text>
+                            )}
+                        </Text>
+                    </View>
                 </View>
             </ScrollView>
 
@@ -382,5 +493,10 @@ async function uploadAudio(audioUri: string): Promise<{
 const styles = StyleSheet.create({
     linearGradientMicrophone: {
         borderRadius: 100,
+    },
+
+    shadowProp: {
+        elevation: 10,
+        shadowColor: "#000",
     },
 });

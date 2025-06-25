@@ -1,5 +1,7 @@
 import { GestureResponderEvent, Pressable, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 type GradientSelectButtonProps = {
     pressHandler?: (event: GestureResponderEvent) => void;
@@ -8,6 +10,11 @@ type GradientSelectButtonProps = {
 export default function GradientSelectButton({
     pressHandler,
 }: GradientSelectButtonProps) {
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass =
+        currentTheme === "dark" ? "text-secondary" : "text-bgDark";
+
     return (
         <LinearGradient
             colors={["#006EFF", "#7800D3"]}
@@ -17,11 +24,16 @@ export default function GradientSelectButton({
             style={{ borderRadius: 100 }}
         >
             <Pressable
-                className="rounded-full m-[1px] gap-4 justify-center px-10 bg-[#01000F]"
+                className={
+                    (isDark ? "bg-dark" : "bg-white") +
+                    " rounded-full m-[2px] gap-4 justify-center px-10"
+                }
                 style={{ width: 145, height: 45 }}
                 onPress={pressHandler}
             >
-                <Text className="font-bold text-center text-white">SELECT</Text>
+                <Text className={"font-bold text-center " + textClass}>
+                    SELECT
+                </Text>
             </Pressable>
         </LinearGradient>
     );

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback, useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
@@ -15,6 +15,7 @@ interface HeaderProps {
     back?: boolean;
     title?: string;
     userMan?: boolean;
+    theme?: string;
 }
 
 const Header = ({
@@ -22,11 +23,19 @@ const Header = ({
     back = false,
     title = "",
     userMan = false,
+    theme = "",
 }: HeaderProps) => {
     const { currentTheme } = useContext(ThemeContext);
+    const isDark = (theme || currentTheme) === "dark";
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const { showBottomSheet } = useBottomSheet();
+    const router = useRouter();
+
+    const navigateTo = (screen: string) => {
+        router.push(`/${screen}` as any);
+        // navigation.navigate(screen as never);
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -43,13 +52,13 @@ const Header = ({
     // return <BottomNavigationSheet />;
     return (
         <View
-            style={(styles.header, { elevation: 5 })}
+            style={styles.header}
             className={
                 "flex flex-row px-6 w-full h-14 justify-between items-center " +
-                (currentTheme === "dark" ? "bg-darkBg" : "bg-white")
+                (isDark ? "bg-darkBg" : "bg-white")
             }
         >
-            <View className="">
+            <View className="w-10 h-10 items-start justify-center">
                 {back && (
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <FontAwesome
@@ -61,7 +70,7 @@ const Header = ({
                     </TouchableOpacity>
                 )}
                 {userMan && (
-                    <Link href="/user_manual">
+                    <TouchableOpacity onPress={() => navigateTo("user_manual")}>
                         <FontAwesome6
                             name="circle-question"
                             size={22}
@@ -69,7 +78,7 @@ const Header = ({
                             width={28}
                             color="#006FFF"
                         />
-                    </Link>
+                    </TouchableOpacity>
                 )}
             </View>
 
@@ -83,7 +92,7 @@ const Header = ({
                     {title}
                 </Text>
             </View>
-            <View className="w-10 items-end">
+            <View className="w-10 h-10 items-end justify-center">
                 {menu && (
                     <TouchableOpacity className="" onPress={showBottomSheet}>
                         <Feather
@@ -111,6 +120,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: "space-between",
         alignItems: "center",
+        elevation: 3,
     },
     container: {
         flex: 1,
