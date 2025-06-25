@@ -111,12 +111,12 @@ export default function Settings() {
                                     Dark Mode
                                 </Text>
                                 <Switch
-                                    value={currentTheme === "light"}
+                                    value={currentTheme === "dark"}
                                     onValueChange={() =>
                                         toggleTheme(
-                                            currentTheme === "dark"
-                                                ? "light"
-                                                : "dark",
+                                            currentTheme === "light"
+                                                ? "dark"
+                                                : "light",
                                         )
                                     }
                                     trackColor={{
