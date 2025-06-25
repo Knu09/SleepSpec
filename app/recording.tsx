@@ -193,7 +193,7 @@ export default function Recording() {
                     style={{ elevation: 3 }}
                     className={
                         (isDark ? "bg-transparent" : "bg-white") +
-                        " px-5 py-3 rounded-3xl gap-4"
+                        " px-4 py-3 rounded-3xl gap-4"
                     }
                 >
                     <View className="gap-1">
@@ -227,14 +227,13 @@ export default function Recording() {
                             >
                                 <View>
                                     <ScrollView
-                                        className="max-h-[310px] mx-4"
+                                        className="max-h-[310px] px-4"
                                         nestedScrollEnabled={true}
-                                        showsVerticalScrollIndicator={false}
                                     >
                                         <Text
                                             className={
                                                 textClass +
-                                                " text-lg leading-6 py-4 pb-10 font-light font-publicsans"
+                                                " text-[16px] leading-7 py-4 pb-10 font-light font-publicsansLight"
                                             }
                                         >
                                             {LANG.getScript(lang).content}
@@ -257,11 +256,100 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " mx-4 py-2 border-primaryBlue border-t-[2px]"
+                                        " mx-4 py-3 border-primary border-t-[1.5px]"
                                     }
                                 >
-                                    <Text className="text-black">
-                                        Hold to Stop Recoding
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-start font-regular font-publicsans"
+                                        }
+                                    >
+                                        {recordState.isRecording ? (
+                                            recordState.isPaused ? (
+                                                <Text
+                                                    className={
+                                                        textClass +
+                                                        " text-start mt-4"
+                                                    }
+                                                >
+                                                    Tap{"  "}
+                                                    <Icon
+                                                        name="microphone"
+                                                        size={16}
+                                                        color={micColor}
+                                                    />
+                                                    {"  "}
+                                                    to Resume Recording
+                                                </Text>
+                                            ) : (
+                                                <View className="flex-row justify-center items-center mt-4">
+                                                    <Text
+                                                        className={
+                                                            textClass +
+                                                            " text-sm font-publicsans"
+                                                        }
+                                                    >
+                                                        Hold
+                                                    </Text>
+                                                    <MaskedView
+                                                        maskElement={
+                                                            <View className="justify-center items-center">
+                                                                <Icon
+                                                                    name="microphone"
+                                                                    size={16}
+                                                                    color="black"
+                                                                />
+                                                            </View>
+                                                        }
+                                                    >
+                                                        <LinearGradient
+                                                            colors={[
+                                                                "#006FFF",
+                                                                "#7800D3",
+                                                            ]}
+                                                            start={{
+                                                                x: 0.5,
+                                                                y: 0,
+                                                            }}
+                                                            end={{
+                                                                x: 0.5,
+                                                                y: 1,
+                                                            }}
+                                                            style={{
+                                                                width: 16,
+                                                                height: 16,
+                                                                marginHorizontal: 2,
+                                                            }}
+                                                        />
+                                                    </MaskedView>
+                                                    <Text
+                                                        className={
+                                                            textClass +
+                                                            " text-sm font-publicsans"
+                                                        }
+                                                    >
+                                                        to Stop Recording
+                                                    </Text>
+                                                </View>
+                                            )
+                                        ) : (
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " text-start mt-4"
+                                                }
+                                            >
+                                                Tap{"  "}
+                                                <Icon
+                                                    name="microphone"
+                                                    size={16}
+                                                    color={micColor}
+                                                />
+                                                {"  "}
+                                                to Start Recording
+                                            </Text>
+                                        )}
                                     </Text>
                                 </View>
                             </View>
