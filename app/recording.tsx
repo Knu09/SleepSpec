@@ -233,7 +233,7 @@ export default function Recording() {
                                         <Text
                                             className={
                                                 textClass +
-                                                " text-[16px] leading-7 py-4 pb-10 font-light font-publicsansLight"
+                                                " text-[16px] leading-7 py-4 pb-10 font-publicsansLight"
                                             }
                                         >
                                             {LANG.getScript(lang).content}
@@ -262,7 +262,7 @@ export default function Recording() {
                                     <Text
                                         className={
                                             textClass +
-                                            " text-start font-regular font-publicsans"
+                                            " text-start font-publicsans"
                                         }
                                     >
                                         {recordState.isRecording ? (
@@ -283,11 +283,11 @@ export default function Recording() {
                                                     to Resume Recording
                                                 </Text>
                                             ) : (
-                                                <View className="flex-row justify-center items-center mt-4">
+                                                <View className="flex-row justify-center items-center">
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " text-sm font-publicsans"
+                                                            " font-publicsans text-center"
                                                         }
                                                     >
                                                         Hold
@@ -326,7 +326,7 @@ export default function Recording() {
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " text-sm font-publicsans"
+                                                            " font-publicsans text-center"
                                                         }
                                                     >
                                                         to Stop Recording
