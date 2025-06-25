@@ -357,7 +357,7 @@ export default function Recording() {
                     </View>
                 </View>
 
-                <View className="flex flex-col flex-1 justify-center">
+                <View className="flex justify-center flex-1">
                     <View className="">
                         <Text
                             className={

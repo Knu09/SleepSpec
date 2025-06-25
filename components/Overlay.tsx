@@ -35,10 +35,15 @@ export default function Overlay({
 
     return (
         <View
-            className={
-                bgClass + " flex justify-center items-center pb-28 w-full"
-            }
-            style={{ height: "100%" }}
+            className={bgClass + " flex justify-center items-center w-full"}
+            style={{
+                position: "absolute",
+                top: 80,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1000,
+            }}
         >
             <View className="flex items-center gap-2">
                 <Text className="text-primaryBlue text-2xl font-medium">
@@ -47,7 +52,7 @@ export default function Overlay({
                 <Text className={textClass + " mb-8 text-lg"}>
                     {waitMsg || "Please wait for a moment..."}
                 </Text>
-                <ActivityIndicator size={70} color={"#006fff"} />
+                <ActivityIndicator size={60} color={"#006fff"} />
             </View>
         </View>
     );
