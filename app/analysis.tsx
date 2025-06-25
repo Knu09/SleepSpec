@@ -23,6 +23,11 @@ export default function Analysis() {
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
     const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const borderColor = isDark ? "#006FFF" : "#585858";
+    const topStopColor = isDark ? "#006FFF" : "#01000F";
+    const bottomStopColor = isDark ? "#7800D3" : "#01000F";
+    const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
+    const headerColor = isDark ? "bg-darkLayer" : "bg-grayLayer";
 
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
@@ -70,10 +75,10 @@ export default function Analysis() {
 
                     <View className="my-6">
                         <LinearGradient
-                            colors={["#006EFF", "#7800D3"]}
+                            colors={[topStopColor, bottomStopColor]}
                             start={{ x: 0.5, y: 0 }}
                             end={{ x: 0.5, y: 1 }}
-                            className="flex justify-center items-center p-[2px]"
+                            className="flex justify-center items-center p-[1.4px]"
                             style={{
                                 borderRadius: 12,
                             }}
@@ -81,10 +86,21 @@ export default function Analysis() {
                             <View
                                 className={
                                     (isDark ? "bg-darkBg" : "bg-white") +
-                                    " w-full rounded-[10px] gap-5 py-3 px-5"
+                                    " w-full rounded-[10px] gap-3"
                                 }
                             >
-                                <View className="flex flex-row justify-between items-center">
+                                <View
+                                    style={{
+                                        borderTopRightRadius: 12,
+                                        borderTopLeftRadius: 12,
+                                        borderBottomColor: "#585858",
+                                        borderBottomWidth: 1.5,
+                                    }}
+                                    className={
+                                        headerColor +
+                                        " flex flex-row justify-between items-center pb-2 px-5 py-2"
+                                    }
+                                >
                                     <Text
                                         className={
                                             textClass +
@@ -101,7 +117,7 @@ export default function Analysis() {
                                         color="#006FFF"
                                     />
                                 </View>
-                                <View className="flex flex-row justify-between">
+                                <View className="flex flex-row justify-between px-5 pb-2">
                                     <View className="flex flex-col gap-3">
                                         <Text
                                             className={
@@ -252,7 +268,7 @@ export default function Analysis() {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor: "white",
+                    backgroundColor: TabBackgroundColor,
                 }}
             >
                 <TabNavigation />
