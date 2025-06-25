@@ -181,14 +181,22 @@ export default function BottomNavigationSheet() {
                                 </Text>
                             </TouchableOpacity>
                             {result && (
-                                <TouchableOpacity
-                                    onPress={() => navigateTo("analysis")}
-                                    style={styles.bottomSheetLinkTab}
-                                >
-                                    <Text style={styles.bottomsheetText}>
-                                        View Recent Test Results
-                                    </Text>
-                                </TouchableOpacity>
+                                <View>
+                                    <View
+                                        style={{
+                                            height: 0.5,
+                                            backgroundColor: "#80808080",
+                                        }}
+                                    />
+                                    <TouchableOpacity
+                                        onPress={() => navigateTo("analysis")}
+                                        style={styles.bottomSheetLinkTab}
+                                    >
+                                        <Text style={styles.bottomsheetText}>
+                                            View Recent Test Results
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
                             )}
 
                             {/* Divider */}
