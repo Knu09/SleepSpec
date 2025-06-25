@@ -27,6 +27,7 @@ module.exports = {
                 poppins: ["Poppins"],
                 poppinsRegular: ["Poppins-Regular"],
                 poppinsBold: ["Poppins-Bold"],
+                pulicsansLight: ["PublicSans-Light"],
                 publicsans: ["PublicSans-Regular"],
                 publicsansBold: ["PublicSans-Bold"],
             },
