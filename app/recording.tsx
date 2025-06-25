@@ -186,9 +186,9 @@ export default function Recording() {
     }
 
     return (
-        <SafeAreaView className={bgClass} style={{ flex: 1 }}>
+        <SafeAreaView className={bgClass} style={styles.container}>
             <Header title={"Recording"} back={true} menu={true} />
-            <ScrollView className="flex my-5 px-3">
+            <View className="my-5 px-3 flex-1">
                 <View
                     style={{ elevation: 3 }}
                     className={
@@ -225,46 +225,62 @@ export default function Recording() {
                                     " rounded-[10px] relative overflow-hidden"
                                 }
                             >
-                                <ScrollView
-                                    className="max-h-[340px] mx-4"
-                                    nestedScrollEnabled={true}
-                                    showsVerticalScrollIndicator={false}
-                                >
-                                    <Text
-                                        className={
-                                            textClass +
-                                            " text-lg leading-6 py-4 pb-10 font-light font-publicsans"
-                                        }
+                                <View>
+                                    <ScrollView
+                                        className="max-h-[310px] mx-4"
+                                        nestedScrollEnabled={true}
+                                        showsVerticalScrollIndicator={false}
                                     >
-                                        {LANG.getScript(lang).content}
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-lg leading-6 py-4 pb-10 font-light font-publicsans"
+                                            }
+                                        >
+                                            {LANG.getScript(lang).content}
+                                        </Text>
+                                    </ScrollView>
+
+                                    <LinearGradient
+                                        colors={["transparent", bottomGradient]}
+                                        style={{
+                                            position: "absolute",
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: 80,
+                                        }}
+                                        pointerEvents="none"
+                                    />
+                                </View>
+
+                                <View
+                                    className={
+                                        (isDark ? "bg-darkBg" : "bg-white") +
+                                        " mx-4 py-2 border-primaryBlue border-t-[2px]"
+                                    }
+                                >
+                                    <Text className="text-black">
+                                        Hold to Stop Recoding
                                     </Text>
-                                </ScrollView>
-                                <LinearGradient
-                                    colors={["transparent", bottomGradient]}
-                                    style={{
-                                        position: "absolute",
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        height: 80,
-                                    }}
-                                    pointerEvents="none"
-                                />
+                                </View>
                             </View>
                         </LinearGradient>
                     </View>
                 </View>
 
-                <View className="mt-5">
-                    <Text
-                        className={
-                            textClass +
-                            " mx-auto text-3xl font-normal font-poppins"
-                        }
-                    >
-                        {Timer.format(recordState.timer)}
-                    </Text>
-                    <View className="flex justify-center items-center mb-2 mt-3">
+                <View className="flex flex-col flex-1 justify-center">
+                    <View className="">
+                        <Text
+                            className={
+                                textClass +
+                                " mx-auto text-3xl font-normal font-poppins"
+                            }
+                        >
+                            {Timer.format(recordState.timer)}
+                        </Text>
+                    </View>
+                    <View className="flex justify-center items-center mb-2 mt-2">
                         <Pressable
                             onPress={() => {
                                 if (
@@ -417,7 +433,7 @@ export default function Recording() {
                         </Text>
                     </View>
                 </View>
-            </ScrollView>
+            </View>
 
             <Overlay
                 heading="Processing Audio Data"
@@ -498,5 +514,12 @@ const styles = StyleSheet.create({
     shadowProp: {
         elevation: 10,
         shadowColor: "#000",
+    },
+
+    container: {
+        alignItems: "center",
+        flex: 1,
+        // color: "white",
+        textAlign: "center",
     },
 });
