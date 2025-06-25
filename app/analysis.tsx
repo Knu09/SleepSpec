@@ -117,7 +117,7 @@ export default function Analysis() {
                                         color="#006FFF"
                                     />
                                 </View>
-                                <View className="flex flex-row justify-between px-5 pb-2">
+                                <View className=" flex flex-row justify-between px-5 pb-2">
                                     <View className="flex flex-col gap-3">
                                         <Text
                                             className={
