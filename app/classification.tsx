@@ -115,7 +115,7 @@ export default function Classification() {
                         {CLASS.getTitle(result)}
                     </Text>
                 </View>
-                <View className="mt-4 px-6">
+                <View className="mt-4 gap-4">
                     {segments.map((segment) => (
                         <AudioSegment
                             key={segment.id}
@@ -169,7 +169,7 @@ function AudioSegment({
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
-    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const bgClass = isDark ? "bg-darkLayer" : "bg-white";
 
     useEffect(() => {
         const cleanup = () => {
@@ -197,7 +197,12 @@ function AudioSegment({
     }, [playing]);
 
     return (
-        <View className="flex flex-row justify-between mt-7">
+        <View
+            style={{ elevation: 3 }}
+            className={
+                bgClass + " flex flex-row justify-between rounded-lg p-4"
+            }
+        >
             <View>
                 <Text
                     className={
@@ -209,7 +214,8 @@ function AudioSegment({
                 </Text>
                 <Text
                     className={
-                        (isDark ? "#DDDDDD80" : "#01000F80") + " opacity-50"
+                        (isDark ? "text-secondary/50" : "text-darkBg/50") +
+                        " font-publicsansLight"
                     }
                 >
                     {Timer.format(timer)} / 00:15 &nbsp;&nbsp;
@@ -223,7 +229,10 @@ function AudioSegment({
                 <Text className={textClass + " font-bold font-publicsans"}>
                     Confidence Score:&nbsp;
                     <Text
-                        className={`text-[${isDark ? "#DDDDDD" : "#01000F"}] opacity-50 font-normal font-publicsans`}
+                        className={
+                            (isDark ? "text-secondary/50" : "text-darkBg/50") +
+                            " font-light font-publicsansLight"
+                        }
                     >
                         {CLASS.getConfScorePercent(segment)}
                     </Text>
