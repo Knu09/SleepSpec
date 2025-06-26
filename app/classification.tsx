@@ -207,7 +207,7 @@ function AudioSegment({
                 <Text
                     className={
                         textClass +
-                        " text-lg font-publicsansLight font-semibold"
+                        " text-md font-publicsansLight font-semibold"
                     }
                 >
                     Recording Segment {segment.id}
@@ -215,18 +215,20 @@ function AudioSegment({
                 <Text
                     className={
                         (isDark ? "text-secondary/50" : "text-darkBg/50") +
-                        " font-publicsansLight"
+                        " font-publicsansLight text-md"
                     }
                 >
                     {Timer.format(timer)} / 00:15 &nbsp;&nbsp;
                 </Text>
                 <Text
-                    className="font-semibold font-pulicsans"
+                    className="font-semibold font-pulicsans text-md"
                     style={{ color: CLASS.getTitleColor(segment) }}
                 >
                     {CLASS.getTitle(segment)}
                 </Text>
-                <Text className={textClass + " font-bold font-publicsans"}>
+                <Text
+                    className={textClass + " font-bold font-publicsans text-md"}
+                >
                     Confidence Score:&nbsp;
                     <Text
                         className={
