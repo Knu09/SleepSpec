@@ -1,5 +1,12 @@
-import { useEffect, useState, useRef } from "react";
-import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { useEffect, useState, useRef, useContext } from "react";
+import {
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { Segment, useClassStore, useSegmentStore } from "@/store/store";
@@ -9,6 +16,9 @@ import { Image } from "expo-image";
 import TabNavigation from "@/components/TabNavigation";
 import Overlay from "@/components/Overlay";
 import { AudioPlayer, useAudioPlayer } from "expo-audio";
+import { ThemeContext } from "@/context/ThemeContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 const PLAY_BTN = require("@/assets/images/play-btn.svg");
 const PAUSE_BTN = require("@/assets/images/pause-btn.svg");
@@ -23,6 +33,15 @@ export default function Classification() {
         null,
     );
     const player = useAudioPlayer(undefined);
+
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const borderColor = isDark ? "#006FFF" : "#585858";
+    const topStopColor = isDark ? "#006FFF" : "#01000F";
+    const bottomStopColor = isDark ? "#7800D3" : "#01000F";
+    const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
 
     useEffect(() => {
         if (!result) {
@@ -82,11 +101,13 @@ export default function Classification() {
     }
 
     return (
-        <SafeAreaView className="flex-1 bg-darkBg pt-10">
+        <SafeAreaView className={bgClass} style={styles.container}>
             <Header title={"Classification"} back={true} menu={true} />
-            <View className="mt-10 px-1 flex-1 pb-28">
+            <ScrollView className="mt-5 px-3 relative flex flex-grow flex-col">
                 <View className="flex justify-center items-center text-center text-secondary">
-                    <Text className="text-secondary">You are</Text>
+                    <Text className={textClass + " font-publicsans"}>
+                        You are
+                    </Text>
                     <Text
                         style={{ color: CLASS.getTitleColor(result) }}
                         className={`font-publicsans text-2xl font-bold`}
@@ -94,12 +115,7 @@ export default function Classification() {
                         {CLASS.getTitle(result)}
                     </Text>
                 </View>
-                <ScrollView
-                    className="mt-4 px-6"
-                    style={{
-                        flex: 1,
-                    }}
-                >
+                <View className="mt-4 px-6">
                     {segments.map((segment) => (
                         <AudioSegment
                             key={segment.id}
@@ -109,22 +125,24 @@ export default function Classification() {
                             player={player}
                         />
                     ))}
-                </ScrollView>
-                <View
-                    style={{
-                        zIndex: 100,
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                    }}
-                >
-                    <TabNavigation />
                 </View>
+
                 <Overlay
                     heading="Downloading Audio Segments"
                     state={download}
                 />
+            </ScrollView>
+
+            <View
+                style={{
+                    zIndex: 100,
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                }}
+            >
+                <TabNavigation />
             </View>
         </SafeAreaView>
     );
@@ -147,6 +165,11 @@ function AudioSegment({
     const [playing, setPlaying] = useState(selected);
     const timerRef = useRef<number>(0);
     const timer = Timer.fromSeconds(seconds);
+
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
 
     useEffect(() => {
         const cleanup = () => {
@@ -174,39 +197,60 @@ function AudioSegment({
     }, [playing]);
 
     return (
-        <View className="flex-1 flex-row justify-between mt-7">
+        <View className="flex flex-row justify-between mt-7">
             <View>
-                <Text className="text-lg text-secondary font-semibold">
+                <Text
+                    className={
+                        textClass +
+                        " text-lg font-publicsansLight font-semibold"
+                    }
+                >
                     Recording Segment {segment.id}
                 </Text>
-                <Text className="text-lightWhite">
+                <Text
+                    className={
+                        (isDark ? "#DDDDDD80" : "#01000F80") + " opacity-50"
+                    }
+                >
                     {Timer.format(timer)} / 00:15 &nbsp;&nbsp;
-                    <Text
-                        className="font-semibold"
-                        style={{ color: CLASS.getTitleColor(segment) }}
-                    >
-                        {CLASS.getTitle(segment)}
-                    </Text>
                 </Text>
-                <Text className="text-secondary font-semibold">
+                <Text
+                    className="font-semibold font-pulicsans"
+                    style={{ color: CLASS.getTitleColor(segment) }}
+                >
+                    {CLASS.getTitle(segment)}
+                </Text>
+                <Text className={textClass + " font-bold font-publicsans"}>
                     Confidence Score:&nbsp;
-                    <Text className="text-lightWhite font-normal">
+                    <Text
+                        className={`text-[${isDark ? "#DDDDDD" : "#01000F"}] opacity-50 font-normal font-publicsans`}
+                    >
                         {CLASS.getConfScorePercent(segment)}
                     </Text>
                 </Text>
             </View>
 
-            <Pressable
-                className="self-center"
-                onPress={() => {
-                    setPlaying(togglePlay(segment));
-                }}
+            <TouchableOpacity
+                className={
+                    (isDark ? "bg-white" : "bg-darkBg") +
+                    " w-10 h-10 rounded-full"
+                }
+                onPress={() => setPlaying(togglePlay(segment))}
             >
-                <Image
-                    source={playing && selected ? PAUSE_BTN : PLAY_BTN}
-                    style={{ width: 42, aspectRatio: 1 }}
-                />
-            </Pressable>
+                <View className="m-auto">
+                    <FontAwesome6
+                        size={18}
+                        name={playing && selected ? "pause" : "play"}
+                        color="#006FFF"
+                    />
+                </View>
+            </TouchableOpacity>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});
