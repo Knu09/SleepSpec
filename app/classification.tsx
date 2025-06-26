@@ -140,6 +140,7 @@ export default function Classification() {
                     bottom: 0,
                     left: 0,
                     right: 0,
+                    backgroundColor: TabBackgroundColor,
                 }}
             >
                 <TabNavigation />
