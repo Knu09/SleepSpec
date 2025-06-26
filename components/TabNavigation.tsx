@@ -3,7 +3,14 @@ import { Image, ImageSource } from "expo-image";
 import { Href, useRouter } from "expo-router";
 import { useRouteInfo } from "expo-router/build/hooks";
 import { useContext } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+    Pressable,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 type TabProps = {
     icon: ImageSource;
@@ -44,7 +51,7 @@ export default function TabNavigation() {
 function Tab({ icon, name, link }: TabProps) {
     const PATH = useRouteInfo().pathname;
     const router = useRouter();
-    const ICON_SIZE = 30;
+    const ICON_SIZE = 25;
 
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
@@ -53,9 +60,9 @@ function Tab({ icon, name, link }: TabProps) {
     const is_selected = PATH == link;
 
     return (
-        <Pressable onPress={() => is_selected || router.replace(link)}>
+        <TouchableOpacity onPress={() => is_selected || router.replace(link)}>
             <View
-                className="flex items-center gap-1"
+                className="flex items-center gap-0.5"
                 style={{ opacity: is_selected ? 1 : 0.5 }}
             >
                 <Image
@@ -65,14 +72,14 @@ function Tab({ icon, name, link }: TabProps) {
                 <Text
                     className={
                         textClass +
-                        " font-publicsans font-bold text-sm text-center"
+                        " font-publicsans font-bold text-[12px] text-center"
                     }
                     style={{ opacity: is_selected ? 1 : 0.5 }}
                 >
                     {name}
                 </Text>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 
