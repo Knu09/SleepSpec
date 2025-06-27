@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { useContext, useEffect } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/Header";
 import { useFonts } from "expo-font";
 import { useClassStore } from "@/store/store";
@@ -7,6 +8,7 @@ import { SplashScreen, useRouter } from "expo-router";
 import { CLASS } from "@/types/types";
 import TabNavigation from "@/components/TabNavigation";
 import Accordion from "@/components/Accordion";
+import { ThemeContext } from "@/context/ThemeContext";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -86,6 +88,15 @@ export default function FeatureAnalysis() {
     const { result } = useClassStore();
     const router = useRouter();
 
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const borderColor = isDark ? "#006FFF" : "#585858";
+    const topStopColor = isDark ? "#006FFF" : "#01000F";
+    const bottomStopColor = isDark ? "#7800D3" : "#01000F";
+    const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
+
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -103,34 +114,59 @@ export default function FeatureAnalysis() {
     if (!fontsLoaded || !result) return null;
 
     return (
-        <SafeAreaView className="flex-1 bg-darkBg pt-10">
+        <SafeAreaView className={bgClass} style={styles.container}>
             <Header title={"Feature Analysis"} back={true} menu={true} />
-            <View className="px-6 flex-1 pb-2">
+            <View className="flex-1 pb-2">
                 <ScrollView
-                    className="mt-4"
-                    style={{
-                        flex: 1,
-                    }}
-                    contentContainerStyle={{
-                        flexGrow: 1,
-                    }}
+                    className="px-6 pt-5 relative flex flex-grow flex-col"
+                    showsVerticalScrollIndicator={false}
                 >
-                    <View className="flex justify-center items-center text-center text-secondary mb-10">
-                        <Text className="text-secondary">You are</Text>
-                        <Text
-                            style={{ color: CLASS.getTitleColor(result) }}
-                            className={`font-publicsans text-2xl font-bold`}
-                        >
-                            {CLASS.getTitle(result)}
-                        </Text>
-                    </View>
-                    <View className="flex flex-col items-center gap-5 mb-32">
-                        <View className="flex flex-col px-2">
-                            <Text className="text-xl text-secondary text-center font-bold border-b-lightWhite">
-                                Spectro-Temporal Modulation
+                    <View
+                        className={
+                            (isDark ? "bg-darkLayer" : "bg-white") +
+                            " flex justify-center items-center text-center text-secondary mb-10 gap-5 py-5 px-4 rounded-md"
+                        }
+                        style={{ elevation: 3 }}
+                    >
+                        <View className="flex justify-center items-center">
+                            <Text className={textClass + " font-publicsans"}>
+                                You are
                             </Text>
-                            <View className="w-full h-[1px] bg-lightWhite"></View>
-                            <Text className="text-secondary/80">
+                            <Text
+                                style={{ color: CLASS.getTitleColor(result) }}
+                                className={`font-publicsans text-2xl font-bold`}
+                            >
+                                {CLASS.getTitle(result)}
+                            </Text>
+                        </View>
+
+                        <View
+                            className="flex flex-col rounded-xl "
+                            style={{ borderWidth: 0.5, borderColor: "#585858" }}
+                        >
+                            <View
+                                className={
+                                    isDark ? "bg-arsenic" : "bg-grayLayer"
+                                }
+                                style={{
+                                    borderTopLeftRadius: 12,
+                                    borderTopRightRadius: 12,
+                                    borderBottomColor: "#585858",
+                                    borderBottomWidth: 0.5,
+                                }}
+                            >
+                                <Text
+                                    className={
+                                        textClass +
+                                        " p-3 text-start font-bold font-publicsans"
+                                    }
+                                >
+                                    Spectro-Temporal Modulation
+                                </Text>
+                            </View>
+                            <Text
+                                className={textClass + " font-publicsans p-4"}
+                            >
                                 Spectro-Temporal Modulation (STM) helps us
                                 understand the rhythm and texture of a person’s
                                 voice — how their pitch (frequency) and loudness
@@ -140,6 +176,8 @@ export default function FeatureAnalysis() {
                                 melody) and how quickly it changes.
                             </Text>
                         </View>
+                    </View>
+                    <View className="flex flex-col items-center gap-5 mb-32">
                         {/* Customized Collapsible */}
                         {STM.map((stm, index) => (
                             <Accordion
@@ -154,13 +192,13 @@ export default function FeatureAnalysis() {
                 </ScrollView>
 
                 <View
-                    className="bg-darkBg"
                     style={{
                         zIndex: 100,
                         position: "absolute",
                         bottom: 0,
                         left: 0,
                         right: 0,
+                        backgroundColor: TabBackgroundColor,
                     }}
                 >
                     <TabNavigation />
@@ -169,3 +207,9 @@ export default function FeatureAnalysis() {
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});
