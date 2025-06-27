@@ -114,6 +114,7 @@ export default Header;
 
 const styles = StyleSheet.create({
     header: {
+        zIndex: 1000,
         display: "flex",
         flexDirection: "row",
         width: "100%",
