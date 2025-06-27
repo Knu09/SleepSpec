@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Image,
     LayoutAnimation,
@@ -14,6 +14,7 @@ import {
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
 import localImages from "../store/imageMap";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Accordion({
     title,
@@ -43,26 +44,25 @@ export default function Accordion({
     const imageUri = isRemote
         ? image
         : isPlotFilename
-            ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`
-            : null;
+          ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`
+          : null;
 
     const imageSource =
         imageUri !== null
             ? { uri: imageUri }
             : typeof image !== "string"
-                ? image
-                : undefined;
+              ? image
+              : undefined;
 
-    // const isRemote = image.startsWith("http");
-    // const isPlotFilename = !image.includes("/");
-    // const isRemote = typeof image === "string" && image.startsWith("http");
-    // const isPlotFilename = typeof image === "string" && !image.includes("/");
-
-    // const imageUri = isRemote
-    //   ? image
-    //   : isPlotFilename
-    //     ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`
-    // : null;
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const borderColor = isDark ? "#006FFF" : "#585858";
+    const topStopColor = isDark ? "#006FFF" : "#01000F";
+    const bottomStopColor = isDark ? "#7800D3" : "#01000F";
+    const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
+    const headerColor = isDark ? "#01000F" : "#EEF0F1";
 
     console.log(`${process.env.EXPO_PUBLIC_API_URL}/plots/${image}`);
 
@@ -104,37 +104,93 @@ export default function Accordion({
             className="justify-center items-center"
             style={styles.linearGradientContainer}
         >
-            <View className="bg-darkBg" style={styles.borderRadius}>
+            <View
+                className={isDark ? "bg-darkBg" : "bg-white"}
+                style={[styles.borderRadius, { elevation: 5 }]}
+            >
                 <TouchableWithoutFeedback onPress={toggleAccordion}>
                     <View
-                        className="flex flex-row w-full items-center justify-between px-4 py-3"
-                        style={styles.headerAccordion}
+                        className={
+                            " flex flex-row w-full items-center justify-between px-4 py-3"
+                        }
+                        style={[
+                            styles.headerAccordion,
+                            {
+                                backgroundColor: headerColor,
+                                ...(opened
+                                    ? {
+                                          borderBottomColor: borderColor,
+                                          borderBottomWidth: 0.5,
+                                      } // When open, borderBottom
+                                    : {
+                                          borderBottomLeftRadius: 8,
+                                          borderBottomRightRadius: 8,
+                                      }),
+                            },
+                        ]}
                     >
-                        <Text className="text-secondary font-publicsans font-bold">
-                            {title}
-                        </Text>
-                        <Icon
-                            name={opened ? "chevron-up" : "chevron-down"}
-                            size={15}
-                            color={"rgba(128, 128, 128, 0.5)"}
-                        />
+                        <View>
+                            <Text
+                                className={
+                                    textClass + " font-publicsans font-bold"
+                                }
+                            >
+                                {title}
+                            </Text>
+                        </View>
+                        <View>
+                            <Icon
+                                name={opened ? "chevron-up" : "chevron-down"}
+                                size={14}
+                                color={"#585858"}
+                            />
+                        </View>
                     </View>
                 </TouchableWithoutFeedback>
                 {opened && (
-                    <View style={styles.contentAccordion} className="flex flex-col gap-3">
+                    <View
+                        style={styles.contentAccordion}
+                        className="flex flex-col gap-3"
+                    >
                         <View>
-                            { description != undefined && <Text className="text-white font-normal">{description}</Text>}
+                            {description != undefined && (
+                                <Text
+                                    className={textClass + " font-publicsans"}
+                                >
+                                    {description}
+                                </Text>
+                            )}
                             {list && (
                                 <View className="mt-2">
                                     {list.items.map((item, idx) => (
-                                        <View key={idx} className="flex flex-row gap-4 mb-2">
-                                            <Text className="text-secondary leading-6">
-                                                {list.type === "number" ? `${idx + 1}.` : "•"}
+                                        <View
+                                            key={idx}
+                                            className="flex flex-row gap-4 mb-2"
+                                        >
+                                            <Text
+                                                className={
+                                                    textClass + " leading-6"
+                                                }
+                                            >
+                                                {list.type === "number"
+                                                    ? `${idx + 1}.`
+                                                    : "•"}
                                             </Text>
                                             <View className="flex-1">
-                                                <Text className="text-secondary font-bold">
-                                                    {item.title && item.title + ": "}
-                                                    <Text className="font-normal text-secondary">
+                                                <Text
+                                                    className={
+                                                        textClass +
+                                                        " font-bold font-publicsans"
+                                                    }
+                                                >
+                                                    {item.title &&
+                                                        item.title + ": "}
+                                                    <Text
+                                                        className={
+                                                            textClass +
+                                                            " font-normal font-publicsans"
+                                                        }
+                                                    >
                                                         {item.description}
                                                     </Text>
                                                 </Text>
@@ -174,10 +230,9 @@ const styles = StyleSheet.create({
         padding: 1,
     },
     borderRadius: {
-        borderRadius: 8,
+        borderRadius: 7,
     },
     headerAccordion: {
-        backgroundColor: "rgba(217, 217, 217, 0.1)",
         borderTopRightRadius: 8,
         borderTopLeftRadius: 8,
     },
