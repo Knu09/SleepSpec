@@ -165,7 +165,10 @@ export default function FeatureAnalysis() {
                                 </Text>
                             </View>
                             <Text
-                                className={textClass + " font-publicsans p-4"}
+                                className={
+                                    textClass +
+                                    " font-light leading-5 text-sm font-publicsansLight px-4 py-6"
+                                }
                             >
                                 Spectro-Temporal Modulation (STM) helps us
                                 understand the rhythm and texture of a person’s
