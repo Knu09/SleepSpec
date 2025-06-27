@@ -155,7 +155,10 @@ export default function Accordion({
                         <View>
                             {description != undefined && (
                                 <Text
-                                    className={textClass + " font-publicsans"}
+                                    className={
+                                        textClass +
+                                        " text-sm font-light font-pulicsansLight"
+                                    }
                                 >
                                     {description}
                                 </Text>
@@ -188,7 +191,7 @@ export default function Accordion({
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " font-normal font-publicsans"
+                                                            " font-light font-publicsansLight text-sm"
                                                         }
                                                     >
                                                         {item.description}
