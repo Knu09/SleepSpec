@@ -48,12 +48,12 @@ export default function TabNavigation() {
                     link="/analysis"
                 />
                 <Tab
-                    icon={require("@/assets/images/tab-classification.svg")}
+                    icon={require("@/assets/svg/classification_icon.svg")}
                     name="Classification"
                     link="/classification"
                 />
                 <Tab
-                    icon={require("@/assets/svg/")}
+                    icon={require("@/assets/svg/feature_analysis_icon.svg")}
                     name={"Feature"}
                     link="/feature-analysis"
                 />
@@ -79,10 +79,12 @@ function Tab({ icon, name, link }: TabProps) {
                 className="flex items-center gap-0.5"
                 style={{ opacity: is_selected ? 1 : 0.5 }}
             >
-                <Image
-                    source={icon}
-                    style={{ width: ICON_SIZE, height: ICON_SIZE }}
-                />
+                <View className="flex justify-center items-center">
+                    <Image
+                        source={icon}
+                        style={{ width: ICON_SIZE, height: ICON_SIZE }}
+                    />
+                </View>
                 <Text
                     className={
                         (is_selected ? "text-primaryBlue" : textClass) +
