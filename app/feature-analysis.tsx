@@ -124,7 +124,7 @@ export default function FeatureAnalysis() {
                     <View
                         className={
                             (isDark ? "bg-darkLayer" : "bg-white") +
-                            " flex justify-center items-center text-center text-secondary gap-5 py-5 px-4 rounded-md mb-5"
+                            " flex justify-center items-center text-center text-secondary gap-5 py-5 px-4 rounded-3xl mb-5"
                         }
                         style={{ elevation: 3 }}
                     >
@@ -167,7 +167,7 @@ export default function FeatureAnalysis() {
                             <Text
                                 className={
                                     textClass +
-                                    " font-light leading-5 text-sm font-publicsansLight px-4 py-6"
+                                    " font-normal leading-5 text-sm font-publicsansLight px-4 py-6"
                                 }
                             >
                                 Spectro-Temporal Modulation (STM) helps us
