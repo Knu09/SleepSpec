@@ -191,7 +191,7 @@ export default function Accordion({
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " font-light font-publicsansLight text-sm"
+                                                            " font-normal font-publicsansLight text-sm"
                                                         }
                                                     >
                                                         {item.description}
