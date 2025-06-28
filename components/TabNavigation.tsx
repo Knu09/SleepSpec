@@ -1,8 +1,9 @@
 import { ThemeContext } from "@/context/ThemeContext";
+import { useFonts } from "expo-font";
 import { Image, ImageSource } from "expo-image";
-import { Href, useRouter } from "expo-router";
+import { Href, SplashScreen, useRouter } from "expo-router";
 import { useRouteInfo } from "expo-router/build/hooks";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
     Pressable,
     StyleSheet,
@@ -19,6 +20,19 @@ type TabProps = {
 };
 
 export default function TabNavigation() {
+    const [fontsLoaded] = useFonts({
+        "Poppins-Regular": require("@/assets/fonts/Poppins/Poppins-Regular.ttf"),
+        "Poppins-Bold": require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
+        "PublicSans-Regular": require("@/assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Bold": require("@/assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
+    });
+
+    useEffect(() => {
+        if (fontsLoaded) SplashScreen.hideAsync();
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) return null;
+
     return (
         <View
             style={{
@@ -39,7 +53,7 @@ export default function TabNavigation() {
                     link="/classification"
                 />
                 <Tab
-                    icon={require("@/assets/images/tab-feature-analysis.svg")}
+                    icon={require("@/assets/svg/")}
                     name={"Feature"}
                     link="/feature-analysis"
                 />
@@ -71,10 +85,12 @@ function Tab({ icon, name, link }: TabProps) {
                 />
                 <Text
                     className={
-                        textClass +
-                        " font-publicsans font-bold text-[12px] text-center"
+                        (is_selected ? "text-primaryBlue" : textClass) +
+                        " font-publicsans font-bold text-[10px] text-center"
                     }
-                    style={{ opacity: is_selected ? 1 : 0.5 }}
+                    style={{
+                        opacity: is_selected ? 1 : 0.5,
+                    }}
                 >
                     {name}
                 </Text>
