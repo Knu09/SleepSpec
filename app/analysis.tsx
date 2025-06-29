@@ -134,15 +134,6 @@ export default function Analysis() {
                     </View>
 
                     <View className="">
-                        {/* <LinearGradient */}
-                        {/*     colors={[topStopColor, bottomStopColor]} */}
-                        {/*     start={{ x: 0.5, y: 0 }} */}
-                        {/*     end={{ x: 0.5, y: 1 }} */}
-                        {/*     className="flex justify-center items-center p-[1.4px]" */}
-                        {/*     style={{ */}
-                        {/*         borderRadius: 12, */}
-                        {/*     }} */}
-                        {/* > */}
                         <View
                             className={
                                 (isDark ? "bg-darkBg" : "bg-white") +
@@ -162,7 +153,7 @@ export default function Analysis() {
                                 }}
                                 className={
                                     headerColor +
-                                    " flex flex-row justify-between items-center py-1 px-5"
+                                    " flex flex-row justify-between items-center py-1 ps-5 pe-3"
                                 }
                             >
                                 <Text
@@ -276,7 +267,6 @@ export default function Analysis() {
                                 </View>
                             </View>
                         </View>
-                        {/* </LinearGradient> */}
                     </View>
 
                     <Modal

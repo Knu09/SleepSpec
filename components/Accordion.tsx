@@ -97,18 +97,11 @@ export default function Accordion({
     }
 
     return (
-        // <LinearGradient
-        //     colors={["#006EFF", "#7800D3"]}
-        //     start={{ x: 0.5, y: 0 }}
-        //     end={{ x: 0.5, y: 1 }}
-        //     className="justify-center items-center"
-        //     style={styles.linearGradientContainer}
-        // >
         <View
             className={isDark ? "bg-darkBg" : "bg-white"}
             style={[
                 styles.borderRadius,
-                { elevation: 0, borderWidth: 0.75, borderColor: "#585858" },
+                { elevation: 4, borderWidth: 0.75, borderColor: "#585858" },
             ]}
         >
             <TouchableWithoutFeedback onPress={toggleAccordion}>
@@ -222,7 +215,6 @@ export default function Accordion({
                 </View>
             )}
         </View>
-        // </LinearGradient>
     );
 }
 
