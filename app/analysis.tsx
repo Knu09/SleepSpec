@@ -27,7 +27,7 @@ export default function Analysis() {
     const topStopColor = isDark ? "#006FFF" : "#01000F";
     const bottomStopColor = isDark ? "#7800D3" : "#01000F";
     const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
-    const headerColor = isDark ? "bg-darkLayer" : "bg-grayLayer";
+    const headerColor = isDark ? "bg-arsenic" : "bg-grayLayer";
 
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
@@ -56,7 +56,7 @@ export default function Analysis() {
             <View className="my-5 px-3 flex-1 relative pb-28">
                 <View
                     className={
-                        (isDark ? "bg-darkBg" : "bg-white") +
+                        (isDark ? "bg-darkLayer" : "bg-white") +
                         " px-4 py-6 rounded-3xl"
                     }
                     style={styles.shadowBox}
@@ -88,24 +88,26 @@ export default function Analysis() {
                                 (isDark ? "bg-darkBg" : "bg-white") +
                                 " w-full rounded-[12px] gap-3"
                             }
-                            style={{ borderWidth: 1, borderColor: "#585858" }}
+                            style={{
+                                borderWidth: 0.75,
+                                borderColor: "#585858",
+                            }}
                         >
                             <View
                                 style={{
                                     borderTopRightRadius: 12,
                                     borderTopLeftRadius: 12,
                                     borderBottomColor: "#585858",
-                                    borderBottomWidth: 1,
+                                    borderBottomWidth: 0.75,
                                 }}
                                 className={
                                     headerColor +
-                                    " flex flex-row justify-between items-center pb-2 px-5 py-2"
+                                    " flex flex-row justify-between items-center py-3 px-5"
                                 }
                             >
                                 <Text
                                     className={
-                                        textClass +
-                                        " font-publicsans text-lg font-bold"
+                                        textClass + " font-publicsans font-bold"
                                     }
                                 >
                                     Detection Logs
