@@ -291,7 +291,9 @@ export default function Analysis() {
                             }}
                         >
                             <View
-                                className={modalColor + " mx-3 p-4 rounded-lg"}
+                                className={
+                                    modalColor + " mx-3 p-4 rounded-lg gap-4"
+                                }
                             >
                                 <View className="flex flex-row justify-between items-center">
                                     <Text
@@ -300,7 +302,7 @@ export default function Analysis() {
                                             " font-bold font-publicsans"
                                         }
                                     >
-                                        What is Detection Logs?
+                                        What are Detection Logs?
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() => setModalVisible(false)}
@@ -316,14 +318,36 @@ export default function Analysis() {
                                     <Text
                                         className={
                                             textClass +
+                                            " text-sm font-normal font-publicsans"
+                                        }
+                                    >
+                                        SleepSpec uses your voice to check for
+                                        signs of mild sleep deprivation. The{" "}
+                                        <Text className="font-bold">
+                                            Detection Logs
+                                        </Text>{" "}
+                                        show how likely it is that you're
+                                        sleep-deprived or not sleep-deprived,
+                                        based on the way you speak.
+                                    </Text>
+                                    <Text
+                                        className={
+                                            textClass +
                                             " text-sm font-normal font-publicsans mt-2"
                                         }
                                     >
-                                        SleepSpec uses this information to
-                                        estimate how sleep-deprived or
-                                        non-sleep-deprived you are and gives you
-                                        a confidence score for better
-                                        understanding.
+                                        Each category comes with a{" "}
+                                        <Text className="font-bold">
+                                            confidence score
+                                        </Text>
+                                        , which tells you how sure the system is
+                                        about the result. The{" "}
+                                        <Text className="font-bold">
+                                            decision score
+                                        </Text>{" "}
+                                        reflects the strongest evidence from
+                                        your voice that influenced the final
+                                        result.
                                     </Text>
                                 </View>
                                 <View className="mt-4">
