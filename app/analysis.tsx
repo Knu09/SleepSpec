@@ -21,6 +21,7 @@ import { CLASS } from "@/types/types";
 import { useRouter } from "expo-router";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { ThemeContext } from "@/context/ThemeContext";
+import { BlurView } from "expo-blur";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -283,100 +284,114 @@ export default function Analysis() {
                         transparent={true}
                         animationType="fade"
                     >
-                        <View
-                            className="flex-1 justify-center items-center"
-                            style={{
-                                backgroundColor: "rgba(0,0,0,0.5)",
-                                paddingTop: StatusBar.currentHeight,
-                            }}
+                        <BlurView
+                            intensity={100}
+                            tint="dark"
+                            className="flex-1"
                         >
                             <View
-                                className={
-                                    modalColor + " mx-3 p-4 rounded-lg gap-4"
-                                }
+                                className="flex-1 justify-center items-center"
+                                style={{
+                                    backgroundColor: "rgba(0,0,0,0.5)",
+                                }}
                             >
-                                <View className="flex flex-row justify-between items-center">
-                                    <Text
-                                        className={
-                                            textClass +
-                                            " font-bold font-publicsans"
-                                        }
-                                    >
-                                        What are Detection Logs?
-                                    </Text>
-                                    <TouchableOpacity
-                                        onPress={() => setModalVisible(false)}
-                                    >
-                                        <AntDesign
-                                            name="close"
-                                            size={18}
-                                            color={isDark ? "white" : "black"}
-                                        />
-                                    </TouchableOpacity>
-                                </View>
-                                <View>
-                                    <Text
-                                        className={
-                                            textClass +
-                                            " text-sm font-normal font-publicsans"
-                                        }
-                                    >
-                                        SleepSpec uses your voice to check for
-                                        signs of mild sleep deprivation. The{" "}
-                                        <Text className="font-bold">
-                                            Detection Logs
-                                        </Text>{" "}
-                                        show how likely it is that you're
-                                        sleep-deprived or not sleep-deprived,
-                                        based on the way you speak.
-                                    </Text>
-                                    <Text
-                                        className={
-                                            textClass +
-                                            " text-sm font-normal font-publicsans mt-2"
-                                        }
-                                    >
-                                        Each category comes with a{" "}
-                                        <Text className="font-bold">
-                                            confidence score
-                                        </Text>
-                                        , which tells you how sure the system is
-                                        about the result. The{" "}
-                                        <Text className="font-bold">
-                                            decision score
-                                        </Text>{" "}
-                                        reflects the strongest evidence from
-                                        your voice that influenced the final
-                                        result.
-                                    </Text>
-                                </View>
-                                <View className="mt-4">
-                                    <TouchableHighlight
-                                        className="flex w-full rounded-md py-3"
-                                        style={{
-                                            backgroundColor: isDark
-                                                ? "rgba(255,255,255,0.1)"
-                                                : "rgba(0,0,0,0.1)",
-                                        }}
-                                        underlayColor={
-                                            isDark
-                                                ? "rgba(255,255,255,0.2)"
-                                                : "rgba(0,0,0,0.2)"
-                                        }
-                                        onPress={() => setModalVisible(false)}
-                                    >
+                                <View
+                                    className={
+                                        modalColor +
+                                        " mx-3 p-4 rounded-lg gap-4"
+                                    }
+                                >
+                                    <View className="flex flex-row justify-between items-center">
                                         <Text
                                             className={
                                                 textClass +
-                                                " text-center font-publicsans font-bold"
+                                                " font-bold font-publicsans"
                                             }
                                         >
-                                            Close
+                                            What are Detection Logs?
                                         </Text>
-                                    </TouchableHighlight>
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                setModalVisible(false)
+                                            }
+                                        >
+                                            <AntDesign
+                                                name="close"
+                                                size={18}
+                                                color={
+                                                    isDark ? "white" : "black"
+                                                }
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            SleepSpec uses your voice to check
+                                            for signs of mild sleep deprivation.
+                                            The{" "}
+                                            <Text className="font-bold">
+                                                Detection Logs
+                                            </Text>{" "}
+                                            show how likely it is that you're
+                                            sleep-deprived or not
+                                            sleep-deprived, based on the way you
+                                            speak.
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans mt-2"
+                                            }
+                                        >
+                                            Each category comes with a{" "}
+                                            <Text className="font-bold">
+                                                confidence score
+                                            </Text>
+                                            , which tells you how sure the
+                                            system is about the result. The{" "}
+                                            <Text className="font-bold">
+                                                decision score
+                                            </Text>{" "}
+                                            reflects the strongest evidence from
+                                            your voice that influenced the final
+                                            result.
+                                        </Text>
+                                    </View>
+                                    <View className="mt-4">
+                                        <TouchableHighlight
+                                            className="flex w-full rounded-md py-3"
+                                            style={{
+                                                backgroundColor: isDark
+                                                    ? "rgba(255,255,255,0.1)"
+                                                    : "rgba(0,0,0,0.1)",
+                                            }}
+                                            underlayColor={
+                                                isDark
+                                                    ? "rgba(255,255,255,0.2)"
+                                                    : "rgba(0,0,0,0.2)"
+                                            }
+                                            onPress={() =>
+                                                setModalVisible(false)
+                                            }
+                                        >
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " text-center font-publicsans font-bold"
+                                                }
+                                            >
+                                                Close
+                                            </Text>
+                                        </TouchableHighlight>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
+                        </BlurView>
                     </Modal>
                 </View>
             </View>
