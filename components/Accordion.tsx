@@ -108,7 +108,7 @@ export default function Accordion({
             className={isDark ? "bg-darkBg" : "bg-white"}
             style={[
                 styles.borderRadius,
-                { elevation: 0, borderWidth: 0.8, borderColor: "#585858" },
+                { elevation: 0, borderWidth: 0.75, borderColor: "#585858" },
             ]}
         >
             <TouchableWithoutFeedback onPress={toggleAccordion}>
@@ -123,7 +123,7 @@ export default function Accordion({
                             borderBottomColor: borderColor,
                             ...(opened
                                 ? {
-                                      borderBottomWidth: 0.8,
+                                      borderBottomWidth: 0.75,
                                   } // When open, borderBottom
                                 : {
                                       borderBottomLeftRadius: 10,
@@ -215,7 +215,7 @@ export default function Accordion({
                                 key={imageKey}
                                 source={imageSource}
                                 style={{ flex: 1, width: "100%" }}
-                                resizeMode="cover"
+                                resizeMode="contain"
                             />
                         </View>
                     )}
@@ -228,15 +228,15 @@ export default function Accordion({
 
 const styles = StyleSheet.create({
     linearGradientContainer: {
-        borderRadius: 8,
+        borderRadius: 10,
         padding: 1,
     },
     borderRadius: {
         borderRadius: 10,
     },
     headerAccordion: {
-        borderTopRightRadius: 8,
-        borderTopLeftRadius: 8,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
     },
     contentAccordion: {
         paddingHorizontal: 16,
