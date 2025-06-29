@@ -1,5 +1,13 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import { useContext, useEffect } from "react";
+import {
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+    Modal,
+    TouchableOpacity,
+    StatusBar,
+} from "react-native";
+import { useContext, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
@@ -10,7 +18,7 @@ import TabNavigation from "@/components/TabNavigation";
 import { useClassStore } from "@/store/store";
 import { CLASS } from "@/types/types";
 import { useRouter } from "expo-router";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { ThemeContext } from "@/context/ThemeContext";
 
 SplashScreen.preventAutoHideAsync();
@@ -28,6 +36,8 @@ export default function Analysis() {
     const bottomStopColor = isDark ? "#7800D3" : "#01000F";
     const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
     const headerColor = isDark ? "bg-arsenic" : "bg-grayLayer";
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
@@ -74,6 +84,53 @@ export default function Analysis() {
                     </View>
 
                     <View className="my-6">
+                        <View className="gap-6 mb-4">
+                            <Text
+                                className={
+                                    textClass + " text-sm font-publicsans"
+                                }
+                            >
+                                {advices.summary}
+                            </Text>
+                        </View>
+
+                        <FlatList
+                            data={advices.contents}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                                <View className="flex flex-row gap-4">
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-sm font-publicsans"
+                                        }
+                                    >
+                                        •
+                                    </Text>
+                                    <View className="flex-1">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-bold font-publicsans"
+                                            }
+                                        >
+                                            {item.title}:{" "}
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " text-sm font-normal font-publicsans"
+                                                }
+                                            >
+                                                {item.desc}
+                                            </Text>
+                                        </Text>
+                                    </View>
+                                </View>
+                            )}
+                        />
+                    </View>
+
+                    <View className="">
                         {/* <LinearGradient */}
                         {/*     colors={[topStopColor, bottomStopColor]} */}
                         {/*     start={{ x: 0.5, y: 0 }} */}
@@ -102,7 +159,7 @@ export default function Analysis() {
                                 }}
                                 className={
                                     headerColor +
-                                    " flex flex-row justify-between items-center py-3 px-5"
+                                    " flex flex-row justify-between items-center py-1 px-5"
                                 }
                             >
                                 <Text
@@ -112,13 +169,18 @@ export default function Analysis() {
                                 >
                                     Detection Logs
                                 </Text>
-                                <FontAwesome6
-                                    size={15}
-                                    className="text-center"
-                                    width={15}
-                                    name={"circle-info"}
-                                    color="#006FFF"
-                                />
+                                <TouchableOpacity
+                                    className="p-2"
+                                    onPress={() => setModalVisible(true)}
+                                >
+                                    <FontAwesome6
+                                        size={15}
+                                        className="text-center"
+                                        width={15}
+                                        name={"circle-info"}
+                                        color="#006FFF"
+                                    />
+                                </TouchableOpacity>
                             </View>
                             <View className=" flex flex-row justify-between px-5 pb-2">
                                 <View className="flex flex-col gap-3">
@@ -214,45 +276,47 @@ export default function Analysis() {
                         {/* </LinearGradient> */}
                     </View>
 
-                    <View className="gap-6 mb-4">
-                        <Text className={textClass + " font-publicsans"}>
-                            {advices.summary}
-                        </Text>
-                    </View>
-
-                    <FlatList
-                        data={advices.contents}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                            <View className="mt-2 flex flex-row gap-4">
+                    <Modal
+                        visible={modalVisible}
+                        transparent={true}
+                        animationType="fade"
+                    >
+                        <View
+                            className="flex-1 justify-center items-center"
+                            style={{
+                                backgroundColor: "rgba(0,0,0,0.5)",
+                                paddingTop: StatusBar.currentHeight,
+                            }}
+                        >
+                            <View className="mx-3 p-4 bg-white rounded-lg">
+                                <View className="flex flex-row justify-between items-center">
+                                    <Text className=" font-bold font-publicsans">
+                                        What is Detection Logs?
+                                    </Text>
+                                    <TouchableOpacity
+                                        onPress={() => setModalVisible(false)}
+                                    >
+                                        <AntDesign
+                                            name="close"
+                                            size={18}
+                                            color="black"
+                                        />
+                                    </TouchableOpacity>
+                                </View>
                                 <Text
                                     className={
-                                        textClass + " leading-6 font-publicsans"
+                                        textClass +
+                                        " text-sm font-normal font-publicsans mt-2"
                                     }
                                 >
-                                    •
+                                    SleepSpec uses this information to estimate
+                                    how sleep-deprived or non-sleep-deprived you
+                                    are and gives you a confidence score for
+                                    better understanding.
                                 </Text>
-                                <View className="flex-1">
-                                    <Text
-                                        className={
-                                            textClass +
-                                            " font-bold font-publicsans"
-                                        }
-                                    >
-                                        {item.title}:{" "}
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-normal font-publicsans"
-                                            }
-                                        >
-                                            {item.desc}
-                                        </Text>
-                                    </Text>
-                                </View>
                             </View>
-                        )}
-                    />
+                        </View>
+                    </Modal>
                 </View>
             </View>
 
