@@ -207,7 +207,7 @@ export default function Accordion({
                             style={{
                                 height: 215,
                                 width: "100%",
-                                borderRadius: 10,
+                                borderRadius: 6,
                             }}
                             className="p-4 bg-white"
                         >
