@@ -4,6 +4,7 @@ import {
     Text,
     View,
     Modal,
+    TouchableHighlight,
     TouchableOpacity,
     StatusBar,
 } from "react-native";
@@ -36,6 +37,7 @@ export default function Analysis() {
     const bottomStopColor = isDark ? "#7800D3" : "#01000F";
     const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
     const headerColor = isDark ? "bg-arsenic" : "bg-grayLayer";
+    const modalColor = isDark ? "bg-darkLayer" : "bg-white";
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -288,9 +290,16 @@ export default function Analysis() {
                                 paddingTop: StatusBar.currentHeight,
                             }}
                         >
-                            <View className="mx-3 p-4 bg-white rounded-lg">
+                            <View
+                                className={modalColor + " mx-3 p-4 rounded-lg"}
+                            >
                                 <View className="flex flex-row justify-between items-center">
-                                    <Text className=" font-bold font-publicsans">
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " font-bold font-publicsans"
+                                        }
+                                    >
                                         What is Detection Logs?
                                     </Text>
                                     <TouchableOpacity
@@ -299,7 +308,7 @@ export default function Analysis() {
                                         <AntDesign
                                             name="close"
                                             size={18}
-                                            color="black"
+                                            color={isDark ? "white" : "black"}
                                         />
                                     </TouchableOpacity>
                                 </View>
@@ -318,17 +327,29 @@ export default function Analysis() {
                                     </Text>
                                 </View>
                                 <View className="mt-4">
-                                    <TouchableOpacity
+                                    <TouchableHighlight
                                         className="flex w-full rounded-md py-3"
                                         style={{
-                                            backgroundColor: "rgba(0,0,0,0.1)",
+                                            backgroundColor: isDark
+                                                ? "rgba(255,255,255,0.1)"
+                                                : "rgba(0,0,0,0.1)",
                                         }}
+                                        underlayColor={
+                                            isDark
+                                                ? "rgba(255,255,255,0.2)"
+                                                : "rgba(0,0,0,0.2)"
+                                        }
                                         onPress={() => setModalVisible(false)}
                                     >
-                                        <Text className="text-center font-publicsans font-bold">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-center font-publicsans font-bold"
+                                            }
+                                        >
                                             Close
                                         </Text>
-                                    </TouchableOpacity>
+                                    </TouchableHighlight>
                                 </View>
                             </View>
                         </View>
