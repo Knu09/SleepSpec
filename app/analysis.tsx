@@ -74,149 +74,142 @@ export default function Analysis() {
                     </View>
 
                     <View className="my-6">
-                        <LinearGradient
-                            colors={[topStopColor, bottomStopColor]}
-                            start={{ x: 0.5, y: 0 }}
-                            end={{ x: 0.5, y: 1 }}
-                            className="flex justify-center items-center p-[1.4px]"
-                            style={{
-                                borderRadius: 12,
-                            }}
+                        {/* <LinearGradient */}
+                        {/*     colors={[topStopColor, bottomStopColor]} */}
+                        {/*     start={{ x: 0.5, y: 0 }} */}
+                        {/*     end={{ x: 0.5, y: 1 }} */}
+                        {/*     className="flex justify-center items-center p-[1.4px]" */}
+                        {/*     style={{ */}
+                        {/*         borderRadius: 12, */}
+                        {/*     }} */}
+                        {/* > */}
+                        <View
+                            className={
+                                (isDark ? "bg-darkBg" : "bg-white") +
+                                " w-full rounded-[12px] gap-3"
+                            }
+                            style={{ borderWidth: 1, borderColor: "#585858" }}
                         >
                             <View
+                                style={{
+                                    borderTopRightRadius: 12,
+                                    borderTopLeftRadius: 12,
+                                    borderBottomColor: "#585858",
+                                    borderBottomWidth: 1,
+                                }}
                                 className={
-                                    (isDark ? "bg-darkBg" : "bg-white") +
-                                    " w-full rounded-[10px] gap-3"
+                                    headerColor +
+                                    " flex flex-row justify-between items-center pb-2 px-5 py-2"
                                 }
                             >
-                                <View
-                                    style={{
-                                        borderTopRightRadius: 12,
-                                        borderTopLeftRadius: 12,
-                                        borderBottomColor: "#585858",
-                                        borderBottomWidth: 1.5,
-                                    }}
+                                <Text
                                     className={
-                                        headerColor +
-                                        " flex flex-row justify-between items-center pb-2 px-5 py-2"
+                                        textClass +
+                                        " font-publicsans text-lg font-bold"
                                     }
                                 >
+                                    Detection Logs
+                                </Text>
+                                <FontAwesome6
+                                    size={15}
+                                    className="text-center"
+                                    width={15}
+                                    name={"circle-info"}
+                                    color="#006FFF"
+                                />
+                            </View>
+                            <View className=" flex flex-row justify-between px-5 pb-2">
+                                <View className="flex flex-col gap-3">
                                     <Text
                                         className={
                                             textClass +
-                                            " font-publicsans text-lg font-bold"
+                                            " text-sm font-bold font-publicsans"
                                         }
                                     >
-                                        Detection Logs
+                                        Categories
                                     </Text>
-                                    <FontAwesome6
-                                        size={15}
-                                        className="text-center"
-                                        width={15}
-                                        name={"circle-info"}
-                                        color="#006FFF"
-                                    />
-                                </View>
-                                <View className=" flex flex-row justify-between px-5 pb-2">
-                                    <View className="flex flex-col gap-3">
+                                    <View className="gap-1">
                                         <Text
                                             className={
                                                 textClass +
-                                                " text-sm font-bold font-publicsans"
+                                                " text-sm font-normal font-publicsans"
                                             }
                                         >
-                                            Categories
+                                            Sleep-deprived
                                         </Text>
-                                        <View className="gap-1">
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                Sleep-deprived
-                                            </Text>
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                Non-Sleep-deprived
-                                            </Text>
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                Avg. Confidence Score
-                                            </Text>
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                Decision Score
-                                            </Text>
-                                        </View>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            Non-Sleep-deprived
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            Avg. Confidence Score
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            Decision Score
+                                        </Text>
                                     </View>
-                                    <View className="flex flex-col gap-3">
+                                </View>
+                                <View className="flex flex-col gap-3">
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-sm font-bold font-publicsans"
+                                        }
+                                    >
+                                        Scores (Overall)
+                                    </Text>
+                                    <View className="gap-1">
                                         <Text
                                             className={
                                                 textClass +
-                                                " text-sm font-bold font-publicsans"
+                                                " text-sm font-normal font-publicsans"
                                             }
                                         >
-                                            Scores (Overall)
+                                            {CLASS.toPercent(result.sd_prob)}
                                         </Text>
-                                        <View className="gap-1">
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                {CLASS.toPercent(
-                                                    result.sd_prob,
-                                                )}
-                                            </Text>
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                {CLASS.toPercent(
-                                                    result.nsd_prob,
-                                                )}
-                                            </Text>
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                {CLASS.getConfScorePercent(
-                                                    result,
-                                                )}
-                                            </Text>
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                {result.decision_score.toFixed(
-                                                    3,
-                                                )}
-                                            </Text>
-                                        </View>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            {CLASS.toPercent(result.nsd_prob)}
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            {CLASS.getConfScorePercent(result)}
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            {result.decision_score.toFixed(3)}
+                                        </Text>
                                     </View>
                                 </View>
                             </View>
-                        </LinearGradient>
+                        </View>
+                        {/* </LinearGradient> */}
                     </View>
 
                     <View className="gap-6 mb-4">
