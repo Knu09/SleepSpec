@@ -118,7 +118,7 @@ export default function FeatureAnalysis() {
             <Header title={"Feature Analysis"} back={true} menu={true} />
             <View className="flex-1 pb-2">
                 <ScrollView
-                    className="px-6 pt-5 relative flex flex-grow flex-col"
+                    className="px-3 pt-5 relative flex flex-grow flex-col"
                     showsVerticalScrollIndicator={false}
                 >
                     <View
@@ -141,8 +141,14 @@ export default function FeatureAnalysis() {
                         </View>
 
                         <View
-                            className="flex flex-col rounded-xl "
-                            style={{ borderWidth: 0.5, borderColor: "#585858" }}
+                            className={
+                                (isDark ? "bg-darkBg" : "bg-white") +
+                                " flex flex-col rounded-[12px]"
+                            }
+                            style={{
+                                borderWidth: 0.75,
+                                borderColor: "#585858",
+                            }}
                         >
                             <View
                                 className={
@@ -152,7 +158,7 @@ export default function FeatureAnalysis() {
                                     borderTopLeftRadius: 12,
                                     borderTopRightRadius: 12,
                                     borderBottomColor: "#585858",
-                                    borderBottomWidth: 0.5,
+                                    borderBottomWidth: 0.75,
                                 }}
                             >
                                 <Text
