@@ -206,7 +206,7 @@ const advices: {
 } = {
     [CLASS.POST]: {
         summary:
-            "Your results indicate signs of sleep deprivation. To improve your sleep health, consider:",
+            "Your results indicate signs of mild sleep deprivation. To improve your sleep health, consider:",
         contents: [
             {
                 id: "1",
@@ -231,7 +231,7 @@ const advices: {
             {
                 id: "5",
                 title: "Monitoring Your Sleep Patterns",
-                desc: "If sleep deprivation persists, consult a healthcare professional for further evaluation.",
+                desc: "If mild sleep deprivation persists, consult a healthcare professional for further evaluation.",
             },
         ],
     },
