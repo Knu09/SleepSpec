@@ -303,17 +303,33 @@ export default function Analysis() {
                                         />
                                     </TouchableOpacity>
                                 </View>
-                                <Text
-                                    className={
-                                        textClass +
-                                        " text-sm font-normal font-publicsans mt-2"
-                                    }
-                                >
-                                    SleepSpec uses this information to estimate
-                                    how sleep-deprived or non-sleep-deprived you
-                                    are and gives you a confidence score for
-                                    better understanding.
-                                </Text>
+                                <View>
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-sm font-normal font-publicsans mt-2"
+                                        }
+                                    >
+                                        SleepSpec uses this information to
+                                        estimate how sleep-deprived or
+                                        non-sleep-deprived you are and gives you
+                                        a confidence score for better
+                                        understanding.
+                                    </Text>
+                                </View>
+                                <View className="mt-4">
+                                    <TouchableOpacity
+                                        className="flex w-full rounded-md py-3"
+                                        style={{
+                                            backgroundColor: "rgba(0,0,0,0.1)",
+                                        }}
+                                        onPress={() => setModalVisible(false)}
+                                    >
+                                        <Text className="text-center font-publicsans font-bold">
+                                            Close
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                     </Modal>
