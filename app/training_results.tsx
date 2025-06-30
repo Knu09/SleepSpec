@@ -6,6 +6,8 @@ import * as SplashScreen from "expo-splash-screen";
 import Header from "@/components/Header";
 import Accordion from "@/components/Accordion";
 import MetricCard from "@/components/MetricCard";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function TrainingResults() {
 	const training_results = [
@@ -65,8 +67,15 @@ export default function TrainingResults() {
 	}, [fontsLoaded]);
 
 	if (!fontsLoaded) return null;
+
+	const { currentTheme } = useContext(ThemeContext);
+	const isDark = currentTheme === "dark";
+	const textClass = isDark ? "text-secondary" : "text-bgDark";
+
 	return (
-		<SafeAreaView className="bg-darkBg text-secondary flex-1">
+		<SafeAreaView
+			className={`${isDark ? "bg-darkBg" : "bg-lightBg"} flex-1`}
+		>
 			<Header title={"Training Results"} back={true} menu={true} />
 			<ScrollView
 				className="flex px-6 mt-5"
@@ -77,10 +86,10 @@ export default function TrainingResults() {
 			>
 				{/* header section */}
 				<View className="justify-start items-start text-start gap-2">
-					<Text className="text-secondary font-poppinsBold text-2xl">
+					<Text className={`${textClass} font-poppinsBold text-2xl`}>
 						SleepSpec Training Results
 					</Text>
-					<Text className="text-secondary/80 font-publicsans text-sm">
+					<Text className={`${textClass}/80 font-publicsans text-sm`}>
 						Training Results of SVM on Sleep Deprivation Dataset
 					</Text>
 				</View>
@@ -118,7 +127,7 @@ export default function TrainingResults() {
 				</View>
 
 				<View className="justify-start items-start text-start gap-2">
-					<Text className="text-secondary font-poppinsBold text-2xl">
+					<Text className={`${textClass} font-poppinsBold text-2xl`}>
 						Detailed Descriptions
 					</Text>
 				</View>
