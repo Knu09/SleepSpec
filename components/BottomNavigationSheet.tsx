@@ -153,36 +153,9 @@ export default function BottomNavigationSheet() {
                         <View>
                             <TouchableHighlight
                                 underlayColor="#161B2180"
-                                onPress={() => navigateTo("")}
-                                className="rounded-tr-md rounded-tl-md"
-                                style={styles.bottomSheetLinkTab}
-                            >
-                                <View className="flex flex-row items-center px-4">
-                                    <FontAwesome6
-                                        name="github"
-                                        width={20}
-                                        size={18}
-                                        color={iconColor}
-                                        className="text-center"
-                                    />
-                                    <Text style={styles.bottomsheetText}>
-                                        User Manual
-                                    </Text>
-                                </View>
-                            </TouchableHighlight>
-
-                            {/* Divider */}
-                            <View
-                                style={{
-                                    height: 0.5,
-                                    backgroundColor: "#80808080",
-                                }}
-                            />
-
-                            <TouchableHighlight
-                                underlayColor="#161B2180"
                                 onPress={() => navigateTo("settings")}
                                 style={styles.bottomSheetLinkTab}
+                                className="rounded-tr-md rounded-tl-md"
                             >
                                 <View className="flex flex-row items-center px-4">
                                     <MaterialIcons
@@ -227,6 +200,33 @@ export default function BottomNavigationSheet() {
                                     </TouchableHighlight>
                                 </View>
                             )}
+
+                            {/* Divider */}
+                            <View
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+
+                            <TouchableHighlight
+                                underlayColor="#161B2180"
+                                onPress={() => navigateTo("")}
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <View className="flex flex-row items-center px-4">
+                                    <FontAwesome6
+                                        name="github"
+                                        width={20}
+                                        size={18}
+                                        color={iconColor}
+                                        className="text-center"
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        Trained Model Source
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
 
                             {/* Divider */}
                             <View
