@@ -172,16 +172,18 @@ export default function TrainingResults() {
                 </View>
 
                 {/* accordion sections */}
-                <View className="gap-5">
-                    {training_results.map((manual, index) => (
-                        <Accordion
-                            key={index.toString()}
-                            title={manual.title}
-                            description={manual.description}
-                            image={manual.image}
-                            isOpened={manual.isOpened}
-                        />
-                    ))}
+                <View className="mb-5">
+                    <View className="gap-5">
+                        {training_results.map((manual, index) => (
+                            <Accordion
+                                key={index.toString()}
+                                title={manual.title}
+                                description={manual.description}
+                                image={manual.image}
+                                isOpened={manual.isOpened}
+                            />
+                        ))}
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
