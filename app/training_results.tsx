@@ -8,6 +8,7 @@ import Accordion from "@/components/Accordion";
 import MetricCard from "@/components/MetricCard";
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function TrainingResults() {
     const training_results = [
@@ -71,6 +72,7 @@ export default function TrainingResults() {
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-bgDark";
+    const sideGradientColor = isDark ? "#01000F" : "#F1F5FD";
 
     return (
         <SafeAreaView
@@ -81,7 +83,7 @@ export default function TrainingResults() {
                 className="flex px-6 mt-5"
                 contentContainerStyle={{
                     flexGrow: 1,
-                    gap: 30,
+                    gap: 10,
                 }}
             >
                 {/* header section */}
@@ -95,19 +97,20 @@ export default function TrainingResults() {
                 </View>
 
                 {/* metric section */}
-                <View className="">
+                <View className="-mx-6 relative">
                     <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ gap: 12 }}
-                        className="flex-row p-3"
+                        className="flex-row py-3"
                         style={{
-                            borderWidth: 0.75,
-                            borderColor: "#585858",
-                            borderRadius: 6,
+                            paddingHorizontal: 24,
+                            // borderWidth: 0.75,
+                            // borderColor: "#585858",
+                            // borderRadius: 6,
                         }}
                     >
-                        <MetricCard value={75} label="Test BAcc" />
+                        <MetricCard value={75} label="Balanced Accuracy" />
                         <MetricCard
                             value={74.9}
                             label="Test Accuracy"
@@ -129,6 +132,37 @@ export default function TrainingResults() {
                             color="#A78BFA"
                         />
                     </ScrollView>
+
+                    {/* Left Gradient */}
+                    <LinearGradient
+                        colors={[sideGradientColor, "transparent"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            bottom: 0,
+                            width: 50,
+                            zIndex: 1000,
+                        }}
+                        pointerEvents="none"
+                    />
+                    {/* Right Gradient */}
+                    <LinearGradient
+                        colors={["transparent", sideGradientColor]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                            position: "absolute",
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            width: 50,
+                            zIndex: 1000,
+                        }}
+                        pointerEvents="none"
+                    />
                 </View>
 
                 <View className="justify-start items-start text-start gap-2">
