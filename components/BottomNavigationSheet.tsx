@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
+    TouchableHighlight,
     View,
     TouchableWithoutFeedback,
 } from "react-native";
@@ -12,20 +13,19 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useClassStore } from "@/store/store";
-// import { BlurView } from "expo-blur";
-
-// function RootStack() {
-//   return (
-//     <Stack.Navigator initialRouteName="Home">
-//       <Stack.Screen name="Home" component={Index} />
-//     </Stack.Navigator>
-//   );
-// }
+import {
+    Entypo,
+    FontAwesome6,
+    Foundation,
+    MaterialCommunityIcons,
+    MaterialIcons,
+} from "@expo/vector-icons";
 
 export default function BottomNavigationSheet() {
     const { isVisible, hideBottomSheet } = useBottomSheet();
     const bottomSheetRef = useRef<BottomSheet>(null);
     const router = useRouter();
+    const iconColor = "#595F68";
 
     useEffect(() => {
         if (isVisible) {
@@ -70,10 +70,6 @@ export default function BottomNavigationSheet() {
                 backgroundStyle={{ backgroundColor: "transparent" }}
                 style={styles.bottomSheetWrapper}
             >
-                {/* TODO: change the navigation links */}
-                {/* FIXME: blue view not working */}
-                {/* <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} /> */}
-
                 <BottomSheetView
                     className="bg-darkLayer"
                     style={styles.bottomsheetContent}
@@ -107,17 +103,25 @@ export default function BottomNavigationSheet() {
                     </View>
                     <View className="p-5 bg-arsenic gap-4">
                         <View>
-                            <TouchableOpacity
+                            <TouchableHighlight
                                 onPress={() => {
-                                    // hideBottomSheet();
-                                    // router.push("/");
                                     navigateTo("");
                                 }}
                                 className="rounded-tr-md rounded-tl-md"
                                 style={styles.bottomSheetLinkTab}
+                                underlayColor="#161B2180"
                             >
-                                <Text style={styles.bottomsheetText}>Home</Text>
-                            </TouchableOpacity>
+                                <View className="flex flex-row items-center px-4">
+                                    <Entypo
+                                        name="home"
+                                        size={20}
+                                        color={iconColor}
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        Home
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
                             {/* Divider */}
                             <View
                                 style={{
@@ -125,27 +129,47 @@ export default function BottomNavigationSheet() {
                                     backgroundColor: "#80808080",
                                 }}
                             />
-                            <TouchableOpacity
+                            <TouchableHighlight
+                                underlayColor="#161B2180"
                                 onPress={() => navigateTo("user_manual")}
                                 className="rounded-br-md rounded-bl-md"
                                 style={styles.bottomSheetLinkTab}
                             >
-                                <Text style={styles.bottomsheetText}>
-                                    User Manual
-                                </Text>
-                            </TouchableOpacity>
+                                <View className="flex flex-row items-center px-4">
+                                    <Foundation
+                                        name="book"
+                                        width={20}
+                                        size={20}
+                                        color={iconColor}
+                                        className="text-center"
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        User Manual
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
 
                         <View>
-                            <TouchableOpacity
+                            <TouchableHighlight
+                                underlayColor="#161B2180"
                                 onPress={() => navigateTo("")}
                                 className="rounded-tr-md rounded-tl-md"
                                 style={styles.bottomSheetLinkTab}
                             >
-                                <Text style={styles.bottomsheetText}>
-                                    Trained Model Source
-                                </Text>
-                            </TouchableOpacity>
+                                <View className="flex flex-row items-center px-4">
+                                    <FontAwesome6
+                                        name="github"
+                                        width={20}
+                                        size={18}
+                                        color={iconColor}
+                                        className="text-center"
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        User Manual
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
 
                             {/* Divider */}
                             <View
@@ -155,31 +179,24 @@ export default function BottomNavigationSheet() {
                                 }}
                             />
 
-                            <TouchableOpacity
-                                onPress={() => navigateTo("training_results")}
-                                style={styles.bottomSheetLinkTab}
-                            >
-                                <Text style={styles.bottomsheetText}>
-                                    Training Results
-                                </Text>
-                            </TouchableOpacity>
-
-                            {/* Divider */}
-                            <View
-                                style={{
-                                    height: 0.5,
-                                    backgroundColor: "#80808080",
-                                }}
-                            />
-
-                            <TouchableOpacity
+                            <TouchableHighlight
+                                underlayColor="#161B2180"
                                 onPress={() => navigateTo("settings")}
                                 style={styles.bottomSheetLinkTab}
                             >
-                                <Text style={styles.bottomsheetText}>
-                                    Settings
-                                </Text>
-                            </TouchableOpacity>
+                                <View className="flex flex-row items-center px-4">
+                                    <MaterialIcons
+                                        name="settings"
+                                        width={20}
+                                        size={20}
+                                        color={iconColor}
+                                        className="text-center"
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        Settings
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
                             {result && (
                                 <View>
                                     <View
@@ -188,14 +205,26 @@ export default function BottomNavigationSheet() {
                                             backgroundColor: "#80808080",
                                         }}
                                     />
-                                    <TouchableOpacity
+                                    <TouchableHighlight
+                                        underlayColor="#161B2180"
                                         onPress={() => navigateTo("analysis")}
                                         style={styles.bottomSheetLinkTab}
                                     >
-                                        <Text style={styles.bottomsheetText}>
-                                            View Recent Test Results
-                                        </Text>
-                                    </TouchableOpacity>
+                                        <View className="flex flex-row items-center px-4">
+                                            <Entypo
+                                                name="back-in-time"
+                                                width={20}
+                                                size={20}
+                                                color={iconColor}
+                                                className="text-center"
+                                            />
+                                            <Text
+                                                style={styles.bottomsheetText}
+                                            >
+                                                View Previous Test Results
+                                            </Text>
+                                        </View>
+                                    </TouchableHighlight>
                                 </View>
                             )}
 
@@ -207,15 +236,52 @@ export default function BottomNavigationSheet() {
                                 }}
                             />
 
-                            <TouchableOpacity
+                            <TouchableHighlight
+                                underlayColor="#161B2180"
+                                onPress={() => navigateTo("training_results")}
+                                style={styles.bottomSheetLinkTab}
+                            >
+                                <View className="flex flex-row items-center px-4">
+                                    <MaterialCommunityIcons
+                                        name="chart-box"
+                                        width={20}
+                                        size={20}
+                                        color={iconColor}
+                                        className="text-center"
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        About the Model
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+
+                            {/* Divider */}
+                            <View
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+
+                            <TouchableHighlight
+                                underlayColor="#161B2180"
                                 onPress={() => navigateTo("about_us")}
                                 className="rounded-br-md rounded-bl-md"
                                 style={styles.bottomSheetLinkTab}
                             >
-                                <Text style={styles.bottomsheetText}>
-                                    About Us
-                                </Text>
-                            </TouchableOpacity>
+                                <View className="flex flex-row items-center px-4">
+                                    <FontAwesome6
+                                        name="user-group"
+                                        width={20}
+                                        size={14}
+                                        color={iconColor}
+                                        className="text-center"
+                                    />
+                                    <Text style={styles.bottomsheetText}>
+                                        About Us
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
                     </View>
                 </BottomSheetView>
@@ -242,7 +308,7 @@ const styles = StyleSheet.create({
     bottomsheetText: {
         color: "#DDDDDD",
         paddingVertical: 12,
-        paddingHorizontal: 15,
+        paddingHorizontal: 14,
         fontSize: 16,
     },
 
