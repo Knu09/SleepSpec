@@ -25,13 +25,17 @@ export default function GradientSelectButton({
         >
             <Pressable
                 className={
-                    (isDark ? "bg-dark" : "bg-white") +
-                    " rounded-full m-[2px] gap-4 justify-center px-10"
+                    (isDark ? "bg-darkBg" : "bg-white") +
+                    " rounded-full m-[1px] gap-4 justify-center px-10"
                 }
                 style={{ width: 145, height: 45 }}
                 onPress={pressHandler}
             >
-                <Text className={"font-bold text-center " + textClass}>
+                <Text
+                    className={
+                        "font-bold font-publicsans text-center " + textClass
+                    }
+                >
                     SELECT
                 </Text>
             </Pressable>
