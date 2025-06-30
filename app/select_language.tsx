@@ -63,9 +63,12 @@ export default function SelectLanguage() {
             <StatusBar style="dark" backgroundColor="#fff" />
             <View className="bg-white" style={styles.headerShadow}>
                 <Header back={true} menu={true} theme="light" />
-                <View className="bg-white pb-8 pt-6 px-6">
+                <View
+                    className="bg-white pb-8 pt-6 px-6"
+                    style={{ zIndex: 2000 }}
+                >
                     <Text className="font-poppins font-bold text-3xl">
-                        Select a language speech
+                        Select a speech script
                     </Text>
                 </View>
             </View>
@@ -94,7 +97,7 @@ export default function SelectLanguage() {
                     borderTopColor: "#585858CC",
                 }}
                 className={
-                    isDark ? "bg-darkBg" : "bg-white" + " py-8 items-center"
+                    (isDark ? "bg-darkBg" : "bg-white") + " py-8 items-center"
                 }
             >
                 <GradientSelectButton
