@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
     LayoutAnimation,
@@ -14,6 +14,7 @@ import {
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
 import localImages from "../store/imageMap";
+import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Accordion({
@@ -35,6 +36,9 @@ export default function Accordion({
         }[];
     };
 }) {
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme === "dark";
+
     const [opened, setOpened] = useState(isOpened);
     const [imageKey, setImageKey] = useState(Date.now());
     // const imageSource = image && localImages[image];
@@ -54,15 +58,16 @@ export default function Accordion({
               ? image
               : undefined;
 
-    const { currentTheme } = useContext(ThemeContext);
-    const isDark = currentTheme === "dark";
-    const textClass = isDark ? "text-secondary" : "text-darkBg";
-    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
-    const borderColor = "#585858";
-    const topStopColor = isDark ? "#006FFF" : "#01000F";
-    const bottomStopColor = isDark ? "#7800D3" : "#01000F";
-    const TabBackgroundColor = isDark ? "#01000F" : "#FFF";
-    const headerColor = isDark ? "#161B21" : "#EEF0F1";
+    // const isRemote = image.startsWith("http");
+    // const isPlotFilename = !image.includes("/");
+    // const isRemote = typeof image === "string" && image.startsWith("http");
+    // const isPlotFilename = typeof image === "string" && !image.includes("/");
+
+    // const imageUri = isRemote
+    //   ? image
+    //   : isPlotFilename
+    //     ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`
+    // : null;
 
     console.log(`${process.env.EXPO_PUBLIC_API_URL}/plots/${image}`);
 
@@ -97,138 +102,133 @@ export default function Accordion({
     }
 
     return (
-        <View
-            className={isDark ? "bg-darkBg" : "bg-white"}
-            style={[
-                styles.borderRadius,
-                { elevation: 4, borderWidth: 0.75, borderColor: "#585858" },
-            ]}
+        <LinearGradient
+            colors={["#006EFF", "#7800D3"]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            className="justify-center items-center"
+            style={styles.linearGradientContainer}
         >
-            <TouchableWithoutFeedback onPress={toggleAccordion}>
-                <View
-                    className={
-                        " flex flex-row w-full items-center justify-between px-4 py-3"
-                    }
-                    style={[
-                        styles.headerAccordion,
-                        {
-                            backgroundColor: headerColor,
-                            borderBottomColor: borderColor,
-                            ...(opened
-                                ? {
-                                      borderBottomWidth: 0.75,
-                                  } // When open, borderBottom
-                                : {
-                                      borderBottomLeftRadius: 10,
-                                      borderBottomRightRadius: 10,
-                                  }),
-                        },
-                    ]}
-                >
-                    <View>
+            <View
+                style={[
+                    styles.borderRadius,
+                    {
+                        backgroundColor: isDark ? "#1E1E2E" : "#FFFFFF",
+                    },
+                ]}
+            >
+                <TouchableWithoutFeedback onPress={toggleAccordion}>
+                    <View
+                        className="flex flex-row w-full items-center justify-between px-4 py-3"
+                        style={[
+                            styles.headerAccordion,
+                            {
+                                backgroundColor: isDark
+                                    ? "rgba(217, 217, 217, 0.1)"
+                                    : "#F0F0F0",
+                            },
+                        ]}
+                    >
                         <Text
-                            className={textClass + " font-publicsans font-bold"}
+                            style={{
+                                color: isDark ? "#E5E5E5" : "#1E1E2E",
+                                fontWeight: "bold",
+                            }}
                         >
                             {title}
                         </Text>
-                    </View>
-                    <View>
                         <Icon
                             name={opened ? "chevron-up" : "chevron-down"}
-                            size={14}
-                            color={"#585858"}
+                            size={15}
+                            color={"rgba(128, 128, 128, 0.5)"}
                         />
                     </View>
-                </View>
-            </TouchableWithoutFeedback>
-            {opened && (
-                <View
-                    style={styles.contentAccordion}
-                    className="flex flex-col gap-3"
-                >
-                    <View>
-                        {description != undefined && (
-                            <Text
-                                className={
-                                    textClass +
-                                    " text-sm font-light font-pulicsansLight"
-                                }
-                            >
-                                {description}
-                            </Text>
-                        )}
-                        {list && (
-                            <View className="mt-2">
-                                {list.items.map((item, idx) => (
-                                    <View
-                                        key={idx}
-                                        className="flex flex-row gap-4 mb-2"
-                                    >
-                                        <Text
-                                            className={textClass + " leading-6"}
+                </TouchableWithoutFeedback>
+                {opened && (
+                    <View
+                        style={styles.contentAccordion}
+                        className="flex flex-col gap-3"
+                    >
+                        <View>
+                            {description != undefined && (
+                                <Text
+                                    style={{
+                                        color: isDark ? "#E5E5E5" : "#1E1E2E",
+                                        fontWeight: "400",
+                                    }}
+                                >
+                                    {description}
+                                </Text>
+                            )}
+                            {list && (
+                                <View className="mt-2">
+                                    {list.items.map((item, idx) => (
+                                        <View
+                                            key={idx}
+                                            className="flex flex-row gap-4 mb-2"
                                         >
-                                            {list.type === "number"
-                                                ? `${idx + 1}.`
-                                                : "•"}
-                                        </Text>
-                                        <View className="flex-1">
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " font-bold font-publicsans"
-                                                }
-                                            >
-                                                {item.title &&
-                                                    item.title + ": "}
-                                                <Text
-                                                    className={
-                                                        textClass +
-                                                        " font-normal font-publicsansLight text-sm"
-                                                    }
-                                                >
-                                                    {item.description}
-                                                </Text>
+                                            <Text className="text-secondary leading-6">
+                                                {list.type === "number"
+                                                    ? `${idx + 1}.`
+                                                    : "•"}
                                             </Text>
+                                            <View className="flex-1">
+                                                <Text
+                                                    style={{
+                                                        color: isDark
+                                                            ? "#E5E5E5"
+                                                            : "#1E1E2E",
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    {item.title &&
+                                                        item.title + ": "}
+                                                    <Text className="font-normal text-secondary">
+                                                        {item.description}
+                                                    </Text>
+                                                </Text>
+                                            </View>
                                         </View>
-                                    </View>
-                                ))}
+                                    ))}
+                                </View>
+                            )}
+                        </View>
+                        {image !== "" && (
+                            <View
+                                style={{
+                                    height: 215,
+                                    width: "100%",
+                                    borderRadius: 10,
+                                }}
+                                className="p-4 bg-white"
+                            >
+                                <Image
+                                    key={imageKey}
+                                    source={imageSource}
+                                    style={{ flex: 1, width: "100%" }}
+                                    resizeMode="cover"
+                                />
                             </View>
                         )}
                     </View>
-                    {image !== "" && (
-                        <View
-                            style={{
-                                height: 215,
-                                width: "100%",
-                                borderRadius: 6,
-                            }}
-                            className="p-4 bg-white"
-                        >
-                            <Image
-                                key={imageKey}
-                                source={imageSource}
-                                style={{ flex: 1, width: "100%" }}
-                                resizeMode="contain"
-                            />
-                        </View>
-                    )}
-                </View>
-            )}
-        </View>
+                )}
+            </View>
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     linearGradientContainer: {
-        borderRadius: 10,
+        borderRadius: 8,
         padding: 1,
     },
     borderRadius: {
-        borderRadius: 10,
+        borderRadius: 8,
     },
     headerAccordion: {
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
+        backgroundColor: "rgba(217, 217, 217, 0.1)",
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
     },
     contentAccordion: {
         paddingHorizontal: 16,
