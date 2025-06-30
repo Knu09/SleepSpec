@@ -5,8 +5,6 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Header from "@/components/Header";
 import Accordion from "@/components/Accordion";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { Double } from "react-native/Libraries/Types/CodegenTypes";
 import MetricCard from "@/components/MetricCard";
 
 export default function TrainingResults() {
