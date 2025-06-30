@@ -99,3 +99,7 @@ nativewind-env.d.ts
 
 ios/*
 android/*
+
+
+# formatter
+.editorconfig
