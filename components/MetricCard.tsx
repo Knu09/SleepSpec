@@ -14,9 +14,15 @@ interface MetricProps {
 const MetricCard: React.FC<MetricProps> = ({ value, label, color }) => {
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
+    const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
+    const borderColor = isDark ? "#006FFF" : "#585858";
+    const topStopColor = isDark ? "#006FFF" : "#01000F";
+    const cardColor = isDark ? "#161B21" : "#FFF";
 
     return (
         <View
+            className="gap-2"
             style={[styles.card, isDark ? styles.darkCard : styles.lightCard]}
         >
             <AnimatedCircularProgress
@@ -30,20 +36,17 @@ const MetricCard: React.FC<MetricProps> = ({ value, label, color }) => {
             >
                 {(fill: Double) => (
                     <Text
-                        style={[
-                            styles.percentText,
-                            { color: isDark ? "#E5E5E5" : "#1E1E2E" },
-                        ]}
+                        className={
+                            textClass + " font-publicsans font-bold text-xl"
+                        }
                     >
                         {`${fill.toFixed(1)}%`}
                     </Text>
                 )}
             </AnimatedCircularProgress>
             <Text
-                style={[
-                    styles.percentText,
-                    { color: isDark ? "#E5E5E5" : "#1E1E2E" },
-                ]}
+                className={textClass + " font-publicsans font-bold"}
+                style={[styles.percentText]}
             >
                 {label}
             </Text>
@@ -69,9 +72,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#1E1E2E",
     },
     percentText: {
-        color: "#E5E5E5",
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: 16,
     },
     label: {
         color: "#E5E5E5",
