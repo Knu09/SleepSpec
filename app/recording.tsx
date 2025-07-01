@@ -118,6 +118,25 @@ export default function Recording() {
     // INFO: Modal useState
     const [modalVisible, setModalVisible] = useState(false);
 
+    // INFO: Bullet Items Array for Current Status Instructions
+    const statusInstructions = [
+        {
+            state: '"Tap ',
+            bold: ' to Start Recording"',
+            desc: " - Shown before the first recording begins",
+        },
+        {
+            state: '"Hold ',
+            bold: ' to Stop Recording"',
+            desc: " - Instructs the user how to end the session while recording is active.",
+        },
+        {
+            state: '"Tap ',
+            bold: ' to Resume Recording"',
+            desc: " - If the user has paused or stopped a previous session.",
+        },
+    ];
+
     useEffect(() => {
         // request recording permissions
         (async () => {
@@ -572,10 +591,11 @@ export default function Recording() {
                             <View className="flex flex-row justify-between items-center">
                                 <Text
                                     className={
-                                        textClass + " font-bold font-publicsans"
+                                        textClass +
+                                        " text-lg font-bold font-publicsans"
                                     }
                                 >
-                                    What are Detection Logs?
+                                    Recording User Guide
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => setModalVisible(false)}
@@ -587,41 +607,202 @@ export default function Recording() {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            <View>
-                                <Text
-                                    className={
-                                        textClass +
-                                        " text-sm font-normal font-publicsans"
-                                    }
-                                >
-                                    SleepSpec uses your voice to check for signs
-                                    of mild sleep deprivation. The{" "}
-                                    <Text className="font-bold">
-                                        Detection Logs
-                                    </Text>{" "}
-                                    show how likely it is that you're
-                                    sleep-deprived or not sleep-deprived, based
-                                    on the way you speak.
-                                </Text>
-                                <Text
-                                    className={
-                                        textClass +
-                                        " text-sm font-normal font-publicsans mt-2"
-                                    }
-                                >
-                                    Each category comes with a{" "}
-                                    <Text className="font-bold">
-                                        confidence score
-                                    </Text>
-                                    , which tells you how sure the system is
-                                    about the result. The{" "}
-                                    <Text className="font-bold">
-                                        decision score
-                                    </Text>{" "}
-                                    reflects the strongest evidence from your
-                                    voice that influenced the final result.
-                                </Text>
-                            </View>
+                            <View
+                                className="-mx-4"
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+                            <ScrollView className="-my-4 max-h-[300px]">
+                                <View className="gap-4 py-4">
+                                    <View className="gap-2">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans"
+                                            }
+                                        >
+                                            Recording Interface Use
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            The Recording Interface allows users
+                                            to record their voice using a
+                                            selected speech script in either
+                                            Filipino or English. This voice
+                                            sample will be analyzed to detect
+                                            signs of mild sleep deprivation.
+                                        </Text>
+                                    </View>
+                                    <View className="gap-2">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans"
+                                            }
+                                        >
+                                            Language Speech Selection
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            At the top of the screen, users can{" "}
+                                            <Text className="font-bold">
+                                                select or change their preferred
+                                            </Text>{" "}
+                                            <Text className="font-bold">
+                                                language speech script
+                                            </Text>{" "}
+                                            at any time. This ensures
+                                            flexibility if the user wants to
+                                            re-record using another script or
+                                            language.
+                                        </Text>
+                                    </View>
+                                    <View className="gap-2">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans"
+                                            }
+                                        >
+                                            Speech Script Display
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            The selected speech script appears
+                                            at the center of the screen. Users
+                                            are advised to read this script in a
+                                            quiet place and speak naturally as
+                                            possible for accurate analysis.
+                                        </Text>
+                                    </View>
+
+                                    <View className="gap-2">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans"
+                                            }
+                                        >
+                                            Current Status Instructions
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            Beneath the script, the app provides{" "}
+                                            <Text className="font-bold">
+                                                real-time instrictions
+                                            </Text>{" "}
+                                            for using the microphone button:
+                                        </Text>
+                                        {statusInstructions.map(
+                                            (item, index) => (
+                                                <View className="flex flex-row items-start">
+                                                    <Text
+                                                        className={
+                                                            textClass +
+                                                            " text-lg font-normal font-publicsans opacity-80 ps-4"
+                                                        }
+                                                    >
+                                                        •
+                                                    </Text>
+                                                    <Text
+                                                        className={
+                                                            textClass +
+                                                            " text-sm font-normal font-publicsans opacity-80 ps-2"
+                                                        }
+                                                    >
+                                                        <Text className="font-bold">
+                                                            {item.state}{" "}
+                                                            <Icon
+                                                                name="microphone"
+                                                                size={16}
+                                                                color={micColor}
+                                                            />{" "}
+                                                            {item.bold}
+                                                        </Text>
+                                                        {item.desc}
+                                                    </Text>
+                                                </View>
+                                            ),
+                                        )}
+                                    </View>
+                                    <View className="gap-2">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans"
+                                            }
+                                        >
+                                            Timer Display
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            Just above the record button is a
+                                            <Text className="font-bold">
+                                                {" "}
+                                                live timer{" "}
+                                            </Text>
+                                            , formatted in
+                                            <Text className="font-bold">
+                                                {" "}
+                                                MM:SS{" "}
+                                            </Text>
+                                            , which shows how long the current
+                                            recording has been running. Users
+                                            are encouraged to reach the full
+                                            15-second duration.
+                                        </Text>
+                                    </View>
+                                    <View className="gap-2">
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " font-bold font-publicsans"
+                                            }
+                                        >
+                                            Recording Button
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            At the bottom, a large round
+                                            <Text className="font-bold">
+                                                {" "}
+                                                microphone button{" "}
+                                            </Text>
+                                            serves as the control for starting,
+                                            pausing, and stopping the recording.
+                                            The button updates visually based on
+                                            the current recording state to guide
+                                            the user interactively.
+                                        </Text>
+                                    </View>
+                                </View>
+                            </ScrollView>
                             <View className="mt-4">
                                 <TouchableHighlight
                                     className="flex w-full rounded-md py-3"
