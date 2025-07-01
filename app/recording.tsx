@@ -613,6 +613,7 @@ export default function Recording() {
                                     />
                                 </TouchableOpacity>
                             </View>
+                            {/* Divider */}
                             <View
                                 className="-mx-4"
                                 style={{
@@ -683,8 +684,7 @@ export default function Recording() {
                                             </Text>{" "}
                                             at any time. This ensures
                                             flexibility if the user wants to
-                                            re-record using another script or
-                                            language.
+                                            re-record using another script.
                                         </Text>
                                     </View>
                                     <View className="gap-2">
@@ -741,7 +741,7 @@ export default function Recording() {
                                         >
                                             Beneath the script, the app provides{" "}
                                             <Text className="font-bold">
-                                                real-time instrictions
+                                                real-time instructions
                                             </Text>{" "}
                                             for using the microphone button:
                                         </Text>
@@ -819,9 +819,9 @@ export default function Recording() {
                                         <View className="flex flex-row items-center gap-3">
                                             <Icon
                                                 name="microphone"
-                                                size={18}
+                                                size={16}
                                                 color="white"
-                                            />{" "}
+                                            />
                                             <Text
                                                 className={
                                                     textClass +
@@ -851,7 +851,15 @@ export default function Recording() {
                                     </View>
                                 </View>
                             </ScrollView>
-                            <View className="mt-4">
+                            {/* Divider */}
+                            <View
+                                className="-mx-4"
+                                style={{
+                                    height: 0.5,
+                                    backgroundColor: "#80808080",
+                                }}
+                            />
+                            <View>
                                 <TouchableHighlight
                                     className="flex w-full rounded-md py-3"
                                     style={{
