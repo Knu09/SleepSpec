@@ -11,10 +11,13 @@ import {
 } from "react";
 import {
     Alert,
+    Modal,
     Pressable,
     ScrollView,
     StyleSheet,
     Text,
+    TouchableHighlight,
+    TouchableOpacity,
     View,
 } from "react-native";
 import { AudioModule, useAudioRecorder } from "expo-audio";
@@ -32,6 +35,8 @@ import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 import { ThemeContext } from "@/context/ThemeContext";
 import GradientIcon from "@/components/GradientIcon";
+import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
 
 type RecordingState = {
     timer: Timer;
@@ -108,6 +113,10 @@ export default function Recording() {
     const borderColorClass = isDark
         ? "border-primary border-t-[1px]"
         : "border-divider border-t-[1px]";
+    const modalColor = isDark ? "bg-darkLayer" : "bg-white";
+
+    // INFO: Modal useState
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         // request recording permissions
@@ -197,18 +206,32 @@ export default function Recording() {
                 <View
                     style={{ elevation: 3 }}
                     className={
-                        (isDark ? "bg-transparent" : "bg-white") +
-                        " px-4 py-3 rounded-3xl gap-4"
+                        (isDark ? "bg-darkLayer" : "bg-white") +
+                        " p-4 rounded-3xl gap-4"
                     }
                 >
                     <View className="gap-1">
-                        <Text
-                            className={
-                                textClass + " text-lg font-bold font-publicsans"
-                            }
-                        >
-                            Language Speech
-                        </Text>
+                        <View className="flex flex-row justify-between items-center pe-2">
+                            <Text
+                                className={
+                                    textClass +
+                                    " text-lg font-bold font-publicsans"
+                                }
+                            >
+                                Language Speech
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(true)}
+                            >
+                                <FontAwesome6
+                                    size={18}
+                                    className="text-center"
+                                    width={18}
+                                    name={"question-circle"}
+                                    color="#006FFF"
+                                />
+                            </TouchableOpacity>
+                        </View>
                         <Link href="/select_language" className="w-28">
                             <LanguageSelected />
                         </Link>
@@ -374,7 +397,7 @@ export default function Recording() {
                             {Timer.format(recordState.timer)}
                         </Text>
                     </View>
-                    <View className="flex justify-center items-center mb-2 mt-2">
+                    <View className="flex justify-center items-center mb-2 mt-1">
                         <Pressable
                             onPress={() => {
                                 if (
@@ -528,6 +551,106 @@ export default function Recording() {
                     </View>
                 </View>
             </View>
+
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                animationType="fade"
+            >
+                <BlurView intensity={100} tint="dark" className="flex-1">
+                    <View
+                        className="flex-1 justify-center items-center"
+                        style={{
+                            backgroundColor: "rgba(0,0,0,0.5)",
+                        }}
+                    >
+                        <View
+                            className={
+                                modalColor + " mx-3 p-4 rounded-lg gap-4"
+                            }
+                        >
+                            <View className="flex flex-row justify-between items-center">
+                                <Text
+                                    className={
+                                        textClass + " font-bold font-publicsans"
+                                    }
+                                >
+                                    What are Detection Logs?
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(false)}
+                                >
+                                    <AntDesign
+                                        name="close"
+                                        size={18}
+                                        color={isDark ? "white" : "black"}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <Text
+                                    className={
+                                        textClass +
+                                        " text-sm font-normal font-publicsans"
+                                    }
+                                >
+                                    SleepSpec uses your voice to check for signs
+                                    of mild sleep deprivation. The{" "}
+                                    <Text className="font-bold">
+                                        Detection Logs
+                                    </Text>{" "}
+                                    show how likely it is that you're
+                                    sleep-deprived or not sleep-deprived, based
+                                    on the way you speak.
+                                </Text>
+                                <Text
+                                    className={
+                                        textClass +
+                                        " text-sm font-normal font-publicsans mt-2"
+                                    }
+                                >
+                                    Each category comes with a{" "}
+                                    <Text className="font-bold">
+                                        confidence score
+                                    </Text>
+                                    , which tells you how sure the system is
+                                    about the result. The{" "}
+                                    <Text className="font-bold">
+                                        decision score
+                                    </Text>{" "}
+                                    reflects the strongest evidence from your
+                                    voice that influenced the final result.
+                                </Text>
+                            </View>
+                            <View className="mt-4">
+                                <TouchableHighlight
+                                    className="flex w-full rounded-md py-3"
+                                    style={{
+                                        backgroundColor: isDark
+                                            ? "rgba(255,255,255,0.1)"
+                                            : "rgba(0,0,0,0.1)",
+                                    }}
+                                    underlayColor={
+                                        isDark
+                                            ? "rgba(255,255,255,0.2)"
+                                            : "rgba(0,0,0,0.2)"
+                                    }
+                                    onPress={() => setModalVisible(false)}
+                                >
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-center font-publicsans font-bold"
+                                        }
+                                    >
+                                        Close
+                                    </Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </View>
+                </BlurView>
+            </Modal>
 
             <Overlay
                 heading="Processing Audio Data"
