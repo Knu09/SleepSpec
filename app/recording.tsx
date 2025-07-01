@@ -103,6 +103,11 @@ export default function Recording() {
     const bgClass = isDark ? "bg-darkBg" : "bg-lightBg";
     const micColor = "#006FFF";
     const bottomGradient = isDark ? "#01000F" : "#FFF";
+    const topStopColor = isDark ? "#006FFF" : "#595959";
+    const bottomStopColor = isDark ? "#7800D3" : "#585858";
+    const borderColorClass = isDark
+        ? "border-primary border-t-[1px]"
+        : "border-divider border-t-[1px]";
 
     useEffect(() => {
         // request recording permissions
@@ -210,13 +215,13 @@ export default function Recording() {
                     </View>
                     <View className="bg-transparent">
                         <LinearGradient
-                            colors={["#006EFF", "#7800D3"]}
+                            colors={[topStopColor, bottomStopColor]}
                             start={{ x: 0.5, y: 0 }}
                             end={{ x: 0.5, y: 1 }}
                             className="flex justify-center items-center"
                             style={{
-                                borderRadius: 12,
-                                padding: 2,
+                                borderRadius: 10,
+                                padding: 1,
                             }}
                         >
                             <View
@@ -256,7 +261,8 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " mx-4 py-3 border-primary border-t-[1.5px]"
+                                        " mx-4 py-3 " +
+                                        borderColorClass
                                     }
                                 >
                                     <Text
