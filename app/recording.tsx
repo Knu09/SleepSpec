@@ -35,7 +35,13 @@ import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 import { ThemeContext } from "@/context/ThemeContext";
 import GradientIcon from "@/components/GradientIcon";
-import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
+import {
+    AntDesign,
+    Entypo,
+    FontAwesome6,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 
 type RecordingState = {
@@ -617,14 +623,21 @@ export default function Recording() {
                             <ScrollView className="-my-4 max-h-[300px]">
                                 <View className="gap-4 py-4">
                                     <View className="gap-2">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-bold font-publicsans"
-                                            }
-                                        >
-                                            Recording Interface Use
-                                        </Text>
+                                        <View className="flex flex-row items-center gap-2">
+                                            <MaterialCommunityIcons
+                                                name="record-rec"
+                                                size={24}
+                                                color="white"
+                                            />
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " font-bold font-publicsans"
+                                                }
+                                            >
+                                                Recording Interface Use
+                                            </Text>
+                                        </View>
                                         <Text
                                             className={
                                                 textClass +
@@ -640,14 +653,21 @@ export default function Recording() {
                                         </Text>
                                     </View>
                                     <View className="gap-2">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-bold font-publicsans"
-                                            }
-                                        >
-                                            Language Speech Selection
-                                        </Text>
+                                        <View className="flex flex-row gap-2">
+                                            <Ionicons
+                                                name="language"
+                                                size={20}
+                                                color="white"
+                                            />
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " font-bold font-publicsans"
+                                                }
+                                            >
+                                                Language Speech Selection
+                                            </Text>
+                                        </View>
                                         <Text
                                             className={
                                                 textClass +
@@ -668,14 +688,21 @@ export default function Recording() {
                                         </Text>
                                     </View>
                                     <View className="gap-2">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-bold font-publicsans"
-                                            }
-                                        >
-                                            Speech Script Display
-                                        </Text>
+                                        <View className="flex flex-row items-center gap-2">
+                                            <MaterialCommunityIcons
+                                                name="text-to-speech"
+                                                size={20}
+                                                color="white"
+                                            />
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " font-bold font-publicsans"
+                                                }
+                                            >
+                                                Speech Script Display
+                                            </Text>
+                                        </View>
                                         <Text
                                             className={
                                                 textClass +
@@ -691,14 +718,21 @@ export default function Recording() {
                                     </View>
 
                                     <View className="gap-2">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-bold font-publicsans"
-                                            }
-                                        >
-                                            Current Status Instructions
-                                        </Text>
+                                        <View className="flex flex-row items-center gap-2">
+                                            <Entypo
+                                                name="info-with-circle"
+                                                size={16}
+                                                color="white"
+                                            />
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " font-bold font-publicsans"
+                                                }
+                                            >
+                                                Current Status Instructions
+                                            </Text>
+                                        </View>
                                         <Text
                                             className={
                                                 textClass +
@@ -744,14 +778,21 @@ export default function Recording() {
                                         )}
                                     </View>
                                     <View className="gap-2">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-bold font-publicsans"
-                                            }
-                                        >
-                                            Timer Display
-                                        </Text>
+                                        <View className="flex flex-row items-center gap-2">
+                                            <Ionicons
+                                                name="timer"
+                                                size={18}
+                                                color="white"
+                                            />
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " font-bold font-publicsans"
+                                                }
+                                            >
+                                                Timer Display
+                                            </Text>
+                                        </View>
                                         <Text
                                             className={
                                                 textClass +
@@ -775,14 +816,21 @@ export default function Recording() {
                                         </Text>
                                     </View>
                                     <View className="gap-2">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " font-bold font-publicsans"
-                                            }
-                                        >
-                                            Recording Button
-                                        </Text>
+                                        <View className="flex flex-row items-center gap-3">
+                                            <Icon
+                                                name="microphone"
+                                                size={18}
+                                                color="white"
+                                            />{" "}
+                                            <Text
+                                                className={
+                                                    textClass +
+                                                    " font-bold font-publicsans"
+                                                }
+                                            >
+                                                Recording Button
+                                            </Text>
+                                        </View>
                                         <Text
                                             className={
                                                 textClass +
