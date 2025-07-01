@@ -168,9 +168,9 @@ export default function Analysis() {
                                     onPress={() => setModalVisible(true)}
                                 >
                                     <FontAwesome6
-                                        size={15}
+                                        size={17}
                                         className="text-center"
-                                        width={15}
+                                        width={17}
                                         name={"circle-info"}
                                         color="#006FFF"
                                     />
