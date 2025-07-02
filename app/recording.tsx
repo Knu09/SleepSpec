@@ -120,6 +120,7 @@ export default function Recording() {
         ? "border-primary border-t-[1px]"
         : "border-divider border-t-[1px]";
     const modalColor = isDark ? "bg-darkLayer" : "bg-white";
+    const iconColor = isDark ? "#FFF" : "#01000F";
 
     // INFO: Modal useState
     const [modalVisible, setModalVisible] = useState(false);
@@ -628,7 +629,7 @@ export default function Recording() {
                                             <MaterialCommunityIcons
                                                 name="record-rec"
                                                 size={24}
-                                                color="white"
+                                                color={iconColor}
                                             />
                                             <Text
                                                 className={
@@ -658,7 +659,7 @@ export default function Recording() {
                                             <Ionicons
                                                 name="language"
                                                 size={20}
-                                                color="white"
+                                                color={iconColor}
                                             />
                                             <Text
                                                 className={
@@ -692,7 +693,7 @@ export default function Recording() {
                                             <MaterialCommunityIcons
                                                 name="text-to-speech"
                                                 size={20}
-                                                color="white"
+                                                color={iconColor}
                                             />
                                             <Text
                                                 className={
@@ -722,7 +723,7 @@ export default function Recording() {
                                             <Entypo
                                                 name="info-with-circle"
                                                 size={16}
-                                                color="white"
+                                                color={iconColor}
                                             />
                                             <Text
                                                 className={
@@ -785,7 +786,7 @@ export default function Recording() {
                                             <Ionicons
                                                 name="timer"
                                                 size={18}
-                                                color="white"
+                                                color={iconColor}
                                             />
                                             <Text
                                                 className={
@@ -823,7 +824,7 @@ export default function Recording() {
                                             <Icon
                                                 name="microphone"
                                                 size={16}
-                                                color="white"
+                                                color={iconColor}
                                             />
                                             <Text
                                                 className={
