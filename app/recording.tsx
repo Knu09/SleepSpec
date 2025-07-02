@@ -621,8 +621,8 @@ export default function Recording() {
                                     backgroundColor: "#80808080",
                                 }}
                             />
-                            <ScrollView className="-my-4 max-h-[300px]">
-                                <View className="gap-4 py-4">
+                            <ScrollView className="-my-4 -mx-3 max-h-[300px]">
+                                <View className="gap-4 py-4 px-3">
                                     <View className="gap-2">
                                         <View className="flex flex-row items-center gap-2">
                                             <MaterialCommunityIcons
@@ -759,7 +759,7 @@ export default function Recording() {
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " text-sm font-normal font-publicsans opacity-80 ps-2"
+                                                            " text-sm font-normal font-publicsans opacity-80 px-2"
                                                         }
                                                     >
                                                         <Text className="font-bold">
