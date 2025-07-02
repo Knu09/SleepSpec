@@ -78,21 +78,72 @@ export default function TrainingResults() {
         <SafeAreaView
             className={`${isDark ? "bg-darkBg" : "bg-lightBg"} flex-1`}
         >
-            <Header title={"Training Results"} back={true} menu={true} />
+            <Header title={"About the Model"} back={true} menu={true} />
             <ScrollView
-                className="flex px-6 mt-5"
+                className="flex px-6 py-5"
                 contentContainerStyle={{
                     flexGrow: 1,
-                    gap: 10,
+                    gap: 16,
                 }}
             >
                 {/* header section */}
-                <View className="justify-start items-start text-start gap-2">
+                <View className="justify-start items-start text-start gap-1">
+                    <Text className={`${textClass} font-poppinsBold text-2xl`}>
+                        SleepSpec Model
+                    </Text>
+                    <Text
+                        className={`${textClass} opacity-80 font-publicsans text-sm`}
+                    >
+                        The SleepSpec mobile application utilizes a{" "}
+                        <Text className="font-bold">
+                            {" "}
+                            Support Vector Machine (SVM){" "}
+                        </Text>
+                        classifier to detect mild sleep deprivation based on
+                        vocal biomarkers. The model operates on{" "}
+                        <Text className="font-bold">
+                            spectro-temporal modlation (STM){" "}
+                        </Text>
+                        features extracted from user-recorded voice samples.
+                        These features reflect modulation energy patterns across
+                        three auditory dimensions:{" "}
+                        <Text className="font-bold">
+                            {" "}
+                            Frequency, Rate, and Scale
+                        </Text>
+                        .
+                    </Text>
+                    <Text
+                        className={`${textClass} opacity-80 font-publicsans text-sm`}
+                    >
+                        The audio input is segmented into 15-second intervals,
+                        resampled 44.1 kHz to 16kHz, preprocessed, and converted
+                        into STM representations. These high-dimensional feature
+                        vectors are then classified using a trained SVM model
+                        with an RBF kernel, optimized through cross-validation.
+                        The system outputs a{" "}
+                        <Text className="font-bold">
+                            binary classification—Sleep-Deprived or
+                            Non-Sleep-Deprived
+                        </Text>
+                        —along with a confidence score derived from the model’s
+                        decision function.
+                    </Text>
+                </View>
+                <View className="justify-start items-start text-start gap-1">
                     <Text className={`${textClass} font-poppinsBold text-2xl`}>
                         SleepSpec Training Results
                     </Text>
-                    <Text className={`${textClass}/80 font-publicsans text-sm`}>
-                        Training Results of SVM on Sleep Deprivation Dataset
+                    <Text
+                        className={`${textClass} opacity-80 font-publicsans text-sm`}
+                    >
+                        The model was evaluated using metrics such as{" "}
+                        <Text className="font-bold">
+                            Balanced Accuracy (BAcc), Precision, Recall, and F1
+                            Score
+                        </Text>
+                        , demonstrating robust performance in distinguishing
+                        between pre-sleep and post-sleep deprivation sessions.
                     </Text>
                 </View>
 
@@ -172,7 +223,7 @@ export default function TrainingResults() {
                 </View>
 
                 {/* accordion sections */}
-                <View className="mb-5">
+                <View className="mb-4">
                     <View className="gap-5">
                         {training_results.map((manual, index) => (
                             <Accordion
@@ -184,6 +235,14 @@ export default function TrainingResults() {
                             />
                         ))}
                     </View>
+                </View>
+                <View className="pb-12">
+                    <Text
+                        className={`${textClass} opacity-80 font-publicsans text-sm text-center`}
+                    >
+                        All test results is performed locally on-device,
+                        ensuring data privacy and responsiveness.
+                    </Text>
                 </View>
             </ScrollView>
         </SafeAreaView>
