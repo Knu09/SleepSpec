@@ -747,7 +747,10 @@ export default function Recording() {
                                         </Text>
                                         {statusInstructions.map(
                                             (item, index) => (
-                                                <View className="flex flex-row items-start">
+                                                <View
+                                                    key={index}
+                                                    className="flex flex-row items-start"
+                                                >
                                                     <Text
                                                         className={
                                                             textClass +
