@@ -182,6 +182,7 @@ export default function TrainingResults() {
                             label="Test F1-Score"
                             color="#A78BFA"
                         />
+                        <View style={{ width: 34 }}></View>
                     </ScrollView>
 
                     {/* Left Gradient */}
