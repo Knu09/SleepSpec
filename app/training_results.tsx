@@ -102,7 +102,7 @@ export default function TrainingResults() {
                         classifier to detect mild sleep deprivation based on
                         vocal biomarkers. The model operates on{" "}
                         <Text className="font-bold">
-                            spectro-temporal modlation (STM){" "}
+                            spectro-temporal modulation (STM){" "}
                         </Text>
                         features extracted from user-recorded voice samples.
                         These features reflect modulation energy patterns across
@@ -117,11 +117,11 @@ export default function TrainingResults() {
                         className={`${textClass} opacity-80 font-publicsans text-sm`}
                     >
                         The audio input is segmented into 15-second intervals,
-                        resampled 44.1 kHz to 16kHz, preprocessed, and converted
-                        into STM representations. These high-dimensional feature
-                        vectors are then classified using a trained SVM model
-                        with an RBF kernel, optimized through cross-validation.
-                        The system outputs a{" "}
+                        resampled 44.1 kHz to 16 kHz, preprocessed, and
+                        converted into STM representations. These
+                        high-dimensional feature vectors are then classified
+                        using a trained SVM model with an RBF kernel, optimized
+                        through cross-validation. The system outputs a{" "}
                         <Text className="font-bold">
                             binary classification—Sleep-Deprived or
                             Non-Sleep-Deprived
