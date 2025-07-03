@@ -55,7 +55,7 @@ export default function Index() {
                 <View
                     style={styles.shadowBox}
                     className={
-                        (isDark ? "bg-transparent" : "bg-white") +
+                        (isDark ? "bg-darkBg" : "bg-white") +
                         " gap-14 rounded-3xl py-10 px-2"
                     }
                 >
@@ -108,8 +108,15 @@ export default function Index() {
                                     " text-base font-publicsans text-center"
                                 }
                             >
-                                sleep deprivation by clicking the microphone
-                                below.
+                                sleep deprivation{" "}
+                            </Text>
+                            <Text
+                                className={
+                                    textClass +
+                                    " text-base font-publicsans text-center"
+                                }
+                            >
+                                by clicking the microphone below.
                             </Text>
                         </View>
                         <View
