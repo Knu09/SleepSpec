@@ -310,7 +310,7 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " mx-4 py-3 " +
+                                        " mx-4 py-3 pe-2 flex flex-row justify-between items-center " +
                                         borderColorClass
                                     }
                                 >
@@ -406,6 +406,16 @@ export default function Recording() {
                                             </Text>
                                         )}
                                     </Text>
+                                    {/* Recording Status */}
+                                    {recordState.isRecording ? (
+                                        recordState.isPaused ? (
+                                            <View className="w-3 h-3 rounded-full bg-warning"></View>
+                                        ) : (
+                                            <View className="w-3 h-3 rounded-full bg-active"></View>
+                                        )
+                                    ) : (
+                                        <View className="w-3 h-3 rounded-full bg-idle"></View>
+                                    )}
                                 </View>
                             </View>
                         </LinearGradient>
