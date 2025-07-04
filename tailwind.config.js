@@ -23,6 +23,9 @@ module.exports = {
                 grayLayer: "#EEF0F1",
                 divider: "#585858",
                 lightGray: "#E9E9E9",
+                active: "#6EDB3F",
+                warning: "#FFFF08",
+                idle: "#9E9E9E",
             },
             fontFamily: {
                 poppins: ["Poppins"],
