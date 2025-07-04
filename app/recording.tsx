@@ -237,30 +237,30 @@ export default function Recording() {
                     }
                 >
                     <View className="gap-1">
+                        <Text
+                            className={
+                                textClass + " text-lg font-bold font-publicsans"
+                            }
+                        >
+                            Language Speech
+                        </Text>
                         <View className="flex flex-row justify-between items-center pe-2">
-                            <Text
-                                className={
-                                    textClass +
-                                    " text-lg font-bold font-publicsans"
-                                }
-                            >
-                                Language Speech
-                            </Text>
+                            <Link href="/select_language" className="w-28">
+                                <LanguageSelected />
+                            </Link>
+
                             <TouchableOpacity
                                 onPress={() => setModalVisible(true)}
                             >
                                 <FontAwesome6
-                                    size={18}
+                                    size={20}
                                     className="text-center"
-                                    width={18}
+                                    width={20}
                                     name={"question-circle"}
                                     color="#006FFF"
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Link href="/select_language" className="w-28">
-                            <LanguageSelected />
-                        </Link>
                     </View>
                     <View className="bg-transparent">
                         <LinearGradient
