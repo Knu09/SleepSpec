@@ -11,16 +11,28 @@ export default function LanguageSelected() {
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
     return (
-        <View className="flex flex-row text pl-[2px]">
+        <View className="flex flex-row gap-2 items-center text">
             <Image
                 source={LANG.asImg(lang)}
-                style={{ width: 25, aspectRatio: 1, marginRight: 6 }}
+                style={{ width: 25, aspectRatio: 1 }}
             />
-            <Text
-                className={textClass + " text-lg font-normal font-publicsans"}
-            >
-                {LANG.asString(lang)}
-            </Text>
+            <View className="gap-1">
+                <Text
+                    className={
+                        textClass + " font-bold font-publicsans leading-none"
+                    }
+                >
+                    {LANG.asString(lang)}
+                </Text>
+                <Text
+                    className={
+                        textClass +
+                        " text-sm font-light opacity-80 font-publicsansLight leading-none"
+                    }
+                >
+                    {LANG.getBookTitle(lang)}
+                </Text>
+            </View>
         </View>
     );
 }
