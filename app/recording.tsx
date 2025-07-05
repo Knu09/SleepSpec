@@ -233,16 +233,16 @@ export default function Recording() {
                     style={{ elevation: 3 }}
                     className={
                         (isDark ? "bg-darkLayer" : "bg-white") +
-                        " p-4 rounded-3xl gap-4"
+                        " p-4 py-5 rounded-3xl gap-4"
                     }
                 >
-                    <View className="gap-1">
+                    <View className="gap-2">
                         <Text
                             className={
                                 textClass + " text-lg font-bold font-publicsans"
                             }
                         >
-                            Language Speech
+                            Speech Script Language
                         </Text>
                         <View className="flex flex-row justify-between items-center pe-2">
                             <Link href="/select_language" className="w-28">
@@ -677,7 +677,7 @@ export default function Recording() {
                                                     " font-bold font-publicsans"
                                                 }
                                             >
-                                                Language Speech Selection
+                                                Speech Script Selection
                                             </Text>
                                         </View>
                                         <Text
@@ -691,7 +691,7 @@ export default function Recording() {
                                                 select or change their preferred
                                             </Text>{" "}
                                             <Text className="font-bold">
-                                                language speech script
+                                                speech script language
                                             </Text>{" "}
                                             at any time. This ensures
                                             flexibility if the user wants to
