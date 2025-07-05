@@ -89,6 +89,10 @@ export namespace LANG {
         }
     }
 
+    export function getBookTitle(lang: LANG): string {
+        return LANG.getScript(lang).book;
+    }
+
     export function getScript(self: LANG): Script {
         return SCRIPTS[self];
     }
