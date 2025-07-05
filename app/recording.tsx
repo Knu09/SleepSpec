@@ -242,7 +242,7 @@ export default function Recording() {
                                 textClass + " text-lg font-bold font-publicsans"
                             }
                         >
-                            Speech Script Language
+                            Selected Speech Script
                         </Text>
                         <View className="flex flex-row justify-between items-center pe-2">
                             <Link href="/select_language" className="w-28">

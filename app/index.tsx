@@ -151,7 +151,7 @@ export default function Index() {
                                                 " font-bold font-publicsans mb-2"
                                             }
                                         >
-                                            Select a language speech
+                                            Select a speech script language
                                         </Text>
                                         <LanguageSelected />
                                     </View>
