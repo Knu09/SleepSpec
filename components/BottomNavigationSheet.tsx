@@ -95,8 +95,8 @@ export default function BottomNavigationSheet() {
                                 <Text className="text-secondary font-poppins font-bold text-xl">
                                     SleepSpec
                                 </Text>
-                                <Text className="text-secondary font-publicsans opacity-80 text-sm">
-                                    Sleep deprivation detection
+                                <Text className="text-secondary font-light font-publicsansLight opacity-80 text-sm">
+                                    Mild sleep deprivation detection
                                 </Text>
                             </View>
                         </View>
@@ -282,6 +282,16 @@ export default function BottomNavigationSheet() {
                                     </Text>
                                 </View>
                             </TouchableHighlight>
+                        </View>
+                        <View className="mt-4 flex flex-col items-center">
+                            <Text className="text-secondary text-center font-light font-publicsansLight opacity-80 text-sm">
+                                Made by
+                            </Text>
+                            <Image
+                                source={require("../assets/images/16KHz Labs.png")}
+                                contentFit="contain"
+                                style={{ width: 68, height: 40 }}
+                            ></Image>
                         </View>
                     </View>
                 </BottomSheetView>
