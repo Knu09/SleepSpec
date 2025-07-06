@@ -40,7 +40,7 @@ export default function UserManual() {
             isOpened: false,
         },
         {
-            title: "Select Language Page",
+            title: "Speech Script Language Selection",
             description:
                 "Pick the language you are most comfortable speaking. The sentence you need to read will appear based on this choice. On this page, you can choose between:",
             list: {
@@ -60,7 +60,7 @@ export default function UserManual() {
             isOpened: false,
         },
         {
-            title: "Recording Page",
+            title: "Recording Guide",
             description:
                 "The app will automatically process your recording and check for signs of sleep deprivation.",
             list: {

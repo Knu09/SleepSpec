@@ -17,11 +17,7 @@ export default function LanguageSelected() {
                 style={{ width: 25, aspectRatio: 1 }}
             />
             <View className="gap-1">
-                <Text
-                    className={
-                        textClass + " font-bold font-publicsans leading-none"
-                    }
-                >
+                <Text className={textClass + " font-publicsans leading-none"}>
                     {LANG.asString(lang)}
                 </Text>
                 <Text

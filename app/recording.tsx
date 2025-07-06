@@ -821,7 +821,7 @@ export default function Recording() {
                                             , formatted in
                                             <Text className="font-bold">
                                                 {" "}
-                                                MM:SS{" "}
+                                                MM:SS
                                             </Text>
                                             , which shows how long the current
                                             recording has been running. Users
