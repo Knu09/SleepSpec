@@ -63,12 +63,12 @@ export default function SelectLanguage() {
             <StatusBar style="dark" backgroundColor="#fff" />
             <View className="bg-white" style={styles.headerShadow}>
                 <Header back={true} menu={true} theme="light" />
-                <View
-                    className="bg-white pb-8 pt-6 px-6"
-                    style={{ zIndex: 2000 }}
-                >
-                    <Text className="font-poppins font-bold text-3xl">
-                        Select a speech script
+                <View className="bg-white py-6 px-6" style={{ zIndex: 2000 }}>
+                    <Text className="font-poppinsBold text-3xl">
+                        Speech Script Language
+                    </Text>
+                    <Text className="font-publicsans text-sm opacity-80">
+                        Choose a book script you'll read during the recording.
                     </Text>
                 </View>
             </View>
