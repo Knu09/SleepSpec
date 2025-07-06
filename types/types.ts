@@ -131,9 +131,9 @@ export namespace CLASS {
     export function getTitle(result: ClassResult | Segment): string {
         switch (result.class) {
             case CLASS.POST:
-                return "Sleep-Deprived";
+                return "Sleep-deprived";
             case CLASS.PRE:
-                return "Non-Sleep-Deprived";
+                return "Non-sleep-deprived";
         }
     }
 
