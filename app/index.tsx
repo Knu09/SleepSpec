@@ -56,7 +56,7 @@ export default function Index() {
                     style={styles.shadowBox}
                     className={
                         (isDark ? "bg-darkBg" : "bg-white") +
-                        " gap-14 rounded-3xl py-10 px-2"
+                        " gap-16 rounded-3xl py-10 px-2"
                     }
                 >
                     <View className="flex flex-col items-center">
@@ -71,7 +71,7 @@ export default function Index() {
                             }
                             style={styles.subtitle}
                         >
-                            Sleep Deprivation Detection using SVM
+                            Mild Sleep Deprivation Detection using SVM
                         </Text>
                     </View>
                     <View className="items-center gap-4">
@@ -108,7 +108,7 @@ export default function Index() {
                                     " text-base font-publicsans text-center"
                                 }
                             >
-                                sleep deprivation{" "}
+                                mild sleep deprivation{" "}
                             </Text>
                             <Text
                                 className={
@@ -216,8 +216,8 @@ const styles = StyleSheet.create({
     },
 
     subtitle: {
-        marginTop: 5,
-        fontSize: 15,
+        marginTop: 4,
+        fontSize: 13.5,
     },
 
     linearGradientMicrophone: {
