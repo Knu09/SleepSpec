@@ -115,7 +115,7 @@ export default function Classification() {
                         {CLASS.getTitle(result)}
                     </Text>
                 </View>
-                <View className="mt-4 gap-4">
+                <View className="mt-4 mb-28 gap-4">
                     {segments.map((segment) => (
                         <AudioSegment
                             key={segment.id}
