@@ -251,6 +251,7 @@ export default function Recording() {
 
                             <TouchableOpacity
                                 onPress={() => setModalVisible(true)}
+                                className="flex flex-row gap-2 items-center"
                             >
                                 <FontAwesome6
                                     size={20}
@@ -472,7 +473,7 @@ export default function Recording() {
                                     style={styles.shadowProp}
                                 >
                                     {recordState.isRecording &&
-                                    !recordState.isPaused ? (
+                                        !recordState.isPaused ? (
                                         <GradientIcon
                                             name="microphone"
                                             size={60}
@@ -491,13 +492,12 @@ export default function Recording() {
 
                     <View className="text-center gap-2">
                         <Text
-                            className={`text-xl font-bold mx-auto font-publicsans ${
-                                recordState.isRecording
+                            className={`text-xl font-bold mx-auto font-publicsans ${recordState.isRecording
                                     ? recordState.isPaused
                                         ? textClass
                                         : "text-primaryBlue"
                                     : textClass
-                            }`}
+                                }`}
                         >
                             {recordState.isRecording
                                 ? recordState.isPaused
@@ -612,7 +612,7 @@ export default function Recording() {
                                         " text-lg font-bold font-publicsans"
                                     }
                                 >
-                                    Recording User Guide
+                                    Recording Guide
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => setModalVisible(false)}
