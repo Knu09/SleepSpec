@@ -1,4 +1,4 @@
 # SleepSpec Mobile Application
 
-Sleep deprivation detection using Support Vector Machine (SVM) through speech
+Mild sleep deprivation detection using Support Vector Machine (SVM) through voice
 analysis.
