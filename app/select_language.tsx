@@ -43,6 +43,11 @@ export default function SelectLanguage() {
             currentLang: lang,
             setLang,
         },
+        {
+            lang: LANG.FIL2,
+            currentLang: lang,
+            setLang,
+        },
     ];
 
     const [fontsLoaded] = useFonts({
@@ -89,7 +94,7 @@ export default function SelectLanguage() {
                         " px-3 py-5 rounded-3xl"
                     }
                 >
-                    <View className="flex-row flex-wrap">
+                    <View className="flex-row flex-wrap gap-y-6">
                         {languages.map(LangChoice)}
                     </View>
                 </View>
@@ -130,6 +135,13 @@ function LangChoice({ lang, currentLang, setLang }: LangChoiceProps) {
             borderLeftWidth: 0.5,
             borderRightColor: "#585858CC",
             borderLeftColor: "#585858CC",
+        };
+    }
+
+    if (lang === LANG.FIL2) {
+        borderStyle = {
+            borderRightWidth: 0.5,
+            borderRightColor: "#585858CC",
         };
     }
     return (
