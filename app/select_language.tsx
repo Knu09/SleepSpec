@@ -63,8 +63,11 @@ export default function SelectLanguage() {
             <StatusBar style="dark" backgroundColor="#fff" />
             <View className="bg-white" style={styles.headerShadow}>
                 <Header back={true} menu={true} theme="light" />
-                <View className="bg-white py-6 px-6" style={{ zIndex: 2000 }}>
-                    <Text className="font-poppinsBold text-3xl">
+                <View
+                    className="bg-white gap-1 py-6 px-6"
+                    style={{ zIndex: 2000 }}
+                >
+                    <Text className="font-poppinsBold leading-10 text-3xl">
                         Speech Script Language
                     </Text>
                     <Text className="font-publicsans text-sm opacity-80">
