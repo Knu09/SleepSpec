@@ -87,7 +87,7 @@ export default function TrainingResults() {
                 }}
             >
                 {/* header section */}
-                <View className="justify-start items-start text-start gap-1">
+                <View className="justify-start items-start text-start gap-2">
                     <Text className={`${textClass} font-poppinsBold text-2xl`}>
                         SleepSpec Model
                     </Text>
@@ -117,11 +117,11 @@ export default function TrainingResults() {
                         className={`${textClass} opacity-80 font-publicsans text-sm`}
                     >
                         The audio input is segmented into 15-second intervals,
-                        resampled 44.1 kHz to 16 kHz, preprocessed, and
-                        converted into STM representations. These
-                        high-dimensional feature vectors are then classified
-                        using a trained SVM model with an RBF kernel, optimized
-                        through cross-validation. The system outputs a{" "}
+                        resampled 44.1 kHz to 16 kHz, and converted into STM
+                        representations. These high-dimensional feature vectors
+                        are then classified using a trained SVM model with an
+                        RBF kernel, optimized through cross-validation. The
+                        system outputs a{" "}
                         <Text className="font-bold">
                             binary classification—Sleep-Deprived or
                             Non-Sleep-Deprived
@@ -130,7 +130,7 @@ export default function TrainingResults() {
                         decision function.
                     </Text>
                 </View>
-                <View className="justify-start items-start text-start gap-1">
+                <View className="justify-start items-start text-start gap-2">
                     <Text className={`${textClass} font-poppinsBold text-2xl`}>
                         SleepSpec Training Results
                     </Text>
