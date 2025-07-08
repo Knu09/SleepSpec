@@ -8,7 +8,7 @@ const CustomRCPreset: RecordingOptions = {
     numberOfChannels: MONO,
     bitRate: BIT_RATE,
     extension: ".m4a",
-    sampleRate: 44100,
+    sampleRate: 16000,
 
     android: {
         outputFormat: "mpeg4",

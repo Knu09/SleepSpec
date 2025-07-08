@@ -16,7 +16,7 @@ type ClassStore = {
 export type PendingSegment = {
     id: number;
     uri: string;
-}
+};
 
 export type Segment = {
     id: number;
@@ -28,7 +28,10 @@ export type Segment = {
 type SegmentStore = {
     pendingSegments: Promise<PendingSegment[]>;
     syncSegments: () => void;
-    syncResultsFrom: (evals: Evaluations, segments: PendingSegment[]) => Segment[];
+    syncResultsFrom: (
+        evals: Evaluations,
+        segments: PendingSegment[],
+    ) => Segment[];
 };
 
 export const useLangStore = create<LangStore>((set) => ({
@@ -90,10 +93,12 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
             return [];
         }
 
-        return segments.map((segment, i) => ({
-            ...segment,
-            class: classes[i],
-            confidence_score: scores[i],
-        }));
+        return segments
+            .map((segment, i) => ({
+                ...segment,
+                class: classes[i],
+                confidence_score: scores[i],
+            }))
+            .sort((a, b) => a.id - b.id);
     },
 }));
