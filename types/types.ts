@@ -107,6 +107,7 @@ export namespace LANG {
 export enum CLASS {
     PRE = "pre", // Not Sleep deprived
     POST = "post", // Sleep deprived
+    BALANCED = "balanced", // Neutral state
 }
 
 export type Evaluations = {
@@ -140,11 +141,17 @@ export namespace CLASS {
                 return "Sleep-deprived";
             case CLASS.PRE:
                 return "Non-sleep-deprived";
+            case CLASS.BALANCED:
+                return "Neutral";
         }
     }
 
     export function getTitleColor(result: ClassResult | Segment): ColorValue {
-        return result.class == CLASS.POST ? "#ff2121" : "#006fff";
+        return result.class == CLASS.POST
+            ? "#ff2121"
+            : CLASS.PRE
+              ? "#006fff"
+              : "#3AC8D9";
     }
 
     export function from(data: ResultObj): ClassResult {
@@ -159,7 +166,12 @@ export namespace CLASS {
         } = data;
 
         const result: ClassResult = {
-            class: c === "post" ? CLASS.POST : CLASS.PRE,
+            class:
+                c === "post"
+                    ? CLASS.POST
+                    : c === "pre"
+                      ? CLASS.PRE
+                      : CLASS.BALANCED,
             confidence_score,
             decision_score,
             sd_prob,
@@ -217,8 +229,9 @@ const SCRIPTS: Record<LANG, Script> = {
 
 const advices: {
     [CLASS.POST]: Advices;
-    // MODERATE: Advices;
+    // TODO: MODERATE: Advices;
     [CLASS.PRE]: Advices;
+    [CLASS.BALANCED]: Advices;
 } = {
     [CLASS.POST]: {
         summary:
@@ -251,22 +264,6 @@ const advices: {
             },
         ],
     },
-    // MODERATE: {
-    //     summary: "Your sleep quality is moderate, but there is room for improvement.",
-    //     contents: [
-    //         {
-    //             id: "1",
-    //             title: "Improve Sleep Duration",
-    //             desc:
-    //                 "Try to increase your sleep time by 30–60 minutes per night.",
-    //         },
-    //         {
-    //             id: "2",
-    //             title: "Reduce Stimulants",
-    //             desc: "Limit caffeine intake in the afternoon and evening.",
-    //         },
-    //     ]
-    // },
     [CLASS.PRE]: {
         summary:
             "Your sleep habits seem healthy, but consistent monitoring is recommended.",
@@ -290,6 +287,32 @@ const advices: {
                 id: "4",
                 title: "Stay Hydrated and Maintain a Balanced Diet",
                 desc: "Proper hydration and nutrition contribute to better overall sleep health.",
+            },
+        ],
+    },
+    [CLASS.BALANCED]: {
+        summary:
+            "Your results are balanced, showing no strong signs of either sleep deprivation or well-rested. This may indicate transitional sleep quality or subtle fatigue. Consider the following tips to maintain or improve your sleep health:",
+        contents: [
+            {
+                id: "1",
+                title: "Stay Consistent with Sleep Habits",
+                desc: "Even mild irregularities in your schedule can affect your rest. Aim for a regular bedtime and wake-up time.",
+            },
+            {
+                id: "2",
+                title: "Be Aware of Early Fatigue Signs",
+                desc: "If you're feeling less focused or more irritable, it may be time to adjust your sleep duration or quality.",
+            },
+            {
+                id: "3",
+                title: "Avoid Sleep Disruptors",
+                desc: "Limit caffeine intake in the afternoon, reduce evening screen time, and minimize stress before bed.",
+            },
+            {
+                id: "4",
+                title: "Optimize Your Daily Routine",
+                desc: "Incorporate physical activity and take short breaks during the day to prevent fatigue from accumulating.",
             },
         ],
     },
