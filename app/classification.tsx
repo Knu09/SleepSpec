@@ -112,17 +112,15 @@ export default function Classification() {
                     </Text>
                 </View>
                 <View className="mt-4 mb-28 gap-4">
-                    {segments
-                        .toSorted((a, b) => a.id - b.id)
-                        .map((segment) => (
-                            <AudioSegment
-                                key={segment.id}
-                                segment={segment}
-                                selected={playingSegmentID == segment.id}
-                                togglePlay={togglePlay}
-                                player={player}
-                            />
-                        ))}
+                    {segments.map((segment) => (
+                        <AudioSegment
+                            key={segment.id}
+                            segment={segment}
+                            selected={playingSegmentID == segment.id}
+                            togglePlay={togglePlay}
+                            player={player}
+                        />
+                    ))}
                 </View>
 
                 <Overlay heading="Downloading Audio Segments" state={download} />
