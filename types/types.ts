@@ -51,6 +51,7 @@ export enum Process {
 
 export enum LANG {
     FIL1,
+    FIL2,
     ENG1,
     ENG2,
 }
@@ -73,11 +74,14 @@ export namespace LANG {
                 return "American E";
             case LANG.FIL1:
                 return "Filipino";
+            case LANG.FIL2:
+                return "Filipino";
         }
     }
 
     export function asImg(self: LANG): ImageSource {
         const US_FLAG = require("@/assets/images/flag-us.svg");
+        const FIL_FLAG = require("@/assets/images/flag-ph.svg");
 
         switch (self) {
             case LANG.ENG1:
@@ -85,7 +89,9 @@ export namespace LANG {
             case LANG.ENG2:
                 return US_FLAG;
             case LANG.FIL1:
-                return require("@/assets/images/flag-ph.svg");
+                return FIL_FLAG;
+            case LANG.FIL2:
+                return FIL_FLAG;
         }
     }
 
@@ -101,6 +107,7 @@ export namespace LANG {
 export enum CLASS {
     PRE = "pre", // Not Sleep deprived
     POST = "post", // Sleep deprived
+    BALANCED = "balanced", // Neutral state
 }
 
 export type Evaluations = {
@@ -131,14 +138,20 @@ export namespace CLASS {
     export function getTitle(result: ClassResult | Segment): string {
         switch (result.class) {
             case CLASS.POST:
-                return "Sleep-Deprived";
+                return "Sleep-deprived";
             case CLASS.PRE:
-                return "Non-Sleep-Deprived";
+                return "Non-sleep-deprived";
+            case CLASS.BALANCED:
+                return "Neutral";
         }
     }
 
     export function getTitleColor(result: ClassResult | Segment): ColorValue {
-        return result.class == CLASS.POST ? "#ff2121" : "#006fff";
+        return result.class == CLASS.POST
+            ? "#ff2121"
+            : CLASS.PRE
+              ? "#006fff"
+              : "#3AC8D9";
     }
 
     export function from(data: ResultObj): ClassResult {
@@ -153,7 +166,12 @@ export namespace CLASS {
         } = data;
 
         const result: ClassResult = {
-            class: c === "post" ? CLASS.POST : CLASS.PRE,
+            class:
+                c === "post"
+                    ? CLASS.POST
+                    : c === "pre"
+                      ? CLASS.PRE
+                      : CLASS.BALANCED,
             confidence_score,
             decision_score,
             sd_prob,
@@ -201,12 +219,19 @@ const SCRIPTS: Record<LANG, Script> = {
         content:
             "Sila ay may bugtong na anak, uliran ng bait, si Maria na tinagurian ng Maring.\n\nKung kaaya-aya man ang ganda ng kalooban ni Maring, ay lalo pa naman kaaya-aya ang ganda ng kaniyang anyo, anyo ng bagong bumubukang kampupot, at lalong-lalo pa yaong mukha niyang anaki’y mukhang anghel, mukhang pinagkalooban ng langit ng lubhang mapanghalinang dikit na bihirang ipagkaloob sa taong kinapal.\n\nAng kaniyang mapupungay na mata ay anaki’y salamin ng pag-ibig, anaki’y sibol ng lambing, anaki’y larawan ng bait.\n\nAt dahil nga sa gayon, ay pinag-ingatan yatang talaga ng palad, kaya’t pinalamutihan sa dakong noo ng masinsin, ngunit makitid na kilay na hubog tari, at binakuran ng mayabong at malantik na pilikmata, akala marahil ng Maykapal ay upang huwag manganib sa puwing man lamang yaong mga matang kaniyang pinagpalang talaga.\n\nAng kaniyang mga ngiti ay ngiting langit: naghahandog sa kaharap ng lugod na di mahulilip at walang hanggang tamis ng maamong kalooban, lalo’t talagang maririkit yaong kaniyang mga maliliit at masinsing ngiping kinaiinggitan ng tunay na garing, at sinalitan ng isang ngiping gintong ipinasadya ng kaniyang ama, upang malubos mandin ang ganda noong napakatamis na bibig.\n\nKung lugay ang kaniyang mayabong na buhok, ay umaabot hanggang sakong, malinis, maitim at makinang na anaki’y sarampuli ng mga Lakhang-dalaga sa unang panahon.\n\nSi Maring ay kayumangging maligat na namumula-mula, at ang kaniyang pangangatawan ay katatagan sa taas at sa bilog. Ang kaniyang mga kilos ay mabining-pawa, mahinhin at kalugod-lugod sa lahat ng bagay.\n\nMay isang binata, bagong-taong basal na nagngangalang Gonsalo. Ito ay maralita ring gaya nila Maring, palibhasa’y gaya rin nilang walang ibang paghahanap kundi pamamalakaya sa mga ilog at dagat.\n\nSi Gonsalo ay may mga tatlong taon ng nananhik ng ligaw kay Maring, ngunit hindi pinansin nito ang kaniyang matapat na pagsuyo, at kadalasang isagot sa kaniya ay ang kaniyang nais na makasuyo muna sa kaniyang mga magulang.",
     },
+    [LANG.FIL2]: {
+        book: "Noli Me Tangere",
+        chapter: "ch. 16, Si Sisa",
+        content:
+            'Bata pa si Sisa, at noon pa lang ay makikita nang siya’y maganda at kaakit-akit kumilos. Ang kanyang mga mata—na parang ang kanyang kaluluwang handa niyang ibigay lahat para sa kanyang mga anak—ay napakaganda. Mahahaba ang kanyang pilikmata at malalim kung tumingin. Maganda ang hubog ng kanyang ilong, at ang kanyang mapupulang labi ay maayos ang anyo. Siya ang tinatawag ng mga Tagalog na "kayumangging kaligatan"—isang kayumangging kulay na malinis at kaaya-aya.\n\nBagamat bata pa siya, dala marahil ng kalungkutan o gutom, unti-unti nang namumutla ang kanyang mga pisngi. Ang kanyang makapal na buhok, na dati\'y alaga at nagpapaganda sa kanyang anyo, ay inayos hindi para maging kaakit-akit kundi dahil ugali na niyang maging maayos. Ang kanyang buhok ay simpleng sinuklay, walang palamuti tulad ng alampay o palamuti sa buhok.\n\nIlang araw na siyang hindi lumalabas ng bahay dahil tinatapos niya ang isang trabahong iniutos sa kanya, na kailangang matapos agad sa abot ng kanyang makakaya. Sa kagustuhan niyang magkaroon ng kaunting pera, hindi siya nagsimba nang umagang iyon dahil aabutin siya ng halos dalawang oras sa paglalakad papunta at pabalik sa bayan. —Talagang ang kahirapan ay nakakapilit gumawa ng kasalanan.\n\nNang matapos ang kanyang gawa, agad niya itong dinala sa may-ari. Pero pinangakuan lang siya ng bayad, hindi agad binayaran.\n\nBuong maghapon, isa lang ang iniisip niya—ang saya na mararamdaman niya pagsapit ng gabi. Nabalitaan niyang uuwi ang kanyang mga anak, kaya’t inisip niyang ihanda ang isang masarap na hapunan para sa kanila. Bumili siya ng lawlaw (isang uri ng tuyo), pumitas ng mga pinakagandang kamatis mula sa kanyang maliit na taniman—dahil alam niyang paborito ito ni Crispín. Humingi rin siya ng pampalasa at karne mula kay Pilosopo Tasyo, na nakatira mga limang daang metro ang layo, kabilang ang tapa ng baboy-ramo at hita ng pato mula sa gubat—paborito ito ni Basilio.\n\nPuno ng pag-asa, isinaing niya ang pinakaputing bigas na siya rin mismo ang nagbayo. Isa itong hapunang karapat-dapat para sa kura, pero inihanda niya ito para sa kanyang mga mahal na anak.',
+    },
 };
 
 const advices: {
     [CLASS.POST]: Advices;
-    // MODERATE: Advices;
+    // TODO: MODERATE: Advices;
     [CLASS.PRE]: Advices;
+    [CLASS.BALANCED]: Advices;
 } = {
     [CLASS.POST]: {
         summary:
@@ -239,22 +264,6 @@ const advices: {
             },
         ],
     },
-    // MODERATE: {
-    //     summary: "Your sleep quality is moderate, but there is room for improvement.",
-    //     contents: [
-    //         {
-    //             id: "1",
-    //             title: "Improve Sleep Duration",
-    //             desc:
-    //                 "Try to increase your sleep time by 30–60 minutes per night.",
-    //         },
-    //         {
-    //             id: "2",
-    //             title: "Reduce Stimulants",
-    //             desc: "Limit caffeine intake in the afternoon and evening.",
-    //         },
-    //     ]
-    // },
     [CLASS.PRE]: {
         summary:
             "Your sleep habits seem healthy, but consistent monitoring is recommended.",
@@ -278,6 +287,32 @@ const advices: {
                 id: "4",
                 title: "Stay Hydrated and Maintain a Balanced Diet",
                 desc: "Proper hydration and nutrition contribute to better overall sleep health.",
+            },
+        ],
+    },
+    [CLASS.BALANCED]: {
+        summary:
+            "Your results are balanced, showing no strong signs of either sleep deprivation or well-rested. This may indicate transitional sleep quality or subtle fatigue. Consider the following tips to maintain or improve your sleep health:",
+        contents: [
+            {
+                id: "1",
+                title: "Stay Consistent with Sleep Habits",
+                desc: "Even mild irregularities in your schedule can affect your rest. Aim for a regular bedtime and wake-up time.",
+            },
+            {
+                id: "2",
+                title: "Be Aware of Early Fatigue Signs",
+                desc: "If you're feeling less focused or more irritable, it may be time to adjust your sleep duration or quality.",
+            },
+            {
+                id: "3",
+                title: "Avoid Sleep Disruptors",
+                desc: "Limit caffeine intake in the afternoon, reduce evening screen time, and minimize stress before bed.",
+            },
+            {
+                id: "4",
+                title: "Optimize Your Daily Routine",
+                desc: "Incorporate physical activity and take short breaks during the day to prevent fatigue from accumulating.",
             },
         ],
     },

@@ -18,7 +18,7 @@ export default function UserManual() {
         },
 
         {
-            title: "Home",
+            title: "How to start?",
             description:
                 "When you open the app, you will see two main buttons:",
             list: {
@@ -27,12 +27,12 @@ export default function UserManual() {
                     {
                         title: "Start Test",
                         description:
-                            "Choose the language you want to speak in.",
+                            "Choose the speech script language you want to use in recording.",
                     },
                     {
                         title: "Microphone",
                         description:
-                            "Takes you to the Recording Page to start voice recording.",
+                            "Takes you to the Recording interface to start voice recording.",
                     },
                 ],
             },
@@ -56,7 +56,7 @@ export default function UserManual() {
                     },
                 ],
             },
-            image: require("./../assets/images/language_selector_guide.png"),
+            image: require("./../assets/images/speech_script_language_guide.png"),
             isOpened: false,
         },
         {

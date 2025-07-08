@@ -115,7 +115,7 @@ export default function Classification() {
                         {CLASS.getTitle(result)}
                     </Text>
                 </View>
-                <View className="mt-4 gap-4">
+                <View className="mt-4 mb-28 gap-4">
                     {segments.map((segment) => (
                         <AudioSegment
                             key={segment.id}
@@ -206,10 +206,7 @@ function AudioSegment({
         >
             <View>
                 <Text
-                    className={
-                        textClass +
-                        " text-md font-publicsansLight font-semibold"
-                    }
+                    className={textClass + " text-lg font-bold font-publicsans"}
                 >
                     Recording Segment {segment.id}
                 </Text>
@@ -227,19 +224,24 @@ function AudioSegment({
                 >
                     {CLASS.getTitle(segment)}
                 </Text>
-                <Text
-                    className={textClass + " font-bold font-publicsans text-md"}
-                >
-                    Confidence Score:&nbsp;
+                <View className="flex flex-row">
+                    <Text
+                        className={
+                            textClass +
+                            " font-bold font-publicsans text-md opacity-80"
+                        }
+                    >
+                        Confidence Score:&nbsp;
+                    </Text>
                     <Text
                         className={
                             (isDark ? "text-secondary/50" : "text-darkBg/50") +
-                            " font-light font-publicsansLight"
+                            " font-publicsansLight text-md"
                         }
                     >
                         {CLASS.getConfScorePercent(segment)}
                     </Text>
-                </Text>
+                </View>
             </View>
 
             <TouchableOpacity
