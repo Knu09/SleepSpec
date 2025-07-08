@@ -29,7 +29,9 @@ export default function Classification() {
     const { pendingSegments, syncResultsFrom } = useSegmentStore();
     const [segments, setSegments] = useState<Segment[]>([]);
     const [download, setDownload] = useState(Process.PENDING);
-    const [playingSegmentID, setPlayingSegmentID] = useState<number | null>(null);
+    const [playingSegmentID, setPlayingSegmentID] = useState<number | null>(
+        null,
+    );
     const player = useAudioPlayer(undefined);
 
     const { currentTheme } = useContext(ThemeContext);
@@ -103,7 +105,9 @@ export default function Classification() {
             <Header title={"Classification"} back={true} menu={true} />
             <ScrollView className="mt-5 px-3 relative flex flex-grow flex-col">
                 <View className="flex justify-center items-center text-center text-secondary">
-                    <Text className={textClass + " font-publicsans"}>You are</Text>
+                    <Text className={textClass + " font-publicsans"}>
+                        You are
+                    </Text>
                     <Text
                         style={{ color: CLASS.getTitleColor(result) }}
                         className={`font-publicsans text-2xl font-bold`}
@@ -122,8 +126,6 @@ export default function Classification() {
                         />
                     ))}
                 </View>
-
-                <Overlay heading="Downloading Audio Segments" state={download} />
             </ScrollView>
 
             <View
@@ -138,6 +140,8 @@ export default function Classification() {
             >
                 <TabNavigation />
             </View>
+
+            <Overlay heading="Downloading Audio Segments" state={download} />
         </SafeAreaView>
     );
 }
@@ -193,10 +197,14 @@ function AudioSegment({
     return (
         <View
             style={{ elevation: 3 }}
-            className={bgClass + " flex flex-row justify-between rounded-lg p-4"}
+            className={
+                bgClass + " flex flex-row justify-between rounded-lg p-4"
+            }
         >
             <View>
-                <Text className={textClass + " text-lg font-bold font-publicsans"}>
+                <Text
+                    className={textClass + " text-lg font-bold font-publicsans"}
+                >
                     Recording Segment {segment.id}
                 </Text>
                 <Text
@@ -216,7 +224,8 @@ function AudioSegment({
                 <View className="flex flex-row">
                     <Text
                         className={
-                            textClass + " font-bold font-publicsans text-md opacity-80"
+                            textClass +
+                            " font-bold font-publicsans text-md opacity-80"
                         }
                     >
                         Confidence Score:&nbsp;
@@ -234,7 +243,8 @@ function AudioSegment({
 
             <TouchableOpacity
                 className={
-                    (isDark ? "bg-white" : "bg-darkBg") + " w-10 h-10 rounded-full"
+                    (isDark ? "bg-white" : "bg-darkBg") +
+                    " w-10 h-10 rounded-full"
                 }
                 onPress={() => setPlaying(togglePlay(segment))}
             >
