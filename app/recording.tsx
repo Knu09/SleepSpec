@@ -218,7 +218,6 @@ export default function Recording() {
             return;
         }
 
-        console.log(result);
         setUpload(Process.READY);
 
         setResult(CLASS.from(result));
