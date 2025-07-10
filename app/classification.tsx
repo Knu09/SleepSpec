@@ -20,15 +20,17 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 
+type RecordPlayer = {
+    segment: Segment;
+    playing: boolean;
+}
+
 export default function Classification() {
     const router = useRouter();
     const { result } = useClassStore();
     const { pendingSegments, syncResultsFrom } = useSegmentStore();
-    const [segments, setSegments] = useState<Segment[]>([]);
+    const [recordPlayers, setRecordPlayers] = useState<RecordPlayer[]>([]);
     const [download, setDownload] = useState(Process.PENDING);
-    const [playingSegmentID, setPlayingSegmentID] = useState<number | null>(
-        null,
-    );
     const player = useAudioPlayer(undefined);
 
     const { currentTheme } = useContext(ThemeContext);
@@ -53,7 +55,12 @@ export default function Classification() {
             }
 
             setDownload(Process.READY);
-            setSegments(syncResultsFrom(result.evals, segments));
+            setRecordPlayers(syncResultsFrom(result.evals, segments).map(segment => {
+                return {
+                    segment,
+                    playing: false,
+                } as RecordPlayer
+            }));
         });
     }, []);
 
@@ -68,23 +75,26 @@ export default function Classification() {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
-    const togglePlay = (s: Segment) => {
-        if (s.id != playingSegmentID) {
-            setPlayingSegmentID(s.id);
-            player.replace(s.uri);
-            player.play();
+    const togglePlay = (s: RecordPlayer) => {
+        setRecordPlayers(prevPlayers => prevPlayers.map(recordPlayer => {
+            const { segment, playing } = recordPlayer;
+            if (segment.id == s.segment.id) {
+                if (playing) {
+                    player.pause();
+                    player.seekTo(0);
+                } else {
+                    player.replace(segment.uri)
+                    player.play();
+                }
 
-            return true;
-        } else {
-            setPlayingSegmentID(null);
-            if (player.playing) {
-                player.pause();
-                player.seekTo(0);
-            } else {
-                player.play();
+                return {
+                    ...recordPlayer,
+                    playing: !playing,
+                } as RecordPlayer
             }
-            return player.playing;
-        }
+
+            return { ...recordPlayer, playing: false } as RecordPlayer
+        }))
     };
 
     if (!result) {
@@ -113,13 +123,11 @@ export default function Classification() {
                     </Text>
                 </View>
                 <View className="mt-4 mb-28 gap-4">
-                    {segments.map((segment) => (
+                    {recordPlayers.map((recordPlayer) => (
                         <AudioSegment
-                            key={segment.id}
-                            segment={segment}
-                            selected={playingSegmentID == segment.id}
+                            key={recordPlayer.segment.id}
+                            recordPlayer={recordPlayer}
                             togglePlay={togglePlay}
-                            player={player}
                         />
                     ))}
                 </View>
@@ -144,31 +152,27 @@ export default function Classification() {
 }
 
 type AudioSegmentProps = {
-    selected: boolean;
-    segment: Segment;
-    togglePlay: (s: Segment) => boolean;
-    player: AudioPlayer;
+    recordPlayer: RecordPlayer;
+    togglePlay: (s: RecordPlayer) => void;
 };
 
 function AudioSegment({
-    selected,
-    segment,
+    recordPlayer,
     togglePlay,
-    player,
 }: AudioSegmentProps) {
-    const [seconds, setSeconds] = useState(0);
-    const [playing, setPlaying] = useState(selected);
-    const timerRef = useRef<number>(0);
-    const timer = Timer.fromSeconds(seconds);
-
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
     const bgClass = isDark ? "bg-darkLayer" : "bg-white";
 
+    const { segment, playing } = recordPlayer;
+    const [seconds, setSeconds] = useState(0);
+    const timer = Timer.fromSeconds(seconds);
+    const timerRef = useRef(0);
+
     useEffect(() => {
         const cleanup = () => {
-            if (timerRef.current) {
+            if (timerRef.current != 0) {
                 setSeconds(0);
                 clearInterval(timerRef.current);
             }
@@ -176,20 +180,15 @@ function AudioSegment({
 
         if (playing) {
             timerRef.current = setInterval(() => {
-                setPlaying(player.playing);
-
-                if (player.playing) {
-                    setSeconds((s) => s + 1);
-                } else {
-                    clearInterval(timerRef.current);
-                    setSeconds(0);
-                }
+                setSeconds((s) => s + 1)
             }, 1000);
-        }
+
+        }        
 
         // remove interval when component unmounts
         return cleanup;
     }, [playing]);
+
 
     return (
         <View
@@ -243,12 +242,12 @@ function AudioSegment({
                     (isDark ? "bg-white" : "bg-darkBg") +
                     " w-10 h-10 rounded-full"
                 }
-                onPress={() => setPlaying(togglePlay(segment))}
+                onPress={() => togglePlay(recordPlayer)}
             >
                 <View className="m-auto">
                     <FontAwesome6
                         size={18}
-                        name={playing && selected ? "pause" : "play"}
+                        name={playing ? "pause" : "play"}
                         color="#006FFF"
                     />
                 </View>
