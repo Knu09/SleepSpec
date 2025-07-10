@@ -113,6 +113,7 @@ export enum CLASS {
 export type Evaluations = {
     classes: CLASS[];
     scores: number[];
+    decision_scores: number[];
 };
 
 export type ClassResult = {
@@ -130,6 +131,7 @@ export namespace CLASS {
         confidence_score: number;
         classes: string[];
         scores: number[];
+        decision_scores: number[];
         sd_prob: number;
         nsd_prob: number;
         decision_score: number;
@@ -160,6 +162,7 @@ export namespace CLASS {
             confidence_score,
             classes,
             scores,
+            decision_scores,
             sd_prob,
             nsd_prob,
             decision_score,
@@ -181,6 +184,7 @@ export namespace CLASS {
                     c === "post" ? CLASS.POST : CLASS.PRE,
                 ),
                 scores,
+                decision_scores,
             },
         };
 
@@ -193,6 +197,10 @@ export namespace CLASS {
 
     export function getConfScorePercent(self: ClassResult | Segment): string {
         return toPercent(self.confidence_score);
+    }
+
+    export function getDecScorePercent(self: ClassResult | Segment): string {
+        return self.decision_score.toFixed(4);
     }
 
     export function toPercent(n: number) {
