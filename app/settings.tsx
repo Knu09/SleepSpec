@@ -66,28 +66,7 @@ export default function Settings() {
                                 <Text
                                     className={currentText + " font-publicsans"}
                                 >
-                                    Noise Reduction
-                                </Text>
-                                <Switch
-                                    trackColor={{
-                                        false:
-                                            currentTheme === "dark"
-                                                ? "#808080"
-                                                : "#ccc",
-                                        true: "#006fff", // active color
-                                    }}
-                                    thumbColor={
-                                        currentTheme === "dark"
-                                            ? "#eee"
-                                            : "#fff"
-                                    }
-                                />
-                            </View>
-                            <View className="flex flex-row justify-between items-center">
-                                <Text
-                                    className={currentText + " font-publicsans"}
-                                >
-                                    Background Noise Remover
+                                    Background Noise Removal
                                 </Text>
                                 <Switch
                                     trackColor={{
