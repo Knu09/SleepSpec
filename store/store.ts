@@ -72,11 +72,18 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
                 return dest
                     .list()
                     .filter((entry) => entry instanceof File)
-                    .map((file, i) => {
+                    .map((file) => {
                         // remove 'file://' substring
                         const cut = "file://".length;
                         const audiopath = file.uri.substring(cut);
-                        return { id: i + 1, uri: audiopath };
+
+                        const prefix = "segment_".length;
+                        const ext = file.name.search(".wav");
+                        const id = parseInt(
+                            file.name.substring(prefix, ext)
+                        );
+
+                        return { id, uri: audiopath };
                     });
             } catch (error) {
                 console.error("Error:", error);
