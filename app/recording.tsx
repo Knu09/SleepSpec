@@ -518,14 +518,14 @@ export default function Recording() {
                                             textClass + " text-center mt-4"
                                         }
                                     >
-                                        Tap{"  "}
+                                        Hold{"  "}
                                         <Icon
                                             name="microphone"
                                             size={16}
                                             color={micColor}
                                         />
                                         {"  "}
-                                        to Resume Recording
+                                        to Stop Recording
                                     </Text>
                                 ) : (
                                     <View className="flex-row justify-center items-center mt-4">
