@@ -79,9 +79,7 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
 
                         const prefix = "segment_".length;
                         const ext = file.name.search(".wav");
-                        const id = parseInt(
-                            file.name.substring(prefix, ext)
-                        );
+                        const id = parseInt(file.name.substring(prefix, ext));
 
                         return { id, uri: audiopath };
                     });
@@ -100,12 +98,19 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
             return [];
         }
 
+        console.log(
+            "Segments:",
+            segments.map((s) => s.id),
+        );
+        console.log("Classes:", classes);
+        console.log("Scores:", scores);
+
         return segments
+            .sort((a, b) => a.id - b.id)
             .map((segment, i) => ({
                 ...segment,
                 class: classes[i],
                 confidence_score: scores[i],
-            }))
-            .sort((a, b) => a.id - b.id);
+            }));
     },
 }));
