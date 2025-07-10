@@ -23,6 +23,7 @@ export type Segment = {
     uri: string;
     class: CLASS;
     confidence_score: number;
+    decision_score: number;
 };
 
 type SegmentStore = {
@@ -92,25 +93,22 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
 
         set({ pendingSegments: fetchSegments() });
     },
-    syncResultsFrom: ({ classes, scores }, segments) => {
-        if (classes.length != scores.length) {
-            console.error("Insufficient classes or scores received!");
+    syncResultsFrom: ({ classes, scores, decision_scores }, segments) => {
+        if (
+            classes.length != scores.length ||
+            segments.length !== classes.length
+        ) {
+            console.error("Mismatch in segments/classes/scores lengths!");
             return [];
         }
 
-        console.log(
-            "Segments:",
-            segments.map((s) => s.id),
-        );
-        console.log("Classes:", classes);
-        console.log("Scores:", scores);
+        const sortedSegments = [...segments].sort((a, b) => a.id - b.id);
 
-        return segments
-            .sort((a, b) => a.id - b.id)
-            .map((segment, i) => ({
-                ...segment,
-                class: classes[i],
-                confidence_score: scores[i],
-            }));
+        return sortedSegments.map((segment, i) => ({
+            ...segment,
+            class: classes[i],
+            confidence_score: scores[i],
+            decision_score: decision_scores[i],
+        }));
     },
 }));
