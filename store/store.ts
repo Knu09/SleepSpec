@@ -23,6 +23,7 @@ export type Segment = {
     uri: string;
     class: CLASS;
     confidence_score: number;
+    decision_score: number;
 };
 
 type SegmentStore = {
@@ -79,9 +80,7 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
 
                         const prefix = "segment_".length;
                         const ext = file.name.search(".wav");
-                        const id = parseInt(
-                            file.name.substring(prefix, ext)
-                        );
+                        const id = parseInt(file.name.substring(prefix, ext));
 
                         return { id, uri: audiopath };
                     });
@@ -94,18 +93,22 @@ export const useSegmentStore = create<SegmentStore>((set) => ({
 
         set({ pendingSegments: fetchSegments() });
     },
-    syncResultsFrom: ({ classes, scores }, segments) => {
-        if (classes.length != scores.length) {
-            console.error("Insufficient classes or scores received!");
+    syncResultsFrom: ({ classes, scores, decision_scores }, segments) => {
+        if (
+            classes.length != scores.length ||
+            segments.length !== classes.length
+        ) {
+            console.error("Mismatch in segments/classes/scores lengths!");
             return [];
         }
 
-        return segments
-            .map((segment, i) => ({
-                ...segment,
-                class: classes[i],
-                confidence_score: scores[i],
-            }))
-            .sort((a, b) => a.id - b.id);
+        const sortedSegments = [...segments].sort((a, b) => a.id - b.id);
+
+        return sortedSegments.map((segment, i) => ({
+            ...segment,
+            class: classes[i],
+            confidence_score: scores[i],
+            decision_score: decision_scores[i],
+        }));
     },
 }));

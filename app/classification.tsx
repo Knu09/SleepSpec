@@ -235,6 +235,24 @@ function AudioSegment({
                         {CLASS.getConfScorePercent(segment)}
                     </Text>
                 </View>
+                <View className="flex flex-row">
+                    <Text
+                        className={
+                            textClass +
+                            " font-bold font-publicsans text-md opacity-80"
+                        }
+                    >
+                        Decision Score:&nbsp;
+                    </Text>
+                    <Text
+                        className={
+                            (isDark ? "text-secondary/50" : "text-darkBg/50") +
+                            " font-publicsansLight text-md"
+                        }
+                    >
+                        {CLASS.getDecScorePercent(segment)}
+                    </Text>
+                </View>
             </View>
 
             <TouchableOpacity
