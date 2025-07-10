@@ -20,9 +20,6 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-const PLAY_BTN = require("@/assets/images/play-btn.svg");
-const PAUSE_BTN = require("@/assets/images/pause-btn.svg");
-
 export default function Classification() {
     const router = useRouter();
     const { result } = useClassStore();
