@@ -13,37 +13,37 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function TrainingResults() {
     const training_results = [
         {
-            title: "Test BAcc",
+            title: "BAcc",
             description:
-                "Balanced Accuracy (BAcc) is like a fair judge — it looks at how well the model performs across all classes, especially when things aren’t evenly split. A score of 75% means it did a good job telling apart sleep-deprived and non-sleep-deprived voices overall.",
+                "Balanced Accuracy (BAcc) is like a fair judge — it looks at how well the model performs across all classes, especially when things aren’t evenly split. A score of 85.90% means it did a good job telling apart sleep-deprived and non-sleep-deprived voices overall.",
             image: "",
             isOpened: true,
         },
         {
-            title: "Test Accuracy",
+            title: "Accuracy",
             description:
-                "This is the percentage of times the model got it right. At 74.9%, it means that almost 3 out of 4 times, the system correctly identified whether someone was sleep-deprived or not.",
+                "This is the percentage of times the model got it right. At 85.88%, it means that almost 3 out of 4 times, the system correctly identified whether someone was sleep-deprived or not.",
             image: "",
             isOpened: false,
         },
         {
-            title: "Test Precision",
+            title: "Precision",
             description:
-                "Precision tells us how many times the model was right when it said someone was sleep-deprived. At 75.2%, it means most of the time, when the system raised a flag, it was for a good reason.",
+                "Precision tells us how many times the model was right when it said someone was sleep-deprived. At 85.90%, it means most of the time, when the system raised a flag, it was for a good reason.",
             image: "",
             isOpened: false,
         },
         {
-            title: "Test Recall",
+            title: "Recall",
             description:
-                "Recall measures how well the system catches actual cases of sleep deprivation. With a 74.5% score, it means it successfully found most of the people who were really sleep-deprived.",
+                "Recall measures how well the system catches actual cases of sleep deprivation. With a 85.88% score, it means it successfully found most of the people who were really sleep-deprived.",
             image: "",
             isOpened: false,
         },
         {
-            title: "Test F1-Score",
+            title: "F1-Score",
             description:
-                "The F1-Score balances both precision and recall. A 74.8% score means the system isn’t just accurate — it’s also consistent in catching sleep deprivation without crying wolf too often.",
+                "The F1-Score balances both precision and recall. A 85.88% score indicates that the system is not only accurate, but also reliable in detection of mild sleep deprivation without the cause of excessive false alarms.",
             image: "",
             isOpened: false,
         },
@@ -142,8 +142,9 @@ export default function TrainingResults() {
                             Balanced Accuracy (BAcc), Precision, Recall, and F1
                             Score
                         </Text>
-                        , demonstrating robust performance in distinguishing
-                        between pre-sleep and post-sleep deprivation sessions.
+                        , demonstrating consistent and robust performance in
+                        distinguishing between before and after mild sleep
+                        deprivation.
                     </Text>
                 </View>
 
@@ -161,25 +162,25 @@ export default function TrainingResults() {
                             // borderRadius: 6,
                         }}
                     >
-                        <MetricCard value={75} label="Balanced Accuracy" />
+                        <MetricCard value={85.9} label="Balanced Accuracy" />
                         <MetricCard
-                            value={74.9}
-                            label="Test Accuracy"
+                            value={85.88}
+                            label="Accuracy"
                             color="#38BDF8"
                         />
                         <MetricCard
-                            value={75.2}
-                            label="Test Precision"
+                            value={85.9}
+                            label="Precision"
                             color="#FBBF24"
                         />
                         <MetricCard
-                            value={74.5}
-                            label="Test Recall"
+                            value={85.88}
+                            label="Recall"
                             color="#F87171"
                         />
                         <MetricCard
-                            value={74.8}
-                            label="Test F1-Score"
+                            value={85.88}
+                            label="F1-Score"
                             color="#A78BFA"
                         />
                         <View style={{ width: 34 }}></View>
