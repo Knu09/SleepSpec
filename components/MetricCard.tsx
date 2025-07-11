@@ -40,7 +40,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, label, color }) => {
                             textClass + " font-publicsans font-bold text-xl"
                         }
                     >
-                        {`${fill.toFixed(1)}%`}
+                        {`${fill.toFixed(2)}%`}
                     </Text>
                 )}
             </AnimatedCircularProgress>
