@@ -98,41 +98,35 @@ export default function Analysis() {
                                 {advices.summary}
                             </Text>
                         </View>
-
-                        <FlatList
-                            data={advices.contents}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <View className="flex flex-row gap-2">
+                        {advices.contents.map((item, index) => (
+                            <View className="flex flex-row gap-2" key={index}>
+                                <Text
+                                    className={
+                                        textClass + " text-sm font-publicsans"
+                                    }
+                                >
+                                    {"\u25CF"}
+                                </Text>
+                                <View className="flex-1">
                                     <Text
                                         className={
                                             textClass +
-                                            " text-sm font-publicsans"
+                                            " text-sm font-bold font-publicsans"
                                         }
                                     >
-                                        {"\u25CF"}
-                                    </Text>
-                                    <View className="flex-1">
+                                        {item.title}:{" "}
                                         <Text
                                             className={
                                                 textClass +
-                                                " text-sm font-bold font-publicsans"
+                                                " text-sm font-normal font-publicsans"
                                             }
                                         >
-                                            {item.title}:{" "}
-                                            <Text
-                                                className={
-                                                    textClass +
-                                                    " text-sm font-normal font-publicsans"
-                                                }
-                                            >
-                                                {item.desc}
-                                            </Text>
+                                            {item.desc}
                                         </Text>
-                                    </View>
+                                    </Text>
                                 </View>
-                            )}
-                        />
+                            </View>
+                        ))}
                     </View>
 
                     <View className="">
