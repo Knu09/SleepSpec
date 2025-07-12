@@ -101,14 +101,14 @@ export default function Analysis() {
                             data={advices.contents}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
-                                <View className="flex flex-row gap-4">
+                                <View className="flex flex-row gap-2">
                                     <Text
                                         className={
                                             textClass +
                                             " text-sm font-publicsans"
                                         }
                                     >
-                                        •
+                                        {"\u25CF"}
                                     </Text>
                                     <View className="flex-1">
                                         <Text

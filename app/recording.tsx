@@ -765,10 +765,10 @@ export default function Recording() {
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " text-lg font-normal font-publicsans opacity-80 ps-4"
+                                                            " text-sm font-normal font-publicsans opacity-80 ps-4"
                                                         }
                                                     >
-                                                        •
+                                                        {"\u25CF"}
                                                     </Text>
                                                     <Text
                                                         className={
