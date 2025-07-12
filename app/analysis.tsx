@@ -22,6 +22,8 @@ import { useRouter } from "expo-router";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { ThemeContext } from "@/context/ThemeContext";
 import { BlurView } from "expo-blur";
+import Card from "@/components/Card";
+import { ScrollView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -66,11 +68,11 @@ export default function Analysis() {
     return (
         <SafeAreaView className={bgClass + " flex-1"}>
             <Header title={"Analysis"} back={true} menu={true} />
-            <View className="my-5 px-3 flex-1 relative pb-28">
+            <ScrollView className="pt-5 px-3 flex-1 relative">
                 <View
                     className={
                         (isDark ? "bg-darkLayer" : "bg-white") +
-                        " px-4 py-6 rounded-3xl"
+                        " px-4 py-6 rounded-3xl gap-6"
                     }
                     style={styles.shadowBox}
                 >
@@ -86,7 +88,7 @@ export default function Analysis() {
                         </Text>
                     </View>
 
-                    <View className="my-6">
+                    <View className="">
                         <View className="gap-6 mb-4">
                             <Text
                                 className={
@@ -384,7 +386,27 @@ export default function Analysis() {
                         </BlurView>
                     </Modal>
                 </View>
-            </View>
+
+                <View className="mt-5 mb-32">
+                    <Text
+                        className={textClass + " font-poppins font-bold mb-2"}
+                    >
+                        References
+                    </Text>
+                    <View className="gap-3">
+                        <Card
+                            title="8 things doctors wish patients knew about sleep habits"
+                            desc="What people do throughout the day—especially before bedtime—can play a major role on their sleeping patterns by promoting healthy sleep or contributing to sleeplessness."
+                            url="https://www.ama-assn.org/delivering-care/public-health/8-things-doctors-wish-patients-knew-about-healthy-sleep-habits?utm_source=chatgpt.com"
+                        />
+                        <Card
+                            title="Sleep Deprivation"
+                            desc="Sleep deprivation is when you aren’t sleeping enough, or you aren’t getting good, quality sleep."
+                            url="https://my.clevelandclinic.org/health/diseases/23970-sleep-deprivation"
+                        />
+                    </View>
+                </View>
+            </ScrollView>
 
             <View
                 style={{
