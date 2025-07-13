@@ -55,7 +55,7 @@ export default function Index() {
                 <View
                     style={styles.shadowBox}
                     className={
-                        (isDark ? "bg-darkBg" : "bg-white") +
+                        (isDark ? "bg-darkLayer" : "bg-white") +
                         " gap-16 rounded-3xl py-10 px-2"
                     }
                 >
