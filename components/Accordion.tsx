@@ -162,14 +162,14 @@ export default function Accordion({
                                 {list.items.map((item, idx) => (
                                     <View
                                         key={idx}
-                                        className="flex flex-row gap-4 mb-2"
+                                        className="flex flex-row gap-3 mb-2"
                                     >
                                         <Text
-                                            className={textClass + " leading-6"}
+                                            className={textClass + " leading-5"}
                                         >
                                             {list.type === "number"
                                                 ? `${idx + 1}.`
-                                                : "•"}
+                                                : "\u25CF"}
                                         </Text>
                                         <View className="flex-1">
                                             <Text
