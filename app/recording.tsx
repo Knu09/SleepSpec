@@ -259,7 +259,7 @@ export default function Recording() {
                                 <AntDesign
                                     name="right"
                                     size={14}
-                                    color="black"
+                                    color={iconColor}
                                 />
                             </TouchableOpacity>
 
