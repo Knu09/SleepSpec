@@ -99,7 +99,10 @@ export default function Analysis() {
                             </Text>
                         </View>
                         {advices.contents.map((item, index) => (
-                            <View className="flex flex-row gap-2" key={index}>
+                            <View
+                                className="flex flex-row gap-2 mb-2"
+                                key={index}
+                            >
                                 <Text
                                     className={
                                         textClass + " text-sm font-publicsans"
