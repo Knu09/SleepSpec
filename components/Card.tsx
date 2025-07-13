@@ -9,11 +9,17 @@ import {
     View,
 } from "react-native";
 
-const Card = ({ title, desc, url }) => {
+type CardProps = {
+    title: string;
+    desc: string;
+    url: string;
+};
+
+const Card = (props: CardProps) => {
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
-    const bgClass = isDark ? "#01000F" : "#FFFFFF";
+    const bgClass = isDark ? "#161B21" : "#FFFFFF";
     const underlayBgClass = isDark ? "#01000F80" : "#FFFFFF80";
     const borderColor = isDark ? "#006FFF" : "#585858";
     const topStopColor = isDark ? "#006FFF" : "#01000F";
@@ -32,7 +38,7 @@ const Card = ({ title, desc, url }) => {
             className=" px-4 py-3 rounded-md"
             activeOpacity={0.8}
         >
-            <View className="gap-2">
+            <View className="flex gap-2">
                 <View className="gap-1">
                     <Text
                         className={
@@ -40,20 +46,20 @@ const Card = ({ title, desc, url }) => {
                             " text-lg leading-5 font-bold font-publicsans"
                         }
                     >
-                        {title}
+                        {props.title}
                     </Text>
                     <Text
                         className={
                             textClass + " text-sm font-publicsans opacity-80"
                         }
                     >
-                        {desc}
+                        {props.desc}
                     </Text>
                 </View>
                 <TouchableOpacity
-                    className=""
+                    className="self-start"
                     onPress={() => {
-                        navigateToSite(url);
+                        navigateToSite(props.url);
                     }}
                 >
                     <Text className="text-primaryBlue text-sm font-publicsansLight font-medium">
