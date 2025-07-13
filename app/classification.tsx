@@ -23,7 +23,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 type RecordPlayer = {
     segment: Segment;
     playing: boolean;
-}
+};
 
 export default function Classification() {
     const router = useRouter();
@@ -55,12 +55,14 @@ export default function Classification() {
             }
 
             setDownload(Process.READY);
-            setRecordPlayers(syncResultsFrom(result.evals, segments).map(segment => {
-                return {
-                    segment,
-                    playing: false,
-                } as RecordPlayer
-            }));
+            setRecordPlayers(
+                syncResultsFrom(result.evals, segments).map((segment) => {
+                    return {
+                        segment,
+                        playing: false,
+                    } as RecordPlayer;
+                }),
+            );
         });
     }, []);
 
@@ -68,6 +70,7 @@ export default function Classification() {
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
         "PublicSans-Regular": require("../assets/fonts/Public_Sans/static/PublicSans-Regular.ttf"),
+        "PublicSans-Light": require("../assets/fonts/Public_Sans/static/PublicSans-Light.ttf"),
         "PublicSans-Bold": require("../assets/fonts/Public_Sans/static/PublicSans-Bold.ttf"),
     });
 
@@ -76,25 +79,27 @@ export default function Classification() {
     }, [fontsLoaded]);
 
     const togglePlay = (rp: RecordPlayer) => {
-        setRecordPlayers(prevPlayers => prevPlayers.map(recordPlayer => {
-            const { segment, playing } = recordPlayer;
-            if (segment.id == rp.segment.id) {
-                if (playing) {
-                    player.pause();
-                    player.seekTo(0);
-                } else {
-                    player.replace(segment.uri)
-                    player.play();
+        setRecordPlayers((prevPlayers) =>
+            prevPlayers.map((recordPlayer) => {
+                const { segment, playing } = recordPlayer;
+                if (segment.id == rp.segment.id) {
+                    if (playing) {
+                        player.pause();
+                        player.seekTo(0);
+                    } else {
+                        player.replace(segment.uri);
+                        player.play();
+                    }
+
+                    return {
+                        ...recordPlayer,
+                        playing: !playing,
+                    } as RecordPlayer;
                 }
 
-                return {
-                    ...recordPlayer,
-                    playing: !playing,
-                } as RecordPlayer
-            }
-
-            return { ...recordPlayer, playing: false } as RecordPlayer
-        }))
+                return { ...recordPlayer, playing: false } as RecordPlayer;
+            }),
+        );
     };
 
     if (!result) {
@@ -156,10 +161,7 @@ type AudioSegmentProps = {
     togglePlay: (s: RecordPlayer) => void;
 };
 
-function AudioSegment({
-    recordPlayer,
-    togglePlay,
-}: AudioSegmentProps) {
+function AudioSegment({ recordPlayer, togglePlay }: AudioSegmentProps) {
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
@@ -180,15 +182,13 @@ function AudioSegment({
 
         if (playing) {
             timerRef.current = setInterval(() => {
-                setSeconds((s) => s + 1)
+                setSeconds((s) => s + 1);
             }, 1000);
-
-        }        
+        }
 
         // remove interval when component unmounts
         return cleanup;
     }, [playing]);
-
 
     return (
         <View
@@ -198,78 +198,107 @@ function AudioSegment({
             }
         >
             <View>
-                <Text
-                    className={textClass + " text-lg font-bold font-publicsans"}
-                >
-                    Recording Segment {segment.id}
-                </Text>
-                <Text
-                    className={
-                        (isDark ? "text-secondary/50" : "text-darkBg/50") +
-                        " font-publicsansLight text-md"
-                    }
-                >
-                    {Timer.format(timer)} / 00:15 &nbsp;&nbsp;
-                </Text>
-                <Text
-                    className="font-semibold font-pulicsans text-md"
-                    style={{ color: CLASS.getTitleColor(segment) }}
-                >
-                    {CLASS.getTitle(segment)}
-                </Text>
-                <View className="flex flex-row">
-                    <Text
-                        className={
-                            textClass +
-                            " font-bold font-publicsans text-md opacity-80"
-                        }
-                    >
-                        Confidence Score:&nbsp;
-                    </Text>
-                    <Text
-                        className={
-                            (isDark ? "text-secondary/50" : "text-darkBg/50") +
-                            " font-publicsansLight text-md"
-                        }
-                    >
-                        {CLASS.getConfScorePercent(segment)}
-                    </Text>
+                <View className="flex flex-row justify-between w-full">
+                    <View className="flex flex-col">
+                        <Text
+                            className={
+                                textClass + " text-lg font-bold font-publicsans"
+                            }
+                        >
+                            Recording Segment {segment.id}
+                        </Text>
+                        <Text
+                            className={
+                                (isDark
+                                    ? "text-secondary/50"
+                                    : "text-darkBg/50") +
+                                " font-publicsansLight text-md leading-4"
+                            }
+                        >
+                            {Timer.format(timer)} / 00:15 &nbsp;&nbsp;
+                        </Text>
+                        <Text
+                            className="font-semibold font-pulicsans text-md"
+                            style={{ color: CLASS.getTitleColor(segment) }}
+                        >
+                            {CLASS.getTitle(segment)}
+                        </Text>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity
+                            className={
+                                (isDark ? "bg-white" : "bg-darkBg") +
+                                " w-10 h-10 rounded-full"
+                            }
+                            onPress={() => togglePlay(recordPlayer)}
+                        >
+                            <View className="m-auto">
+                                <FontAwesome6
+                                    size={18}
+                                    name={playing ? "pause" : "play"}
+                                    color="#006FFF"
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View className="flex flex-row">
+
+                {/* Divider */}
+                <View
+                    style={{
+                        marginVertical: 10,
+                        height: 0.5,
+                        backgroundColor: "#585858CC",
+                    }}
+                />
+                <View>
                     <Text
                         className={
                             textClass +
-                            " font-bold font-publicsans text-md opacity-80"
+                            " font-publicsans font-bold text-md mb-2"
                         }
                     >
-                        Decision Score:&nbsp;
+                        Detection Logs
                     </Text>
-                    <Text
-                        className={
-                            (isDark ? "text-secondary/50" : "text-darkBg/50") +
-                            " font-publicsansLight text-md"
-                        }
-                    >
-                        {CLASS.getDecScorePercent(segment)}
-                    </Text>
+                    <View className="flex flex-row justify-between">
+                        <Text
+                            className={
+                                textClass +
+                                " font-publicsansLight text-md opacity-80"
+                            }
+                        >
+                            Confidence Score&nbsp;
+                        </Text>
+                        <Text
+                            className={
+                                (isDark ? "text-secondary" : "text-darkBg") +
+                                " font-publicsansLight opacity-80 text-md"
+                            }
+                        >
+                            {CLASS.getConfScorePercent(segment)}
+                        </Text>
+                    </View>
+                    <View className="flex flex-row justify-between">
+                        <Text
+                            className={
+                                textClass +
+                                " font-publicsansLight text-md opacity-80 leading-5"
+                            }
+                        >
+                            Decision Score&nbsp;
+                        </Text>
+                        <Text
+                            className={
+                                (isDark ? "text-secondary" : "text-darkBg") +
+                                " font-publicsansLight opacity-80 text-md leading-5"
+                            }
+                        >
+                            {CLASS.getDecScorePercent(segment)}
+                        </Text>
+                    </View>
                 </View>
             </View>
-
-            <TouchableOpacity
-                className={
-                    (isDark ? "bg-white" : "bg-darkBg") +
-                    " w-10 h-10 rounded-full"
-                }
-                onPress={() => togglePlay(recordPlayer)}
-            >
-                <View className="m-auto">
-                    <FontAwesome6
-                        size={18}
-                        name={playing ? "pause" : "play"}
-                        color="#006FFF"
-                    />
-                </View>
-            </TouchableOpacity>
         </View>
     );
 }

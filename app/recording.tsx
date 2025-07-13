@@ -903,11 +903,7 @@ export default function Recording() {
                 </BlurView>
             </Modal>
 
-            <Overlay
-                heading="Processing Audio Data"
-                state={upload}
-                redirect="/analysis"
-            />
+            <Overlay heading="Processing" state={upload} redirect="/analysis" />
         </SafeAreaView>
     );
 }
