@@ -193,7 +193,7 @@ function AudioSegment({
                     cleanup();
                     togglePlay(recordPlayer);
                 } else {
-                    setSeconds((s) => s + 1)
+                    setSeconds((s) => s + 1);
                 }
             }, 1000);
         }
@@ -203,7 +203,9 @@ function AudioSegment({
     }, [playing]);
 
     return (
-        <View
+        <TouchableOpacity
+            onPress={() => togglePlay(recordPlayer)}
+            activeOpacity={0.9}
             style={{ elevation: 3 }}
             className={
                 bgClass + " flex flex-row justify-between rounded-lg p-4"
@@ -240,7 +242,7 @@ function AudioSegment({
                     <View>
                         <TouchableOpacity
                             className={
-                                (isDark ? "bg-white" : "bg-darkBg") +
+                                (isDark ? "bg-white" : "bg-darkBg/10") +
                                 " w-10 h-10 rounded-full"
                             }
                             onPress={() => togglePlay(recordPlayer)}
@@ -311,7 +313,7 @@ function AudioSegment({
                     </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
