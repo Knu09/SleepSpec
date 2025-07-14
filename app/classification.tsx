@@ -132,6 +132,7 @@ export default function Classification() {
                         <AudioSegment
                             key={recordPlayer.segment.id}
                             recordPlayer={recordPlayer}
+                            audioPlayer={player}
                             togglePlay={togglePlay}
                         />
                     ))}
@@ -158,10 +159,15 @@ export default function Classification() {
 
 type AudioSegmentProps = {
     recordPlayer: RecordPlayer;
+    audioPlayer: AudioPlayer;
     togglePlay: (s: RecordPlayer) => void;
 };
 
-function AudioSegment({ recordPlayer, togglePlay }: AudioSegmentProps) {
+function AudioSegment({
+    recordPlayer,
+    audioPlayer,
+    togglePlay,
+}: AudioSegmentProps) {
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
@@ -170,19 +176,25 @@ function AudioSegment({ recordPlayer, togglePlay }: AudioSegmentProps) {
     const { segment, playing } = recordPlayer;
     const [seconds, setSeconds] = useState(0);
     const timer = Timer.fromSeconds(seconds);
-    const timerRef = useRef(0);
+    const timerRef = useRef<number | null>(null);
 
     useEffect(() => {
         const cleanup = () => {
-            if (timerRef.current != 0) {
-                setSeconds(0);
+            if (timerRef.current) {
                 clearInterval(timerRef.current);
+                setSeconds(0);
+                timerRef.current = null;
             }
         };
 
         if (playing) {
             timerRef.current = setInterval(() => {
-                setSeconds((s) => s + 1);
+                if (!audioPlayer.playing) {
+                    cleanup();
+                    togglePlay(recordPlayer);
+                } else {
+                    setSeconds((s) => s + 1)
+                }
             }, 1000);
         }
 
