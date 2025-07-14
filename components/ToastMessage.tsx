@@ -1,4 +1,6 @@
 import { ThemeContext } from "@/context/ThemeContext";
+import { getStyles } from "@/types/types";
+import { Feather } from "@expo/vector-icons";
 import {
     forwardRef,
     useCallback,
@@ -49,6 +51,8 @@ const ToastMessage = forwardRef(({}, ref) => {
         description: "",
     });
 
+    const { toastIconColor, Color } = getStyles(state.type);
+
     const updateState = (newState: object) => {
         setState((prevState: any) => ({
             ...prevState,
@@ -97,17 +101,25 @@ const ToastMessage = forwardRef(({}, ref) => {
         <>
             {state.isShow && (
                 <Animated.View
-                    className="absolute top-15 right-20 rounded-md left-20 p-2 bg-white"
+                    className={`absolute right-20 rounded-md left-20 p-2 bg-white flex-row items-center gap-2`}
                     style={[{ zIndex: 1000, elevation: 3 }, animatedTopStyle]}
                 >
-                    <Text className="text-darkBg font-publicsansBold">
-                        {state.title}
-                    </Text>
-                    {state.description && (
-                        <Text className="text-darkBg font-publicsansLight opacity-80">
-                            {state.description}
+                    <View>
+                        <Feather name="info" size={20} color={toastIconColor} />
+                    </View>
+                    <View>
+                        <Text className={`text-${Color} font-publicsansBold`}>
+                            {state.title}
                         </Text>
-                    )}
+
+                        {state.description && (
+                            <Text
+                                className={`text-${Color} text-sm font-publicsansLight opacity-80`}
+                            >
+                                {state.description}
+                            </Text>
+                        )}
+                    </View>
                 </Animated.View>
             )}
         </>
