@@ -208,6 +208,21 @@ export namespace CLASS {
     }
 }
 
+export const getStyles = (type: string) => {
+    switch (type) {
+        case "info":
+            return {
+                toastIconColor: "#006FFF",
+                Color: "primaryBlue",
+            };
+        default:
+            return {
+                toastIconColor: "#01000F",
+                Color: "darkBg",
+            };
+    }
+};
+
 const SCRIPTS: Record<LANG, Script> = {
     [LANG.ENG1]: {
         book: "The Prince",
