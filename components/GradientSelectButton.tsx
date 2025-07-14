@@ -1,4 +1,9 @@
-import { GestureResponderEvent, Pressable, Text } from "react-native";
+import {
+    GestureResponderEvent,
+    Pressable,
+    Text,
+    TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -23,7 +28,8 @@ export default function GradientSelectButton({
             className="flex items-center"
             style={{ borderRadius: 100 }}
         >
-            <Pressable
+            <TouchableOpacity
+                activeOpacity={0.9}
                 className={
                     (isDark ? "bg-darkBg" : "bg-white") +
                     " rounded-full m-[1px] gap-4 justify-center px-10"
@@ -38,7 +44,7 @@ export default function GradientSelectButton({
                 >
                     SELECT
                 </Text>
-            </Pressable>
+            </TouchableOpacity>
         </LinearGradient>
     );
 }

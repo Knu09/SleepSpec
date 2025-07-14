@@ -1,6 +1,6 @@
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
-import { Link, useFocusEffect } from "expo-router";
+import { Link, useFocusEffect, useRouter } from "expo-router";
 import {
     useCallback,
     useContext,
@@ -121,6 +121,12 @@ export default function Recording() {
         : "border-divider border-t-[1px]";
     const modalColor = isDark ? "bg-darkLayer" : "bg-white";
     const iconColor = isDark ? "#FFF" : "#01000F";
+
+    const router = useRouter();
+
+    const navigateTo = (screen: string) => {
+        router.push(`/${screen}` as any);
+    };
 
     // INFO: Modal useState
     const [modalVisible, setModalVisible] = useState(false);
@@ -244,9 +250,18 @@ export default function Recording() {
                             Selected Speech Script
                         </Text>
                         <View className="flex flex-row justify-between items-center pe-2">
-                            <Link href="/select_language" className="w-28">
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                onPress={() => navigateTo("select_language")}
+                                className="flex flex-row items-center gap-4"
+                            >
                                 <LanguageSelected />
-                            </Link>
+                                <AntDesign
+                                    name="right"
+                                    size={14}
+                                    color={iconColor}
+                                />
+                            </TouchableOpacity>
 
                             <TouchableOpacity
                                 onPress={() => setModalVisible(true)}
@@ -434,7 +449,8 @@ export default function Recording() {
                         </Text>
                     </View>
                     <View className="flex justify-center items-center mb-2 mt-1">
-                        <Pressable
+                        <TouchableOpacity
+                            activeOpacity={0.9}
                             onPress={() => {
                                 if (
                                     recordState.isRecording &&
@@ -486,7 +502,7 @@ export default function Recording() {
                                     )}
                                 </View>
                             </LinearGradient>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
 
                     <View className="text-center gap-2">
@@ -765,10 +781,10 @@ export default function Recording() {
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " text-lg font-normal font-publicsans opacity-80 ps-4"
+                                                            " text-sm font-normal font-publicsans opacity-80 ps-4"
                                                         }
                                                     >
-                                                        •
+                                                        {"\u25CF"}
                                                     </Text>
                                                     <Text
                                                         className={
@@ -903,11 +919,7 @@ export default function Recording() {
                 </BlurView>
             </Modal>
 
-            <Overlay
-                heading="Processing Audio Data"
-                state={upload}
-                redirect="/analysis"
-            />
+            <Overlay heading="Processing" state={upload} redirect="/analysis" />
         </SafeAreaView>
     );
 }
