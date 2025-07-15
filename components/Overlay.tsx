@@ -31,18 +31,20 @@ export default function Overlay({
     }, [state, router]);
 
     // Do not render overlay
-    if (state != Process.PENDING) return;
+    if (state != Process.PENDING) return null;
 
     return (
         <View
-            className={bgClass + " flex justify-center items-center w-full"}
+            className={bgClass + ""}
             style={{
                 position: "absolute",
-                top: 90,
+                top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                zIndex: 1000,
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 500,
             }}
         >
             <View className="flex items-center gap-2">
