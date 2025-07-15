@@ -115,7 +115,9 @@ export default function Classification() {
     return (
         <SafeAreaView className={bgClass} style={styles.container}>
             <Header title={"Classification"} back={true} menu={true} />
-            <ScrollView className="mt-5 px-3 relative flex flex-grow flex-col">
+
+            <Overlay heading="Downloading Audio Segments" state={download} />
+            <ScrollView className="pt-5 px-3 relative">
                 <View className="flex justify-center items-center text-center text-secondary">
                     <Text className={textClass + " font-publicsans"}>
                         You are
@@ -127,7 +129,7 @@ export default function Classification() {
                         {CLASS.getTitle(result)}
                     </Text>
                 </View>
-                <View className="mt-4 mb-28 gap-4">
+                <View className="mt-4 pb-28 gap-4">
                     {recordPlayers.map((recordPlayer) => (
                         <AudioSegment
                             key={recordPlayer.segment.id}
@@ -141,7 +143,7 @@ export default function Classification() {
 
             <View
                 style={{
-                    zIndex: 100,
+                    zIndex: 1000,
                     position: "absolute",
                     bottom: 0,
                     left: 0,
@@ -151,8 +153,6 @@ export default function Classification() {
             >
                 <TabNavigation />
             </View>
-
-            <Overlay heading="Downloading Audio Segments" state={download} />
         </SafeAreaView>
     );
 }
