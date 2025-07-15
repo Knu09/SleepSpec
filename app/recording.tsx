@@ -43,6 +43,7 @@ import {
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import ToastMessage from "@/components/ToastMessage";
 
 type RecordingState = {
     timer: Timer;
@@ -230,9 +231,15 @@ export default function Recording() {
         syncSegments();
     }
 
+    const toastMesRef = useRef<any>({});
+
     return (
-        <SafeAreaView className={bgClass} style={styles.container}>
+        <SafeAreaView
+            className={bgClass + " relative"}
+            style={styles.container}
+        >
             <Header title={"Recording"} back={true} menu={true} />
+            <ToastMessage ref={toastMesRef} />
             <View className="my-5 px-3 flex-1">
                 <View
                     style={{ elevation: 3 }}
@@ -249,6 +256,18 @@ export default function Recording() {
                         >
                             Selected Speech Script
                         </Text>
+                        {/* <TouchableOpacity */}
+                        {/*     onPress={() => */}
+                        {/*         toastMesRef.current.show({ */}
+                        {/*             title: "Segmentation", */}
+                        {/*             description: */}
+                        {/*                 "You can freely stop the recording .", */}
+                        {/*             type: "info", */}
+                        {/*         }) */}
+                        {/*     } */}
+                        {/* > */}
+                        {/*     <Text className="text-darkBg">Toast Message</Text> */}
+                        {/* </TouchableOpacity> */}
                         <View className="flex flex-row justify-between items-center pe-2">
                             <TouchableOpacity
                                 activeOpacity={0.5}
@@ -832,7 +851,7 @@ export default function Recording() {
                                             Just above the record button is a
                                             <Text className="font-bold">
                                                 {" "}
-                                                live timer{" "}
+                                                live timer
                                             </Text>
                                             , formatted in
                                             <Text className="font-bold">
