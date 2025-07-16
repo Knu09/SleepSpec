@@ -102,7 +102,8 @@ export default function Recording() {
         recordReducer,
         initialRecordState,
     );
-    const timerRef = useRef<number>(0);
+    const timerRef = useRef<number | null>(null);
+    const secondsRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
@@ -124,6 +125,8 @@ export default function Recording() {
     const iconColor = isDark ? "#FFF" : "#01000F";
 
     const router = useRouter();
+
+    const toastMesRef = useRef<any>({});
 
     const navigateTo = (screen: string) => {
         router.push(`/${screen}` as any);
@@ -175,6 +178,8 @@ export default function Recording() {
         }, [audioRecorder]),
     );
 
+    let hasShownToast = false;
+
     async function recordStart() {
         if (recordState.isRecording) {
             return;
@@ -187,12 +192,27 @@ export default function Recording() {
 
         timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
+
+            secondsRef.current += 1;
+
+            if (secondsRef.current >= 15 && !hasShownToast) {
+                hasShownToast = true;
+                toastMesRef.current?.show({
+                    title: "Segmentation Limit",
+                    description: "Recording exceeded 15 seconds.",
+                    type: "info",
+                    duration: 5000,
+                });
+            }
         }, 1000);
     }
 
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
-        clearInterval(timerRef.current);
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
         await audioRecorder.pause();
     }
 
@@ -210,7 +230,12 @@ export default function Recording() {
         if (!recordState.isRecording) return;
 
         dispatch(RecordAction.STOP);
-        clearInterval(timerRef.current);
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+        secondsRef.current = 0;
+        hasShownToast = false;
 
         await audioRecorder.stop();
 
@@ -230,8 +255,6 @@ export default function Recording() {
         setResult(CLASS.from(result));
         syncSegments();
     }
-
-    const toastMesRef = useRef<any>({});
 
     return (
         <SafeAreaView
