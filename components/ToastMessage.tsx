@@ -101,20 +101,28 @@ const ToastMessage = forwardRef(({}, ref) => {
         <>
             {state.isShow && (
                 <Animated.View
-                    className={`absolute right-20 rounded-md left-20 p-2 bg-white flex-row items-center gap-4`}
-                    style={[{ zIndex: 1000, elevation: 3 }, animatedTopStyle]}
+                    className={`absolute left-10 right-10 rounded-md p-2 flex-row items-center gap-4 bg-white`}
+                    style={[
+                        {
+                            zIndex: 1000,
+                            elevation: 3,
+                            borderLeftColor: toastIconColor,
+                            borderLeftWidth: 2.5,
+                        },
+                        animatedTopStyle,
+                    ]}
                 >
                     <View>
                         <Feather name="info" size={20} color={toastIconColor} />
                     </View>
                     <View className="gap-1">
-                        <Text className={`text-${Color} font-publicsansBold`}>
+                        <Text className={`text-darkBg font-publicsansBold`}>
                             {state.title}
                         </Text>
 
                         {state.description && (
                             <Text
-                                className={`text-${Color} text-sm font-publicsansLight opacity-80 leading-4`}
+                                className={`text-darkBg text-sm font-publicsansLight opacity-80 leading-4`}
                             >
                                 {state.description}
                             </Text>
