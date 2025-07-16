@@ -69,7 +69,7 @@ const ToastMessage = forwardRef(({}, ref) => {
                 type,
             });
             toastTopAnimation.value = withSequence(
-                withTiming(40, { duration: 250 }),
+                withTiming(90, { duration: 250 }),
                 withDelay(
                     duration,
                     withTiming(-100, { duration: 250 }, (finished) => {
@@ -101,7 +101,7 @@ const ToastMessage = forwardRef(({}, ref) => {
         <>
             {state.isShow && (
                 <Animated.View
-                    className={`absolute left-10 right-10 rounded-md p-2 flex-row items-center gap-4 bg-white`}
+                    className="absolute left-10 right-10 rounded-md bg-white"
                     style={[
                         {
                             zIndex: 1000,
@@ -112,21 +112,38 @@ const ToastMessage = forwardRef(({}, ref) => {
                         animatedTopStyle,
                     ]}
                 >
-                    <View>
-                        <Feather name="info" size={20} color={toastIconColor} />
-                    </View>
-                    <View className="gap-1">
-                        <Text className={`text-darkBg font-publicsansBold`}>
-                            {state.title}
-                        </Text>
-
-                        {state.description && (
+                    <View
+                        className="p-2 flex-row items-center justify-center gap-2"
+                        style={{ flexWrap: "nowrap" }}
+                    >
+                        <View className="px-1">
+                            <Feather
+                                name="info"
+                                size={20}
+                                color={toastIconColor}
+                            />
+                        </View>
+                        <View
+                            className="gap-1"
+                            style={{ flexShrink: 1, flexGrow: 1 }}
+                        >
                             <Text
-                                className={`text-darkBg text-sm font-publicsansLight opacity-80 leading-4`}
+                                className="text-darkBg font-publicsansBold"
+                                numberOfLines={0}
+                                style={{ flexWrap: "wrap" }}
                             >
-                                {state.description}
+                                {state.title}
                             </Text>
-                        )}
+                            {state.description && (
+                                <Text
+                                    className="text-darkBg text-sm font-publicsansLight opacity-80 leading-4"
+                                    numberOfLines={0}
+                                    style={{ flexWrap: "wrap" }}
+                                >
+                                    {state.description}
+                                </Text>
+                            )}
+                        </View>
                     </View>
                 </Animated.View>
             )}
