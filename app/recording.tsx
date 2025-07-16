@@ -128,6 +128,8 @@ export default function Recording() {
 
     const toastMesRef = useRef<any>({});
 
+    let hasShownToast = false;
+
     const navigateTo = (screen: string) => {
         router.push(`/${screen}` as any);
     };
@@ -178,8 +180,6 @@ export default function Recording() {
         }, [audioRecorder]),
     );
 
-    let hasShownToast = false;
-
     async function recordStart() {
         if (recordState.isRecording) {
             return;
@@ -190,6 +190,16 @@ export default function Recording() {
         await audioRecorder.prepareToRecordAsync();
         audioRecorder.record();
 
+        hasShownToast = true;
+        toastMesRef.current?.show({
+            title: "Recording Started",
+            description:
+                "Please read the script clearly for at least 15 seconds.",
+            type: "info",
+            duration: 5000,
+        });
+        hasShownToast = false;
+
         timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
 
@@ -198,7 +208,7 @@ export default function Recording() {
             if (secondsRef.current >= 15 && !hasShownToast) {
                 hasShownToast = true;
                 toastMesRef.current?.show({
-                    title: "Segmentation Limit",
+                    title: "Segmentation",
                     description: "Recording exceeded 15 seconds.",
                     type: "info",
                     duration: 5000,
