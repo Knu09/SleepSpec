@@ -234,7 +234,7 @@ export default function Recording() {
             toastMesRef.current?.show({
                 title: "Recording Paused",
                 description:
-                    "Press the microphone to Resume Recording.\nHold to stop the Recording.",
+                    "Press the microphone to resume recording or hold to stop the recording.",
                 type: "warning",
                 duration: 8000,
                 iconName: "warning",
