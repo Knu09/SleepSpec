@@ -1,6 +1,6 @@
 import { ThemeContext } from "@/context/ThemeContext";
 import { getStyles } from "@/types/types";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import {
     forwardRef,
     useCallback,
@@ -24,6 +24,8 @@ interface ToastMessageProps {
     title: string;
     description: string;
     duration: number;
+    iconName?: string;
+    iconFamily?: string;
 }
 
 const ToastMessage = forwardRef(({}, ref) => {
@@ -51,9 +53,24 @@ const ToastMessage = forwardRef(({}, ref) => {
         isShow: false,
         type: "",
         description: "",
+        iconName: "",
+        iconFamily: "",
     });
 
     const { toastIconColor, Color } = getStyles(state.type);
+
+    let IconComponent;
+
+    switch (state.iconFamily) {
+        case "Ionicons":
+            IconComponent = Ionicons;
+            break;
+        case "Feather":
+            IconComponent = Feather;
+            break;
+        default:
+            IconComponent = Feather;
+    }
 
     const updateState = (newState: object) => {
         setState((prevState: any) => ({
@@ -63,13 +80,24 @@ const ToastMessage = forwardRef(({}, ref) => {
     };
 
     const show = useCallback(
-        ({ title, description, type, duration = 5000 }: ToastMessageProps) => {
+        ({
+            title,
+            description,
+            type,
+            duration = 5000,
+            iconName,
+            iconFamily,
+        }: ToastMessageProps) => {
             updateState({
                 isShow: true,
                 title,
                 description,
                 type,
+                iconName: iconName ?? "info",
+                iconFamily: iconFamily ?? "Feather",
             });
+
+            console.log("Toast icon: ", iconName, iconFamily);
 
             //NOTE: Preserve this code for optionalility
             // toastTopAnimation.value = withTiming(90, { duration: 250 });
@@ -144,8 +172,8 @@ const ToastMessage = forwardRef(({}, ref) => {
                         style={{ flexWrap: "nowrap" }}
                     >
                         <View className="px-1">
-                            <Feather
-                                name="info"
+                            <IconComponent
+                                name={state.iconName}
                                 size={20}
                                 color={toastIconColor}
                             />
