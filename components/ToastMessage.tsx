@@ -71,7 +71,9 @@ const ToastMessage = forwardRef(({}, ref) => {
                 type,
             });
 
-            toastTopAnimation.value = withTiming(90, { duration: 250 });
+            //NOTE: Preserve this code for optionalility
+            // toastTopAnimation.value = withTiming(90, { duration: 250 });
+
             toastSlideX.value = withTiming(0, { duration: 250 });
 
             toastSlideX.value = withSequence(
@@ -99,7 +101,6 @@ const ToastMessage = forwardRef(({}, ref) => {
 
     const animatedTopStyle = useAnimatedStyle(() => {
         return {
-            // top: toastTopAnimation.value,
             top: 90,
             transform: [{ translateX: toastSlideX.value }],
         };
@@ -113,7 +114,7 @@ const ToastMessage = forwardRef(({}, ref) => {
                     style={[
                         {
                             zIndex: 1000,
-                            elevation: 3,
+                            elevation: 4,
                             borderLeftColor: toastIconColor,
                             borderLeftWidth: 2.5,
                         },
