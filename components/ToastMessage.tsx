@@ -97,6 +97,24 @@ const ToastMessage = forwardRef(({}, ref) => {
 
     useImperativeHandle(ref, () => ({
         show: (props: ToastMessageProps) => show(props),
+        hide: () => {
+            toastSlideX.value = withTiming(
+                -screenWidth,
+                { duration: 250 },
+                (finished) => {
+                    if (finished) {
+                        runOnJS(() =>
+                            updateState({
+                                isShow: false,
+                                title: "",
+                                description: "",
+                                type: "",
+                            }),
+                        );
+                    }
+                },
+            );
+        },
     }));
 
     const animatedTopStyle = useAnimatedStyle(() => {
