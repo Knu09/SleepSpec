@@ -191,13 +191,18 @@ export default function Recording() {
         audioRecorder.record();
 
         hasShownToast = true;
-        toastMesRef.current?.show({
-            title: "Recording Started",
-            description:
-                "Please read the script clearly for at least 15 seconds.",
-            type: "info",
-            duration: 5000,
-        });
+
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title: "Recording Started",
+                description:
+                    "Please read the script clearly for at least 15 seconds.",
+                type: "info",
+                duration: 5000,
+            });
+        }, 300);
+
         hasShownToast = false;
 
         timerRef.current = setInterval(() => {
@@ -220,13 +225,16 @@ export default function Recording() {
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
         hasShownToast = true;
-        toastMesRef.current?.show({
-            title: "Recording Paused",
-            description:
-                "Press the microphone to Resume Recording.\nHold to stop the Recording.",
-            type: "warning",
-            duration: 8000,
-        });
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title: "Recording Paused",
+                description:
+                    "Press the microphone to Resume Recording.\nHold to stop the Recording.",
+                type: "warning",
+                duration: 8000,
+            });
+        }, 500);
 
         if (timerRef.current !== null) {
             clearInterval(timerRef.current);
@@ -240,13 +248,17 @@ export default function Recording() {
         await audioRecorder.record();
 
         hasShownToast = true;
-        toastMesRef.current?.show({
-            title: "Recording Resumed",
-            description: "Continue speaking clearly. Feel free to pause.",
-            type: "info",
-            duration: 5000,
-        });
-        hasShownToast = false;
+
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title: "Recording Resumed",
+                description: "Continue speaking clearly. Feel free to pause.",
+                type: "info",
+                duration: 5000,
+            });
+            hasShownToast = false;
+        }, 300);
 
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
@@ -263,6 +275,18 @@ export default function Recording() {
             timerRef.current = null;
         }
         secondsRef.current = 0;
+        hasShownToast = true;
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title: "Recording Successfully Stop",
+                description:
+                    "Please wait for a moment while the system is processing your audio data.",
+                type: "success",
+                duration: 10000,
+            });
+        }, 500);
+
         hasShownToast = false;
 
         await audioRecorder.stop();
