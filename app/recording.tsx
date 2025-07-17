@@ -200,6 +200,8 @@ export default function Recording() {
                     "Please read the script clearly for at least 15 seconds.",
                 type: "info",
                 duration: 5000,
+                iconName: "info",
+                iconFamily: "Feather",
             });
         }, 300);
 
@@ -217,6 +219,8 @@ export default function Recording() {
                     description: "Recording exceeded 15 seconds.",
                     type: "info",
                     duration: 5000,
+                    iconName: "info",
+                    iconFamily: "Feather",
                 });
             }
         }, 1000);
@@ -233,6 +237,8 @@ export default function Recording() {
                     "Press the microphone to Resume Recording.\nHold to stop the Recording.",
                 type: "warning",
                 duration: 8000,
+                iconName: "warning",
+                iconFamily: "Ionicons",
             });
         }, 500);
 
@@ -256,6 +262,8 @@ export default function Recording() {
                 description: "Continue speaking clearly. Feel free to pause.",
                 type: "info",
                 duration: 5000,
+                iconName: "info",
+                iconFamily: "Feather",
             });
             hasShownToast = false;
         }, 300);
@@ -279,11 +287,13 @@ export default function Recording() {
         toastMesRef.current?.hide?.();
         setTimeout(() => {
             toastMesRef.current?.show({
-                title: "Recording Successfully Stop",
+                title: "Recording Successfully Stopped",
                 description:
                     "Please wait for a moment while the system is processing your audio data.",
                 type: "success",
                 duration: 10000,
+                iconName: "checkmark-circle",
+                iconFamily: "Ionicons",
             });
         }, 500);
 
