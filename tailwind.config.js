@@ -23,8 +23,10 @@ module.exports = {
                 grayLayer: "#EEF0F1",
                 divider: "#585858",
                 lightGray: "#E9E9E9",
+                success: "#3DC13C",
                 active: "#6EDB3F",
                 warning: "#FFFF08",
+                error: "#85282D",
                 idle: "#9E9E9E",
             },
             fontFamily: {
