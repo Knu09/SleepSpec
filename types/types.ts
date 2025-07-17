@@ -215,6 +215,21 @@ export const getStyles = (type: string) => {
                 toastIconColor: "#006FFF",
                 Color: "primaryBlue",
             };
+        case "success":
+            return {
+                toastIconColor: "#3DC13C",
+                Color: "success",
+            };
+        case "warning":
+            return {
+                toastIconColor: "#F39C11",
+                Color: "warning",
+            };
+        case "error":
+            return {
+                toastIconColor: "#85282D",
+                Color: "error",
+            };
         default:
             return {
                 toastIconColor: "#01000F",
