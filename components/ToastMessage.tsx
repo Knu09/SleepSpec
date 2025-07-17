@@ -8,7 +8,7 @@ import {
     useImperativeHandle,
     useState,
 } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Animated, {
     runOnJS,
     useAnimatedStyle,
@@ -43,6 +43,8 @@ const ToastMessage = forwardRef(({}, ref) => {
 
     const toastTopAnimation = useSharedValue(-100);
     const insets = useSafeAreaInsets();
+    const { width: screenWidth } = Dimensions.get("window");
+    const toastSlideX = useSharedValue(-screenWidth);
 
     const [state, setState] = useState({
         title: "",
@@ -68,11 +70,15 @@ const ToastMessage = forwardRef(({}, ref) => {
                 description,
                 type,
             });
-            toastTopAnimation.value = withSequence(
-                withTiming(90, { duration: 250 }),
+
+            toastTopAnimation.value = withTiming(90, { duration: 250 });
+            toastSlideX.value = withTiming(0, { duration: 250 });
+
+            toastSlideX.value = withSequence(
+                withTiming(0, { duration: 250 }),
                 withDelay(
                     duration,
-                    withTiming(-100, { duration: 250 }, (finished) => {
+                    withTiming(-screenWidth, { duration: 250 }, (finished) => {
                         if (finished) {
                             runOnJS(() =>
                                 updateState({
@@ -84,7 +90,7 @@ const ToastMessage = forwardRef(({}, ref) => {
                 ),
             );
         },
-        [insets, toastTopAnimation],
+        [insets, toastTopAnimation, toastSlideX],
     );
 
     useImperativeHandle(ref, () => ({
@@ -93,7 +99,9 @@ const ToastMessage = forwardRef(({}, ref) => {
 
     const animatedTopStyle = useAnimatedStyle(() => {
         return {
-            top: toastTopAnimation.value,
+            // top: toastTopAnimation.value,
+            top: 90,
+            transform: [{ translateX: toastSlideX.value }],
         };
     });
 
