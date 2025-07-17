@@ -219,6 +219,15 @@ export default function Recording() {
 
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
+        hasShownToast = true;
+        toastMesRef.current?.show({
+            title: "Recording Paused",
+            description:
+                "Press the microphone to Resume Recording.\nHold to stop the Recording.",
+            type: "warning",
+            duration: 8000,
+        });
+
         if (timerRef.current !== null) {
             clearInterval(timerRef.current);
             timerRef.current = null;
@@ -229,6 +238,15 @@ export default function Recording() {
     async function recordResume() {
         dispatch(RecordAction.RESUME);
         await audioRecorder.record();
+
+        hasShownToast = true;
+        toastMesRef.current?.show({
+            title: "Recording Resumed",
+            description: "Continue speaking clearly. Feel free to pause.",
+            type: "info",
+            duration: 5000,
+        });
+        hasShownToast = false;
 
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
@@ -289,18 +307,6 @@ export default function Recording() {
                         >
                             Selected Speech Script
                         </Text>
-                        {/* <TouchableOpacity */}
-                        {/*     onPress={() => */}
-                        {/*         toastMesRef.current.show({ */}
-                        {/*             title: "Segmentation", */}
-                        {/*             description: */}
-                        {/*                 "You can freely stop the recording .", */}
-                        {/*             type: "info", */}
-                        {/*         }) */}
-                        {/*     } */}
-                        {/* > */}
-                        {/*     <Text className="text-darkBg">Toast Message</Text> */}
-                        {/* </TouchableOpacity> */}
                         <View className="flex flex-row justify-between items-center pe-2">
                             <TouchableOpacity
                                 activeOpacity={0.5}
@@ -476,7 +482,7 @@ export default function Recording() {
                                     {/* Recording Status */}
                                     {recordState.isRecording ? (
                                         recordState.isPaused ? (
-                                            <View className="w-3 h-3 rounded-full bg-warning"></View>
+                                            <View className="w-3 h-3 rounded-full bg-[#F39C11]"></View>
                                         ) : (
                                             <View className="w-3 h-3 rounded-full bg-active"></View>
                                         )
