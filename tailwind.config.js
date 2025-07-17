@@ -24,9 +24,10 @@ module.exports = {
                 divider: "#585858",
                 lightGray: "#E9E9E9",
                 success: "#3DC13C",
+                info: "#3598DB",
                 active: "#6EDB3F",
-                warning: "#FFFF08",
-                error: "#85282D",
+                warning: "#F39C11",
+                error: "#E84C3D",
                 idle: "#9E9E9E",
             },
             fontFamily: {
