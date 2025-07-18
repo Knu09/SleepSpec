@@ -227,8 +227,8 @@ export const getStyles = (type: string) => {
             };
         case "error":
             return {
-                toastIconColor: "#85282D",
-                Color: "error",
+                toastIconColor: "#FF2121",
+                Color: "danger",
             };
         default:
             return {
