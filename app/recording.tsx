@@ -203,7 +203,7 @@ export default function Recording() {
                 iconName: "info",
                 iconFamily: "Feather",
             });
-        }, 300);
+        }, 270);
 
         hasShownToast = false;
 
@@ -283,21 +283,6 @@ export default function Recording() {
             timerRef.current = null;
         }
         secondsRef.current = 0;
-        hasShownToast = true;
-        toastMesRef.current?.hide?.();
-        setTimeout(() => {
-            toastMesRef.current?.show({
-                title: "Recording Successfully Stopped",
-                description:
-                    "Please wait for a moment while the system is processing your audio data.",
-                type: "success",
-                duration: 10000,
-                iconName: "checkmark-circle",
-                iconFamily: "Ionicons",
-            });
-        }, 500);
-
-        hasShownToast = false;
 
         await audioRecorder.stop();
 
@@ -309,10 +294,40 @@ export default function Recording() {
 
         if (!result) {
             setUpload(Process.FAILED);
+
+            toastMesRef.current?.hide?.();
+            setTimeout(() => {
+                toastMesRef.current?.show({
+                    title: "Upload failed",
+                    description:
+                        "Make sure to record your voice at least 15 seconds.",
+                    type: "error",
+                    duration: 5000,
+                    iconName: "warning",
+                    iconFamily: "Ionicons",
+                });
+            }, 500);
+
+            hasShownToast = false;
             return;
         }
 
         setUpload(Process.READY);
+
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title: "Record Successfully Uploaded",
+                description:
+                    "Please wait for a moment while the system is processing your audio data.",
+                type: "success",
+                duration: 10000,
+                iconName: "checkmark-circle",
+                iconFamily: "Ionicons",
+            });
+        }, 500);
+
+        hasShownToast = false;
 
         setResult(CLASS.from(result));
         syncSegments();
