@@ -309,6 +309,19 @@ export default function Recording() {
         // Skip upload when specified
         if (!upload) return;
 
+        triggerToast({
+            title: "Audio Successfully Uploaded",
+            description:
+                "Please wait for a moment while the system is processing your audio data.",
+            type: "success",
+            duration: 10000,
+            iconName: "checkmark-circle",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
+
+        hasShownToast = false;
+
         const uri = audioRecorder.uri;
         const result = await uploadAudio(uri!);
 
@@ -331,19 +344,6 @@ export default function Recording() {
         }
 
         setUpload(Process.READY);
-
-        triggerToast({
-            title: "Record Successfully Uploaded",
-            description:
-                "Please wait for a moment while the system is processing your audio data.",
-            type: "success",
-            duration: 10000,
-            iconName: "checkmark-circle",
-            iconFamily: "Ionicons",
-            delay: 500,
-        });
-
-        hasShownToast = false;
 
         setResult(CLASS.from(result));
         syncSegments();
