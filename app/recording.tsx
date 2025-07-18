@@ -44,6 +44,7 @@ import {
 } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import ToastMessage from "@/components/ToastMessage";
+import type { ToastMessageProps } from "@/components/ToastMessage";
 
 type RecordingState = {
     timer: Timer;
@@ -130,6 +131,28 @@ export default function Recording() {
 
     let hasShownToast = false;
 
+    function triggerToast({
+        title,
+        description,
+        type,
+        duration,
+        iconName,
+        iconFamily,
+        delay = 500,
+    }: ToastMessageProps) {
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title,
+                description,
+                type,
+                duration,
+                iconName,
+                iconFamily,
+            });
+        }, delay);
+    }
+
     const navigateTo = (screen: string) => {
         router.push(`/${screen}` as any);
     };
@@ -192,18 +215,16 @@ export default function Recording() {
 
         hasShownToast = true;
 
-        toastMesRef.current?.hide?.();
-        setTimeout(() => {
-            toastMesRef.current?.show({
-                title: "Recording Started",
-                description:
-                    "Please read the script clearly for at least 15 seconds.",
-                type: "info",
-                duration: 5000,
-                iconName: "info",
-                iconFamily: "Feather",
-            });
-        }, 270);
+        triggerToast({
+            title: "Recording Started",
+            description:
+                "Please read the script clearly for at least 15 seconds.",
+            type: "info",
+            duration: 5000,
+            iconName: "info",
+            iconFamily: "Feather",
+            delay: 270,
+        });
 
         hasShownToast = false;
 
@@ -214,13 +235,15 @@ export default function Recording() {
 
             if (secondsRef.current >= 15 && !hasShownToast) {
                 hasShownToast = true;
-                toastMesRef.current?.show({
+
+                triggerToast({
                     title: "Segmentation",
                     description: "Recording exceeded 15 seconds.",
                     type: "info",
                     duration: 5000,
                     iconName: "info",
                     iconFamily: "Feather",
+                    delay: 280,
                 });
             }
         }, 1000);
@@ -229,18 +252,17 @@ export default function Recording() {
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
         hasShownToast = true;
-        toastMesRef.current?.hide?.();
-        setTimeout(() => {
-            toastMesRef.current?.show({
-                title: "Recording Paused",
-                description:
-                    "Press the microphone to resume recording or hold to stop the recording.",
-                type: "warning",
-                duration: 8000,
-                iconName: "warning",
-                iconFamily: "Ionicons",
-            });
-        }, 500);
+
+        triggerToast({
+            title: "Recording Paused",
+            description:
+                "Press the microphone to resume recording or hold to stop the recording.",
+            type: "warning",
+            duration: 8000,
+            iconName: "warning",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
 
         if (timerRef.current !== null) {
             clearInterval(timerRef.current);
@@ -255,18 +277,16 @@ export default function Recording() {
 
         hasShownToast = true;
 
-        toastMesRef.current?.hide?.();
-        setTimeout(() => {
-            toastMesRef.current?.show({
-                title: "Recording Resumed",
-                description: "Continue speaking clearly. Feel free to pause.",
-                type: "info",
-                duration: 5000,
-                iconName: "info",
-                iconFamily: "Feather",
-            });
-            hasShownToast = false;
-        }, 300);
+        triggerToast({
+            title: "Recording Resumed",
+            description: "Continue speaking clearly. Feel free to pause.",
+            type: "info",
+            duration: 5000,
+            iconName: "info",
+            iconFamily: "Feather",
+            delay: 300,
+        });
+        hasShownToast = false;
 
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
@@ -295,18 +315,16 @@ export default function Recording() {
         if (!result) {
             setUpload(Process.FAILED);
 
-            toastMesRef.current?.hide?.();
-            setTimeout(() => {
-                toastMesRef.current?.show({
-                    title: "Upload failed",
-                    description:
-                        "Make sure to record your voice at least 15 seconds.",
-                    type: "error",
-                    duration: 5000,
-                    iconName: "warning",
-                    iconFamily: "Ionicons",
-                });
-            }, 500);
+            triggerToast({
+                title: "Upload failed",
+                description:
+                    "Make sure to record your voice at least 15 seconds.",
+                type: "error",
+                duration: 5000,
+                iconName: "warning",
+                iconFamily: "Ionicons",
+                delay: 500,
+            });
 
             hasShownToast = false;
             return;
@@ -314,18 +332,16 @@ export default function Recording() {
 
         setUpload(Process.READY);
 
-        toastMesRef.current?.hide?.();
-        setTimeout(() => {
-            toastMesRef.current?.show({
-                title: "Record Successfully Uploaded",
-                description:
-                    "Please wait for a moment while the system is processing your audio data.",
-                type: "success",
-                duration: 10000,
-                iconName: "checkmark-circle",
-                iconFamily: "Ionicons",
-            });
-        }, 500);
+        triggerToast({
+            title: "Record Successfully Uploaded",
+            description:
+                "Please wait for a moment while the system is processing your audio data.",
+            type: "success",
+            duration: 10000,
+            iconName: "checkmark-circle",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
 
         hasShownToast = false;
 
