@@ -19,13 +19,14 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-interface ToastMessageProps {
+export interface ToastMessageProps {
     type?: "success" | "warning" | "error" | "info";
     title: string;
     description: string;
     duration: number;
     iconName?: string;
     iconFamily?: string;
+    delay?: number;
 }
 
 const ToastMessage = forwardRef(({}, ref) => {
