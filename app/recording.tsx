@@ -45,6 +45,15 @@ import {
 import { BlurView } from "expo-blur";
 import ToastMessage from "@/components/ToastMessage";
 import type { ToastMessageProps } from "@/components/ToastMessage";
+import Animated, {
+    Extrapolate,
+    interpolate,
+    runOnUI,
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+    withTiming,
+} from "react-native-reanimated";
 
 type RecordingState = {
     timer: Timer;
@@ -108,7 +117,11 @@ export default function Recording() {
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
-    const [currentMetering, setCurrentMetering] = useState(0);
+
+    // Metering wavefom values
+    const [currentMetering, setCurrentMetering] = useState(-160);
+    const animatedMeter = useSharedValue(0);
+
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
@@ -239,6 +252,7 @@ export default function Recording() {
         await audioRecorder.prepareToRecordAsync({
             isMeteringEnabled: true,
         });
+
         await audioRecorder.record();
 
         hasShownToast = true;
@@ -376,6 +390,31 @@ export default function Recording() {
         setResult(CLASS.from(result));
         syncSegments();
     }
+
+    // Real-time Animated Waveform
+    useEffect(() => {
+        if (typeof currentMetering === "number") {
+            runOnUI(() => {
+                animatedMeter.value = withSpring(currentMetering, {
+                    damping: 15,
+                    stiffness: 100,
+                });
+            })();
+        }
+    }, [currentMetering]);
+
+    const animatedRecordWave = useAnimatedStyle(() => {
+        const size = interpolate(
+            animatedMeter.value,
+            [-160, -80, 20],
+            [100, 134, 160],
+        );
+
+        return {
+            width: size,
+            height: size,
+        };
+    });
 
     return (
         <SafeAreaView
@@ -589,17 +628,28 @@ export default function Recording() {
                 </View>
 
                 <View className="flex justify-center flex-1">
-                    <View className="">
+                    <View className="z-50">
                         <Text
                             className={
                                 textClass +
-                                " mx-auto text-3xl font-normal font-poppins"
+                                " mx-auto text-3xl font-poppinsMedium"
                             }
                         >
                             {Timer.format(recordState.timer)}
                         </Text>
                     </View>
-                    <View className="flex justify-center items-center mb-2 mt-1">
+
+                    {/* Record Button */}
+                    <View className="relative flex justify-center items-center my-5">
+                        <Animated.View
+                            style={[styles.recordWave, animatedRecordWave]}
+                        />
+                        {/* <LinearGradient */}
+                        {/*     colors={["#7800D3", "#006FFF"]} */}
+                        {/*     start={{ x: 0.5, y: 0 }} */}
+                        {/*     end={{ x: 0.5, y: 1 }} */}
+                        {/*     style={styles.recordWave} */}
+                        {/* /> */}
                         <TouchableOpacity
                             activeOpacity={0.9}
                             onPress={() => {
@@ -634,7 +684,7 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " w-40 h-40 flex justify-center items-center rounded-full"
+                                        " w-36 h-36 flex justify-center items-center rounded-full"
                                     }
                                     style={styles.shadowProp}
                                 >
@@ -1146,6 +1196,12 @@ const styles = StyleSheet.create({
     shadowProp: {
         elevation: 10,
         shadowColor: "#000",
+    },
+    recordWave: {
+        position: "absolute",
+        backgroundColor: "#7800D3",
+        opacity: 0.35,
+        borderRadius: 1000,
     },
 
     container: {
