@@ -251,11 +251,8 @@ export default function Recording() {
 
         dispatch(RecordAction.START);
 
-        await audioRecorder.prepareToRecordAsync({
-            isMeteringEnabled: true,
-        });
-
-        await audioRecorder.record();
+        await audioRecorder.prepareToRecordAsync();
+        audioRecorder.record();
 
         hasShownToast = true;
 
