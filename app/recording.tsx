@@ -121,8 +121,10 @@ export default function Recording() {
     const [upload, setUpload] = useState(Process.IDLE);
 
     // Metering wavefom values
-    const [currentMetering, setCurrentMetering] = useState(-160);
+    const [currentMetering, setCurrentMetering] = useState(-60);
     const animatedMeter = useSharedValue(0);
+
+    // console.log("Audio dB:", currentMetering);
 
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
@@ -229,8 +231,9 @@ export default function Recording() {
 
         if (recordState.isRecording) {
             animationFrameId = requestAnimationFrame(updateMetering);
-            return () => cancelAnimationFrame(animationFrameId);
         }
+
+        return () => cancelAnimationFrame(animationFrameId);
     }, [recordState.isRecording]);
 
     useFocusEffect(
@@ -290,9 +293,14 @@ export default function Recording() {
 
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
-
         // Reset the waveform size to 120
-        setCurrentMetering(-160);
+        setCurrentMetering(-158);
+        await audioRecorder.pause();
+
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
 
         hasShownToast = true;
 
@@ -306,13 +314,6 @@ export default function Recording() {
             iconFamily: "Ionicons",
             delay: 500,
         });
-
-        if (timerRef.current !== null) {
-            clearInterval(timerRef.current);
-            timerRef.current = null;
-        }
-
-        await audioRecorder.pause();
     }
 
     async function recordResume() {
@@ -395,10 +396,19 @@ export default function Recording() {
     }
 
     // NOTE: Real-time Animated Waveform
+    const previousValidMetering = useRef(-60);
     useEffect(() => {
         if (typeof currentMetering === "number") {
+            let value = currentMetering;
+
+            if (value === null || value === -160) {
+                value = previousValidMetering.current;
+            } else {
+                previousValidMetering.current = value;
+            }
+
             runOnUI(() => {
-                animatedMeter.value = withSpring(currentMetering, {
+                animatedMeter.value = withSpring(value, {
                     damping: 15,
                     stiffness: 100,
                 });
@@ -745,7 +755,7 @@ export default function Recording() {
 
                     <View className="text-center gap-1">
                         <Text
-                            className={`text-xl font-bold mx-auto font-publicsans ${
+                            className={`text-xl mx-auto font-publicsansBold ${
                                 recordState.isRecording
                                     ? recordState.isPaused
                                         ? textClass
@@ -762,7 +772,7 @@ export default function Recording() {
                         <Text
                             className={
                                 textClass +
-                                " text-center text-sm font-regular font-publicsans"
+                                " text-center text-sm font-publicsans"
                             }
                         >
                             {recordState.isRecording ? (
@@ -863,7 +873,7 @@ export default function Recording() {
                                 <Text
                                     className={
                                         textClass +
-                                        " text-lg font-bold font-publicsans"
+                                        " text-lg font-publicsansBold"
                                     }
                                 >
                                     Recording Guide
