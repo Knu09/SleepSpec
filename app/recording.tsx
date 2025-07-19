@@ -108,8 +108,12 @@ export default function Recording() {
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
+    const [currentMetering, setCurrentMetering] = useState(0);
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
+
+    // NOTE: Log metering
+    console.log("Current Metering (dB):", currentMetering);
 
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
@@ -194,6 +198,28 @@ export default function Recording() {
         };
     }, []);
 
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
+        if (recordState.isRecording) {
+            intervalId = setInterval(async () => {
+                try {
+                    const status = await audioRecorder.getStatus();
+
+                    if (status?.metering !== undefined) {
+                        setCurrentMetering(status.metering);
+                    }
+                } catch (error) {
+                    console.error("Error getting audio status:", error);
+                }
+            }, 100);
+
+            return () => {
+                clearInterval(intervalId);
+            };
+        }
+    }, [recordState.isRecording]); // Use recordState.isRecording as dependency
+
     useFocusEffect(
         useCallback(() => {
             return () => {
@@ -210,8 +236,10 @@ export default function Recording() {
 
         dispatch(RecordAction.START);
 
-        await audioRecorder.prepareToRecordAsync();
-        audioRecorder.record();
+        await audioRecorder.prepareToRecordAsync({
+            isMeteringEnabled: true,
+        });
+        await audioRecorder.record();
 
         hasShownToast = true;
 
@@ -610,19 +638,20 @@ export default function Recording() {
                                     }
                                     style={styles.shadowProp}
                                 >
-                                    {recordState.isRecording &&
-                                    !recordState.isPaused ? (
-                                        <GradientIcon
-                                            name="microphone"
-                                            size={60}
-                                        />
-                                    ) : (
-                                        <Icon
-                                            name="microphone"
-                                            size={60}
-                                            color="#006fff"
-                                        />
-                                    )}
+                                    <GradientIcon name="microphone" size={60} />
+                                    {/* {recordState.isRecording && */}
+                                    {/* !recordState.isPaused ? ( */}
+                                    {/*     <GradientIcon */}
+                                    {/*         name="microphone" */}
+                                    {/*         size={60} */}
+                                    {/*     /> */}
+                                    {/* ) : ( */}
+                                    {/*     <Icon */}
+                                    {/*         name="microphone" */}
+                                    {/*         size={60} */}
+                                    {/*         color="#006fff" */}
+                                    {/*     /> */}
+                                    {/* )} */}
                                 </View>
                             </LinearGradient>
                         </TouchableOpacity>
