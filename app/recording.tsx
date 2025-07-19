@@ -212,6 +212,7 @@ export default function Recording() {
         };
     }, []);
 
+    // NOTE: Recording Metering Animation: this is used for real-time animatino of metering in dB
     useEffect(() => {
         let animationFrameId: number;
 
@@ -366,6 +367,8 @@ export default function Recording() {
         hasShownToast = false;
 
         const uri = audioRecorder.uri;
+        console.log("Recorded Audio URI: ", uri);
+
         const result = await uploadAudio(uri!);
 
         if (!result) {
@@ -392,7 +395,7 @@ export default function Recording() {
         syncSegments();
     }
 
-    // Real-time Animated Waveform
+    // NOTE: Real-time Animated Waveform
     useEffect(() => {
         if (typeof currentMetering === "number") {
             runOnUI(() => {
