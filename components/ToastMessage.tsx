@@ -97,9 +97,6 @@ const ToastMessage = forwardRef(({}, ref) => {
                 iconName: iconName ?? "info",
                 iconFamily: iconFamily ?? "Feather",
             });
-
-            console.log("Toast icon: ", iconName, iconFamily);
-
             //NOTE: Preserve this code for optionalility
             // toastTopAnimation.value = withTiming(90, { duration: 250 });
 
