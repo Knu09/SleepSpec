@@ -55,6 +55,7 @@ import Animated, {
     withSpring,
     withTiming,
 } from "react-native-reanimated";
+import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 
 type RecordingState = {
     timer: Timer;
@@ -406,11 +407,25 @@ export default function Recording() {
         }
     }, [currentMetering]);
 
-    const animatedRecordWave = useAnimatedStyle(() => {
+    const animatedRecordWaveInner = useAnimatedStyle(() => {
         const size = interpolate(
             animatedMeter.value,
-            [-160, -80, -20, 0],
-            [120, 130, 140, 160],
+            [-160, -80, -40, -20, 0],
+            [120, 120, 130, 135, 150],
+            Extrapolation.CLAMP,
+        );
+
+        return {
+            width: size,
+            height: size,
+        };
+    });
+
+    const animatedRecordWaveOuter = useAnimatedStyle(() => {
+        const size = interpolate(
+            animatedMeter.value,
+            [-160, -80, -40, -20, 0],
+            [120, 130, 135, 150, 170],
             Extrapolation.CLAMP,
         );
 
@@ -646,14 +661,31 @@ export default function Recording() {
                     {/* Record Button */}
                     <View className="relative flex justify-center items-center my-5">
                         <Animated.View
-                            style={[styles.recordWave, animatedRecordWave]}
-                        />
-                        {/* <LinearGradient */}
-                        {/*     colors={["#7800D3", "#006FFF"]} */}
-                        {/*     start={{ x: 0.5, y: 0 }} */}
-                        {/*     end={{ x: 0.5, y: 1 }} */}
-                        {/*     style={styles.recordWave} */}
-                        {/* /> */}
+                            style={[styles.recordWave, animatedRecordWaveInner]}
+                        >
+                            <LinearGradient
+                                colors={["#006FFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                style={StyleSheet.absoluteFill}
+                            />
+                        </Animated.View>
+
+                        <Animated.View
+                            style={[
+                                styles.recordWave,
+                                { opacity: 0.15 },
+                                animatedRecordWaveOuter,
+                            ]}
+                        >
+                            <LinearGradient
+                                colors={["#006FFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                style={StyleSheet.absoluteFill}
+                            />
+                        </Animated.View>
+
                         <TouchableOpacity
                             activeOpacity={0.9}
                             onPress={() => {
@@ -711,7 +743,7 @@ export default function Recording() {
                         </TouchableOpacity>
                     </View>
 
-                    <View className="text-center gap-2">
+                    <View className="text-center gap-1">
                         <Text
                             className={`text-xl font-bold mx-auto font-publicsans ${
                                 recordState.isRecording
@@ -1203,9 +1235,11 @@ const styles = StyleSheet.create({
     },
     recordWave: {
         position: "absolute",
-        backgroundColor: "#7800D3",
         opacity: 0.35,
         borderRadius: 1000,
+        overflow: "hidden",
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     container: {
