@@ -126,9 +126,6 @@ export default function Recording() {
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
-    // NOTE: Log metering
-    console.log("Current Metering (dB):", currentMetering);
-
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
@@ -212,7 +209,7 @@ export default function Recording() {
         };
     }, []);
 
-    // NOTE: Recording Metering Animation: this is used for real-time animatino of metering in dB
+    // NOTE: Recording Metering Animation: this is used for real-time animation of metering in dB
     useEffect(() => {
         let animationFrameId: number;
 
@@ -292,6 +289,10 @@ export default function Recording() {
 
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
+
+        // Reset the waveform size to 120
+        setCurrentMetering(-160);
+
         hasShownToast = true;
 
         triggerToast({
@@ -309,6 +310,7 @@ export default function Recording() {
             clearInterval(timerRef.current);
             timerRef.current = null;
         }
+
         await audioRecorder.pause();
     }
 
@@ -364,7 +366,6 @@ export default function Recording() {
         hasShownToast = false;
 
         const uri = audioRecorder.uri;
-        console.log("Recorded Audio URI: ", uri);
 
         const result = await uploadAudio(uri!);
 
