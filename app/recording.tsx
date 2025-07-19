@@ -47,6 +47,7 @@ import ToastMessage from "@/components/ToastMessage";
 import type { ToastMessageProps } from "@/components/ToastMessage";
 import Animated, {
     Extrapolate,
+    Extrapolation,
     interpolate,
     runOnUI,
     useAnimatedStyle,
@@ -212,26 +213,26 @@ export default function Recording() {
     }, []);
 
     useEffect(() => {
-        let intervalId: NodeJS.Timeout;
+        let animationFrameId: number;
+
+        const updateMetering = async () => {
+            try {
+                const status = await audioRecorder.getStatus();
+                if (status?.metering !== undefined) {
+                    setCurrentMetering(status.metering);
+                }
+            } catch (error) {
+                console.error("Error getting audio status:", error);
+            }
+
+            animationFrameId = requestAnimationFrame(updateMetering);
+        };
 
         if (recordState.isRecording) {
-            intervalId = setInterval(async () => {
-                try {
-                    const status = await audioRecorder.getStatus();
-
-                    if (status?.metering !== undefined) {
-                        setCurrentMetering(status.metering);
-                    }
-                } catch (error) {
-                    console.error("Error getting audio status:", error);
-                }
-            }, 100);
-
-            return () => {
-                clearInterval(intervalId);
-            };
+            animationFrameId = requestAnimationFrame(updateMetering);
+            return () => cancelAnimationFrame(animationFrameId);
         }
-    }, [recordState.isRecording]); // Use recordState.isRecording as dependency
+    }, [recordState.isRecording]);
 
     useFocusEffect(
         useCallback(() => {
@@ -399,6 +400,7 @@ export default function Recording() {
                     damping: 15,
                     stiffness: 100,
                 });
+                // animatedMeter.value = withTiming(currentMetering);
             })();
         }
     }, [currentMetering]);
@@ -406,8 +408,9 @@ export default function Recording() {
     const animatedRecordWave = useAnimatedStyle(() => {
         const size = interpolate(
             animatedMeter.value,
-            [-160, -80, 20],
-            [100, 134, 160],
+            [-160, -80, -20, 0],
+            [120, 130, 140, 160],
+            Extrapolation.CLAMP,
         );
 
         return {
