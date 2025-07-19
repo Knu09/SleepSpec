@@ -33,6 +33,7 @@ module.exports = {
             fontFamily: {
                 poppins: ["Poppins"],
                 poppinsRegular: ["Poppins-Regular"],
+                poppinsMedium: ["Poppins-Medium"],
                 poppinsBold: ["Poppins-Bold"],
                 pulicsansLight: ["PublicSans-Light"],
                 publicsans: ["PublicSans-Regular"],
