@@ -420,8 +420,8 @@ export default function Recording() {
     const animatedRecordWaveInner = useAnimatedStyle(() => {
         const size = interpolate(
             animatedMeter.value,
-            [-160, -80, -40, -20, 0],
-            [120, 120, 130, 135, 150],
+            [-160, -80, -40, -10, -5, 0],
+            [120, 120, 130, 135, 145, 155],
             Extrapolation.CLAMP,
         );
 
