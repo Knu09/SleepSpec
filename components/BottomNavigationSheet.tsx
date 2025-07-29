@@ -6,6 +6,7 @@ import {
     TouchableHighlight,
     View,
     TouchableWithoutFeedback,
+    Linking,
 } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useBottomSheet } from "./BottomSheetContext";
@@ -49,6 +50,10 @@ export default function BottomNavigationSheet() {
         hideBottomSheet();
         router.push(`/${screen}` as any);
         // navigation.navigate(screen as never);
+    };
+
+    const navigateToSite = (url: string) => {
+        Linking.openURL(url);
     };
 
     const { result, setResult } = useClassStore();
@@ -211,19 +216,23 @@ export default function BottomNavigationSheet() {
 
                             <TouchableHighlight
                                 underlayColor="#161B2180"
-                                onPress={() => navigateTo("")}
+                                onPress={() =>
+                                    navigateToSite(
+                                        "https://sleepspec-landing.vercel.app",
+                                    )
+                                }
                                 style={styles.bottomSheetLinkTab}
                             >
                                 <View className="flex flex-row items-center px-4">
-                                    <FontAwesome6
-                                        name="github"
+                                    <MaterialCommunityIcons
+                                        name="web"
                                         width={20}
-                                        size={18}
+                                        size={20}
                                         color={iconColor}
                                         className="text-center"
                                     />
                                     <Text style={styles.bottomsheetText}>
-                                        Trained Model Source
+                                        Visit our Website
                                     </Text>
                                 </View>
                             </TouchableHighlight>
