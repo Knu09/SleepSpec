@@ -69,9 +69,9 @@ export namespace LANG {
     export function asString(lang: LANG): string {
         switch (lang) {
             case LANG.ENG1:
-                return "American E";
+                return "English";
             case LANG.ENG2:
-                return "American E";
+                return "English";
             case LANG.FIL1:
                 return "Filipino";
             case LANG.FIL2:
