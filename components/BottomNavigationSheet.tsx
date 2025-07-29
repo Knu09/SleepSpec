@@ -69,7 +69,7 @@ export default function BottomNavigationSheet() {
                 ref={bottomSheetRef}
                 index={0}
                 onChange={handleSheetChanges}
-                snapPoints={["50%"]}
+                snapPoints={["60%"]}
                 handleComponent={() => null}
                 enablePanDownToClose={true}
                 backgroundStyle={{ backgroundColor: "transparent" }}
