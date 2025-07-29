@@ -165,13 +165,13 @@ function LangChoice({ lang, currentLang, setLang }: LangChoiceProps) {
                     opacity: IS_SELECTED ? 1 : 0.5,
                 }}
             >
-                <Text className="text-primaryBlue text-center font-publicsans uppercase text-lg font-bold">
+                <Text className="text-primaryBlue text-center font-publicsans uppercase text-lg font-bold mb-2">
                     {LANG.asString(lang).toUpperCase()}
                 </Text>
                 <Text
                     className={
                         textClass +
-                        " text-center font-publicsans font-bold text-sm leading-6"
+                        " text-center font-publicsans font-bold text-sm leading-none mb-1"
                     }
                 >
                     {book}
