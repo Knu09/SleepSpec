@@ -1068,7 +1068,7 @@ export default function Recording() {
                                                     " font-bold font-publicsans"
                                                 }
                                             >
-                                                Timer Display
+                                                Recording Timer
                                             </Text>
                                         </View>
                                         <Text
@@ -1077,20 +1077,49 @@ export default function Recording() {
                                                 " text-sm font-normal font-publicsans opacity-80"
                                             }
                                         >
-                                            Just above the record button is a
+                                            To ensure accurate detection, users
+                                            are required to complete a minimum
+                                            of
+                                            <Text className="font-bold">
+                                                {" "}
+                                                15 seconds
+                                            </Text>{" "}
+                                            and up to a maximum of
+                                            <Text className="font-bold">
+                                                {" "}
+                                                5 minutes{" "}
+                                            </Text>
+                                            recording. This duration is
+                                            automatically segmented into
+                                            <Text className="font-bold">
+                                                {" "}
+                                                15-second chunks
+                                            </Text>{" "}
+                                            for analysis. Speak clearly in a
+                                            calm and natural tone, and try to
+                                            avoid background noise.
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            The app will provide a
                                             <Text className="font-bold">
                                                 {" "}
                                                 live timer
-                                            </Text>
-                                            , formatted in
+                                            </Text>{" "}
+                                            and
                                             <Text className="font-bold">
                                                 {" "}
-                                                MM:SS
-                                            </Text>
-                                            , which shows how long the current
-                                            recording has been running. Users
-                                            are encouraged to reach the full
-                                            15-second duration.
+                                                message indicator
+                                            </Text>{" "}
+                                            to help guide you toward completing
+                                            the full session. You may pause and
+                                            resume as needed, but aim to finish
+                                            the 5-minute session in a single
+                                            sitting for best results.
                                         </Text>
                                     </View>
                                     <View className="gap-2">
