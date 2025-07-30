@@ -288,6 +288,23 @@ export default function Recording() {
                     delay: 280,
                 });
             }
+            if (secondsRef.current % 60 == 0 && !hasShownToast) {
+                hasShownToast = true;
+
+                triggerToast({
+                    title: "Segmentation",
+                    description: `You've reached the ${secondsRef.current / 60}-minute mark. You may continue recording or stop now if ready.`,
+                    type: "info",
+                    duration: 5000,
+                    iconName: "info",
+                    iconFamily: "Feather",
+                    delay: 280,
+                });
+            }
+            if (secondsRef.current === 300) {
+                clearInterval(timerRef.current!);
+                recordStop(true);
+            }
         }, 1000);
     }
 
@@ -715,6 +732,7 @@ export default function Recording() {
                             }}
                             onLongPress={() => {
                                 if (recordState.isRecording) {
+                                    clearInterval(timerRef.current!);
                                     recordStop(true);
                                     setUpload(Process.PENDING);
                                 }
@@ -1068,7 +1086,7 @@ export default function Recording() {
                                                     " font-bold font-publicsans"
                                                 }
                                             >
-                                                Recording Timer
+                                                Recording Segments
                                             </Text>
                                         </View>
                                         <Text
@@ -1078,19 +1096,15 @@ export default function Recording() {
                                             }
                                         >
                                             To ensure accurate detection, users
-                                            are required to complete a minimum
-                                            of
+                                            are required their voice for at
+                                            least
                                             <Text className="font-bold">
                                                 {" "}
-                                                15 seconds
-                                            </Text>{" "}
-                                            and up to a maximum of
-                                            <Text className="font-bold">
-                                                {" "}
-                                                5 minutes{" "}
+                                                15 seconds and up to 5 minutes
                                             </Text>
-                                            recording. This duration is
-                                            automatically segmented into
+                                            . Any duration within this range
+                                            will be accepted and automatically
+                                            segmented into
                                             <Text className="font-bold">
                                                 {" "}
                                                 15-second chunks
