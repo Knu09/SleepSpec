@@ -254,7 +254,6 @@ export default function Recording() {
         timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
             secondsRef.current += 1;
-            console.log(secondsRef.current);
 
             if (secondsRef.current >= 15 && !toastFlags.segment15s) {
                 toastFlags.segment15s = true;
