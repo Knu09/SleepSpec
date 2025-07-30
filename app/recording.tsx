@@ -148,6 +148,10 @@ export default function Recording() {
     const toastMesRef = useRef<any>({});
 
     let hasShownToast = false;
+    const toastFlags = {
+        segment15s: false,
+        segment1min: false,
+    };
 
     function triggerToast({
         title,
@@ -245,38 +249,15 @@ export default function Recording() {
         }, [audioRecorder]),
     );
 
-    async function recordStart() {
-        if (recordState.isRecording) {
-            return;
-        }
-
-        dispatch(RecordAction.START);
-
-        await audioRecorder.prepareToRecordAsync();
-        audioRecorder.record();
-
-        hasShownToast = true;
-
-        triggerToast({
-            title: "Recording Started",
-            description:
-                "Please read the script clearly for at least 15 seconds.",
-            type: "info",
-            duration: 5000,
-            iconName: "info",
-            iconFamily: "Feather",
-            delay: 270,
-        });
-
-        hasShownToast = false;
-
+    function startTimerWithToasts() {
+        if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
             dispatch(RecordAction.INCREMENT_TIMER);
-
             secondsRef.current += 1;
+            console.log(secondsRef.current);
 
-            if (secondsRef.current >= 15 && !hasShownToast) {
-                hasShownToast = true;
+            if (secondsRef.current >= 15 && !toastFlags.segment15s) {
+                toastFlags.segment15s = true;
 
                 triggerToast({
                     title: "Segmentation",
@@ -288,8 +269,8 @@ export default function Recording() {
                     delay: 280,
                 });
             }
-            if (secondsRef.current % 60 == 0 && !hasShownToast) {
-                hasShownToast = true;
+            if (secondsRef.current % 60 == 0 && secondsRef.current <= 240) {
+                toastFlags.segment1min = true;
 
                 triggerToast({
                     title: "Segmentation",
@@ -306,6 +287,34 @@ export default function Recording() {
                 recordStop(true);
             }
         }, 1000);
+    }
+
+    async function recordStart() {
+        if (recordState.isRecording) {
+            return;
+        }
+
+        dispatch(RecordAction.START);
+
+        await audioRecorder.prepareToRecordAsync();
+        audioRecorder.record();
+
+        triggerToast({
+            title: "Recording Started",
+            description:
+                "Please read the script clearly for at least 15 seconds.",
+            type: "info",
+            duration: 5000,
+            iconName: "info",
+            iconFamily: "Feather",
+            delay: 270,
+        });
+
+        secondsRef.current = 0;
+        toastFlags.segment15s = false;
+        toastFlags.segment1min = false;
+
+        startTimerWithToasts();
     }
 
     async function recordPause() {
@@ -350,10 +359,7 @@ export default function Recording() {
         });
         hasShownToast = false;
 
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = setInterval(() => {
-            dispatch(RecordAction.INCREMENT_TIMER);
-        }, 1000);
+        startTimerWithToasts();
     }
 
     async function recordStop(upload: boolean) {
