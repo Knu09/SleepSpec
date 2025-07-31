@@ -51,8 +51,8 @@ export default function TrainingResults() {
         {
             title: "AUC-ROC Curve",
             description:
-                "The figure below shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension frequency-scale has the highest AUC of 0.95 (1.0 - 0.05), which is closer to 1.0, indicating an excellent separation between classes (See Figure 4). The second feature dimension with the high AUC is the combined features (Strf) with an AUC of 0.86, which is also within the very good range from Figure 4. The third feature dimension that aligns the value of AUC in combined features is the frequency-rate has a very good with an AUC of 0.85. While the scale-rate, performs a satisfactory that lies with an AUC of 0.70. Overall, the frequency-scale performs an excellent feature for the SVM classifier.",
-            image: require("./../assets/images/roc_curve_all_dimensions.png"),
+                "The figure shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension combined features (Strf) has the highest Area Under the Curve or AUC of 0.84 (1.0 - 0.16), which is closer to 0.9, indicating a very good separation between classes (See Figure 4 for AUC criteria). The second feature dimension with the high AUC is the frequency-rate (FR) with an AUC of 0.82, which is also within the very good  range. The third feature dimension that aligns the value of AUC in scale-rate (SR) is the frequency-scale (FS), which is satisfactory with an AUC of 0.64. While the scale-rate performs a satisfactory that lies with an AUC of 0.64. Hence, the dimension, combined feature or the Spectro-Temporal Receptive Field (STRF), is the correct decision to be used in sleep deprivation detection.",
+            image: require("./../assets/images/combined_roc_curve.png"),
             isOpened: false,
         },
     ];
