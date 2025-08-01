@@ -9,54 +9,9 @@ import MetricCard from "@/components/MetricCard";
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import { LinearGradient } from "expo-linear-gradient";
+import { training_results } from "@/constants/constant";
 
 export default function TrainingResults() {
-    const training_results = [
-        {
-            title: "BAcc",
-            description:
-                "Balanced Accuracy (BAcc) is like a fair judge — it looks at how well the model performs across all classes, especially when things aren’t evenly split. A score of 85.90% means it did a good job telling apart sleep-deprived and non-sleep-deprived voices overall.",
-            image: "",
-            isOpened: true,
-        },
-        {
-            title: "Accuracy",
-            description:
-                "This is the percentage of times the model got it right. At 85.88%, it means that almost 3 out of 4 times, the system correctly identified whether someone was sleep-deprived or not.",
-            image: "",
-            isOpened: false,
-        },
-        {
-            title: "Precision",
-            description:
-                "Precision tells us how many times the model was right when it said someone was sleep-deprived. At 85.90%, it means most of the time, when the system raised a flag, it was for a good reason.",
-            image: "",
-            isOpened: false,
-        },
-        {
-            title: "Recall",
-            description:
-                "Recall measures how well the system catches actual cases of sleep deprivation. With a 85.88% score, it means it successfully found most of the people who were really sleep-deprived.",
-            image: "",
-            isOpened: false,
-        },
-        {
-            title: "F1-Score",
-            description:
-                "The F1-Score balances both precision and recall. A 85.88% score indicates that the system is not only accurate, but also reliable in detection of mild sleep deprivation without the cause of excessive false alarms.",
-            image: "",
-            isOpened: false,
-        },
-
-        {
-            title: "AUC-ROC Curve",
-            description:
-                "The figure below shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension frequency-scale has the highest AUC of 0.95 (1.0 - 0.05), which is closer to 1.0, indicating an excellent separation between classes (See Figure 4). The second feature dimension with the high AUC is the combined features (Strf) with an AUC of 0.86, which is also within the very good range from Figure 4. The third feature dimension that aligns the value of AUC in combined features is the frequency-rate has a very good with an AUC of 0.85. While the scale-rate, performs a satisfactory that lies with an AUC of 0.70. Overall, the frequency-scale performs an excellent feature for the SVM classifier.",
-            image: require("./../assets/images/roc_curve_all_dimensions.png"),
-            isOpened: false,
-        },
-    ];
-
     const [fontsLoaded] = useFonts({
         "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),

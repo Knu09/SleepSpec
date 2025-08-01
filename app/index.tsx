@@ -1,7 +1,14 @@
 import "react-native-gesture-handler";
 import "@/global.css";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Link } from "expo-router";
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    TouchableHighlight,
+    View,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -32,6 +39,12 @@ export default function Index() {
     const textClass =
         currentTheme === "dark" ? "text-secondary" : "text-bgDark";
 
+    const router = useRouter();
+
+    const navigateTo = (screen: string) => {
+        router.push(`/${screen}` as any);
+    };
+
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
@@ -55,7 +68,7 @@ export default function Index() {
                 <View
                     style={styles.shadowBox}
                     className={
-                        (isDark ? "bg-darkBg" : "bg-white") +
+                        (isDark ? "bg-darkLayer" : "bg-white") +
                         " gap-16 rounded-3xl py-10 px-2"
                     }
                 >
@@ -125,7 +138,10 @@ export default function Index() {
                                 elevation: 3,
                             }}
                         >
-                            <Link href="/select_language">
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => navigateTo("select_language")}
+                            >
                                 <LinearGradient
                                     colors={["#006EFF", "#7800D3"]}
                                     start={{ x: 0.5, y: 0 }}
@@ -156,13 +172,16 @@ export default function Index() {
                                         <LanguageSelected />
                                     </View>
                                 </LinearGradient>
-                            </Link>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
 
                 <View className="flex w-full flex-1 items-center justify-center gap-2">
-                    <Link href="/recording">
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={() => navigateTo("recording")}
+                    >
                         <LinearGradient
                             colors={["#006EFF", "#7800D3"]}
                             start={{ x: 0.5, y: 0 }}
@@ -195,7 +214,7 @@ export default function Index() {
                                 </MaskedView>
                             </View>
                         </LinearGradient>
-                    </Link>
+                    </TouchableOpacity>
                     <Text className="text-primaryBlue font-publicsans font-bold text-xl">
                         Press here to Start
                     </Text>

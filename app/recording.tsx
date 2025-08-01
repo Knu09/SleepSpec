@@ -1,6 +1,6 @@
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
-import { Link, useFocusEffect } from "expo-router";
+import { Link, useFocusEffect, useRouter } from "expo-router";
 import {
     useCallback,
     useContext,
@@ -43,6 +43,19 @@ import {
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import ToastMessage from "@/components/ToastMessage";
+import type { ToastMessageProps } from "@/components/ToastMessage";
+import Animated, {
+    Extrapolate,
+    Extrapolation,
+    interpolate,
+    runOnUI,
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+    withTiming,
+} from "react-native-reanimated";
+import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 
 type RecordingState = {
     timer: Timer;
@@ -101,10 +114,18 @@ export default function Recording() {
         recordReducer,
         initialRecordState,
     );
-    const timerRef = useRef<number>(0);
+    const timerRef = useRef<number | null>(null);
+    const secondsRef = useRef<number>(0);
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
+
+    // Metering wavefom values
+    const [currentMetering, setCurrentMetering] = useState(-60);
+    const animatedMeter = useSharedValue(0);
+
+    // console.log("Audio dB:", currentMetering);
+
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
@@ -121,6 +142,42 @@ export default function Recording() {
         : "border-divider border-t-[1px]";
     const modalColor = isDark ? "bg-darkLayer" : "bg-white";
     const iconColor = isDark ? "#FFF" : "#01000F";
+
+    const router = useRouter();
+
+    const toastMesRef = useRef<any>({});
+
+    let hasShownToast = false;
+    const toastFlags = {
+        segment15s: false,
+        segment1min: false,
+    };
+
+    function triggerToast({
+        title,
+        description,
+        type,
+        duration,
+        iconName,
+        iconFamily,
+        delay = 500,
+    }: ToastMessageProps) {
+        toastMesRef.current?.hide?.();
+        setTimeout(() => {
+            toastMesRef.current?.show({
+                title,
+                description,
+                type,
+                duration,
+                iconName,
+                iconFamily,
+            });
+        }, delay);
+    }
+
+    const navigateTo = (screen: string) => {
+        router.push(`/${screen}` as any);
+    };
 
     // INFO: Modal useState
     const [modalVisible, setModalVisible] = useState(false);
@@ -159,6 +216,30 @@ export default function Recording() {
         };
     }, []);
 
+    // NOTE: Recording Metering Animation: this is used for real-time animation of metering in dB
+    useEffect(() => {
+        let animationFrameId: number;
+
+        const updateMetering = async () => {
+            try {
+                const status = await audioRecorder.getStatus();
+                if (status?.metering !== undefined) {
+                    setCurrentMetering(status.metering);
+                }
+            } catch (error) {
+                console.error("Error getting audio status:", error);
+            }
+
+            animationFrameId = requestAnimationFrame(updateMetering);
+        };
+
+        if (recordState.isRecording) {
+            animationFrameId = requestAnimationFrame(updateMetering);
+        }
+
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [recordState.isRecording]);
+
     useFocusEffect(
         useCallback(() => {
             return () => {
@@ -167,6 +248,45 @@ export default function Recording() {
             };
         }, [audioRecorder]),
     );
+
+    function startTimerWithToasts() {
+        if (timerRef.current) clearInterval(timerRef.current);
+        timerRef.current = setInterval(() => {
+            dispatch(RecordAction.INCREMENT_TIMER);
+            secondsRef.current += 1;
+
+            if (secondsRef.current >= 15 && !toastFlags.segment15s) {
+                toastFlags.segment15s = true;
+
+                triggerToast({
+                    title: "Segmentation",
+                    description: "Recording exceeded 15 seconds.",
+                    type: "info",
+                    duration: 5000,
+                    iconName: "info",
+                    iconFamily: "Feather",
+                    delay: 280,
+                });
+            }
+            if (secondsRef.current % 60 == 0 && secondsRef.current <= 240) {
+                toastFlags.segment1min = true;
+
+                triggerToast({
+                    title: "Segmentation",
+                    description: `You've reached the ${secondsRef.current / 60}-minute mark. You may continue recording or stop now if ready.`,
+                    type: "info",
+                    duration: 5000,
+                    iconName: "info",
+                    iconFamily: "Feather",
+                    delay: 280,
+                });
+            }
+            if (secondsRef.current === 300) {
+                clearInterval(timerRef.current!);
+                recordStop(true);
+            }
+        }, 1000);
+    }
 
     async function recordStart() {
         if (recordState.isRecording) {
@@ -178,43 +298,116 @@ export default function Recording() {
         await audioRecorder.prepareToRecordAsync();
         audioRecorder.record();
 
-        timerRef.current = setInterval(() => {
-            dispatch(RecordAction.INCREMENT_TIMER);
-        }, 1000);
+        triggerToast({
+            title: "Recording Started",
+            description:
+                "Please read the script clearly for at least 15 seconds.",
+            type: "info",
+            duration: 5000,
+            iconName: "info",
+            iconFamily: "Feather",
+            delay: 270,
+        });
+
+        secondsRef.current = 0;
+        toastFlags.segment15s = false;
+        toastFlags.segment1min = false;
+
+        startTimerWithToasts();
     }
 
     async function recordPause() {
         dispatch(RecordAction.PAUSE);
-        clearInterval(timerRef.current);
+        // Reset the waveform size to 120
+        setCurrentMetering(-158);
         await audioRecorder.pause();
+
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+
+        hasShownToast = true;
+
+        triggerToast({
+            title: "Recording Paused",
+            description:
+                "Press the microphone to resume recording or hold to stop the recording.",
+            type: "warning",
+            duration: 8000,
+            iconName: "warning",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
     }
 
     async function recordResume() {
         dispatch(RecordAction.RESUME);
         await audioRecorder.record();
 
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = setInterval(() => {
-            dispatch(RecordAction.INCREMENT_TIMER);
-        }, 1000);
+        hasShownToast = true;
+
+        triggerToast({
+            title: "Recording Resumed",
+            description: "Continue speaking clearly. Feel free to pause.",
+            type: "info",
+            duration: 5000,
+            iconName: "info",
+            iconFamily: "Feather",
+            delay: 300,
+        });
+        hasShownToast = false;
+
+        startTimerWithToasts();
     }
 
     async function recordStop(upload: boolean) {
         if (!recordState.isRecording) return;
 
         dispatch(RecordAction.STOP);
-        clearInterval(timerRef.current);
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+        secondsRef.current = 0;
 
         await audioRecorder.stop();
 
         // Skip upload when specified
         if (!upload) return;
 
+        triggerToast({
+            title: "Audio Successfully Uploaded",
+            description:
+                "Please wait for a moment while the system is processing your audio data.",
+            type: "success",
+            duration: 10000,
+            iconName: "checkmark-circle",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
+
+        hasShownToast = false;
+
         const uri = audioRecorder.uri;
+
         const result = await uploadAudio(uri!);
 
         if (!result) {
             setUpload(Process.FAILED);
+
+            triggerToast({
+                title: "Upload failed",
+                description:
+                    "Make sure to record your voice at least 15 seconds.",
+                type: "error",
+                duration: 5000,
+                iconName: "warning",
+                iconFamily: "Ionicons",
+                delay: 500,
+            });
+
+            hasShownToast = false;
             return;
         }
 
@@ -224,9 +417,63 @@ export default function Recording() {
         syncSegments();
     }
 
+    // NOTE: Real-time Animated Waveform
+    const previousValidMetering = useRef(-60);
+    useEffect(() => {
+        if (typeof currentMetering === "number") {
+            let value = currentMetering;
+
+            if (value === null || value === -160) {
+                value = previousValidMetering.current;
+            } else {
+                previousValidMetering.current = value;
+            }
+
+            runOnUI(() => {
+                animatedMeter.value = withSpring(value, {
+                    damping: 15,
+                    stiffness: 100,
+                });
+                // animatedMeter.value = withTiming(currentMetering);
+            })();
+        }
+    }, [currentMetering]);
+
+    const animatedRecordWaveInner = useAnimatedStyle(() => {
+        const size = interpolate(
+            animatedMeter.value,
+            [-160, -80, -40, -10, -5, 0],
+            [120, 120, 130, 135, 145, 155],
+            Extrapolation.CLAMP,
+        );
+
+        return {
+            width: size,
+            height: size,
+        };
+    });
+
+    const animatedRecordWaveOuter = useAnimatedStyle(() => {
+        const size = interpolate(
+            animatedMeter.value,
+            [-160, -80, -40, -20, 0],
+            [120, 130, 135, 150, 170],
+            Extrapolation.CLAMP,
+        );
+
+        return {
+            width: size,
+            height: size,
+        };
+    });
+
     return (
-        <SafeAreaView className={bgClass} style={styles.container}>
+        <SafeAreaView
+            className={bgClass + " relative"}
+            style={styles.container}
+        >
             <Header title={"Recording"} back={true} menu={true} />
+            <ToastMessage ref={toastMesRef} />
             <View className="my-5 px-3 flex-1">
                 <View
                     style={{ elevation: 3 }}
@@ -244,9 +491,18 @@ export default function Recording() {
                             Selected Speech Script
                         </Text>
                         <View className="flex flex-row justify-between items-center pe-2">
-                            <Link href="/select_language" className="w-28">
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                onPress={() => navigateTo("select_language")}
+                                className="flex flex-row items-center gap-4"
+                            >
                                 <LanguageSelected />
-                            </Link>
+                                <AntDesign
+                                    name="right"
+                                    size={14}
+                                    color={iconColor}
+                                />
+                            </TouchableOpacity>
 
                             <TouchableOpacity
                                 onPress={() => setModalVisible(true)}
@@ -409,7 +665,7 @@ export default function Recording() {
                                     {/* Recording Status */}
                                     {recordState.isRecording ? (
                                         recordState.isPaused ? (
-                                            <View className="w-3 h-3 rounded-full bg-warning"></View>
+                                            <View className="w-3 h-3 rounded-full bg-[#F39C11]"></View>
                                         ) : (
                                             <View className="w-3 h-3 rounded-full bg-active"></View>
                                         )
@@ -423,18 +679,47 @@ export default function Recording() {
                 </View>
 
                 <View className="flex justify-center flex-1">
-                    <View className="">
+                    <View className="z-50">
                         <Text
                             className={
                                 textClass +
-                                " mx-auto text-3xl font-normal font-poppins"
+                                " mx-auto text-3xl font-poppinsMedium"
                             }
                         >
                             {Timer.format(recordState.timer)}
                         </Text>
                     </View>
-                    <View className="flex justify-center items-center mb-2 mt-1">
-                        <Pressable
+
+                    {/* Record Button */}
+                    <View className="relative flex justify-center items-center my-5">
+                        <Animated.View
+                            style={[styles.recordWave, animatedRecordWaveInner]}
+                        >
+                            <LinearGradient
+                                colors={["#006FFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                style={StyleSheet.absoluteFill}
+                            />
+                        </Animated.View>
+
+                        <Animated.View
+                            style={[
+                                styles.recordWave,
+                                { opacity: 0.15 },
+                                animatedRecordWaveOuter,
+                            ]}
+                        >
+                            <LinearGradient
+                                colors={["#006FFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                style={StyleSheet.absoluteFill}
+                            />
+                        </Animated.View>
+
+                        <TouchableOpacity
+                            activeOpacity={0.9}
                             onPress={() => {
                                 if (
                                     recordState.isRecording &&
@@ -452,6 +737,7 @@ export default function Recording() {
                             }}
                             onLongPress={() => {
                                 if (recordState.isRecording) {
+                                    clearInterval(timerRef.current!);
                                     recordStop(true);
                                     setUpload(Process.PENDING);
                                 }
@@ -467,31 +753,32 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " w-40 h-40 flex justify-center items-center rounded-full"
+                                        " w-36 h-36 flex justify-center items-center rounded-full"
                                     }
                                     style={styles.shadowProp}
                                 >
-                                    {recordState.isRecording &&
-                                    !recordState.isPaused ? (
-                                        <GradientIcon
-                                            name="microphone"
-                                            size={60}
-                                        />
-                                    ) : (
-                                        <Icon
-                                            name="microphone"
-                                            size={60}
-                                            color="#006fff"
-                                        />
-                                    )}
+                                    <GradientIcon name="microphone" size={60} />
+                                    {/* {recordState.isRecording && */}
+                                    {/* !recordState.isPaused ? ( */}
+                                    {/*     <GradientIcon */}
+                                    {/*         name="microphone" */}
+                                    {/*         size={60} */}
+                                    {/*     /> */}
+                                    {/* ) : ( */}
+                                    {/*     <Icon */}
+                                    {/*         name="microphone" */}
+                                    {/*         size={60} */}
+                                    {/*         color="#006fff" */}
+                                    {/*     /> */}
+                                    {/* )} */}
                                 </View>
                             </LinearGradient>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
 
-                    <View className="text-center gap-2">
+                    <View className="text-center gap-1">
                         <Text
-                            className={`text-xl font-bold mx-auto font-publicsans ${
+                            className={`text-xl mx-auto font-publicsansBold ${
                                 recordState.isRecording
                                     ? recordState.isPaused
                                         ? textClass
@@ -508,7 +795,7 @@ export default function Recording() {
                         <Text
                             className={
                                 textClass +
-                                " text-center text-sm font-regular font-publicsans"
+                                " text-center text-sm font-publicsans"
                             }
                         >
                             {recordState.isRecording ? (
@@ -609,7 +896,7 @@ export default function Recording() {
                                 <Text
                                     className={
                                         textClass +
-                                        " text-lg font-bold font-publicsans"
+                                        " text-lg font-publicsansBold"
                                     }
                                 >
                                     Recording Guide
@@ -765,10 +1052,10 @@ export default function Recording() {
                                                     <Text
                                                         className={
                                                             textClass +
-                                                            " text-lg font-normal font-publicsans opacity-80 ps-4"
+                                                            " text-sm font-normal font-publicsans opacity-80 ps-4"
                                                         }
                                                     >
-                                                        •
+                                                        {"\u25CF"}
                                                     </Text>
                                                     <Text
                                                         className={
@@ -804,7 +1091,7 @@ export default function Recording() {
                                                     " font-bold font-publicsans"
                                                 }
                                             >
-                                                Timer Display
+                                                Recording Segments
                                             </Text>
                                         </View>
                                         <Text
@@ -813,20 +1100,45 @@ export default function Recording() {
                                                 " text-sm font-normal font-publicsans opacity-80"
                                             }
                                         >
-                                            Just above the record button is a
+                                            To ensure accurate detection, users
+                                            are required their voice for at
+                                            least
                                             <Text className="font-bold">
                                                 {" "}
-                                                live timer{" "}
+                                                15 seconds and up to 5 minutes
                                             </Text>
-                                            , formatted in
+                                            . Any duration within this range
+                                            will be accepted and automatically
+                                            segmented into
                                             <Text className="font-bold">
                                                 {" "}
-                                                MM:SS
-                                            </Text>
-                                            , which shows how long the current
-                                            recording has been running. Users
-                                            are encouraged to reach the full
-                                            15-second duration.
+                                                15-second chunks
+                                            </Text>{" "}
+                                            for analysis. Speak clearly in a
+                                            calm and natural tone, and try to
+                                            avoid background noise.
+                                        </Text>
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans opacity-80"
+                                            }
+                                        >
+                                            The app will provide a
+                                            <Text className="font-bold">
+                                                {" "}
+                                                live timer
+                                            </Text>{" "}
+                                            and
+                                            <Text className="font-bold">
+                                                {" "}
+                                                message indicator
+                                            </Text>{" "}
+                                            to help guide you toward completing
+                                            the full session. You may pause and
+                                            resume as needed, but aim to finish
+                                            the 5-minute session in a single
+                                            sitting for best results.
                                         </Text>
                                     </View>
                                     <View className="gap-2">
@@ -903,11 +1215,7 @@ export default function Recording() {
                 </BlurView>
             </Modal>
 
-            <Overlay
-                heading="Processing Audio Data"
-                state={upload}
-                redirect="/analysis"
-            />
+            <Overlay heading="Processing" state={upload} redirect="/analysis" />
         </SafeAreaView>
     );
 }
@@ -982,6 +1290,14 @@ const styles = StyleSheet.create({
     shadowProp: {
         elevation: 10,
         shadowColor: "#000",
+    },
+    recordWave: {
+        position: "absolute",
+        opacity: 0.35,
+        borderRadius: 1000,
+        overflow: "hidden",
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     container: {
