@@ -725,9 +725,12 @@ export default function Recording() {
 
                     <View className="flex flex-row justify-evenly items-center my-5">
                         {/* Stop Recording Button */}
-                        <View className="relative flex items-center gap-1 -mb-4">
+                        <View
+                            className={"relative flex items-center gap-1 -mb-4"}
+                        >
                             <TouchableOpacity
                                 activeOpacity={0.9}
+                                disabled={!recordState.isRecording} // disabled if not recording
                                 onPress={() => {
                                     clearInterval(timerRef.current!);
                                     recordStop(true);
@@ -738,7 +741,7 @@ export default function Recording() {
                                     colors={["#006EFF", "#7800D3"]}
                                     start={{ x: 0.5, y: 0 }}
                                     end={{ x: 0.5, y: 1 }}
-                                    className="justify-center items-center p-[1.5px]"
+                                    className="justify-center items-center p-[1.25px]"
                                     style={styles.linearGradientMicrophone}
                                 >
                                     <View
@@ -854,6 +857,7 @@ export default function Recording() {
                         <View className="relative flex items-center gap-1 -mb-4">
                             <TouchableOpacity
                                 activeOpacity={0.9}
+                                disabled={!recordState.isRecording} // disabled if not recording
                                 onPress={() => {
                                     recordReset();
                                 }}
@@ -862,7 +866,7 @@ export default function Recording() {
                                     colors={["#006EFF", "#7800D3"]}
                                     start={{ x: 0.5, y: 0 }}
                                     end={{ x: 0.5, y: 1 }}
-                                    className="justify-center items-center p-[1.5px]"
+                                    className="justify-center items-center p-[1.25px]"
                                     style={styles.linearGradientMicrophone}
                                 >
                                     <View
@@ -977,7 +981,10 @@ export default function Recording() {
                                 )
                             ) : (
                                 <Text
-                                    className={textClass + " text-center mt-4"}
+                                    className={
+                                        textClass +
+                                        " text-center opacity-80 mt-4"
+                                    }
                                 >
                                     Tap{"  "}
                                     <Icon
