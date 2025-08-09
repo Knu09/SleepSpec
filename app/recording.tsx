@@ -69,6 +69,7 @@ enum RecordAction {
     INCREMENT_TIMER,
     PAUSE,
     RESUME,
+    RESET,
 }
 
 const recordReducer = (
@@ -100,6 +101,8 @@ const recordReducer = (
                 ...state,
                 timer: Timer.fromSeconds(secs + 1 + mins * 60),
             };
+        case RecordAction.RESET:
+            return { ...state, timer: Timer.reset(), isRecording: false };
     }
 };
 
@@ -116,6 +119,7 @@ export default function Recording() {
     );
     const timerRef = useRef<number | null>(null);
     const secondsRef = useRef<number>(0);
+
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
@@ -361,8 +365,37 @@ export default function Recording() {
         startTimerWithToasts();
     }
 
+    async function recordReset() {
+        dispatch(RecordAction.RESET);
+
+        setCurrentMetering(-158);
+
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+        secondsRef.current = 0;
+
+        await audioRecorder.stop();
+
+        triggerToast({
+            title: "Recording Reset",
+            description:
+                "The recording has been cleared. You can start a new one now.",
+            type: "success",
+            duration: 5000,
+            iconName: "checkmark-circle",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
+
+        hasShownToast = false;
+    }
+
     async function recordStop(upload: boolean) {
         if (!recordState.isRecording) return;
+
+        setCurrentMetering(-158);
 
         dispatch(RecordAction.STOP);
         if (timerRef.current !== null) {
@@ -691,7 +724,7 @@ export default function Recording() {
                     </View>
 
                     <View className="flex flex-row justify-evenly items-center my-5">
-                        {/* Stop Button */}
+                        {/* Stop Recording Button */}
                         <View className="relative flex items-center gap-1 -mb-4">
                             <TouchableOpacity
                                 activeOpacity={0.9}
@@ -822,9 +855,7 @@ export default function Recording() {
                             <TouchableOpacity
                                 activeOpacity={0.9}
                                 onPress={() => {
-                                    clearInterval(timerRef.current!);
-                                    recordStop(true);
-                                    setUpload(Process.PENDING);
+                                    recordReset();
                                 }}
                             >
                                 <LinearGradient
@@ -848,7 +879,7 @@ export default function Recording() {
                                     >
                                         <FontAwesome6
                                             name="arrows-rotate"
-                                            size={22}
+                                            size={20}
                                             color="#006FFF"
                                         />
                                     </View>
