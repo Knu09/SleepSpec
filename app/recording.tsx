@@ -56,6 +56,7 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
+import RecordingStatus from "@/components/RecordingStatus";
 
 type RecordingState = {
     timer: Timer;
@@ -599,7 +600,7 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " mx-4 py-3 pe-2 flex flex-row justify-between items-center " +
+                                        " mx-4 py-2 flex flex-row justify-between items-center " +
                                         borderColorClass
                                     }
                                 >
@@ -695,15 +696,25 @@ export default function Recording() {
                                             </Text>
                                         )}
                                     </Text>
+
                                     {/* Recording Status */}
                                     {recordState.isRecording ? (
                                         recordState.isPaused ? (
-                                            <View className="w-3 h-3 rounded-full bg-[#F39C11]"></View>
+                                            <RecordingStatus
+                                                color="#F39C11"
+                                                status="PAUSE"
+                                            />
                                         ) : (
-                                            <View className="w-3 h-3 rounded-full bg-active"></View>
+                                            <RecordingStatus
+                                                color="#FF2121"
+                                                status="REC"
+                                            />
                                         )
                                     ) : (
-                                        <View className="w-3 h-3 rounded-full bg-idle"></View>
+                                        <RecordingStatus
+                                            color="#9E9E9E"
+                                            status="IDLE"
+                                        />
                                     )}
                                 </View>
                             </View>
