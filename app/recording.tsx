@@ -690,90 +690,178 @@ export default function Recording() {
                         </Text>
                     </View>
 
-                    {/* Record Button */}
-                    <View className="relative flex justify-center items-center my-5">
-                        <Animated.View
-                            style={[styles.recordWave, animatedRecordWaveInner]}
-                        >
-                            <LinearGradient
-                                colors={["#006FFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                style={StyleSheet.absoluteFill}
-                            />
-                        </Animated.View>
-
-                        <Animated.View
-                            style={[
-                                styles.recordWave,
-                                { opacity: 0.15 },
-                                animatedRecordWaveOuter,
-                            ]}
-                        >
-                            <LinearGradient
-                                colors={["#006FFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                style={StyleSheet.absoluteFill}
-                            />
-                        </Animated.View>
-
-                        <TouchableOpacity
-                            activeOpacity={0.9}
-                            onPress={() => {
-                                if (
-                                    recordState.isRecording &&
-                                    !recordState.isPaused
-                                ) {
-                                    recordPause();
-                                } else if (
-                                    recordState.isRecording &&
-                                    recordState.isPaused
-                                ) {
-                                    recordResume();
-                                } else {
-                                    recordStart();
-                                }
-                            }}
-                            onLongPress={() => {
-                                if (recordState.isRecording) {
+                    <View className="flex flex-row justify-evenly items-center my-5">
+                        {/* Stop Button */}
+                        <View className="relative flex items-center gap-1 -mb-4">
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
                                     clearInterval(timerRef.current!);
                                     recordStop(true);
                                     setUpload(Process.PENDING);
-                                }
-                            }}
-                        >
-                            <LinearGradient
-                                colors={["#006EFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                className="justify-center items-center p-[2px]"
-                                style={styles.linearGradientMicrophone}
+                                }}
                             >
-                                <View
-                                    className={
-                                        (isDark ? "bg-darkBg" : "bg-white") +
-                                        " w-36 h-36 flex justify-center items-center rounded-full"
-                                    }
-                                    style={styles.shadowProp}
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[1.5px]"
+                                    style={styles.linearGradientMicrophone}
                                 >
-                                    <GradientIcon name="microphone" size={60} />
-                                    {/* {recordState.isRecording && */}
-                                    {/* !recordState.isPaused ? ( */}
-                                    {/*     <GradientIcon */}
-                                    {/*         name="microphone" */}
-                                    {/*         size={60} */}
-                                    {/*     /> */}
-                                    {/* ) : ( */}
-                                    {/*     <Icon */}
-                                    {/*         name="microphone" */}
-                                    {/*         size={60} */}
-                                    {/*         color="#006fff" */}
-                                    {/*     /> */}
-                                    {/* )} */}
-                                </View>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-14 h-14 flex justify-center items-center rounded-full"
+                                        }
+                                        style={{
+                                            elevation: 6,
+                                            shadowColor: "#000",
+                                        }}
+                                    >
+                                        <FontAwesome6
+                                            name="stop"
+                                            size={22}
+                                            color="#006FFF"
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <Text
+                                className={
+                                    textClass + " font-publicsans opacity-80"
+                                }
+                            >
+                                Stop
+                            </Text>
+                        </View>
+                        {/* Record Button */}
+                        <View className="relative flex justify-center items-center">
+                            <Animated.View
+                                style={[
+                                    styles.recordWave,
+                                    animatedRecordWaveInner,
+                                ]}
+                            >
+                                <LinearGradient
+                                    colors={["#006FFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    style={StyleSheet.absoluteFill}
+                                />
+                            </Animated.View>
+
+                            <Animated.View
+                                style={[
+                                    styles.recordWave,
+                                    { opacity: 0.15 },
+                                    animatedRecordWaveOuter,
+                                ]}
+                            >
+                                <LinearGradient
+                                    colors={["#006FFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    style={StyleSheet.absoluteFill}
+                                />
+                            </Animated.View>
+
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    if (
+                                        recordState.isRecording &&
+                                        !recordState.isPaused
+                                    ) {
+                                        recordPause();
+                                    } else if (
+                                        recordState.isRecording &&
+                                        recordState.isPaused
+                                    ) {
+                                        recordResume();
+                                    } else {
+                                        recordStart();
+                                    }
+                                }}
+                                onLongPress={() => {
+                                    if (recordState.isRecording) {
+                                        clearInterval(timerRef.current!);
+                                        recordStop(true);
+                                        setUpload(Process.PENDING);
+                                    }
+                                }}
+                            >
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[2px]"
+                                    style={styles.linearGradientMicrophone}
+                                >
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-36 h-36 flex justify-center items-center rounded-full"
+                                        }
+                                        style={styles.shadowProp}
+                                    >
+                                        <GradientIcon
+                                            name="microphone"
+                                            size={60}
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Reset Recording Button */}
+                        <View className="relative flex items-center gap-1 -mb-4">
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    clearInterval(timerRef.current!);
+                                    recordStop(true);
+                                    setUpload(Process.PENDING);
+                                }}
+                            >
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[1.5px]"
+                                    style={styles.linearGradientMicrophone}
+                                >
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-14 h-14 flex justify-center items-center rounded-full"
+                                        }
+                                        style={{
+                                            elevation: 6,
+                                            shadowColor: "#000",
+                                        }}
+                                    >
+                                        <FontAwesome6
+                                            name="arrows-rotate"
+                                            size={22}
+                                            color="#006FFF"
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <Text
+                                className={
+                                    textClass + " font-publicsans opacity-80"
+                                }
+                            >
+                                Reset
+                            </Text>
+                        </View>
                     </View>
 
                     <View className="text-center gap-1">
