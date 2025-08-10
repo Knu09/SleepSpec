@@ -1,3 +1,5 @@
+import { ThemeContext } from "@/context/ThemeContext";
+import { useContext } from "react";
 import { View, Text } from "react-native";
 
 type RecordStatusProps = {
@@ -6,12 +8,15 @@ type RecordStatusProps = {
 };
 
 const RecordingStatus = ({ color, status }: RecordStatusProps) => {
+    const { currentTheme } = useContext(ThemeContext);
+    const isDark = currentTheme;
+    const textClass = isDark ? "text-secondary" : "text-darkBg";
     return (
         <View
             className="px-2 py-1 rounded-2xl gap-2 flex-row items-center"
             style={{ borderColor: color, borderWidth: 1 }}
         >
-            <Text className="text-darkBg font-publicsans text-sm font-bold">
+            <Text className={textClass + ` font-publicsans text-sm font-bold`}>
                 {status}
             </Text>
             <View
