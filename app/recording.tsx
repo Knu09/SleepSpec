@@ -855,10 +855,27 @@ export default function Recording() {
                                         }
                                         style={styles.shadowProp}
                                     >
-                                        <GradientIcon
-                                            name="microphone"
-                                            size={60}
-                                        />
+                                        {recordState.isRecording ? (
+                                            recordState.isPaused ? (
+                                                <GradientIcon
+                                                    name="play"
+                                                    size={50}
+                                                    family="FontAwesome6"
+                                                />
+                                            ) : (
+                                                <GradientIcon
+                                                    name="pause"
+                                                    size={50}
+                                                    family="FontAwesome6"
+                                                />
+                                            )
+                                        ) : (
+                                            <GradientIcon
+                                                name="pause"
+                                                size={50}
+                                                family="FontAwesome6"
+                                            />
+                                        )}
                                     </View>
                                 </LinearGradient>
                             </TouchableOpacity>
