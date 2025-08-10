@@ -1,16 +1,42 @@
 import { StyleSheet, Text, View } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import Icon from "@expo/vector-icons/FontAwesome";
+// Icon families
+import {
+    FontAwesome,
+    FontAwesome6,
+    FontAwesome5,
+    Ionicons,
+} from "@expo/vector-icons";
 
-const GradientIcon = ({ name, size }: { name: string; size: number }) => {
+type GradientIconProps = {
+    name: string;
+    size: number;
+    family?: "FontAwesome" | "FontAwesome5" | "FontAwesome6" | "Ionicons";
+};
+
+const iconFamilies = {
+    FontAwesome,
+    FontAwesome5,
+    FontAwesome6,
+    Ionicons,
+};
+
+const GradientIcon = ({
+    name,
+    size,
+    family = "FontAwesome6",
+}: GradientIconProps) => {
+    const IconComponent = iconFamilies[family];
     return (
         <MaskedView
             maskElement={
-                <View
-                    style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                    <Icon name={name} size={size} color="black" />
+                <View className="flex justify-center items-center">
+                    <IconComponent
+                        name={name as any}
+                        size={size}
+                        color="black"
+                    />
                 </View>
             }
         >
