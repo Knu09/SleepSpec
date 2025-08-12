@@ -203,7 +203,7 @@ export default function Recording() {
         },
         {
             state: '"Tap ',
-            icon: "play",
+            icon: "circle",
             bold: ' to Resume Recording"',
             desc: " - If the user has paused or stopped a previous session.",
         },
@@ -622,37 +622,9 @@ export default function Recording() {
                                                     }
                                                 >
                                                     Tap{"  "}
-                                                    <MaskedView
-                                                        maskElement={
-                                                            <View className="justify-center items-center">
-                                                                <Icon
-                                                                    name="play"
-                                                                    size={16}
-                                                                    color="black"
-                                                                />
-                                                            </View>
-                                                        }
-                                                    >
-                                                        <LinearGradient
-                                                            colors={[
-                                                                "#006FFF",
-                                                                "#7800D3",
-                                                            ]}
-                                                            start={{
-                                                                x: 0.5,
-                                                                y: 0,
-                                                            }}
-                                                            end={{
-                                                                x: 0.5,
-                                                                y: 1,
-                                                            }}
-                                                            style={{
-                                                                width: 16,
-                                                                height: 16,
-                                                                marginHorizontal: 2,
-                                                            }}
-                                                        />
-                                                    </MaskedView>
+                                                    <View className="justify-center items-center">
+                                                        <View className="w-[14px] h-[14px] rounded-3xl bg-primaryBlue"></View>
+                                                    </View>
                                                     {"  "}
                                                     to Resume Recording
                                                 </Text>
@@ -664,45 +636,22 @@ export default function Recording() {
                                                             " font-publicsans text-center"
                                                         }
                                                     >
-                                                        Hold
+                                                        Hold{"  "}
                                                     </Text>
-                                                    <MaskedView
-                                                        maskElement={
-                                                            <View className="justify-center items-center">
-                                                                <Icon
-                                                                    name="pause"
-                                                                    size={16}
-                                                                    color="black"
-                                                                />
-                                                            </View>
-                                                        }
-                                                    >
-                                                        <LinearGradient
-                                                            colors={[
-                                                                "#006FFF",
-                                                                "#7800D3",
-                                                            ]}
-                                                            start={{
-                                                                x: 0.5,
-                                                                y: 0,
-                                                            }}
-                                                            end={{
-                                                                x: 0.5,
-                                                                y: 1,
-                                                            }}
-                                                            style={{
-                                                                width: 16,
-                                                                height: 16,
-                                                                marginHorizontal: 2,
-                                                            }}
+                                                    <View className="justify-center items-center">
+                                                        <Icon
+                                                            name="pause"
+                                                            size={16}
+                                                            color="#006FFF"
                                                         />
-                                                    </MaskedView>
+                                                    </View>
                                                     <Text
                                                         className={
                                                             textClass +
                                                             " font-publicsans text-center"
                                                         }
                                                     >
+                                                        {"  "}
                                                         to Stop Recording
                                                     </Text>
                                                 </View>
@@ -715,37 +664,13 @@ export default function Recording() {
                                                 }
                                             >
                                                 Tap{"  "}
-                                                <MaskedView
-                                                    maskElement={
-                                                        <View className="justify-center items-center">
-                                                            <Icon
-                                                                name="microphone"
-                                                                size={16}
-                                                                color="black"
-                                                            />
-                                                        </View>
-                                                    }
-                                                >
-                                                    <LinearGradient
-                                                        colors={[
-                                                            "#006FFF",
-                                                            "#7800D3",
-                                                        ]}
-                                                        start={{
-                                                            x: 0.5,
-                                                            y: 0,
-                                                        }}
-                                                        end={{
-                                                            x: 0.5,
-                                                            y: 1,
-                                                        }}
-                                                        style={{
-                                                            width: 16,
-                                                            height: 16,
-                                                            marginHorizontal: 2,
-                                                        }}
+                                                <View className="justify-center items-center">
+                                                    <Icon
+                                                        name="microphone"
+                                                        size={16}
+                                                        color="#006FFF"
                                                     />
-                                                </MaskedView>
+                                                </View>
                                                 {"  "}
                                                 to Start Recording
                                             </Text>
@@ -823,7 +748,7 @@ export default function Recording() {
                                         }}
                                     >
                                         <FontAwesome6
-                                            name="stop"
+                                            name="check"
                                             size={22}
                                             color="#006FFF"
                                         />
@@ -835,7 +760,7 @@ export default function Recording() {
                                     textClass + " font-publicsans opacity-80"
                                 }
                             >
-                                Stop
+                                Done
                             </Text>
                         </View>
                         {/* Record Button */}
