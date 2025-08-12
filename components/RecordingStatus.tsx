@@ -9,7 +9,7 @@ type RecordStatusProps = {
 
 const RecordingStatus = ({ color, status }: RecordStatusProps) => {
     const { currentTheme } = useContext(ThemeContext);
-    const isDark = currentTheme;
+    const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
     return (
         <View
