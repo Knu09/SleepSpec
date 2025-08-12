@@ -913,9 +913,9 @@ export default function Recording() {
                                         {recordState.isRecording ? (
                                             recordState.isPaused ? (
                                                 <GradientIcon
-                                                    name="play"
+                                                    name="circle"
                                                     size={50}
-                                                    family="FontAwesome6"
+                                                    family="FontAwesome"
                                                 />
                                             ) : (
                                                 <GradientIcon
