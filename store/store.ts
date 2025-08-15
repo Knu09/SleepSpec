@@ -1,3 +1,4 @@
+import getUUID from '@/store/uuid'
 import { create } from "zustand";
 import { CLASS, ClassResult, Evaluations, LANG } from "@/types/types";
 import { Directory, File, Paths } from "expo-file-system/next";
@@ -47,10 +48,12 @@ export const useClassStore = create<ClassStore>((set) => ({
 export const useSegmentStore = create<SegmentStore>((set) => ({
     pendingSegments: Promise.resolve([]),
     syncSegments: () => {
-        const url = `${process.env.EXPO_PUBLIC_API_URL}/segments`;
-        const dest = new Directory(Paths.cache, "segments");
-
         const fetchSegments = async (): Promise<PendingSegment[]> => {
+            const uid = await getUUID();
+
+            const url = `${process.env.EXPO_PUBLIC_API_URL}/segments/${uid}`;
+            const dest = new Directory(Paths.cache, "segments");
+
             try {
                 // delete old files
                 if (dest.exists) dest.delete();

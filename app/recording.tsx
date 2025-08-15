@@ -1,3 +1,4 @@
+import getUUID from '@/store/uuid';
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
 import { Link, useFocusEffect, useRouter } from "expo-router";
@@ -1395,8 +1396,9 @@ async function uploadAudio(audioUri: string): Promise<{
 
     try {
         console.log(env, api);
+        const uid = await getUUID();
 
-        const response = await fetch(`${api}/upload`, {
+        const response = await fetch(`${api}/upload/${uid}`, {
             method: "POST",
             body: formData,
         });
