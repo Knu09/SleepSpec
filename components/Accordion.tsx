@@ -1,3 +1,4 @@
+import getUUID from '@/store/uuid'
 import "react-native-gesture-handler";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -35,6 +36,7 @@ export default function Accordion({
         }[];
     };
 }) {
+    const [uid, setUID] = useState("");
     const [opened, setOpened] = useState(isOpened);
     const [imageKey, setImageKey] = useState(Date.now());
     // const imageSource = image && localImages[image];
@@ -44,7 +46,7 @@ export default function Accordion({
     const imageUri = isRemote
         ? image
         : isPlotFilename
-          ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${image}?t=${Date.now()}`
+          ? `${process.env.EXPO_PUBLIC_API_URL}/plots/${uid}/${image}?t=${Date.now()}`
           : null;
 
     const imageSource =
@@ -67,6 +69,8 @@ export default function Accordion({
     console.log(`${process.env.EXPO_PUBLIC_API_URL}/plots/${image}`);
 
     useEffect(() => {
+        getUUID().then(setUID);
+
         if (Platform.OS === "android") {
             UIManager.setLayoutAnimationEnabledExperimental?.(true);
         }
