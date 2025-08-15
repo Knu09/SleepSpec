@@ -18,13 +18,13 @@ export default function LanguageSelected() {
                 style={{ width: 25, aspectRatio: 1 }}
             />
             <View className="gap-1">
-                <Text className={textClass + " font-publicsans leading-none"}>
+                <Text className={textClass + " font-publicsans leading-5"}>
                     {LANG.asString(lang)}
                 </Text>
                 <Text
                     className={
                         textClass +
-                        " text-sm font-light opacity-80 font-publicsansLight leading-none"
+                        " text-sm font-light opacity-80 font-publicsansLight leading-5"
                     }
                 >
                     {LANG.getBookTitle(lang)}

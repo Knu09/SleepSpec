@@ -274,7 +274,7 @@ export default function BottomNavigationSheet() {
 
                             <TouchableHighlight
                                 underlayColor="#161B2180"
-                                onPress={() => navigateTo("about_us")}
+                                onPress={() => navigateTo("AboutUs")}
                                 className="rounded-br-md rounded-bl-md"
                                 style={styles.bottomSheetLinkTab}
                             >

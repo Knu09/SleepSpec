@@ -28,7 +28,7 @@ import CustomRCPreset from "@/constants/rc_option";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import Icon from "@expo/vector-icons/FontAwesome";
+import Icon from "@expo/vector-icons/FontAwesome6";
 
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
@@ -57,6 +57,7 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
+import RecordingStatus from "@/components/RecordingStatus";
 
 type RecordingState = {
     timer: Timer;
@@ -68,8 +69,9 @@ enum RecordAction {
     START,
     STOP,
     INCREMENT_TIMER,
-    PAUSE,
+    PAUSED,
     RESUME,
+    RESET,
 }
 
 const recordReducer = (
@@ -86,7 +88,7 @@ const recordReducer = (
                 timer: Timer.reset(),
                 isRecording: false,
             };
-        case RecordAction.PAUSE:
+        case RecordAction.PAUSED:
             return { ...state, isPaused: true };
 
         case RecordAction.RESUME:
@@ -101,6 +103,8 @@ const recordReducer = (
                 ...state,
                 timer: Timer.fromSeconds(secs + 1 + mins * 60),
             };
+        case RecordAction.RESET:
+            return { ...state, timer: Timer.reset(), isRecording: false };
     }
 };
 
@@ -117,6 +121,7 @@ export default function Recording() {
     );
     const timerRef = useRef<number | null>(null);
     const secondsRef = useRef<number>(0);
+
     const audioRecorder = useAudioRecorder(CustomRCPreset);
     const { currentLang: lang } = useLangStore();
     const [upload, setUpload] = useState(Process.IDLE);
@@ -187,16 +192,19 @@ export default function Recording() {
     const statusInstructions = [
         {
             state: '"Tap ',
+            icon: "microphone",
             bold: ' to Start Recording"',
             desc: " - Shown before the first recording begins",
         },
         {
             state: '"Hold ',
+            icon: "pause",
             bold: ' to Stop Recording"',
             desc: " - Instructs the user how to end the session while recording is active.",
         },
         {
             state: '"Tap ',
+            icon: "circle",
             bold: ' to Resume Recording"',
             desc: " - If the user has paused or stopped a previous session.",
         },
@@ -318,7 +326,7 @@ export default function Recording() {
     }
 
     async function recordPause() {
-        dispatch(RecordAction.PAUSE);
+        dispatch(RecordAction.PAUSED);
         // Reset the waveform size to 120
         setCurrentMetering(-158);
         await audioRecorder.pause();
@@ -362,8 +370,37 @@ export default function Recording() {
         startTimerWithToasts();
     }
 
+    async function recordReset() {
+        dispatch(RecordAction.RESET);
+
+        setCurrentMetering(-158);
+
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+        secondsRef.current = 0;
+
+        await audioRecorder.stop();
+
+        triggerToast({
+            title: "Recording Reset",
+            description:
+                "The recording has been cleared. You can start a new one now.",
+            type: "success",
+            duration: 5000,
+            iconName: "checkmark-circle",
+            iconFamily: "Ionicons",
+            delay: 500,
+        });
+
+        hasShownToast = false;
+    }
+
     async function recordStop(upload: boolean) {
         if (!recordState.isRecording) return;
+
+        setCurrentMetering(-158);
 
         dispatch(RecordAction.STOP);
         if (timerRef.current !== null) {
@@ -567,7 +604,7 @@ export default function Recording() {
                                 <View
                                     className={
                                         (isDark ? "bg-darkBg" : "bg-white") +
-                                        " mx-4 py-3 pe-2 flex flex-row justify-between items-center " +
+                                        " mx-4 py-2 flex flex-row justify-between items-center " +
                                         borderColorClass
                                     }
                                 >
@@ -586,11 +623,9 @@ export default function Recording() {
                                                     }
                                                 >
                                                     Tap{"  "}
-                                                    <Icon
-                                                        name="microphone"
-                                                        size={16}
-                                                        color={micColor}
-                                                    />
+                                                    <View className="justify-center items-center">
+                                                        <View className="w-[14px] h-[14px] rounded-3xl bg-primaryBlue"></View>
+                                                    </View>
                                                     {"  "}
                                                     to Resume Recording
                                                 </Text>
@@ -602,45 +637,22 @@ export default function Recording() {
                                                             " font-publicsans text-center"
                                                         }
                                                     >
-                                                        Hold
+                                                        Hold{"  "}
                                                     </Text>
-                                                    <MaskedView
-                                                        maskElement={
-                                                            <View className="justify-center items-center">
-                                                                <Icon
-                                                                    name="microphone"
-                                                                    size={16}
-                                                                    color="black"
-                                                                />
-                                                            </View>
-                                                        }
-                                                    >
-                                                        <LinearGradient
-                                                            colors={[
-                                                                "#006FFF",
-                                                                "#7800D3",
-                                                            ]}
-                                                            start={{
-                                                                x: 0.5,
-                                                                y: 0,
-                                                            }}
-                                                            end={{
-                                                                x: 0.5,
-                                                                y: 1,
-                                                            }}
-                                                            style={{
-                                                                width: 16,
-                                                                height: 16,
-                                                                marginHorizontal: 2,
-                                                            }}
+                                                    <View className="justify-center items-center">
+                                                        <Icon
+                                                            name="pause"
+                                                            size={16}
+                                                            color="#006FFF"
                                                         />
-                                                    </MaskedView>
+                                                    </View>
                                                     <Text
                                                         className={
                                                             textClass +
                                                             " font-publicsans text-center"
                                                         }
                                                     >
+                                                        {"  "}
                                                         to Stop Recording
                                                     </Text>
                                                 </View>
@@ -653,25 +665,37 @@ export default function Recording() {
                                                 }
                                             >
                                                 Tap{"  "}
-                                                <Icon
-                                                    name="microphone"
-                                                    size={16}
-                                                    color={micColor}
-                                                />
+                                                <View className="justify-center items-center">
+                                                    <Icon
+                                                        name="microphone"
+                                                        size={16}
+                                                        color="#006FFF"
+                                                    />
+                                                </View>
                                                 {"  "}
                                                 to Start Recording
                                             </Text>
                                         )}
                                     </Text>
+
                                     {/* Recording Status */}
                                     {recordState.isRecording ? (
                                         recordState.isPaused ? (
-                                            <View className="w-3 h-3 rounded-full bg-[#F39C11]"></View>
+                                            <RecordingStatus
+                                                color="#F39C11"
+                                                status="PAUSED"
+                                            />
                                         ) : (
-                                            <View className="w-3 h-3 rounded-full bg-active"></View>
+                                            <RecordingStatus
+                                                color="#FF2121"
+                                                status="REC"
+                                            />
                                         )
                                     ) : (
-                                        <View className="w-3 h-3 rounded-full bg-idle"></View>
+                                        <RecordingStatus
+                                            color="#9E9E9E"
+                                            status="IDLE"
+                                        />
                                     )}
                                 </View>
                             </View>
@@ -684,195 +708,305 @@ export default function Recording() {
                         <Text
                             className={
                                 textClass +
-                                " mx-auto text-3xl font-poppinsMedium"
+                                " mx-auto text-5xl font-poppinsMedium"
                             }
                         >
                             {Timer.format(recordState.timer)}
                         </Text>
                     </View>
 
-                    {/* Record Button */}
-                    <View className="relative flex justify-center items-center my-5">
-                        <Animated.View
-                            style={[styles.recordWave, animatedRecordWaveInner]}
+                    <View className="flex flex-row justify-evenly items-center my-5">
+                        {/* Stop Recording Button */}
+                        <View
+                            className={"relative flex items-center gap-1 -mb-4"}
                         >
-                            <LinearGradient
-                                colors={["#006FFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                style={StyleSheet.absoluteFill}
-                            />
-                        </Animated.View>
-
-                        <Animated.View
-                            style={[
-                                styles.recordWave,
-                                { opacity: 0.15 },
-                                animatedRecordWaveOuter,
-                            ]}
-                        >
-                            <LinearGradient
-                                colors={["#006FFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                style={StyleSheet.absoluteFill}
-                            />
-                        </Animated.View>
-
-                        <TouchableOpacity
-                            activeOpacity={0.9}
-                            onPress={() => {
-                                if (
-                                    recordState.isRecording &&
-                                    !recordState.isPaused
-                                ) {
-                                    recordPause();
-                                } else if (
-                                    recordState.isRecording &&
-                                    recordState.isPaused
-                                ) {
-                                    recordResume();
-                                } else {
-                                    recordStart();
-                                }
-                            }}
-                            onLongPress={() => {
-                                if (recordState.isRecording) {
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                disabled={!recordState.isRecording} // disabled if not recording
+                                onPress={() => {
                                     clearInterval(timerRef.current!);
                                     recordStop(true);
                                     setUpload(Process.PENDING);
-                                }
-                            }}
-                        >
-                            <LinearGradient
-                                colors={["#006EFF", "#7800D3"]}
-                                start={{ x: 0.5, y: 0 }}
-                                end={{ x: 0.5, y: 1 }}
-                                className="justify-center items-center p-[2px]"
-                                style={styles.linearGradientMicrophone}
+                                }}
                             >
-                                <View
-                                    className={
-                                        (isDark ? "bg-darkBg" : "bg-white") +
-                                        " w-36 h-36 flex justify-center items-center rounded-full"
-                                    }
-                                    style={styles.shadowProp}
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[1.25px]"
+                                    style={styles.linearGradientMicrophone}
                                 >
-                                    <GradientIcon name="microphone" size={60} />
-                                    {/* {recordState.isRecording && */}
-                                    {/* !recordState.isPaused ? ( */}
-                                    {/*     <GradientIcon */}
-                                    {/*         name="microphone" */}
-                                    {/*         size={60} */}
-                                    {/*     /> */}
-                                    {/* ) : ( */}
-                                    {/*     <Icon */}
-                                    {/*         name="microphone" */}
-                                    {/*         size={60} */}
-                                    {/*         color="#006fff" */}
-                                    {/*     /> */}
-                                    {/* )} */}
-                                </View>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-14 h-14 flex justify-center items-center rounded-full"
+                                        }
+                                        style={{
+                                            elevation: 6,
+                                            shadowColor: "#000",
+                                        }}
+                                    >
+                                        <FontAwesome6
+                                            name="check"
+                                            size={22}
+                                            color="#006FFF"
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <Text
+                                className={
+                                    textClass + " font-publicsans opacity-80"
+                                }
+                            >
+                                Done
+                            </Text>
+                        </View>
+                        {/* Record Button */}
+                        <View className="relative flex justify-center items-center">
+                            <Animated.View
+                                style={[
+                                    styles.recordWave,
+                                    animatedRecordWaveInner,
+                                ]}
+                            >
+                                <LinearGradient
+                                    colors={["#006FFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    style={StyleSheet.absoluteFill}
+                                />
+                            </Animated.View>
+
+                            <Animated.View
+                                style={[
+                                    styles.recordWave,
+                                    { opacity: 0.15 },
+                                    animatedRecordWaveOuter,
+                                ]}
+                            >
+                                <LinearGradient
+                                    colors={["#006FFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    style={StyleSheet.absoluteFill}
+                                />
+                            </Animated.View>
+
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    if (
+                                        recordState.isRecording &&
+                                        !recordState.isPaused
+                                    ) {
+                                        recordPause();
+                                    } else if (
+                                        recordState.isRecording &&
+                                        recordState.isPaused
+                                    ) {
+                                        recordResume();
+                                    } else {
+                                        recordStart();
+                                    }
+                                }}
+                                onLongPress={() => {
+                                    if (recordState.isRecording) {
+                                        clearInterval(timerRef.current!);
+                                        recordStop(true);
+                                        setUpload(Process.PENDING);
+                                    }
+                                }}
+                            >
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[2px]"
+                                    style={styles.linearGradientMicrophone}
+                                >
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-36 h-36 flex justify-center items-center rounded-full"
+                                        }
+                                        style={styles.shadowProp}
+                                    >
+                                        {recordState.isRecording ? (
+                                            recordState.isPaused ? (
+                                                <GradientIcon
+                                                    name="circle"
+                                                    size={50}
+                                                    family="FontAwesome"
+                                                />
+                                            ) : (
+                                                <GradientIcon
+                                                    name="pause"
+                                                    size={50}
+                                                    family="FontAwesome6"
+                                                />
+                                            )
+                                        ) : (
+                                            <GradientIcon
+                                                name="microphone"
+                                                size={50}
+                                                family="FontAwesome6"
+                                            />
+                                        )}
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Reset Recording Button */}
+                        <View className="relative flex items-center gap-1 -mb-4">
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                disabled={!recordState.isRecording} // disabled if not recording
+                                onPress={() => {
+                                    recordReset();
+                                }}
+                            >
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[1.25px]"
+                                    style={styles.linearGradientMicrophone}
+                                >
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-14 h-14 flex justify-center items-center rounded-full"
+                                        }
+                                        style={{
+                                            elevation: 6,
+                                            shadowColor: "#000",
+                                        }}
+                                    >
+                                        <FontAwesome6
+                                            name="arrows-rotate"
+                                            size={20}
+                                            color="#006FFF"
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <Text
+                                className={
+                                    textClass + " font-publicsans opacity-80"
+                                }
+                            >
+                                Reset
+                            </Text>
+                        </View>
                     </View>
 
-                    <View className="text-center gap-1">
-                        <Text
-                            className={`text-xl mx-auto font-publicsansBold ${
-                                recordState.isRecording
-                                    ? recordState.isPaused
-                                        ? textClass
-                                        : "text-primaryBlue"
-                                    : textClass
-                            }`}
-                        >
-                            {recordState.isRecording
-                                ? recordState.isPaused
-                                    ? "Paused"
-                                    : "Recording"
-                                : "Press to Record"}
-                        </Text>
-                        <Text
-                            className={
-                                textClass +
-                                " text-center text-sm font-publicsans"
-                            }
-                        >
-                            {recordState.isRecording ? (
-                                recordState.isPaused ? (
-                                    <Text
-                                        className={
-                                            textClass + " text-center mt-4"
-                                        }
-                                    >
-                                        Hold{"  "}
-                                        <Icon
-                                            name="microphone"
-                                            size={16}
-                                            color={micColor}
-                                        />
-                                        {"  "}
-                                        to Stop Recording
-                                    </Text>
-                                ) : (
-                                    <View className="flex-row justify-center items-center mt-4">
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " text-sm font-publicsans"
-                                            }
-                                        >
-                                            Hold
-                                        </Text>
-                                        <MaskedView
-                                            maskElement={
-                                                <View className="justify-center items-center">
-                                                    <Icon
-                                                        name="microphone"
-                                                        size={16}
-                                                        color="black"
-                                                    />
-                                                </View>
-                                            }
-                                        >
-                                            <LinearGradient
-                                                colors={["#006FFF", "#7800D3"]}
-                                                start={{ x: 0.5, y: 0 }}
-                                                end={{ x: 0.5, y: 1 }}
-                                                style={{
-                                                    width: 16,
-                                                    height: 16,
-                                                    marginHorizontal: 2,
-                                                }}
-                                            />
-                                        </MaskedView>
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " text-sm font-publicsans"
-                                            }
-                                        >
-                                            to Stop Recording
-                                        </Text>
-                                    </View>
-                                )
-                            ) : (
-                                <Text
-                                    className={textClass + " text-center mt-4"}
-                                >
-                                    Tap{"  "}
-                                    <Icon
-                                        name="microphone"
-                                        size={16}
-                                        color={micColor}
-                                    />
-                                    {"  "}
-                                    to Start Recording
-                                </Text>
-                            )}
-                        </Text>
-                    </View>
+                    {/* <View className="text-center gap-1"> */}
+                    {/*     <Text */}
+                    {/*         className={`text-xl mx-auto font-publicsansBold ${ */}
+                    {/*             recordState.isRecording */}
+                    {/*                 ? recordState.isPaused */}
+                    {/*                     ? textClass */}
+                    {/*                     : "text-primaryBlue" */}
+                    {/*                 : textClass */}
+                    {/*         }`} */}
+                    {/*     > */}
+                    {/*         {recordState.isRecording */}
+                    {/*             ? recordState.isPaused */}
+                    {/*                 ? "Paused" */}
+                    {/*                 : "Recording" */}
+                    {/*             : "Press to Record"} */}
+                    {/*     </Text> */}
+                    {/*     <Text */}
+                    {/*         className={ */}
+                    {/*             textClass + */}
+                    {/*             " text-center text-sm font-publicsans" */}
+                    {/*         } */}
+                    {/*     > */}
+                    {/*         {recordState.isRecording ? ( */}
+                    {/*             recordState.isPaused ? ( */}
+                    {/*                 <Text */}
+                    {/*                     className={ */}
+                    {/*                         textClass + " text-center mt-4" */}
+                    {/*                     } */}
+                    {/*                 > */}
+                    {/*                     Hold{"  "} */}
+                    {/*                     <Icon */}
+                    {/*                         name="microphone" */}
+                    {/*                         size={16} */}
+                    {/*                         color={micColor} */}
+                    {/*                     /> */}
+                    {/*                     {"  "} */}
+                    {/*                     to Stop Recording */}
+                    {/*                 </Text> */}
+                    {/*             ) : ( */}
+                    {/*                 <View className="flex-row justify-center items-center mt-4"> */}
+                    {/*                     <Text */}
+                    {/*                         className={ */}
+                    {/*                             textClass + */}
+                    {/*                             " text-sm font-publicsans" */}
+                    {/*                         } */}
+                    {/*                     > */}
+                    {/*                         Hold */}
+                    {/*                     </Text> */}
+                    {/*                     <MaskedView */}
+                    {/*                         maskElement={ */}
+                    {/*                             <View className="justify-center items-center"> */}
+                    {/*                                 <Icon */}
+                    {/*                                     name="microphone" */}
+                    {/*                                     size={16} */}
+                    {/*                                     color="black" */}
+                    {/*                                 /> */}
+                    {/*                             </View> */}
+                    {/*                         } */}
+                    {/*                     > */}
+                    {/*                         <LinearGradient */}
+                    {/*                             colors={["#006FFF", "#7800D3"]} */}
+                    {/*                             start={{ x: 0.5, y: 0 }} */}
+                    {/*                             end={{ x: 0.5, y: 1 }} */}
+                    {/*                             style={{ */}
+                    {/*                                 width: 16, */}
+                    {/*                                 height: 16, */}
+                    {/*                                 marginHorizontal: 2, */}
+                    {/*                             }} */}
+                    {/*                         /> */}
+                    {/*                     </MaskedView> */}
+                    {/*                     <Text */}
+                    {/*                         className={ */}
+                    {/*                             textClass + */}
+                    {/*                             " text-sm font-publicsans" */}
+                    {/*                         } */}
+                    {/*                     > */}
+                    {/*                         to Stop Recording */}
+                    {/*                     </Text> */}
+                    {/*                 </View> */}
+                    {/*             ) */}
+                    {/*         ) : ( */}
+                    {/*             <Text */}
+                    {/*                 className={ */}
+                    {/*                     textClass + */}
+                    {/*                     " text-center opacity-80 mt-4" */}
+                    {/*                 } */}
+                    {/*             > */}
+                    {/*                 Tap{"  "} */}
+                    {/*                 <Icon */}
+                    {/*                     name="microphone" */}
+                    {/*                     size={16} */}
+                    {/*                     color={micColor} */}
+                    {/*                 /> */}
+                    {/*                 {"  "} */}
+                    {/*                 to Start Recording */}
+                    {/*             </Text> */}
+                    {/*         )} */}
+                    {/*     </Text> */}
+                    {/* </View> */}
                 </View>
             </View>
 
@@ -1067,7 +1201,7 @@ export default function Recording() {
                                                         <Text className="font-bold">
                                                             {item.state}{" "}
                                                             <Icon
-                                                                name="microphone"
+                                                                name={item.icon}
                                                                 size={16}
                                                                 color={micColor}
                                                             />{" "}

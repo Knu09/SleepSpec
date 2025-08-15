@@ -44,3 +44,123 @@ export const training_results = [
         isOpened: false,
     },
 ];
+
+// NOTE: User Manual object
+export const user_manual = [
+    {
+        title: "Welcome to SleepSpec!",
+        description:
+            "SleepSpec is a mobile application that helps you check for signs of sleep deprivation based on your voice. It's easy to use and only takes a few minutes to process.",
+        image: "",
+        isOpened: true,
+    },
+
+    {
+        title: "How to start?",
+        description: "When you open the app, you will see two main buttons:",
+        list: {
+            type: "bullet",
+            items: [
+                {
+                    title: "Start Test",
+                    description:
+                        "Choose the speech script language you want to use in recording.",
+                },
+                {
+                    title: "Microphone",
+                    description:
+                        "Takes you to the Recording interface to start voice recording.",
+                },
+            ],
+        },
+        image: require("./../assets/images/home_guide.png"),
+        isOpened: false,
+    },
+    {
+        title: "Speech Script Language Selection",
+        description:
+            "Pick the language you are most comfortable speaking. The sentence you need to read will appear based on this choice. On this page, you can choose between:",
+        list: {
+            type: "bullet",
+            items: [
+                {
+                    title: "English",
+                    description: "English speech script",
+                },
+                {
+                    title: "Filipino",
+                    description: "Filipino speech script",
+                },
+            ],
+        },
+        image: require("./../assets/images/speech_script_language_guide.png"),
+        isOpened: false,
+    },
+    {
+        title: "Recording Guide",
+        description:
+            "The app will automatically process your recording and check for signs of sleep deprivation.",
+        list: {
+            type: "bullet",
+            items: [
+                {
+                    title: "Change Language",
+                    description:
+                        "If you want to switch to another language before recording, you can still do it here.",
+                },
+                {
+                    title: "Read the Sentence",
+                    description:
+                        "The sentence you need to read will appear based on the language you selected.",
+                },
+                {
+                    title: "Microphone Button Controls",
+                    description:
+                        "Tap once to start recording, tap again to pause the recordin, and press and hold to stop recording and analyze your voice.",
+                },
+            ],
+        },
+        image: require("./../assets/images/recording_guide.png"),
+        isOpened: false,
+    },
+    {
+        title: "Tips for Best Results",
+        description:
+            "Before recording your voice, it is important to follow these tips:",
+        list: {
+            type: "bullet",
+            items: [
+                {
+                    description:
+                        "Use the app in a quiet place. A noisy environment could result in inaccurate classification.",
+                },
+                {
+                    description:
+                        "Speak naturally—no need to rush or change your voice.",
+                },
+                {
+                    description:
+                        "Follow the instructions on screen for a smooth experience.",
+                },
+            ],
+        },
+        image: "",
+        isOpened: false,
+    },
+    {
+        title: "Need Help?",
+        description:
+            "If you're unsure what to do, you can always return to the User Manual from the Home Page and Menu Bar.",
+        list: {
+            type: "bullet",
+            items: [
+                {
+                    title: "Email us",
+                    description: "sleepspec.contact@gmail.com",
+                },
+            ],
+        },
+        image: "",
+        isOpened: false,
+    },
+];
