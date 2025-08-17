@@ -1,4 +1,4 @@
-import getUUID from '@/store/uuid';
+import getUUID from "@/store/uuid";
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
 import { Link, useFocusEffect, useRouter } from "expo-router";
