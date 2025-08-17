@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import BottomNavigationSheet from "@/components/BottomNavigationSheet";
 import { BottomSheetProvider } from "@/components/BottomSheetContext";
 import ThemeProvider, { ThemeContext } from "@/context/ThemeContext";
+import { NoiseProvider } from "@/context/NoiseContext";
 import { useContext } from "react";
 
 const { Screen } = Stack;
@@ -13,7 +14,9 @@ const { Screen } = Stack;
 export default function RootLayout() {
     return (
         <ThemeProvider>
-            <InnerLayout />
+            <NoiseProvider>
+                <InnerLayout />
+            </NoiseProvider>
         </ThemeProvider>
     );
 }
