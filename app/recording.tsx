@@ -35,6 +35,7 @@ import LanguageSelected from "@/components/LanguageSelected";
 import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 import { ThemeContext } from "@/context/ThemeContext";
+import { useNoise } from "@/context/NoiseContext";
 import GradientIcon from "@/components/GradientIcon";
 import {
     AntDesign,
@@ -1377,9 +1378,12 @@ async function uploadAudio(audioUri: string): Promise<{
         };
     }
 
+    const { noiseRemoval } = useNoise(); // get noise context value
+
     const file = new File(audioUri);
     const formData = new FormData();
     formData.append("audio", file.blob(), "recording.m4a");
+    formData.append("noiseRemoval", String(noiseRemoval)); // send noise value to server
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 
