@@ -12,10 +12,10 @@ export default function LanguageSelected() {
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
     return (
-        <View className="flex flex-row gap-2 items-center">
+        <View className="flex flex-row gap-3 items-center justify-center">
             <Image
                 source={LANG.asImg(lang)}
-                style={{ width: 25, aspectRatio: 1 }}
+                style={{ width: 28, aspectRatio: 1 }}
             />
             <View className="gap-1">
                 <Text className={textClass + " font-publicsans leading-5"}>
