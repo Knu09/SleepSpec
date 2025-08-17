@@ -136,6 +136,8 @@ export default function Recording() {
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
+    const { noiseRemoval } = useNoise(); // get noise removal context value
+
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
     const textClass = isDark ? "text-secondary" : "text-darkBg";
@@ -430,7 +432,7 @@ export default function Recording() {
 
         const uri = audioRecorder.uri;
 
-        const result = await uploadAudio(uri!);
+        const result = await uploadAudio(uri!, noiseRemoval);
 
         if (!result) {
             setUpload(Process.FAILED);
@@ -1356,7 +1358,10 @@ export default function Recording() {
     );
 }
 
-async function uploadAudio(audioUri: string): Promise<{
+async function uploadAudio(
+    audioUri: string,
+    noiseRemoval: boolean,
+): Promise<{
     class: string;
     confidence_score: number;
     classes: string[];
@@ -1378,12 +1383,10 @@ async function uploadAudio(audioUri: string): Promise<{
         };
     }
 
-    const { noiseRemoval } = useNoise(); // get noise context value
-
     const file = new File(audioUri);
     const formData = new FormData();
     formData.append("audio", file.blob(), "recording.m4a");
-    formData.append("noiseRemoval", JSON.stringify(noiseRemoval)); // send noise removal flag to server
+    formData.append("noiseRemoval", noiseRemoval ? "true" : "false"); // send noise removal flag to server
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 
