@@ -11,16 +11,23 @@ import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import SettingButton from "@/components/SettingButton";
+
+import { useNoise } from "@/context/NoiseContext";
 import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Settings() {
+    // noise reduction state
+    const { noiseRemoval, toggleNoiseRemoval } = useNoise();
+
+    // Theme state
     const { currentTheme, toggleTheme } = useContext(ThemeContext);
+
     const currentText =
         currentTheme === "dark" ? "text-secondary" : "text-darkBg";
 
@@ -76,11 +83,9 @@ export default function Settings() {
                                                 : "#ccc",
                                         true: "#006fff", // active color
                                     }}
-                                    thumbColor={
-                                        currentTheme === "dark"
-                                            ? "#eee"
-                                            : "#fff"
-                                    }
+                                    thumbColor={noiseRemoval ? "#eee" : "#fff"}
+                                    onValueChange={toggleNoiseRemoval}
+                                    value={noiseRemoval}
                                 />
                             </View>
                             <View className="flex flex-row justify-between items-center">
