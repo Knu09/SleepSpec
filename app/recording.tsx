@@ -1383,7 +1383,7 @@ async function uploadAudio(audioUri: string): Promise<{
     const file = new File(audioUri);
     const formData = new FormData();
     formData.append("audio", file.blob(), "recording.m4a");
-    formData.append("noiseRemoval", String(noiseRemoval)); // send noise value to server
+    formData.append("noiseRemoval", JSON.stringify(noiseRemoval)); // send noise removal flag to server
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 
