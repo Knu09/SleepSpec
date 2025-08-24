@@ -88,50 +88,7 @@ export default function Analysis() {
                         </Text>
                     </View>
 
-                    <View className="">
-                        <View className="gap-6 mb-4">
-                            <Text
-                                className={
-                                    textClass + " text-sm font-publicsans"
-                                }
-                            >
-                                {advices.summary}
-                            </Text>
-                        </View>
-                        {advices.contents.map((item, index) => (
-                            <View
-                                className="flex flex-row gap-2 mb-2"
-                                key={index}
-                            >
-                                <Text
-                                    className={
-                                        textClass + " text-sm font-publicsans"
-                                    }
-                                >
-                                    {"\u25CF"}
-                                </Text>
-                                <View className="flex-1">
-                                    <Text
-                                        className={
-                                            textClass +
-                                            " text-sm font-bold font-publicsans"
-                                        }
-                                    >
-                                        {item.title}:{" "}
-                                        <Text
-                                            className={
-                                                textClass +
-                                                " text-sm font-normal font-publicsans"
-                                            }
-                                        >
-                                            {item.desc}
-                                        </Text>
-                                    </Text>
-                                </View>
-                            </View>
-                        ))}
-                    </View>
-
+                    {/* Detection logs */}
                     <View className="">
                         <View
                             className={
@@ -266,6 +223,49 @@ export default function Analysis() {
                                 </View>
                             </View>
                         </View>
+                    </View>
+                    <View className="">
+                        <View className="gap-6 mb-4">
+                            <Text
+                                className={
+                                    textClass + " text-sm font-publicsans"
+                                }
+                            >
+                                {advices.summary}
+                            </Text>
+                        </View>
+                        {advices.contents.map((item, index) => (
+                            <View
+                                className="flex flex-row gap-2 mb-2"
+                                key={index}
+                            >
+                                <Text
+                                    className={
+                                        textClass + " text-sm font-publicsans"
+                                    }
+                                >
+                                    {"\u25CF"}
+                                </Text>
+                                <View className="flex-1">
+                                    <Text
+                                        className={
+                                            textClass +
+                                            " text-sm font-bold font-publicsans"
+                                        }
+                                    >
+                                        {item.title}:{" "}
+                                        <Text
+                                            className={
+                                                textClass +
+                                                " text-sm font-normal font-publicsans"
+                                            }
+                                        >
+                                            {item.desc}
+                                        </Text>
+                                    </Text>
+                                </View>
+                            </View>
+                        ))}
                     </View>
 
                     <Modal
