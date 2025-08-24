@@ -273,7 +273,7 @@ function AudioSegment({
                             " font-publicsans font-bold text-md mb-2"
                         }
                     >
-                        Detection Logs:
+                        Prediction Statistics
                     </Text>
                     <View className="flex flex-row justify-between">
                         <Text

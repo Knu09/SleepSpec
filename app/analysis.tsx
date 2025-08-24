@@ -88,7 +88,7 @@ export default function Analysis() {
                         </Text>
                     </View>
 
-                    {/* Detection logs */}
+                    {/* Prediction Statistics */}
                     <View className="">
                         <View
                             className={
@@ -117,7 +117,7 @@ export default function Analysis() {
                                         textClass + " font-publicsans font-bold"
                                     }
                                 >
-                                    Detection Logs
+                                    Prediction Statistics
                                 </Text>
                                 <TouchableOpacity
                                     className="p-2"
@@ -297,7 +297,7 @@ export default function Analysis() {
                                                 " font-bold font-publicsans"
                                             }
                                         >
-                                            What are Detection Logs?
+                                            What are the Prediction Statistics?
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() =>
@@ -324,7 +324,7 @@ export default function Analysis() {
                                             for signs of mild sleep deprivation.
                                             The{" "}
                                             <Text className="font-bold">
-                                                Detection Logs
+                                                Prediction Statistics
                                             </Text>{" "}
                                             show how likely it is that you're
                                             sleep-deprived or not
