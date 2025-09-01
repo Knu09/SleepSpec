@@ -8,7 +8,7 @@ type ThemeContextType = {
 };
 export const ThemeContext = createContext<ThemeContextType>({
     currentTheme: "dark",
-    toggleTheme: () => { },
+    toggleTheme: () => {},
 });
 
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
@@ -17,11 +17,14 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const loadTheme = async () => {
             try {
-                const savedTheme = await AsyncStorage.getItem(SettingKeys.APP_THEME);
+                // FIX: asyncing theme to storage is too slow to process.
+                const savedTheme = await AsyncStorage.getItem(
+                    SettingKeys.APP_THEME,
+                );
                 if (savedTheme) {
                     setTheme(savedTheme);
                 }
-            } catch (error) { }
+            } catch (error) {}
         };
         loadTheme();
     }, []);
@@ -30,7 +33,7 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
         try {
             await AsyncStorage.setItem(SettingKeys.APP_THEME, newTheme);
             setTheme(newTheme);
-        } catch (error) { }
+        } catch (error) {}
     };
 
     return (
