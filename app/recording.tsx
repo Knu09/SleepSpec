@@ -35,7 +35,7 @@ import LanguageSelected from "@/components/LanguageSelected";
 import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 import { ThemeContext } from "@/context/ThemeContext";
-import { useNoise } from "@/context/NoiseContext";
+import { useNoiseRemoval } from "@/context/NoiseContext";
 import GradientIcon from "@/components/GradientIcon";
 import {
     AntDesign,
@@ -136,7 +136,7 @@ export default function Recording() {
     const { result, setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
-    const { noiseRemoval } = useNoise(); // get noise removal context value
+    const { noiseRemoval } = useNoiseRemoval(); // get noise removal context value
 
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
@@ -151,6 +151,8 @@ export default function Recording() {
         : "border-divider border-t-[1px]";
     const modalColor = isDark ? "bg-darkLayer" : "bg-white";
     const iconColor = isDark ? "#FFF" : "#01000F";
+    const noiseRemovalStatusColor = noiseRemoval ? "#3DC13C" : "#FF2121";
+    const noiseRemovalTextColor = noiseRemoval ? "text-success" : "text-danger";
 
     const router = useRouter();
 
@@ -524,14 +526,37 @@ export default function Recording() {
                     }
                 >
                     <View className="gap-2">
-                        <Text
-                            className={
-                                textClass + " text-lg font-bold font-publicsans"
-                            }
-                        >
-                            Selected Speech Script
-                        </Text>
-                        <View className="flex flex-row justify-between items-center pe-2">
+                        <View className="flex flex-row justify-between">
+                            <Text
+                                className={
+                                    textClass +
+                                    " text-lg font-bold font-publicsans"
+                                }
+                            >
+                                Selected Speech Script
+                            </Text>
+
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(true)}
+                                className="flex flex-row gap-2 items-center"
+                            >
+                                <Text
+                                    className={
+                                        textClass + " text-sm font-publicsans"
+                                    }
+                                >
+                                    Need Help?
+                                </Text>
+                                <FontAwesome6
+                                    size={20}
+                                    className="text-center"
+                                    width={20}
+                                    name={"question-circle"}
+                                    color="#006FFF"
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <View className="flex flex-row justify-between items-center">
                             <TouchableOpacity
                                 activeOpacity={0.5}
                                 onPress={() => navigateTo("select_language")}
@@ -545,17 +570,32 @@ export default function Recording() {
                                 />
                             </TouchableOpacity>
 
+                            {/* Background Noise Removal Status */}
                             <TouchableOpacity
-                                onPress={() => setModalVisible(true)}
-                                className="flex flex-row gap-2 items-center"
+                                activeOpacity={0.5}
+                                onPress={() => navigateTo("settings")}
+                                className="px-2 py-1 rounded-2xl gap-2 flex-row items-center"
+                                style={{
+                                    borderColor: noiseRemovalStatusColor,
+                                    borderWidth: 1.25,
+                                }}
                             >
-                                <FontAwesome6
-                                    size={20}
-                                    className="text-center"
-                                    width={20}
-                                    name={"question-circle"}
-                                    color="#006FFF"
-                                />
+                                <Text
+                                    className={
+                                        textClass +
+                                        ` font-publicsans text-sm font-bold`
+                                    }
+                                >
+                                    Noise Removal:
+                                </Text>
+                                <Text
+                                    className={
+                                        noiseRemovalTextColor +
+                                        ` font-publicsans text-sm font-bold`
+                                    }
+                                >
+                                    {noiseRemoval ? "ON" : "OFF"}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
