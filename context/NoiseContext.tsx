@@ -20,10 +20,10 @@ export const NoiseProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 // Hook for usage
-export const useNoise = () => {
+export const useNoiseRemoval = () => {
     const context = useContext(NoiseContext);
     if (!context) {
-        throw new Error("useNoise must be used within a NoiseProvider");
+        throw new Error("useNoiseRemoval must be used within a NoiseProvider");
     }
     return context;
 };

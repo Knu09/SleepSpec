@@ -18,12 +18,12 @@ SplashScreen.preventAutoHideAsync();
 import Header from "@/components/Header";
 import SettingButton from "@/components/SettingButton";
 
-import { useNoise } from "@/context/NoiseContext";
+import { useNoiseRemoval } from "@/context/NoiseContext";
 import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Settings() {
     // noise reduction state
-    const { noiseRemoval, toggleNoiseRemoval } = useNoise();
+    const { noiseRemoval, toggleNoiseRemoval } = useNoiseRemoval();
 
     // Theme state
     const { currentTheme, toggleTheme } = useContext(ThemeContext);
