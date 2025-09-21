@@ -14,7 +14,10 @@ import {
 } from "react-native";
 
 type TabProps = {
-    icon: ImageSource;
+    icons: {
+        light: { active: any; inactive: any };
+        dark: { active: any; inactive: any };
+    };
     name: string;
     link: Href;
 };
@@ -43,17 +46,44 @@ export default function TabNavigation() {
         >
             <View className="flex-row" style={styles.nav}>
                 <Tab
-                    icon={require("@/assets/images/tab-analysis.svg")}
+                    icons={{
+                        light: {
+                            active: require("@/assets/svg/analysis.svg"),
+                            inactive: require("@/assets/svg/analysis_light_inactive.svg"),
+                        },
+                        dark: {
+                            active: require("@/assets/svg/analysis.svg"),
+                            inactive: require("@/assets/svg/analysis_dark_inactive.svg"),
+                        },
+                    }}
                     name="Analysis"
                     link="/analysis"
                 />
                 <Tab
-                    icon={require("@/assets/svg/classification_icon.svg")}
+                    icons={{
+                        light: {
+                            active: require("@/assets/svg/classification.svg"),
+                            inactive: require("@/assets/svg/classification_light_inactive.svg"),
+                        },
+                        dark: {
+                            active: require("@/assets/svg/classification.svg"),
+                            inactive: require("@/assets/svg/classification_dark_inactive.svg"),
+                        },
+                    }}
                     name="Classification"
                     link="/classification"
                 />
                 <Tab
-                    icon={require("@/assets/svg/feature_analysis_icon.svg")}
+                    icons={{
+                        light: {
+                            active: require("@/assets/svg/feature_analysis_icon.svg"),
+                            inactive: require("@/assets/svg/feature_analysis_dark_inactive.svg"),
+                        },
+                        dark: {
+                            active: require("@/assets/svg/feature_analysis_icon.svg"),
+                            inactive: require("@/assets/svg/feature_analysis_light_inactive.svg"),
+                        },
+                    }}
                     name={"Feature"}
                     link="/feature-analysis"
                 />
@@ -62,7 +92,7 @@ export default function TabNavigation() {
     );
 }
 
-function Tab({ icon, name, link }: TabProps) {
+function Tab({ icons, name, link }: TabProps) {
     const PATH = useRouteInfo().pathname;
     const router = useRouter();
     const ICON_SIZE = 25;
@@ -73,11 +103,19 @@ function Tab({ icon, name, link }: TabProps) {
 
     const is_selected = PATH == link;
 
+    const icon = isDark
+        ? is_selected
+            ? icons.dark.active
+            : icons.dark.inactive
+        : is_selected
+          ? icons.light.active
+          : icons.light.inactive;
+
     return (
         <TouchableOpacity onPress={() => is_selected || router.replace(link)}>
             <View
                 className="flex items-center gap-0.5"
-                style={{ opacity: is_selected ? 1 : 0.5 }}
+                style={{ opacity: is_selected ? 1 : 0.8 }}
             >
                 <View className="flex justify-center items-center">
                     <Image
