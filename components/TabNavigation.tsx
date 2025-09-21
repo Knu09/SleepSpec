@@ -77,11 +77,11 @@ export default function TabNavigation() {
                     icons={{
                         light: {
                             active: require("@/assets/svg/feature_analysis_icon.svg"),
-                            inactive: require("@/assets/svg/feature_analysis_dark_inactive.svg"),
+                            inactive: require("@/assets/svg/feature_analysis_light_inactive.svg"),
                         },
                         dark: {
                             active: require("@/assets/svg/feature_analysis_icon.svg"),
-                            inactive: require("@/assets/svg/feature_analysis_light_inactive.svg"),
+                            inactive: require("@/assets/svg/feature_analysis_dark_inactive.svg"),
                         },
                     }}
                     name={"Feature"}
