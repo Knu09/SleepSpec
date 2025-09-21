@@ -1,5 +1,5 @@
-import "react-native-gesture-handler";
 import "@/global.css";
+import "react-native-gesture-handler";
 import {
     ScrollView,
     StyleSheet,
@@ -25,6 +25,7 @@ SplashScreen.preventAutoHideAsync();
 import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
 import { ThemeContext } from "@/context/ThemeContext";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
@@ -178,46 +179,147 @@ export default function Index() {
                 </View>
 
                 <View className="flex w-full flex-1 items-center justify-center gap-2">
-                    <TouchableOpacity
-                        activeOpacity={0.9}
-                        onPress={() => navigateTo("recording")}
-                    >
-                        <LinearGradient
-                            colors={["#006EFF", "#7800D3"]}
-                            start={{ x: 0.5, y: 0 }}
-                            end={{ x: 0.5, y: 1 }}
-                            className="justify-center items-center p-[2px]"
-                            style={styles.linearGradientMicrophone}
-                        >
-                            <View
-                                style={styles.shadowProp}
+                    <View className="flex flex-row w-full justify-evenly items-center">
+                        {/* Settings button */}
+                        <View className="flex gap-2 items-center -mb-6">
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    navigateTo("settings");
+                                }}
+                            >
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[1.25px]"
+                                    style={styles.linearGradientMicrophone}
+                                >
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-14 h-14 flex justify-center items-center rounded-full"
+                                        }
+                                        style={{
+                                            elevation: 6,
+                                            shadowColor: "#000",
+                                        }}
+                                    >
+                                        <MaterialIcons
+                                            name="settings"
+                                            size={26}
+                                            color="#006FFF"
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <Text
                                 className={
-                                    (isDark ? "bg-darkBg" : "bg-white") +
-                                    " w-40 h-40 flex justify-center items-center rounded-full"
+                                    textClass + " opacity-80 font-publicsans"
                                 }
                             >
-                                <MaskedView
-                                    maskElement={
-                                        <Icon
-                                            name="microphone"
-                                            size={60}
-                                            color="black"
-                                        />
+                                Settings
+                            </Text>
+                        </View>
+                        <TouchableOpacity
+                            activeOpacity={0.9}
+                            onPress={() => navigateTo("recording")}
+                        >
+                            <LinearGradient
+                                colors={["#006EFF", "#7800D3"]}
+                                start={{ x: 0.5, y: 0 }}
+                                end={{ x: 0.5, y: 1 }}
+                                className="justify-center items-center p-[2px]"
+                                style={styles.linearGradientMicrophone}
+                            >
+                                <View
+                                    style={styles.shadowProp}
+                                    className={
+                                        (isDark ? "bg-darkBg" : "bg-white") +
+                                        " w-40 h-40 flex justify-center items-center rounded-full"
                                     }
                                 >
-                                    <LinearGradient
-                                        colors={["#006FFF", "#7800D3"]}
-                                        start={{ x: 0.5, y: 0 }}
-                                        end={{ x: 0.5, y: 1 }}
-                                        style={{ width: 40, height: 60 }}
-                                    />
-                                </MaskedView>
-                            </View>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                    <Text className="text-primaryBlue font-publicsans font-bold text-xl">
-                        Press here to Start
-                    </Text>
+                                    <MaskedView
+                                        maskElement={
+                                            <Icon
+                                                name="microphone"
+                                                size={60}
+                                                color="black"
+                                            />
+                                        }
+                                    >
+                                        <LinearGradient
+                                            colors={["#006FFF", "#7800D3"]}
+                                            start={{ x: 0.5, y: 0 }}
+                                            end={{ x: 0.5, y: 1 }}
+                                            style={{ width: 40, height: 60 }}
+                                        />
+                                    </MaskedView>
+                                </View>
+                            </LinearGradient>
+                        </TouchableOpacity>
+
+                        {/* Audio Upload button */}
+                        <View className="flex gap-2 items-center -mb-6">
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => {
+                                    // TODO: implement the functionality of audio file upload
+                                }}
+                            >
+                                <LinearGradient
+                                    colors={["#006EFF", "#7800D3"]}
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    className="justify-center items-center p-[1.25px]"
+                                    style={styles.linearGradientMicrophone}
+                                >
+                                    <View
+                                        className={
+                                            (isDark
+                                                ? "bg-darkBg"
+                                                : "bg-white") +
+                                            " w-14 h-14 flex justify-center items-center rounded-full"
+                                        }
+                                        style={{
+                                            elevation: 6,
+                                            shadowColor: "#000",
+                                        }}
+                                    >
+                                        <MaterialIcons
+                                            name="upload-file"
+                                            size={26}
+                                            color="#006FFF"
+                                        />
+                                    </View>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <Text
+                                className={
+                                    textClass +
+                                    " opacity-80 font-publicsans text-center"
+                                }
+                            >
+                                Upload
+                            </Text>
+                        </View>
+                    </View>
+                    <View className="w-64 pt-2">
+                        <Text className="text-primaryBlue font-publicsans font-bold text-xl text-center">
+                            Record
+                        </Text>
+                        <Text
+                            className={
+                                textClass +
+                                " font-publicsans text-center opacity-80"
+                            }
+                        >
+                            Click the microphone to record, or upload your
+                            voice.
+                        </Text>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
