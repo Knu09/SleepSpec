@@ -236,7 +236,7 @@ export default function Recording() {
 
         const updateMetering = async () => {
             try {
-                const status = await audioRecorder.getStatus();
+                const status = audioRecorder.getStatus();
                 if (status?.metering !== undefined) {
                     setCurrentMetering(status.metering);
                 }
@@ -334,7 +334,7 @@ export default function Recording() {
         dispatch(RecordAction.PAUSED);
         // Reset the waveform size to 120
         setCurrentMetering(-158);
-        await audioRecorder.pause();
+        audioRecorder.pause();
 
         if (timerRef.current !== null) {
             clearInterval(timerRef.current);
@@ -357,7 +357,7 @@ export default function Recording() {
 
     async function recordResume() {
         dispatch(RecordAction.RESUME);
-        await audioRecorder.record();
+        audioRecorder.record();
 
         hasShownToast = true;
 
