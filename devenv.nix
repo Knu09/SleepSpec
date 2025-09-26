@@ -12,24 +12,24 @@
 
   # https://devenv.sh/packages/
   packages = with pkgs; [
-    nodejs_23
+    nodejs_latest
     tailwindcss
   ];
 
   android = {
     enable = true;
     reactNative.enable = true;
-    platforms.version = ["35"];
+    platforms.version = ["36"];
     systemImageTypes = ["google_apis_playstore"];
     abis = ["x86_64"];
     cmake.version = ["3.22.1"];
     cmdLineTools.version = "11.0";
     tools.version = "26.1.1";
-    platformTools.version = "35.0.1";
-    buildTools.version = ["35.0.0" "34.0.0"];
+    platformTools.version = "36.0.1";
+    buildTools.version = ["36.0.0" "35.0.0"];
     emulator = {
       enable = true;
-      version = "35.1.2";
+      version = "36.1.9";
     };
     sources.enable = false;
     systemImages.enable = true;

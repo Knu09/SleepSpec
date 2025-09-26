@@ -11,14 +11,17 @@ import {
 import { Link, useRouter } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as DocumentPicker from 'expo-document-picker';
 
 import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import SleepSpecLogo from "@/components/SleepSpecLogo";
 import SleepSpecTitle from "@/components/SleepSpecTitle";
+import Overlay from "@/components/Overlay";
+import { CLASS, Process } from "@/types/types";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,6 +29,9 @@ import Header from "@/components/Header";
 import LanguageSelected from "@/components/LanguageSelected";
 import { ThemeContext } from "@/context/ThemeContext";
 import { MaterialIcons } from "@expo/vector-icons";
+import { uploadAudio } from "@/utils/util";
+import { useNoiseRemoval } from "@/context/NoiseContext";
+import { useClassStore, useSegmentStore } from "@/store/store";
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
@@ -44,6 +50,35 @@ export default function Index() {
 
     const navigateTo = (screen: string) => {
         router.push(`/${screen}` as any);
+    };
+
+    const { setResult } = useClassStore();
+    const { syncSegments } = useSegmentStore();
+    const { noiseRemoval } = useNoiseRemoval();
+
+    const [upload, setUpload] = useState(Process.IDLE);
+    const pickAudioFile = async () => {
+        const pickerResult = await DocumentPicker.getDocumentAsync({
+            type: "audio/*",
+            copyToCacheDirectory: true,
+        });
+
+        if (!pickerResult.canceled) {
+            const uri = pickerResult.assets[0].uri;
+            setUpload(Process.PENDING);
+
+            const result = await uploadAudio(uri, noiseRemoval);
+            if (!result) {
+                setUpload(Process.FAILED);
+                console.error('Error processing of file from server.')
+                return;
+            }
+
+            setUpload(Process.READY);
+
+            setResult(result);
+            syncSegments();
+        }
     };
 
     useEffect(() => {
@@ -265,9 +300,7 @@ export default function Index() {
                         <View className="flex gap-2 items-center -mb-6">
                             <TouchableOpacity
                                 activeOpacity={0.9}
-                                onPress={() => {
-                                    // TODO: implement the functionality of audio file upload
-                                }}
+                                onPress={pickAudioFile}
                             >
                                 <LinearGradient
                                     colors={["#006EFF", "#7800D3"]}
@@ -322,6 +355,8 @@ export default function Index() {
                     </View>
                 </View>
             </ScrollView>
+
+            <Overlay heading="Processing" state={upload} redirect="/analysis" />
         </SafeAreaView>
     );
 }

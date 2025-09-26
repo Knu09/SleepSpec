@@ -56,7 +56,7 @@ export default function Classification() {
 
             setDownload(Process.READY);
             setRecordPlayers(
-                syncResultsFrom(result.evals, segments).map((segment) => {
+                syncResultsFrom(result, segments).map((segment) => {
                     return {
                         segment,
                         playing: false,
