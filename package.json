@@ -11,6 +11,13 @@
     "test": "jest --watchAll",
     "lint": "expo lint"
   },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": ["react-native-zip-archive"]
+      }
+    }
+  },
   "jest": {
     "preset": "jest-expo"
   },
