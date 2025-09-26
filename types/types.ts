@@ -110,23 +110,20 @@ export enum CLASS {
     BALANCED = "balanced", // Neutral state
 }
 
-export type Evaluations = {
-    classes: CLASS[];
-    scores: number[];
-    decision_scores: number[];
-};
-
 export type ClassResult = {
     class: CLASS;
     confidence_score: number;
     decision_score: number;
     sd_prob: number;
     nsd_prob: number;
-    evals: Evaluations;
+    classes: CLASS[];
+    scores: number[];
+    decision_scores: number[];
+    // evals: Evaluations;
 };
 
 export namespace CLASS {
-    type ResultObj = {
+    export type ResultObj = {
         class: string;
         confidence_score: number;
         classes: string[];
@@ -152,44 +149,42 @@ export namespace CLASS {
         return result.class == CLASS.POST
             ? "#ff2121"
             : CLASS.PRE
-              ? "#006fff"
-              : "#3AC8D9";
+                ? "#006fff"
+                : "#3AC8D9";
     }
 
-    export function from(data: ResultObj): ClassResult {
-        const {
-            class: c,
-            confidence_score,
-            classes,
-            scores,
-            decision_scores,
-            sd_prob,
-            nsd_prob,
-            decision_score,
-        } = data;
-
-        const result: ClassResult = {
-            class:
-                c === "post"
-                    ? CLASS.POST
-                    : c === "pre"
-                      ? CLASS.PRE
-                      : CLASS.BALANCED,
-            confidence_score,
-            decision_score,
-            sd_prob,
-            nsd_prob,
-            evals: {
-                classes: classes.map((c) =>
-                    c === "post" ? CLASS.POST : CLASS.PRE,
-                ),
-                scores,
-                decision_scores,
-            },
-        };
-
-        return result;
-    }
+    // export function from(data: ResultObj): ClassResult {
+    //     const {
+    //         class: c,
+    //         confidence_score,
+    //         classes,
+    //         scores,
+    //         decision_scores,
+    //         sd_prob,
+    //         nsd_prob,
+    //         decision_score,
+    //     } = data;
+    //
+    //     const result: ClassResult = {
+    //         class:
+    //             c === "post"
+    //                 ? CLASS.POST
+    //                 : c === "pre"
+    //                     ? CLASS.PRE
+    //                     : CLASS.BALANCED,
+    //         confidence_score,
+    //         decision_score,
+    //         sd_prob,
+    //         nsd_prob,
+    //         classes: classes.map((c) =>
+    //             c === "post" ? CLASS.POST : CLASS.PRE,
+    //         ),
+    //         scores,
+    //         decision_scores,
+    //     };
+    //
+    //     return result;
+    // }
 
     export function getAdvices(result: ClassResult): Advices {
         return advices[result.class];

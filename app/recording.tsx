@@ -131,7 +131,7 @@ export default function Recording() {
 
     // console.log("Audio dB:", currentMetering);
 
-    const { result, setResult } = useClassStore();
+    const { setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
     const { noiseRemoval } = useNoiseRemoval(); // get noise removal context value
@@ -454,7 +454,7 @@ export default function Recording() {
 
         setUpload(Process.READY);
 
-        setResult(CLASS.from(result));
+        setResult(result);
         syncSegments();
     }
 

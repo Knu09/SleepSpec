@@ -52,7 +52,7 @@ export default function Index() {
         router.push(`/${screen}` as any);
     };
 
-    const { result, setResult } = useClassStore();
+    const { setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
     const { noiseRemoval } = useNoiseRemoval();
 
@@ -76,7 +76,7 @@ export default function Index() {
 
             setUpload(Process.READY);
 
-            setResult(CLASS.from(result));
+            setResult(result);
             syncSegments();
         }
     };

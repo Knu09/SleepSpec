@@ -1,6 +1,6 @@
 import getUUID from '@/store/uuid'
 import { create } from "zustand";
-import { CLASS, ClassResult, Evaluations, LANG } from "@/types/types";
+import { CLASS, ClassResult, LANG } from "@/types/types";
 import { Directory, File, Paths } from "expo-file-system/next";
 import { unzip } from "react-native-zip-archive";
 
@@ -31,7 +31,7 @@ type SegmentStore = {
     pendingSegments: Promise<PendingSegment[]>;
     syncSegments: () => void;
     syncResultsFrom: (
-        evals: Evaluations,
+        result: ClassResult,
         segments: PendingSegment[],
     ) => Segment[];
 };

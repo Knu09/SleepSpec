@@ -1,29 +1,23 @@
 import { fetch } from "expo/fetch";
 import { File } from "expo-file-system/next";
 import getUUID from "@/store/uuid";
+import { CLASS, ClassResult } from "@/types/types";
 
 export async function uploadAudio(
     audioUri: string,
     noiseRemoval: boolean,
-): Promise<{
-    class: string;
-    confidence_score: number;
-    classes: string[];
-    scores: number[];
-    sd_prob: number;
-    nsd_prob: number;
-    decision_score: number;
-} | void> {
+): Promise<ClassResult | void> {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
         return {
-            class: "post",
-            classes: ["post"],
+            class: CLASS.POST,
+            classes: [CLASS.POST],
             scores: [0.56],
             sd_prob: 0,
             nsd_prob: 0,
             confidence_score: 0.56,
             decision_score: 1.2345,
+            decision_scores: [1.2345],
         };
     }
 
