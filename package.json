@@ -14,7 +14,9 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
-        "exclude": ["react-native-zip-archive"]
+        "exclude": [
+          "react-native-zip-archive"
+        ]
       }
     }
   },
