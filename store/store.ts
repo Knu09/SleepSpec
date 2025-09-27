@@ -1,7 +1,7 @@
-import getUUID from '@/store/uuid'
+import getUUID from "@/store/uuid";
 import { create } from "zustand";
 import { CLASS, ClassResult, LANG } from "@/types/types";
-import { Directory, File, Paths } from "expo-file-system/next";
+import { Directory, File, Paths } from "expo-file-system";
 import { unzip } from "react-native-zip-archive";
 
 type LangStore = {

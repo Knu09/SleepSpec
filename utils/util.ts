@@ -1,5 +1,5 @@
 import { fetch } from "expo/fetch";
-import { File } from "expo-file-system/next";
+import { File } from "expo-file-system";
 import getUUID from "@/store/uuid";
 import { CLASS, ClassResult } from "@/types/types";
 
