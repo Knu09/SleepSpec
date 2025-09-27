@@ -56,7 +56,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 import RecordingStatus from "@/components/RecordingStatus";
-import { uploadAudio } from "@/utils/util"
+import { uploadAudio } from "@/utils/util";
 
 type RecordingState = {
     timer: Timer;
@@ -134,7 +134,7 @@ export default function Recording() {
     const { setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
-    const { noiseRemoval } = useNoiseRemoval(); // get noise removal context value
+    const { noiseRemoval, toggleNoiseRemoval } = useNoiseRemoval(); // get noise removal context value
 
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
@@ -568,10 +568,10 @@ export default function Recording() {
                                 />
                             </TouchableOpacity>
 
-                            {/* Background Noise Removal Status */}
+                            {/* Background Noise Reduction Status */}
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => navigateTo("settings")}
+                                onPress={() => toggleNoiseRemoval()}
                                 className="px-2 py-1 rounded-2xl gap-2 flex-row items-center"
                                 style={{
                                     borderColor: noiseRemovalStatusColor,
@@ -584,7 +584,7 @@ export default function Recording() {
                                         ` font-publicsans text-sm font-bold`
                                     }
                                 >
-                                    Noise Removal:
+                                    BG Noise Reduction:
                                 </Text>
                                 <Text
                                     className={
