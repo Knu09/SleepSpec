@@ -73,7 +73,7 @@ export default function Settings() {
                                 <Text
                                     className={currentText + " font-publicsans"}
                                 >
-                                    Background Noise Removal
+                                    Background Noise Reduction
                                 </Text>
                                 <Switch
                                     trackColor={{
