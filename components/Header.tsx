@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import BottomNavigationSheet from "./BottomNavigationSheet";
-import { useBottomSheet } from "./BottomSheetContext";
+import { useBottomSheet } from "../context/BottomSheetContext";
 
 import { ThemeContext } from "@/context/ThemeContext";
 

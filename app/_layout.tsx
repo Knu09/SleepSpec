@@ -3,7 +3,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import BottomNavigationSheet from "@/components/BottomNavigationSheet";
-import { BottomSheetProvider } from "@/components/BottomSheetContext";
+import { BottomSheetProvider } from "../context/BottomSheetContext";
 import ThemeProvider, { ThemeContext } from "@/context/ThemeContext";
 import { NoiseProvider } from "@/context/NoiseContext";
 import { useContext } from "react";

@@ -9,7 +9,7 @@ import {
     Linking,
 } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useBottomSheet } from "./BottomSheetContext";
+import { useBottomSheet } from "../context/BottomSheetContext";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
@@ -294,7 +294,7 @@ export default function BottomNavigationSheet() {
                         </View>
                         <View className="mt-4 flex flex-col items-center">
                             <Text className="text-secondary text-center font-light font-publicsansLight opacity-80 text-sm">
-                                Made by
+                                Developed by
                             </Text>
                             <Image
                                 source={require("../assets/images/16KHz Labs.png")}
