@@ -1,13 +1,22 @@
 import Header from "@/components/Header";
 import { ThemeContext } from "@/context/ThemeContext";
+import { Feather, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { SplashScreen } from "expo-router";
 import { useContext, useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+    Linking,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import TeamCard from "@/components/TeamCard";
 
 export default function AboutUs() {
     const [fontsLoaded] = useFonts({
@@ -30,6 +39,10 @@ export default function AboutUs() {
     const teamLogo = isDark
         ? require("../assets/images/16KHz Labs.png")
         : require("../assets/images/16KHz-labs-dark.png");
+
+    const navigateToSite = (url: string) => {
+        Linking.openURL(url);
+    };
     return (
         <SafeAreaView
             className={`${isDark ? "bg-darkBg" : "bg-lightBg"} flex-1`}
@@ -43,7 +56,7 @@ export default function AboutUs() {
                     gap: 16,
                 }}
             >
-                <View className="flex justify-center items-start gap-4">
+                <View className="flex justify-center items-start gap-3">
                     <Text
                         className={
                             textClass + " font-poppinsBold text-2xl text-start"
@@ -69,7 +82,7 @@ export default function AboutUs() {
                         <Text
                             className={
                                 textClass +
-                                " font-publicsans opacity-80 leading-6"
+                                " font-publicsans opacity-80 leading-6 text-justify"
                             }
                         >
                             A computer science student in University of Negros
@@ -78,29 +91,49 @@ export default function AboutUs() {
                             of our college thesis — combining artificial
                             intelligence and voice analysis to address the
                             growing concern of{" "}
-                            <MaskedView
-                                maskElement={
-                                    <Text className="font-bold font-publicsans text-black">
-                                        Sustainable Development Goals 3
-                                    </Text>
-                                }
-                            >
-                                <LinearGradient
-                                    colors={["#00B935", "#F8C408"]}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                >
-                                    <Text
-                                        style={{
-                                            opacity: 0,
-                                        }}
-                                    >
-                                        Sustainable Development Goals 3
-                                    </Text>
-                                </LinearGradient>
-                            </MaskedView>
+                            <Text className="font-publicsansBold text-[#4C9F38]">
+                                Sustainable Development Goals 3
+                            </Text>
                             , also known as "Good Health and Well-being".
                         </Text>
+                    </View>
+
+                    <View className="flex-col w-full gap-2 mt-2 mb-20">
+                        {/* <Text */}
+                        {/*     className={ */}
+                        {/*         textClass + */}
+                        {/*         " font-poppinsBold text-2xl text-start" */}
+                        {/*     } */}
+                        {/* > */}
+                        {/*     The Team Behind Innovation. */}
+                        {/* </Text> */}
+                        <TeamCard
+                            name="ARANETA, GIAN FRANS D."
+                            role="Data Analyst"
+                            email="aranetagian.f@gmail.com"
+                            github="https://github.com/GizakiF"
+                            textClass={textClass}
+                            navigateToSite={navigateToSite}
+                        />
+
+                        <TeamCard
+                            name="DE LA TORRE, CHRISTIAN L."
+                            role="Team Leader"
+                            email="christiandelatorre2018@gmail.com"
+                            github="https://github.com/Knu09"
+                            portfolio="https://knu09.github.io/v2.christiandelatorre/"
+                            textClass={textClass}
+                            navigateToSite={navigateToSite}
+                        />
+
+                        <TeamCard
+                            name="MEDEL, RAFAEL JACOV C."
+                            role="Technical Analyst"
+                            email="medelrafjac@gmail.com"
+                            github="https://github.com/rafaeljacov"
+                            textClass={textClass}
+                            navigateToSite={navigateToSite}
+                        />
                     </View>
                 </View>
             </ScrollView>
