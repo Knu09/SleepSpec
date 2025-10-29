@@ -74,7 +74,7 @@ export default function Overlay({
                     {waitMsg || "Please wait for a moment..."}
                 </Text>
                 <ActivityIndicator size={60} color={"#006fff"} />
-                <Text className="font-poppinsRegular text-black">
+                <Text className={textClass + " font-poppinsRegular"}>
                     {formatTime(elapsedTime)}
                 </Text>
             </View>
