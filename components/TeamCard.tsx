@@ -44,15 +44,17 @@ const TeamCard: React.FC<TeamCardProps> = ({
             </View>
 
             {/* Contact Info */}
-            <View className="pe-4 gap-2">
+            <View className="pe-4 gap-1">
                 {/* Email */}
                 <View className="flex-row gap-2 items-center">
                     <MaterialIcons
                         name="email"
-                        size={18}
+                        size={15}
                         color={isDark ? "#DDD" : "black"}
                     />
-                    <Text className={`${textClass} font-publicsans opacity-80`}>
+                    <Text
+                        className={`${textClass} text-sm font-publicsans opacity-80`}
+                    >
                         {email}
                     </Text>
                 </View>
@@ -66,11 +68,11 @@ const TeamCard: React.FC<TeamCardProps> = ({
                     >
                         <FontAwesome6
                             name="github"
-                            size={18}
+                            size={15}
                             color={isDark ? "#DDD" : "black"}
                         />
                         <Text
-                            className={`${textClass} font-publicsans opacity-80 underline`}
+                            className={`${textClass} text-sm font-publicsans opacity-80 underline`}
                         >
                             {github}
                         </Text>
@@ -86,11 +88,11 @@ const TeamCard: React.FC<TeamCardProps> = ({
                     >
                         <Feather
                             name="link"
-                            size={18}
+                            size={15}
                             color={isDark ? "#DDD" : "black"}
                         />
                         <Text
-                            className={`${textClass} font-publicsans opacity-80 underline`}
+                            className={`${textClass} text-sm font-publicsans opacity-80 underline`}
                         >
                             {portfolio}
                         </Text>
