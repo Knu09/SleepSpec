@@ -37,11 +37,18 @@ export const training_results = [
     },
 
     {
-        title: "AUC-ROC Curve",
+        title: "Model AUC-ROC Curve",
         description:
-            "The figure shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension combined features (Strf) has the highest Area Under the Curve or AUC of 0.84 (1.0 - 0.16), which is closer to 0.9, indicating a very good separation between classes. The second feature dimension with the high AUC is the frequency-rate (FR) with an AUC of 0.82, which is also within the very good  range. The third feature dimension that aligns the value of AUC in scale-rate (SR) is the frequency-scale (FS), which is satisfactory with an AUC of 0.64. While the scale-rate performs a satisfactory that lies with an AUC of 0.64. Hence, the dimension, combined feature or the Spectro-Temporal Receptive Field (STRF), is the correct decision to be used in sleep deprivation detection.",
+            "The figure shows the performance metrics of how well a binary classifier distinguishes between two classes (pre-session vs. post-session). Notably, the feature dimension combined features (Strf) has the highest Area Under the Curve or AUC of 0.84 (1.0 - 0.16), which is closer to 0.9, indicating a very good separation between classes. The second feature dimension with the high AUC is the frequency-rate (FR) with an AUC of 0.82, which is also within the very good  range. The third feature dimension that aligns the value of AUC in scale-rate (SR) is the frequency-scale (FS), which is satisfactory with an AUC of 0.64. While the scale-rate performs a satisfactory that lies with an AUC of 0.64. Hence, the dimension, combined STM feature or the Spectro-Temporal Receptive Field (STRF), is the correct decision to be used in sleep deprivation detection.",
         image: require("./../assets/images/combined_roc_curve.png"),
-        isOpened: false,
+        isOpened: true,
+    },
+    {
+        title: "Model Learning Curve",
+        description:
+            "The figure shows the feature dimension frequency-rate (FR) as the dimension with the least margin between the train score and the endpoint of the dimension; it overfits by around 5%. This indicates that FR had the least overfitting among the other plots. Despite FR having the lowest percentage of overfit, the AUC-ROC curve depicts that it performs slightly lower than the combined STM feature or Spectro-Temporal Receptive Field (STRF). It also proves that the FR is significantly worse than STRF with ~9% difference. The two remaining dimensions, scale-rate (SR), and frequency-scale (FS), significantly overfit, indicated by having large gaps between the train score and the cross-validation score. Thus, the STRF dimension is the state-of-the-art choice for sleep deprivation detection.",
+        image: require("./../assets/images/learning_curve.png"),
+        isOpened: true,
     },
 ];
 
