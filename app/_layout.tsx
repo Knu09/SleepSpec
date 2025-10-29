@@ -6,6 +6,7 @@ import BottomNavigationSheet from "@/components/BottomNavigationSheet";
 import { BottomSheetProvider } from "../context/BottomSheetContext";
 import ThemeProvider, { ThemeContext } from "@/context/ThemeContext";
 import { NoiseProvider } from "@/context/NoiseContext";
+import { TimerProvider } from "@/context/TimerContext";
 import { useContext } from "react";
 
 const { Screen } = Stack;
@@ -13,11 +14,13 @@ const { Screen } = Stack;
 // Root layout wrapped with ThemeProvider
 export default function RootLayout() {
     return (
-        <ThemeProvider>
-            <NoiseProvider>
-                <InnerLayout />
-            </NoiseProvider>
-        </ThemeProvider>
+        <TimerProvider>
+            <ThemeProvider>
+                <NoiseProvider>
+                    <InnerLayout />
+                </NoiseProvider>
+            </ThemeProvider>
+        </TimerProvider>
     );
 }
 
