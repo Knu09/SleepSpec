@@ -103,3 +103,8 @@ android/*
 
 # formatter
 .editorconfig
+
+# Expo credentials
+credentials/
+*.jks
+credentials.json
