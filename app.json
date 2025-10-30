@@ -10,10 +10,10 @@
         "newArchEnabled": true,
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.sleepspec.myapp"
+            "bundleIdentifier": "com.sleepspec.app"
         },
         "android": {
-            "package": "com.sleepspec.myapp",
+            "package": "com.sleepspec.app",
             "adaptiveIcon": {
                 "foregroundImage": "./assets/images/adaptive-icon-sleepspec.png",
                 "backgroundColor": "#01000F"
