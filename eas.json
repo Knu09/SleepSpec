@@ -11,6 +11,9 @@
         "preview": {
             "android": {
                 "buildType": "apk"
+            },
+            "env": {
+                "EXPO_PUBLIC_API_URL": "https://sleepspec.cloud"
             }
         },
         "preview2": {
@@ -28,6 +31,9 @@
             "autoIncrement": true,
             "android": {
                 "buildType": "app-bundle"
+            }
+            "env": {
+                "EXPO_PUBLIC_API_URL": "https://sleepspec.cloud"
             }
         }
     },
