@@ -36,6 +36,7 @@ function InnerLayout() {
                     backgroundColor={
                         currentTheme === "dark" ? "#01000F" : "#FFFFFF"
                     }
+                    translucent={false}
                 />
                 <Stack
                     screenOptions={{
