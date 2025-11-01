@@ -11,7 +11,7 @@ import {
 import { Link, useRouter } from "expo-router";
 import Icon from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as DocumentPicker from 'expo-document-picker';
+import * as DocumentPicker from "expo-document-picker";
 
 import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
@@ -70,7 +70,7 @@ export default function Index() {
             const result = await uploadAudio(uri, noiseRemoval);
             if (!result) {
                 setUpload(Process.FAILED);
-                console.error('Error processing of file from server.')
+                console.error("Error processing of file from server.");
                 return;
             }
 
