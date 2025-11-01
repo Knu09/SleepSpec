@@ -145,7 +145,7 @@ const ToastMessage = forwardRef(({}, ref) => {
 
     const animatedTopStyle = useAnimatedStyle(() => {
         return {
-            top: 90,
+            top: 60,
             transform: [{ translateX: toastSlideX.value }],
         };
     });
