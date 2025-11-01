@@ -32,11 +32,11 @@ function InnerLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <BottomSheetProvider>
                 <StatusBar
+                    translucent={false}
                     style={currentTheme === "dark" ? "light" : "dark"}
                     backgroundColor={
                         currentTheme === "dark" ? "#01000F" : "#FFFFFF"
                     }
-                    translucent={false}
                 />
                 <Stack
                     screenOptions={{

@@ -66,9 +66,9 @@ export default function SelectLanguage() {
     return (
         <SafeAreaView className="bg-white" style={{ flex: 1 }}>
             <StatusBar
+                translucent={false}
                 style="dark"
                 backgroundColor="#fff"
-                translucent={false}
             />
             <View className="bg-white" style={styles.headerShadow}>
                 <Header back={true} menu={true} theme="light" />
