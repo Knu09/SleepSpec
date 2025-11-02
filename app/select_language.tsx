@@ -3,7 +3,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import GradientSelectButton from "@/components/GradientSelectButton";
 import { Image } from "expo-image";
-import { StatusBar } from "expo-status-bar";
+import {
+    StatusBar,
+    setStatusBarBackgroundColor,
+    setStatusBarTranslucent,
+} from "expo-status-bar";
 import { useContext, useEffect, useState } from "react";
 import { SplashScreen, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
@@ -60,6 +64,13 @@ export default function SelectLanguage() {
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
+
+    useEffect(() => {
+        const bgColor = currentTheme === "dark" ? "#01000F" : "#FFFFFF";
+
+        setStatusBarTranslucent(false);
+        setStatusBarBackgroundColor(bgColor, true);
+    }, [currentTheme]);
 
     if (!fontsLoaded) return null;
 

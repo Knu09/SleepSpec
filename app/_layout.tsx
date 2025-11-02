@@ -1,13 +1,17 @@
 // app/_layout.tsx
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import {
+    StatusBar,
+    setStatusBarBackgroundColor,
+    setStatusBarTranslucent,
+} from "expo-status-bar";
 import BottomNavigationSheet from "@/components/BottomNavigationSheet";
 import { BottomSheetProvider } from "../context/BottomSheetContext";
 import ThemeProvider, { ThemeContext } from "@/context/ThemeContext";
 import { NoiseProvider } from "@/context/NoiseContext";
 import { TimerProvider } from "@/context/TimerContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const { Screen } = Stack;
 
@@ -27,6 +31,13 @@ export default function RootLayout() {
 // Context must be used inside the provider
 function InnerLayout() {
     const { currentTheme } = useContext(ThemeContext);
+
+    useEffect(() => {
+        const bgColor = currentTheme === "dark" ? "#01000F" : "#FFFFFF";
+
+        setStatusBarTranslucent(false);
+        setStatusBarBackgroundColor(bgColor, true);
+    }, [currentTheme]);
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
