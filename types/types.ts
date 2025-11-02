@@ -8,7 +8,7 @@ export type SettingButtonProps = {
     icon: React.ComponentProps<typeof Entypo>["name"];
     onPress: () => void;
     isActive: boolean;
-    theme: string;
+    theme?: string;
 };
 
 export type Timer = {
@@ -149,8 +149,8 @@ export namespace CLASS {
         return result.class == CLASS.POST
             ? "#ff2121"
             : CLASS.PRE
-                ? "#006fff"
-                : "#3AC8D9";
+              ? "#006fff"
+              : "#3AC8D9";
     }
 
     // export function from(data: ResultObj): ClassResult {
