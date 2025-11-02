@@ -17,6 +17,7 @@ SplashScreen.preventAutoHideAsync();
 
 import Header from "@/components/Header";
 import SettingButton from "@/components/SettingButton";
+import InfoModal from "@/components/InfoModal";
 
 import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -25,6 +26,10 @@ import { FontAwesome6 } from "@expo/vector-icons";
 export default function Settings() {
     // noise reduction state
     const { wienerFiltering, toggleWienerFiltering } = useWienerFiltering();
+
+    // InfoModal state
+    const [isWienerInfoVisible, setWienerInfoVisible] = useState(false);
+    const [isDFNInfoVisible, setDFNInfoVisible] = useState(false);
 
     // Theme state
     const { currentTheme, toggleTheme, useSystemTheme, isSystemTheme } =
@@ -43,6 +48,28 @@ export default function Settings() {
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
+
+    const wienerReferences = [
+        {
+            title: "Noise Reduction and Speech Enhancement Using Wiener Filter",
+            url: "https://www.researchgate.net/publication/362935286_Noise_Reduction_and_Speech_Enhancement_Using_Wiener_Filter",
+        },
+        {
+            title: "Adaptive Wiener Filtering Method for Noise Reduction in Speech Recognition System",
+            url: "https://www.techrxiv.org/users/691848/articles/682302-adaptive-wiener-filtering-method-for-noise-reduction-in-speech-recognition-system",
+        },
+    ];
+
+    const deepFilterNetReferences = [
+        {
+            title: "DeepFilterNet2: Towards Real-Time Speech Enhancement on Embedded Devices for Full-Band Audio",
+            url: "https://www.researchgate.net/publication/360538529_DeepFilterNet2_Towards_Real-Time_Speech_Enhancement_on_Embedded_Devices_for_Full-Band_Audio",
+        },
+        {
+            title: "DeepFilterNet GitHub Repository",
+            url: "https://github.com/Rikorose/DeepFilterNet",
+        },
+    ];
 
     if (!fontsLoaded) return null;
 
@@ -126,7 +153,9 @@ export default function Settings() {
 
                                     <TouchableOpacity
                                         activeOpacity={0.5}
-                                        onPress={() => {}}
+                                        onPress={() => {
+                                            setWienerInfoVisible(true);
+                                        }}
                                     >
                                         <FontAwesome6
                                             size={17}
@@ -163,7 +192,9 @@ export default function Settings() {
                                     </Text>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
-                                        onPress={() => {}}
+                                        onPress={() => {
+                                            setDFNInfoVisible(true);
+                                        }}
                                     >
                                         <FontAwesome6
                                             size={17}
@@ -192,6 +223,31 @@ export default function Settings() {
                             </View>
                         </View>
                     </View>
+
+                    {/* INFO MODALS */}
+                    <InfoModal
+                        title="Wiener Filtering"
+                        description={
+                            "It is primarily reduces stationary or slowly changing background noise by minimizing the mean square error between the desired signal and its estimate. It is most effective for consistent noises such as fan hums, air conditioners, or other steady ambient sounds.\n\n" +
+                            "⚠️ When activated, Wiener filtering alters the acoustic features of your voice, which can affect the classifier’s performance in detecting mild sleep deprivation. This feature is designed to reduce unwanted background noise that could interfere with voice analysis, not to enhance detection accuracy.\n\n" +
+                            "It is recommended to enable this option only in noisy environments where background interference is noticeable."
+                        }
+                        isModalVisible={isWienerInfoVisible}
+                        onClose={() => setWienerInfoVisible(false)}
+                        references={wienerReferences}
+                    ></InfoModal>
+                    <InfoModal
+                        title="DeepFilterNet"
+                        description={
+                            "It is a deep learning–based noise suppression model that leverages neural networks to separate speech from background noise in real time. Unlike traditional filters, DeepFilterNet can adapt to highly dynamic and non-stationary noises such as human chatter, street sounds, or keyboard clicks.\n\n" +
+                            "⚠️ When activated, DeepFilterNet may significantly alter subtle vocal features analyzed by the classifier for detecting mild sleep deprivation. While it can greatly improve speech clarity in noisy environments, this may come at the cost of reduced classification accuracy.\n\n" +
+                            "⚠️ Additionally, DeepFilterNet is computationally more expensive compared to traditional filtering methods like Wiener filtering. Enabling it may increase processing time.\n\n" +
+                            "This feature is best used only in highly noisy environments where other noise reduction methods are insufficient."
+                        }
+                        isModalVisible={isDFNInfoVisible}
+                        onClose={() => setDFNInfoVisible(false)}
+                        references={deepFilterNetReferences}
+                    ></InfoModal>
 
                     {/* Theme Settings */}
                     <View className="gap-2">
