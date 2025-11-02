@@ -134,7 +134,7 @@ export default function Recording() {
     const { setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
-    const { wienerFiltering, toggleNoiseRemoval } = useWienerFiltering(); // get noise removal context value
+    const { wienerFiltering, toggleWienerFiltering } = useWienerFiltering(); // get noise removal context value
 
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
@@ -573,7 +573,7 @@ export default function Recording() {
                             {/* Background Noise Reduction Status */}
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => toggleNoiseRemoval()}
+                                onPress={() => toggleWienerFiltering()}
                                 className="px-2 py-1 rounded-2xl gap-2 flex-row items-center"
                                 style={{
                                     borderColor: noiseRemovalStatusColor,

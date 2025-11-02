@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 type NoiseContextType = {
     wienerFiltering: boolean;
-    toggleNoiseRemoval: () => void;
+    toggleWienerFiltering: () => void;
 };
 
 const NoiseContext = createContext<NoiseContextType | undefined>(undefined);
@@ -10,10 +10,12 @@ const NoiseContext = createContext<NoiseContextType | undefined>(undefined);
 export const WienerProvider = ({ children }: { children: React.ReactNode }) => {
     const [wienerFiltering, setNoiseRemoval] = useState(false);
 
-    const toggleNoiseRemoval = () => setNoiseRemoval((prev) => !prev);
+    const toggleWienerFiltering = () => setNoiseRemoval((prev) => !prev);
 
     return (
-        <NoiseContext.Provider value={{ wienerFiltering, toggleNoiseRemoval }}>
+        <NoiseContext.Provider
+            value={{ wienerFiltering, toggleWienerFiltering }}
+        >
             {children}
         </NoiseContext.Provider>
     );
