@@ -105,11 +105,11 @@ export default function Index() {
                     style={styles.shadowBox}
                     className={
                         (isDark ? "bg-darkLayer" : "bg-white") +
-                        " gap-16 rounded-3xl py-10 px-2"
+                        " gap-16 rounded-3xl pt-8 pb-6 px-2"
                     }
                 >
                     <View className="flex flex-col items-center">
-                        <SleepSpecLogo></SleepSpecLogo>
+                        <SleepSpecLogo width="110" height="96"></SleepSpecLogo>
                         <SleepSpecTitle
                             width={218 + 100}
                             height={72.5}
