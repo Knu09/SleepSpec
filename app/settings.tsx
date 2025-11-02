@@ -18,15 +18,16 @@ SplashScreen.preventAutoHideAsync();
 import Header from "@/components/Header";
 import SettingButton from "@/components/SettingButton";
 
-import { useNoiseRemoval } from "@/context/NoiseContext";
+import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Settings() {
     // noise reduction state
-    const { noiseRemoval, toggleNoiseRemoval } = useNoiseRemoval();
+    const { wienerFiltering, toggleNoiseRemoval } = useWienerFiltering();
 
     // Theme state
-    const { currentTheme, toggleTheme } = useContext(ThemeContext);
+    const { currentTheme, toggleTheme, useSystemTheme, isSystemTheme } =
+        useContext(ThemeContext);
 
     const currentText =
         currentTheme === "dark" ? "text-secondary" : "text-darkBg";
@@ -73,7 +74,7 @@ export default function Settings() {
                                 <Text
                                     className={currentText + " font-publicsans"}
                                 >
-                                    Background Noise Reduction
+                                    Wiener Filtering Noise Reduction
                                 </Text>
                                 <Switch
                                     trackColor={{
@@ -83,9 +84,33 @@ export default function Settings() {
                                                 : "#ccc",
                                         true: "#006fff", // active color
                                     }}
-                                    thumbColor={noiseRemoval ? "#eee" : "#fff"}
+                                    thumbColor={
+                                        wienerFiltering ? "#eee" : "#fff"
+                                    }
                                     onValueChange={toggleNoiseRemoval}
-                                    value={noiseRemoval}
+                                    value={wienerFiltering}
+                                />
+                            </View>
+                            <View className="flex flex-row justify-between items-center">
+                                <Text
+                                    className={currentText + " font-publicsans"}
+                                >
+                                    DeepFilterNet Noise Reduction
+                                </Text>
+                                {/* TODO: Functionality of DeepFitlerNet */}
+                                <Switch
+                                    trackColor={{
+                                        false:
+                                            currentTheme === "dark"
+                                                ? "#808080"
+                                                : "#ccc",
+                                        true: "#006fff", // active color
+                                    }}
+                                    thumbColor={
+                                        wienerFiltering ? "#eee" : "#fff"
+                                    }
+                                    onValueChange={toggleNoiseRemoval}
+                                    value={wienerFiltering}
                                 />
                             </View>
                             <View className="flex flex-row justify-between items-center">
@@ -122,27 +147,35 @@ export default function Settings() {
 
                     <View className="gap-2">
                         <Text className={currentText + " font-publicsans"}>
-                            UI Mode
+                            Theme
                         </Text>
                         <SettingButton
                             title="Light"
                             icon="light-up"
-                            onPress={() => {}}
-                            isActive={false}
+                            onPress={() => {
+                                toggleTheme("light");
+                            }}
                             theme={currentTheme}
+                            isActive={
+                                !isSystemTheme && currentTheme === "light"
+                            }
                         />
                         <SettingButton
                             title="Dark"
                             icon="moon"
-                            onPress={() => {}}
-                            isActive={false}
+                            onPress={() => {
+                                toggleTheme("dark");
+                            }}
+                            isActive={!isSystemTheme && currentTheme === "dark"}
                             theme={currentTheme}
                         />
                         <SettingButton
                             title="System"
                             icon="adjust"
-                            onPress={() => {}}
-                            isActive={false}
+                            onPress={() => {
+                                useSystemTheme();
+                            }}
+                            isActive={isSystemTheme}
                             theme={currentTheme}
                         />
                     </View>
