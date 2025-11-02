@@ -30,7 +30,7 @@ const SettingButton = ({
                 </Text>
             </View>
             <FontAwesome6
-                name={isActive ? "circle-check" : "circle"}
+                name={isActive ? "circle-dot" : "circle"}
                 size={16}
                 color={iconColor}
             />
