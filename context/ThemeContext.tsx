@@ -53,18 +53,16 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }, [colorScheme]);
 
     const toggleTheme = async (newTheme: string) => {
-        try {
-            const themeObject = {
-                mode: newTheme,
-                system: false,
-            };
-            setTheme(newTheme);
-            await AsyncStorage.setItem(
-                SettingKeys.APP_THEME,
-                JSON.stringify(themeObject),
-            );
-            setSystemTheme(false);
-        } catch (error) {}
+        const themeObject = {
+            mode: newTheme,
+            system: false,
+        };
+        setTheme(newTheme);
+        AsyncStorage.setItem(
+            SettingKeys.APP_THEME,
+            JSON.stringify(themeObject),
+        );
+        setSystemTheme(false);
     };
 
     const useSystemTheme = () => {
