@@ -20,10 +20,11 @@ import SettingButton from "@/components/SettingButton";
 
 import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import { ThemeContext } from "@/context/ThemeContext";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 export default function Settings() {
     // noise reduction state
-    const { wienerFiltering, toggleNoiseRemoval } = useWienerFiltering();
+    const { wienerFiltering, toggleWienerFiltering } = useWienerFiltering();
 
     // Theme state
     const { currentTheme, toggleTheme, useSystemTheme, isSystemTheme } =
@@ -60,8 +61,9 @@ export default function Settings() {
                     justifyContent: "start",
                 }}
             >
-                <View className="gap-5">
-                    <View className="gap-2 py-5">
+                <View className="gap-8 py-5">
+                    {/* General Settings */}
+                    <View className="gap-2">
                         <Text className={currentText + " font-publicsans"}>
                             General
                         </Text>
@@ -70,49 +72,6 @@ export default function Settings() {
                                 currentLayer + " p-4 rounded-lg gap-5 shadow-md"
                             }
                         >
-                            <View className="flex flex-row justify-between items-center">
-                                <Text
-                                    className={currentText + " font-publicsans"}
-                                >
-                                    Wiener Filtering Noise Reduction
-                                </Text>
-                                <Switch
-                                    trackColor={{
-                                        false:
-                                            currentTheme === "dark"
-                                                ? "#808080"
-                                                : "#ccc",
-                                        true: "#006fff", // active color
-                                    }}
-                                    thumbColor={
-                                        wienerFiltering ? "#eee" : "#fff"
-                                    }
-                                    onValueChange={toggleNoiseRemoval}
-                                    value={wienerFiltering}
-                                />
-                            </View>
-                            <View className="flex flex-row justify-between items-center">
-                                <Text
-                                    className={currentText + " font-publicsans"}
-                                >
-                                    DeepFilterNet Noise Reduction
-                                </Text>
-                                {/* TODO: Functionality of DeepFitlerNet */}
-                                <Switch
-                                    trackColor={{
-                                        false:
-                                            currentTheme === "dark"
-                                                ? "#808080"
-                                                : "#ccc",
-                                        true: "#006fff", // active color
-                                    }}
-                                    thumbColor={
-                                        wienerFiltering ? "#eee" : "#fff"
-                                    }
-                                    onValueChange={toggleNoiseRemoval}
-                                    value={wienerFiltering}
-                                />
-                            </View>
                             <View className="flex flex-row justify-between items-center">
                                 <Text
                                     className={currentText + " font-publicsans"}
@@ -145,6 +104,96 @@ export default function Settings() {
                         </View>
                     </View>
 
+                    {/* Background Noise Reduction Settings */}
+                    <View className="gap-2">
+                        <Text className={currentText + " font-publicsans"}>
+                            Background Noise Reduction
+                        </Text>
+                        <View
+                            className={
+                                currentLayer + " p-4 rounded-lg gap-5 shadow-md"
+                            }
+                        >
+                            <View className="flex flex-row justify-between items-center">
+                                <View className="gap-3 flex-row items-center">
+                                    <Text
+                                        className={
+                                            currentText + " font-publicsans"
+                                        }
+                                    >
+                                        Wiener Filtering
+                                    </Text>
+
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        onPress={() => {}}
+                                    >
+                                        <FontAwesome6
+                                            size={17}
+                                            className="text-center"
+                                            width={17}
+                                            name={"question-circle"}
+                                            color="#006FFF"
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                                <Switch
+                                    trackColor={{
+                                        false:
+                                            currentTheme === "dark"
+                                                ? "#808080"
+                                                : "#ccc",
+                                        true: "#006fff", // active color
+                                    }}
+                                    thumbColor={
+                                        wienerFiltering ? "#eee" : "#fff"
+                                    }
+                                    onValueChange={toggleWienerFiltering}
+                                    value={wienerFiltering}
+                                />
+                            </View>
+                            <View className="flex flex-row justify-between items-center">
+                                <View className="gap-3 flex-row items-center">
+                                    <Text
+                                        className={
+                                            currentText + " font-publicsans"
+                                        }
+                                    >
+                                        DeepFilterNet
+                                    </Text>
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        onPress={() => {}}
+                                    >
+                                        <FontAwesome6
+                                            size={17}
+                                            className="text-center"
+                                            width={17}
+                                            name={"question-circle"}
+                                            color="#006FFF"
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                                {/* TODO: Functionality of DeepFitlerNet */}
+                                <Switch
+                                    trackColor={{
+                                        false:
+                                            currentTheme === "dark"
+                                                ? "#808080"
+                                                : "#ccc",
+                                        true: "#006fff", // active color
+                                    }}
+                                    thumbColor={
+                                        wienerFiltering ? "#eee" : "#fff"
+                                    }
+                                    onValueChange={toggleWienerFiltering}
+                                    value={wienerFiltering}
+                                />
+                            </View>
+                        </View>
+                    </View>
+
+                    {/* Theme Settings */}
                     <View className="gap-2">
                         <Text className={currentText + " font-publicsans"}>
                             Theme
