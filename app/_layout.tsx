@@ -9,7 +9,7 @@ import {
 import BottomNavigationSheet from "@/components/BottomNavigationSheet";
 import { BottomSheetProvider } from "../context/BottomSheetContext";
 import ThemeProvider, { ThemeContext } from "@/context/ThemeContext";
-import { NoiseProvider } from "@/context/NoiseContext";
+import { WienerProvider } from "@/context/WienerFilteringContext";
 import { TimerProvider } from "@/context/TimerContext";
 import { useContext, useEffect } from "react";
 
@@ -20,9 +20,9 @@ export default function RootLayout() {
     return (
         <TimerProvider>
             <ThemeProvider>
-                <NoiseProvider>
+                <WienerProvider>
                     <InnerLayout />
-                </NoiseProvider>
+                </WienerProvider>
             </ThemeProvider>
         </TimerProvider>
     );

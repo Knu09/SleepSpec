@@ -5,7 +5,7 @@ import { CLASS, ClassResult } from "@/types/types";
 
 export async function uploadAudio(
     audioUri: string,
-    noiseRemoval: boolean,
+    wienerFiltering: boolean,
 ): Promise<ClassResult | void> {
     if (process.env.EXPO_PUBLIC_SERVER == "NO") {
         // return mock result
@@ -24,7 +24,7 @@ export async function uploadAudio(
     const file = new File(audioUri);
     const formData = new FormData();
     formData.append("audio", file, "recording.m4a");
-    formData.append("noiseRemoval", noiseRemoval ? "true" : "false"); // send noise removal flag to server
+    formData.append("wienerFiltering", wienerFiltering ? "true" : "false"); // send noise removal flag to server
 
     const env = process.env.EXPO_PUBLIC_DEVICE;
 

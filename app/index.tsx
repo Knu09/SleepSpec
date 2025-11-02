@@ -30,7 +30,7 @@ import LanguageSelected from "@/components/LanguageSelected";
 import { ThemeContext } from "@/context/ThemeContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { uploadAudio } from "@/utils/util";
-import { useNoiseRemoval } from "@/context/NoiseContext";
+import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import { useClassStore, useSegmentStore } from "@/store/store";
 
 export default function Index() {
@@ -54,7 +54,7 @@ export default function Index() {
 
     const { setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
-    const { noiseRemoval } = useNoiseRemoval();
+    const { wienerFiltering } = useWienerFiltering();
 
     const [upload, setUpload] = useState(Process.IDLE);
     const pickAudioFile = async () => {
@@ -67,7 +67,7 @@ export default function Index() {
             const uri = pickerResult.assets[0].uri;
             setUpload(Process.PENDING);
 
-            const result = await uploadAudio(uri, noiseRemoval);
+            const result = await uploadAudio(uri, wienerFiltering);
             if (!result) {
                 setUpload(Process.FAILED);
                 console.error("Error processing of file from server.");

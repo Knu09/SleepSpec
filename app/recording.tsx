@@ -32,7 +32,7 @@ import LanguageSelected from "@/components/LanguageSelected";
 import { Timer, CLASS, LANG, Process } from "@/types/types";
 import Overlay from "@/components/Overlay";
 import { ThemeContext } from "@/context/ThemeContext";
-import { useNoiseRemoval } from "@/context/NoiseContext";
+import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import GradientIcon from "@/components/GradientIcon";
 import {
     AntDesign,
@@ -134,7 +134,7 @@ export default function Recording() {
     const { setResult } = useClassStore();
     const { syncSegments } = useSegmentStore();
 
-    const { noiseRemoval, toggleNoiseRemoval } = useNoiseRemoval(); // get noise removal context value
+    const { wienerFiltering, toggleNoiseRemoval } = useWienerFiltering(); // get noise removal context value
 
     const { currentTheme } = useContext(ThemeContext);
     const isDark = currentTheme === "dark";
@@ -149,8 +149,10 @@ export default function Recording() {
         : "border-divider border-t-[1px]";
     const modalColor = isDark ? "bg-darkLayer" : "bg-white";
     const iconColor = isDark ? "#FFF" : "#01000F";
-    const noiseRemovalStatusColor = noiseRemoval ? "#3DC13C" : "#FF2121";
-    const noiseRemovalTextColor = noiseRemoval ? "text-success" : "text-danger";
+    const noiseRemovalStatusColor = wienerFiltering ? "#3DC13C" : "#FF2121";
+    const noiseRemovalTextColor = wienerFiltering
+        ? "text-success"
+        : "text-danger";
 
     const router = useRouter();
 
@@ -432,7 +434,7 @@ export default function Recording() {
 
         const uri = audioRecorder.uri;
 
-        const result = await uploadAudio(uri!, noiseRemoval);
+        const result = await uploadAudio(uri!, wienerFiltering);
 
         if (!result) {
             setUpload(Process.FAILED);
@@ -592,7 +594,7 @@ export default function Recording() {
                                         ` font-publicsans text-sm font-bold`
                                     }
                                 >
-                                    {noiseRemoval ? "ON" : "OFF"}
+                                    {wienerFiltering ? "ON" : "OFF"}
                                 </Text>
                             </TouchableOpacity>
                         </View>
