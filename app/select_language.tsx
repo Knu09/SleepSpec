@@ -64,7 +64,10 @@ export default function SelectLanguage() {
     if (!fontsLoaded) return null;
 
     return (
-        <SafeAreaView className="bg-white" style={{ flex: 1 }}>
+        <SafeAreaView
+            className={isDark ? "bg-darkBg" : "bg-white"}
+            style={{ flex: 1 }}
+        >
             <StatusBar
                 translucent={false}
                 style="dark"
