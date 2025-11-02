@@ -24,12 +24,13 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const loadTheme = async () => {
             try {
-                // FIX: asyncing theme to storage is too slow to process.
-                const savedTheme = await AsyncStorage.getItem(
+                const savedThemeObject = await AsyncStorage.getItem(
                     SettingKeys.APP_THEME,
                 );
-                if (savedTheme) {
-                    setTheme(savedTheme);
+                const savedThemeObjectData = JSON.parse(savedThemeObject!);
+                if (savedThemeObjectData) {
+                    setTheme(savedThemeObjectData.mode);
+                    setSystemTheme(savedThemeObjectData.system);
                 }
             } catch (error) {}
         };
@@ -37,23 +38,45 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     useEffect(() => {
-        if (colorScheme) {
+        if (colorScheme && systemTheme) {
+            const themeObject = {
+                mode: colorScheme,
+                system: true,
+            };
             setTheme(colorScheme);
-            AsyncStorage.setItem(SettingKeys.APP_THEME, colorScheme);
+            AsyncStorage.setItem(
+                SettingKeys.APP_THEME,
+                JSON.stringify(themeObject),
+            );
+            setSystemTheme(true);
         }
     }, [colorScheme]);
 
     const toggleTheme = async (newTheme: string) => {
         try {
+            const themeObject = {
+                mode: newTheme,
+                system: false,
+            };
             setTheme(newTheme);
-            await AsyncStorage.setItem(SettingKeys.APP_THEME, newTheme);
+            await AsyncStorage.setItem(
+                SettingKeys.APP_THEME,
+                JSON.stringify(themeObject),
+            );
             setSystemTheme(false);
         } catch (error) {}
     };
 
     const useSystemTheme = () => {
         if (colorScheme) {
-            AsyncStorage.setItem(SettingKeys.APP_THEME, colorScheme);
+            const themeObject = {
+                mode: colorScheme,
+                system: true,
+            };
+            AsyncStorage.setItem(
+                SettingKeys.APP_THEME,
+                JSON.stringify(themeObject),
+            );
             setTheme(colorScheme);
             setSystemTheme(true);
         }
