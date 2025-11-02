@@ -217,9 +217,7 @@ export default function BottomNavigationSheet() {
                             <TouchableHighlight
                                 underlayColor="#161B2180"
                                 onPress={() =>
-                                    navigateToSite(
-                                        "https://sleepspec-landing.vercel.app",
-                                    )
+                                    navigateToSite("https://sleepspec.site")
                                 }
                                 style={styles.bottomSheetLinkTab}
                             >
