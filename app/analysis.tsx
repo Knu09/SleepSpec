@@ -67,7 +67,7 @@ export default function Analysis() {
 
     return (
         <SafeAreaView className={bgClass + " flex-1"}>
-            <Header title={"Analysis"} back={true} menu={true} />
+            <Header title={"Overall Analysis"} back={true} menu={true} />
             <ScrollView className="pt-5 px-3 flex-1 relative">
                 <View
                     className={
