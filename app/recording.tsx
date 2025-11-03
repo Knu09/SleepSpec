@@ -1012,7 +1012,7 @@ export default function Recording() {
                                                     " font-bold font-publicsans"
                                                 }
                                             >
-                                                Recording Interface Use
+                                                Recording Interface
                                             </Text>
                                         </View>
                                         <Text
