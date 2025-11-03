@@ -573,7 +573,7 @@ export default function Recording() {
                             {/* Background Noise Reduction Status */}
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => toggleWienerFiltering()}
+                                onPress={() => navigateTo("settings")}
                                 className="px-2 py-1 rounded-2xl gap-2 flex-row items-center"
                                 style={{
                                     borderColor: noiseRemovalStatusColor,
