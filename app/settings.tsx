@@ -22,28 +22,19 @@ import InfoModal from "@/components/InfoModal";
 import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useNoiseReduction } from '@/context/NoiseReductionContext';
 
 export default function Settings() {
 	// noise reduction state
-	const [isWienerEnabled, setIsWienerEnabled] = useState(false);
-	const [isDFNEnabled, setIsDFNEnabled] = useState(false);
+	const { noiseReductionMethod, setNoiseReductionMethod } = useNoiseReduction();
 
-	const handleWienerToggle = () => {
-		const turningOn = !isWienerEnabled;
-		setIsWienerEnabled(turningOn);
-		if (turningOn) {
-			setIsDFNEnabled(false); // Turn off the other one
-		}
+	const handleWienerToggle = (isOn: boolean) => {
+		setNoiseReductionMethod(isOn ? 'wiener' : 'none');
 	};
 
-	const handleDFNToggle = () => {
-		const turningOn = !isDFNEnabled;
-		setIsDFNEnabled(turningOn);
-		if (turningOn) {
-			setIsWienerEnabled(false); // Turn off the other one
-		}
+	const handleDFNToggle = (isOn: boolean) => {
+		setNoiseReductionMethod(isOn ? 'deepfilternet' : 'none');
 	};
-
 
 	// InfoModal state
 	const [isWienerInfoVisible, setWienerInfoVisible] = useState(false);
@@ -192,9 +183,9 @@ export default function Settings() {
 												: "#ccc",
 										true: "#006fff", // active color
 									}}
-									thumbColor={isWienerEnabled ? "#eee" : "#fff"}
+									thumbColor={noiseReductionMethod === 'wiener' ? "#eee" : "#fff"}
 									onValueChange={handleWienerToggle}
-									value={isWienerEnabled}
+									value={noiseReductionMethod === 'wiener'}
 								/>
 							</View>
 							<View className="flex flex-row justify-between items-center">
@@ -230,9 +221,9 @@ export default function Settings() {
 												: "#ccc",
 										true: "#006fff", // active color
 									}}
-									thumbColor={isDFNEnabled ? "#eee" : "#fff"}
+									thumbColor={noiseReductionMethod === 'deepfilternet' ? "#eee" : "#fff"}
 									onValueChange={handleDFNToggle}
-									value={isDFNEnabled}
+									value={noiseReductionMethod === 'deepfilternet'}
 								/>
 							</View>
 						</View>
