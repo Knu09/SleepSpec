@@ -3,62 +3,65 @@ import { File } from "expo-file-system";
 import getUUID from "@/store/uuid";
 import { CLASS, ClassResult } from "@/types/types";
 
+type NoiseReductionMethod = 'none' | 'wiener' | 'deepfilternet';
+
 export async function uploadAudio(
-    audioUri: string,
-    wienerFiltering: boolean,
+	audioUri: string,
+	noiseReductionMethod: NoiseReductionMethod,
 ): Promise<ClassResult | void> {
-    if (process.env.EXPO_PUBLIC_SERVER == "NO") {
-        // return mock result
-        return {
-            class: CLASS.POST,
-            classes: [CLASS.POST],
-            scores: [0.56],
-            sd_prob: 0,
-            nsd_prob: 0,
-            confidence_score: 0.56,
-            decision_score: 1.2345,
-            decision_scores: [1.2345],
-        };
-    }
+	if (process.env.EXPO_PUBLIC_SERVER == "NO") {
+		// return mock result
+		return {
+			class: CLASS.POST,
+			classes: [CLASS.POST],
+			scores: [0.56],
+			sd_prob: 0,
+			nsd_prob: 0,
+			confidence_score: 0.56,
+			decision_score: 1.2345,
+			decision_scores: [1.2345],
+		};
+	}
 
-    const file = new File(audioUri);
-    const formData = new FormData();
-    formData.append("audio", file, "recording.m4a");
-    formData.append("wienerFiltering", wienerFiltering ? "true" : "false"); // send noise removal flag to server
+	const file = new File(audioUri);
+	const formData = new FormData();
+	formData.append("audio", file, "recording.m4a");
+	formData.append("noiseRemovalMethod", noiseReductionMethod);
 
-    const env = process.env.EXPO_PUBLIC_DEVICE;
 
-    let api;
-    if (env == "PHYSICAL") {
-        api = process.env.EXPO_PUBLIC_API_URL;
-    } else if (env == "EMU") {
-        api = "http://10.0.2.2:5000";
-    } else {
-        console.error(
-            "Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!",
-        );
-    }
+	const env = process.env.EXPO_PUBLIC_DEVICE;
 
-    try {
-        console.log(env, api);
-        const uid = await getUUID();
+	let api;
+	if (env == "PHYSICAL") {
+		api = process.env.EXPO_PUBLIC_API_URL;
+	} else if (env == "EMU") {
+		api = "http://10.0.2.2:5000";
+	} else {
+		console.error(
+			"Please set EXPO_PUBLIC_DEVICE value (PHYSICAL / EMU) in .env file!",
+		);
+	}
 
-        const response = await fetch(`${api}/upload/${uid}`, {
-            method: "POST",
-            body: formData,
-        });
+	try {
+		console.log(env, api);
+		const uid = await getUUID();
 
-        if (!response.ok) {
-            throw new Error(
-                `HTTP error! Status: ${response.status}, Response: ${response}`,
-            );
-        }
+		const response = await fetch(`${api}/upload/${uid}`, {
+			method: "POST",
+			body: formData,
+		});
 
-        const data = await response.json();
-        console.log("Success:", data);
+		if (!response.ok) {
+			throw new Error(
+				`HTTP error! Status: ${response.status}, Response: ${response}`,
+			);
+		}
 
-        return data;
-    } catch (error) {
-        console.error("Error:", error);
-    }
+		const data = await response.json();
+		console.log("Success:", data);
+
+		return data;
+	} catch (error) {
+		console.error("Error:", error);
+	}
 }
