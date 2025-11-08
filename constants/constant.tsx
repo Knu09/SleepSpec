@@ -1,3 +1,26 @@
+// NOTE: BG noise reduction references
+export const wienerReferences = [
+    {
+        title: "Noise Reduction and Speech Enhancement Using Wiener Filter",
+        url: "https://www.researchgate.net/publication/362935286_Noise_Reduction_and_Speech_Enhancement_Using_Wiener_Filter",
+    },
+    {
+        title: "Adaptive Wiener Filtering Method for Noise Reduction in Speech Recognition System",
+        url: "https://www.techrxiv.org/users/691848/articles/682302-adaptive-wiener-filtering-method-for-noise-reduction-in-speech-recognition-system",
+    },
+];
+
+export const deepFilterNetReferences = [
+    {
+        title: "DeepFilterNet2: Towards Real-Time Speech Enhancement on Embedded Devices for Full-Band Audio",
+        url: "https://www.researchgate.net/publication/360538529_DeepFilterNet2_Towards_Real-Time_Speech_Enhancement_on_Embedded_Devices_for_Full-Band_Audio",
+    },
+    {
+        title: "DeepFilterNet GitHub Repository",
+        url: "https://github.com/Rikorose/DeepFilterNet",
+    },
+];
+
 // NOTE: Training Results object
 export const training_results = [
     {
