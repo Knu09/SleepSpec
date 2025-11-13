@@ -19,7 +19,6 @@ import Header from "@/components/Header";
 import SettingButton from "@/components/SettingButton";
 import InfoModal from "@/components/InfoModal";
 
-import { useWienerFiltering } from "@/context/WienerFilteringContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNoiseReduction } from "@/context/NoiseReductionContext";
