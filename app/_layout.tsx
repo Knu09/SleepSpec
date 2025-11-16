@@ -12,6 +12,7 @@ import ThemeProvider, { ThemeContext } from "@/context/ThemeContext";
 import { TimerProvider } from "@/context/TimerContext";
 import { useContext, useEffect } from "react";
 import { NoiseReductionProvider } from "@/context/NoiseReductionContext";
+import { Platform } from "react-native";
 
 const { Screen } = Stack;
 
@@ -35,7 +36,6 @@ function InnerLayout() {
     useEffect(() => {
         const bgColor = currentTheme === "dark" ? "#01000F" : "#FFFFFF";
 
-        setStatusBarTranslucent(false);
         setStatusBarBackgroundColor(bgColor, true);
     }, [currentTheme]);
 
@@ -43,7 +43,6 @@ function InnerLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <BottomSheetProvider>
                 <StatusBar
-                    translucent={false}
                     style={currentTheme === "dark" ? "light" : "dark"}
                     backgroundColor={
                         currentTheme === "dark" ? "#01000F" : "#FFFFFF"

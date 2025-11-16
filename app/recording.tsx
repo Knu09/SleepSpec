@@ -594,11 +594,7 @@ export default function Recording() {
                                         ` font-publicsans text-sm font-bold`
                                     }
                                 >
-                                    {isNoiseReductionOn
-                                        ? noiseReductionMethod === "wiener"
-                                            ? "Wiener"
-                                            : "DeepFilterNet"
-                                        : "OFF"}
+                                    {isNoiseReductionOn ? "ON" : "OFF"}
                                 </Text>
                             </TouchableOpacity>
                         </View>

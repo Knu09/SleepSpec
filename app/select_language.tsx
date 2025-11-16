@@ -65,13 +65,6 @@ export default function SelectLanguage() {
         if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded]);
 
-    useEffect(() => {
-        const bgColor = currentTheme === "dark" ? "#01000F" : "#FFFFFF";
-
-        setStatusBarTranslucent(false);
-        setStatusBarBackgroundColor(bgColor, true);
-    }, [currentTheme]);
-
     if (!fontsLoaded) return null;
 
     return (
@@ -81,7 +74,8 @@ export default function SelectLanguage() {
         >
             <StatusBar
                 translucent={false}
-                style="dark"
+                hidden={false}
+                style="light"
                 backgroundColor="#fff"
             />
             <View className="bg-white" style={styles.headerShadow}>
