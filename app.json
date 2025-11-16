@@ -1,7 +1,7 @@
 {
     "expo": {
         "name": "SleepSpec",
-        "slug": "sleepspec",
+        "slug": "SleepSpec",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
@@ -9,8 +9,8 @@
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
         "androidStatusBar": {
-            "backgroundColor": "#01000F",
-            "translucent": false
+            "translucent": false,
+            "backgroundColor": "#01000F"
         },
         "ios": {
             "supportsTablet": true,
